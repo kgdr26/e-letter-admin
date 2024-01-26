@@ -55,6 +55,7 @@ class MainController extends Controller
         $idn_user   = idn_user(auth::user()->id);
         $tgl        = Carbon::create($dt['date_release']);
         $bulan      = $tgl->format('m');
+        $thn        = $tgl->format('Y');
         $blnromawi  = getRomawi($bulan);
         $arr        = DB::select("SELECT * FROM trx_surat");
         $jml        = count($arr)+1;
@@ -67,7 +68,7 @@ class MainController extends Controller
             $dtrole    = "ADADM";
         }
 
-        $tletter_admin  = sprintf("%03d", $jml)."/".$dtrole."/".$blnromawi."/".date('Y');
+        $tletter_admin  = sprintf("%03d", $jml)."/".$dtrole."/".$blnromawi."/".$thn;
         $data   = array(
             'letter_admin'  => $tletter_admin,
             'notes'         => $dt['notes'],
@@ -81,6 +82,45 @@ class MainController extends Controller
 
         // $data       = $request['data'];
         DB::table($table)->insert([$data]);
+        return response('success');
+    }
+
+    function actioneditform(Request $request) : object {
+        $table      = $request['table'];
+        $id         = $request['id'];
+        $whr        = $request['whr'];
+        $dt         = $request['dats'];
+
+        $idn_user   = idn_user(auth::user()->id);
+        $tgl        = Carbon::create($dt['date_release']);
+        $bulan      = $tgl->format('m');
+        $thn        = $tgl->format('Y');
+        $blnromawi  = getRomawi($bulan);
+        $arr        = DB::select("SELECT * FROM trx_surat");
+        $jml        = count($arr)+1;
+
+        if($idn_user->role_id == 1){
+            $dtrole    = "ADDIR";
+        }elseif($idn_user->role_id == 2){
+            $dtrole    = "HRGA";
+        }else{
+            $dtrole    = "ADADM";
+        }
+
+        $expld_letter   = explode("/",$dt['letter_admin']);
+        $tletter_admin  = $expld_letter[0]."/".$dtrole."/".$blnromawi."/".$thn;
+
+        $data   = array(
+            'letter_admin'  => $tletter_admin,
+            'notes'         => $dt['notes'],
+            'date_release'  => $dt['date_release'],
+            'employe'       => $idn_user->id,
+            'role_id'       => $idn_user->role_id,
+            'update_by' => auth::user()->id,
+            
+        );
+
+        DB::table($table)->where($whr, $id)->update($data);
         return response('success');
     }
 

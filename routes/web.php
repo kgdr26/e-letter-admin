@@ -38,4 +38,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('actiondelete', [MainController::class, 'actiondelete'])->name('actiondelete');
     Route::post('actionadd', [MainController::class, 'actionadd'])->name('actionadd');
     Route::post('addform', [MainController::class, 'addform'])->name('addform');
+    Route::post('actioneditform', [MainController::class, 'actioneditform'])->name('actioneditform');
+    
 });
