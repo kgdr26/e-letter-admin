@@ -13,6 +13,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Support\Carbon;
 use App\Models\user;
 use Auth;
 use Hash;
@@ -52,7 +53,9 @@ class MainController extends Controller
         $table      = $request['table'];
         $dt         = $request['data'];
         $idn_user   = idn_user(auth::user()->id);
-        $blnromawi  = getRomawi(date('m'));
+        $tgl        = Carbon::create($dt['date_release']);
+        $bulan      = $tgl->format('m');
+        $blnromawi  = getRomawi($bulan);
         $arr        = DB::select("SELECT * FROM trx_surat");
         $jml        = count($arr)+1;
 
