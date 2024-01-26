@@ -341,7 +341,7 @@
 {{-- End JS Datatable --}}
 
 <script>
-    $('input[data-name="date_release"]').datetimepicker({
+    $('input[data-name="date_release"]').datepicker({
         format: "yyyy-mm-dd",
         viewMode: "days",
         minViewMode: "days",
