@@ -1,5 +1,5 @@
 <footer id="footer" class="footer">
     <div class="copyright">
-        &copy; Copyright {{date('Y')}} <strong><span>KGDR</span></strong>. All Rights Reserved
+        &copy; MK-Intern {{ date('Y') }} <strong><span>PT. Astra Daido Steel Indonesia</span></strong>
     </div>
 </footer>

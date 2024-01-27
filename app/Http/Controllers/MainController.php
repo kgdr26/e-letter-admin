@@ -22,7 +22,8 @@ use DB;
 
 class MainController extends Controller
 {
-    function users(){
+    function users()
+    {
         $idn_user   = idn_user(auth::user()->id);
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $data = array(
@@ -34,12 +35,13 @@ class MainController extends Controller
         return view('Users.list')->with($data);
     }
 
-    function inputsurat(){
+    function inputsurat()
+    {
         $idn_user   = idn_user(auth::user()->id);
         $arr        = DB::table('trx_surat')->select('trx_surat.*', 'users.name as usr_name', 'mst_role.name as usr_role')
-                    ->leftJoin('users', 'users.id', '=', 'trx_surat.employe')
-                    ->leftJoin('mst_role', 'mst_role.id', '=', 'trx_surat.role_id')
-                    ->where('trx_surat.is_active', 1)->get();
+            ->leftJoin('users', 'users.id', '=', 'trx_surat.employe')
+            ->leftJoin('mst_role', 'mst_role.id', '=', 'trx_surat.role_id')
+            ->where('trx_surat.is_active', 1)->get();
         $data = array(
             'title' => 'Add Form',
             'arr'   => $arr,
@@ -49,7 +51,8 @@ class MainController extends Controller
         return view('Surat.input')->with($data);
     }
 
-    function addform(Request $request) : object {
+    function addform(Request $request): object
+    {
         $table      = $request['table'];
         $dt         = $request['data'];
         $idn_user   = idn_user(auth::user()->id);
@@ -58,17 +61,19 @@ class MainController extends Controller
         $thn        = $tgl->format('Y');
         $blnromawi  = getRomawi($bulan);
         $arr        = DB::select("SELECT * FROM trx_surat");
-        $jml        = count($arr)+1;
+        $jml        = count($arr) + 1;
 
-        if($idn_user->role_id == 1){
+        if ($idn_user->role_id == 1) {
             $dtrole    = "ADDIR";
-        }elseif($idn_user->role_id == 2){
+        } elseif ($idn_user->role_id == 2) {
             $dtrole    = "HRGA";
-        }else{
+        } elseif ($idn_user->role_id == 3) {
             $dtrole    = "ADADM";
+        } else {
+            $dtrole    = "ADFIN";
         }
 
-        $tletter_admin  = sprintf("%03d", $jml)."/".$dtrole."/".$blnromawi."/".$thn;
+        $tletter_admin  = sprintf("%03d", $jml) . "/" . $dtrole . "/" . $blnromawi . "/" . $thn;
         $data   = array(
             'letter_admin'  => $tletter_admin,
             'notes'         => $dt['notes'],
@@ -77,7 +82,7 @@ class MainController extends Controller
             'role_id'       => $idn_user->role_id,
             'update_by' => auth::user()->id,
             'is_active' => 1,
-            
+
         );
 
         // $data       = $request['data'];
@@ -85,7 +90,8 @@ class MainController extends Controller
         return response('success');
     }
 
-    function actioneditform(Request $request) : object {
+    function actioneditform(Request $request): object
+    {
         $table      = $request['table'];
         $id         = $request['id'];
         $whr        = $request['whr'];
@@ -97,18 +103,20 @@ class MainController extends Controller
         $thn        = $tgl->format('Y');
         $blnromawi  = getRomawi($bulan);
         $arr        = DB::select("SELECT * FROM trx_surat");
-        $jml        = count($arr)+1;
+        $jml        = count($arr) + 1;
 
-        if($idn_user->role_id == 1){
+        if ($idn_user->role_id == 1) {
             $dtrole    = "ADDIR";
-        }elseif($idn_user->role_id == 2){
+        } elseif ($idn_user->role_id == 2) {
             $dtrole    = "HRGA";
-        }else{
+        } elseif ($idn_user->role_id == 3) {
             $dtrole    = "ADADM";
+        } else {
+            $dtrole    = "ADFIN";
         }
 
-        $expld_letter   = explode("/",$dt['letter_admin']);
-        $tletter_admin  = $expld_letter[0]."/".$dtrole."/".$blnromawi."/".$thn;
+        $expld_letter   = explode("/", $dt['letter_admin']);
+        $tletter_admin  = $expld_letter[0] . "/" . $dtrole . "/" . $blnromawi . "/" . $thn;
 
         $data   = array(
             'letter_admin'  => $tletter_admin,
@@ -117,7 +125,7 @@ class MainController extends Controller
             'employe'       => $idn_user->id,
             'role_id'       => $idn_user->role_id,
             'update_by' => auth::user()->id,
-            
+
         );
 
         DB::table($table)->where($whr, $id)->update($data);
@@ -125,55 +133,56 @@ class MainController extends Controller
     }
 
     // Upload Image
-    function upload_profile(Request $request) : object {
+    function upload_profile(Request $request): object
+    {
 
-        if($request->hasFile('add_foto')){
-            $fourRandomDigit = rand(10,99999);
+        if ($request->hasFile('add_foto')) {
+            $fourRandomDigit = rand(10, 99999);
             $photo      = $request->file('add_foto');
-            $fileName   = $fourRandomDigit.'.'.$photo->getClientOriginalExtension();
+            $fileName   = $fourRandomDigit . '.' . $photo->getClientOriginalExtension();
 
-            $path = public_path().'/profile/';
+            $path = public_path() . '/profile/';
 
             File::makeDirectory($path, 0777, true, true);
 
             $request->file('add_foto')->move($path, $fileName);
 
             return response($fileName);
-        }elseif($request->hasFile('add_image')){
-            $fourRandomDigit = rand(10,99999);
+        } elseif ($request->hasFile('add_image')) {
+            $fourRandomDigit = rand(10, 99999);
             $photo      = $request->file('add_image');
-            $fileName   = $fourRandomDigit.'.'.$photo->getClientOriginalExtension();
+            $fileName   = $fourRandomDigit . '.' . $photo->getClientOriginalExtension();
 
-            $path = public_path().'/assets/image/';
+            $path = public_path() . '/assets/image/';
 
             File::makeDirectory($path, 0777, true, true);
 
             $request->file('add_image')->move($path, $fileName);
 
             return response($fileName);
-        }elseif($request->hasFile('add_file')){
-            $fourRandomDigit = rand(10,99999);
+        } elseif ($request->hasFile('add_file')) {
+            $fourRandomDigit = rand(10, 99999);
             $photo      = $request->file('add_file');
-            $fileName   = $fourRandomDigit.'.'.$photo->getClientOriginalExtension();
+            $fileName   = $fourRandomDigit . '.' . $photo->getClientOriginalExtension();
 
-            $path = public_path().'/assets/file/';
+            $path = public_path() . '/assets/file/';
 
             File::makeDirectory($path, 0777, true, true);
 
             $request->file('add_file')->move($path, $fileName);
 
             return response($fileName);
-        }else{
+        } else {
             return response('Failed');
         }
-
     }
 
     // Action Add
-    function actionadd(Request $request) : object {
+    function actionadd(Request $request): object
+    {
         $table      = $request['table'];
         $dt         = $request['data'];
-        if($table == 'users'){
+        if ($table == 'users') {
             $data   = array(
                 'username'  => $dt['username'],
                 'password'  => Hash::make($dt['password']),
@@ -186,7 +195,7 @@ class MainController extends Controller
                 'is_active' => 1,
                 'update_by' => 1,
             );
-        }else{
+        } else {
             $data   = $request['data'];
         }
         // $data       = $request['data'];
@@ -195,12 +204,13 @@ class MainController extends Controller
     }
 
     // Action Edit
-    function actionedit(Request $request) : object {
+    function actionedit(Request $request): object
+    {
         $table      = $request['table'];
         $id         = $request['id'];
         $whr        = $request['whr'];
         $dt         = $request['dats'];
-        if($table == 'users'){
+        if ($table == 'users') {
             $data   = array(
                 'username'  => $dt['username'],
                 'password'  => Hash::make($dt['password']),
@@ -212,7 +222,7 @@ class MainController extends Controller
                 'foto'      => $dt['foto'],
                 'update_by' => 1,
             );
-        }else{
+        } else {
             $data   = $request['dats'];
         }
 
@@ -220,7 +230,8 @@ class MainController extends Controller
         return response('success');
     }
 
-    function actioneditwmulti(Request $request) : object {
+    function actioneditwmulti(Request $request): object
+    {
         $table      = $request['table'];
         $id1        = $request['id1'];
         $whr1       = $request['whr1'];
@@ -233,7 +244,8 @@ class MainController extends Controller
     }
 
     // Action Delete
-    function actiondelete(Request $request) : object {
+    function actiondelete(Request $request): object
+    {
         $table      = $request['table'];
         $id         = $request['id'];
         $whr        = $request['whr'];
@@ -246,7 +258,8 @@ class MainController extends Controller
     }
 
     // Action Show Data
-    function actionshowdata(Request $request) : object {
+    function actionshowdata(Request $request): object
+    {
         $id     = $request['id'];
         $field  = $request['field'];
         $table  = $request['table'];
@@ -254,7 +267,8 @@ class MainController extends Controller
         return response($arr);
     }
 
-    function actionshowdatawmulti(Request $request) : object {
+    function actionshowdatawmulti(Request $request): object
+    {
         $id1     = $request['id1'];
         $field1  = $request['field1'];
         $id2     = $request['id2'];
@@ -265,10 +279,11 @@ class MainController extends Controller
     }
 
     // Action List Data
-    function actionlistdata(Request $request) : object {
-        if($request['id'] == 0 || $request['id'] == null){
+    function actionlistdata(Request $request): object
+    {
+        if ($request['id'] == 0 || $request['id'] == null) {
             $id     = 1;
-        }else{
+        } else {
             $id     = $request['id'];
         }
         $field  = $request['field'];
@@ -276,5 +291,4 @@ class MainController extends Controller
         $arr    = DB::select("SELECT * FROM $table WHERE $field=$id AND is_active=1 ");
         return response($arr);
     }
-
 }
