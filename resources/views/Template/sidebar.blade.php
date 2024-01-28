@@ -9,12 +9,14 @@
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="{{route('users')}}">
-                <i class="bi bi-person-circle"></i>
-                <span>Users</span>
-            </a>
-        </li>
+        @if($idn_user->id == 5)
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{route('users')}}">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Users</span>
+                </a>
+            </li>
+        @endif
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{route('logout')}}">
