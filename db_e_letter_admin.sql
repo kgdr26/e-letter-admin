@@ -1,5 +1,5 @@
 /*
-SQLyog Community v13.1.9 (64 bit)
+SQLyog Community v13.2.0 (64 bit)
 MySQL - 10.11.4-MariaDB : Database - db_e_letter_admin
 *********************************************************************
 */
@@ -27,14 +27,15 @@ CREATE TABLE `mst_role` (
   `update_by` int(11) DEFAULT NULL,
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 /*Data for the table `mst_role` */
 
 insert  into `mst_role`(`id`,`name`,`is_active`,`update_by`,`last_update`) values 
 (1,'DIREKSI',1,1,'2024-01-26 02:10:28'),
 (2,'HR',1,1,'2024-01-26 02:10:40'),
-(3,'ADMINISTRASI',1,1,'2024-01-26 02:10:54');
+(3,'ADMINISTRASI',1,1,'2024-01-26 02:10:54'),
+(4,'FINANCE',1,1,'2024-01-26 08:54:28');
 
 /*Table structure for table `trx_surat` */
 
@@ -51,17 +52,15 @@ CREATE TABLE `trx_surat` (
   `is_active` int(11) DEFAULT NULL,
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 /*Data for the table `trx_surat` */
 
 insert  into `trx_surat`(`id`,`letter_admin`,`notes`,`date_release`,`employe`,`role_id`,`update_by`,`is_active`,`last_update`) values 
-(1,'001/HRGA/I/2024','Dokumen PS','2024-01-26 02:31:03',1,1,1,1,'2024-01-26 03:09:59'),
-(2,'002/HRGA/I/2024','dfsdfadfasf','2024-01-01 00:00:00',1,1,1,1,'2024-01-26 03:10:00'),
-(3,'003/ADDIR/I/2024','dadsfadsfasdfds','2024-01-24 00:00:00',1,1,1,1,'2024-01-26 03:10:00'),
-(4,'004/ADDIR/I/2024','erserergerger','2024-01-18 00:00:00',1,1,1,1,'2024-01-26 03:10:01'),
-(5,'005/ADDIR/I/2024','dfasdfsd','2024-01-30 00:00:00',1,1,1,1,'2024-01-26 03:10:03'),
-(6,'006/ADDIR/I/2024','sdfsdasfdassa','2024-01-25 00:00:00',1,1,1,0,'2024-01-26 03:10:49');
+(1,'001/ADDIR/I/2024','Data-Test','2024-01-27 00:00:00',1,1,1,1,'2024-01-27 14:38:55'),
+(2,'002/ADFIN/I/2024','Data-Test 2','2024-01-27 00:00:00',5,4,5,1,'2024-01-27 14:46:07'),
+(3,'003/ADFIN/I/2024','Data-Test 3','2024-01-27 00:00:00',5,4,5,1,'2024-01-27 14:46:19'),
+(4,'004/ADADM/I/2024','Data-Test 4','2024-01-27 00:00:00',4,3,4,1,'2024-01-27 14:46:57');
 
 /*Table structure for table `users` */
 
@@ -82,14 +81,17 @@ CREATE TABLE `users` (
   `update_by` int(11) DEFAULT NULL,
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 /*Data for the table `users` */
 
 insert  into `users`(`id`,`username`,`password`,`pass`,`role_id`,`name`,`email`,`no_tlp`,`foto`,`status`,`is_active`,`update_by`,`last_update`) values 
-(1,'kgdr','$2y$10$c3W.UkaWWfqg53Xl7esRT.RckZLC/r2vREKedHl/GroQMIJb2WBvO','1',1,'Kang Dru','kgdr@gmail.com','081211159962','default.jpg',1,1,1,'2024-01-21 18:07:55'),
-(2,'medi','$2y$10$bMwpEXewYPlWeSQIJZxsWOUH6EEtgUPL.iC566XdepOemCAPUO2dO','1',2,'Medi123','medi@gmail.com','0888877772','default.jpg',0,1,1,'2024-01-21 16:52:39'),
-(3,'tes','$2y$12$ztOPiTcW3E6gwetVtzojseB1VaageRmAg9vVu5gUpy6f4MM050O1u','123456',3,'tes 123','tes@gmailo.com','88888','10569.png',0,0,1,'2024-01-26 02:12:03');
+(1,'superadmin','$2y$12$dZBewE74BT/hir9Y81eugOlAWjnIoDmUedTmGXjJ83pvbIuP2.5Yy','123',1,'Superadmin','superadmin@gmail.com','081211159962','default.jpg',1,1,1,'2024-01-26 09:03:44'),
+(2,'jessica','$2y$12$acttIZrFxuspedt6zEru4uhYHCkMPme/2jGzoaJSlfA8U0rsoJmcO','123',2,'Jessica','jessica@gmail.com','0888877772','default.jpg',0,1,1,'2024-01-26 08:12:39'),
+(3,'tes','$2y$12$ztOPiTcW3E6gwetVtzojseB1VaageRmAg9vVu5gUpy6f4MM050O1u','123456',3,'tes 123','tes@gmailo.com','88888','10569.png',0,0,1,'2024-01-26 02:12:03'),
+(4,'Richardus','$2y$12$BwNlomFI.VuR311/QozG5O6QSzPUbzxn3I18CAKKY0xM4XFbCGNvy','123',4,'Richardus','Richardus@gmail.com','0812312234214','default.jpg',0,1,1,'2024-01-27 14:48:42'),
+(5,'Dinar','$2y$12$FhNAW.36ymZB/Xs22lsw1uwGkIt9WOybOpqm/tCSYcw.JAEiu9vwi','123',3,'Dinar','Dinar@gmail.com','081231213','default.jpg',0,1,1,'2024-01-27 14:48:52'),
+(6,'Direktur','$2y$12$OCc4eIMLgH0G1/9eS.suOep/z6N3eZh2/3YBxJqNzE1ZwQ1OnqQOe','123',1,'Direktur','XXXXX@gmail.com','0812XXXXXXX','default.jpg',NULL,1,1,'2024-01-27 14:40:10');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
