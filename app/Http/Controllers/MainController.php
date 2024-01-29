@@ -79,8 +79,9 @@ class MainController extends Controller
             'notes'         => $dt['notes'],
             'date_release'  => $dt['date_release'],
             'employe'       => $idn_user->id,
-            'role_id'       => $idn_user->role_id,
             'update_by' => auth::user()->id,
+            'tujuan'        => $dt['tujuan'],
+            'role_id'       => $idn_user->role_id,
             'is_active' => 1,
 
         );
@@ -123,6 +124,7 @@ class MainController extends Controller
             'notes'         => $dt['notes'],
             'date_release'  => $dt['date_release'],
             'employe'       => $idn_user->id,
+            'tujuan'        => $dt['tujuan'],
             'role_id'       => $idn_user->role_id,
             'update_by' => auth::user()->id,
 

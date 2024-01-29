@@ -25,11 +25,12 @@
                                         <th>No</th>
                                         <th>Letter Admin</th>
                                         <th>Notes</th>
+                                        <th>From Dept</th>
                                         <th>Date Release</th>
                                         <th>Employee</th>
-                                        <th>Departement</th>
+                                        <th>To Dept</th>
                                         <th>Date Creation</th>
-                                        <th class="text-center">ACTION</th>
+                                        <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -41,11 +42,12 @@
                                             <td>{{ $no++ }}</td>
                                             <td>{{ $value->letter_admin }}</td>
                                             <td>{{ $value->notes }}</td>
+                                            <td class="text-center">{{ $value->usr_role }}</td>
                                             <td class="text-right">
                                                 {{ \Carbon\Carbon::parse($value->date_release)->isoFormat('dddd, DD MMM YYYY') }}
                                             </td>
                                             <td class="text-center">{{ $value->usr_name }}</td>
-                                            <td class="text-center">{{ $value->usr_role }}</td>
+                                            <td class="text-center">{{ $value->tujuan }}</td>
                                             <td class="text-center">
                                                 {{ \Carbon\Carbon::parse($value->last_update)->isoFormat('dddd, DD MMM YYYY HH:mm:ss') }}
                                             </td>
@@ -91,6 +93,10 @@
                             <label for="" class="form-label">Keterangan</label>
                             <textarea name="" id="" cols="30" rows="10" class="form-control" data-name="notes"></textarea>
                         </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Tujuan Dept</label>
+                            <input type="text" class="form-control" id="" data-name="tujuan">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -123,6 +129,10 @@
                             <label for="" class="form-label">Keterangan</label>
                             <textarea name="" id="" cols="30" rows="10" class="form-control" data-name="edit_notes"></textarea>
                         </div>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Tujuan Dept</label>
+                            <input type="text" class="form-control" id="" data-name="edit_tujuan">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -139,12 +149,14 @@
         $(document).on("click", "[data-name='add']", function(e) {
             $("[data-name='date_release']").val('');
             $("[data-name='notes']").val('');
+            $("[data-name='tujuan']").val('');
             $("#modal_add").modal('show');
         });
 
         $(document).on("click", "[data-name='save_add']", function(e) {
             var date_release = $("[data-name='date_release']").val();
             var notes = $("[data-name='notes']").val();
+            var tujuan = $("[data-name='tujuan']").val();
             var is_active = 1;
             var employe = "{!! $idn_user->id !!}";
             var table = "trx_surat";
@@ -152,11 +164,12 @@
             var data = {
                 date_release: date_release,
                 notes: notes,
+                tujuan: tujuan,
                 is_active: is_active,
                 employe: employe
             };
 
-            if (date_release === '' || notes === '') {
+            if (date_release === '' || notes === '' || tujuan === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Form is empty!',
@@ -224,6 +237,7 @@
                     $("[data-name='edit_id']").val(data['data'].id);
                     $("[data-name='edit_date_release']").val(data['data'].date_release);
                     $("[data-name='edit_notes']").val(data['data'].notes);
+                    $("[data-name='edit_tujuan']").val(data['data'].tujuan);
                     $("[data-name='edit_letter_admin']").val(data['data'].letter_admin);
                     $("#modal_edit").modal('show');
                 },
@@ -245,6 +259,7 @@
         $(document).on("click", "[data-name='save_edit']", function(e) {
             var date_release = $("[data-name='edit_date_release']").val();
             var notes = $("[data-name='edit_notes']").val();
+            var tujuan = $("[data-name='edit_tujuan']").val();
             var letter_admin = $("[data-name='edit_letter_admin']").val();
 
             var table = "trx_surat";
@@ -253,6 +268,7 @@
             var dats = {
                 date_release: date_release,
                 notes: notes,
+                tujuan: tujuan,
                 letter_admin: letter_admin,
             };
 
