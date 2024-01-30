@@ -66,14 +66,16 @@ class MainController extends Controller
         $arr        = DB::select("SELECT * FROM trx_surat WHERE MONTH(date_release) = $bulan AND YEAR(date_release) = $thn");
         $jml        = count($arr) + 1;
 
-        if ($idn_user->role_id == 1) {
+        if ($$dt['to_dept'] == 1) {
             $dtrole    = "ADDIR";
         } elseif ($idn_user->role_id == 2) {
             $dtrole    = "HRGA";
         } elseif ($idn_user->role_id == 3) {
             $dtrole    = "ADADM";
-        } else {
+        } elseif ($idn_user->role_id == 4){
             $dtrole    = "ADFIN";
+        } else {
+            $dtrole    = "NULL";
         }
 
         $tletter_admin  = sprintf("%03d", $jml) . "/" . $dtrole . "/" . $blnromawi . "/" . $thn;
@@ -109,14 +111,16 @@ class MainController extends Controller
         $arr        = DB::select("SELECT * FROM trx_surat");
         $jml        = count($arr) + 1;
 
-        if ($idn_user->role_id == 1) {
+        if ($$dt['to_dept'] == 1) {
             $dtrole    = "ADDIR";
         } elseif ($idn_user->role_id == 2) {
             $dtrole    = "HRGA";
         } elseif ($idn_user->role_id == 3) {
             $dtrole    = "ADADM";
-        } else {
+        } elseif ($idn_user->role_id == 4){
             $dtrole    = "ADFIN";
+        } else {
+            $dtrole    = "NULL";
         }
 
         $expld_letter   = explode("/", $dt['letter_admin']);
