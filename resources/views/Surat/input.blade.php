@@ -47,16 +47,18 @@
                                                 {{ \Carbon\Carbon::parse($value->date_release)->isoFormat('dddd, DD MMM YYYY') }}
                                             </td>
                                             <td class="text-center">{{ $value->usr_name }}</td>
-                                            <td class="text-center">{{$value->usr_to_dept}}</td>
+                                            <td class="text-center">{{ $value->usr_to_dept }}</td>
                                             <td class="text-center">
                                                 {{ \Carbon\Carbon::parse($value->last_update)->isoFormat('dddd, DD MMM YYYY HH:mm:ss') }}
                                             </td>
-                                            <td class="text-center">
-                                                <button type="button" class="btn btn-outline-info" data-name="edit"
-                                                    data-item="{{ $value->id }}">
-                                                    Edit
-                                                </button>
 
+                                            <td class="text-center">
+                                                @if ($idn_user->id == 1)
+                                                    <button type="button" class="btn btn-outline-info" data-name="edit"
+                                                        data-item="{{ $value->id }}">
+                                                        Edit
+                                                    </button>
+                                                @endif
                                                 <button type="button" class="btn btn-outline-danger" data-name="delete"
                                                     data-item="{{ $value->id }}">
                                                     Delete
@@ -97,8 +99,8 @@
                             <label for="" class="form-label">Tujuan Dept</label>
                             <select name="" id="" class="form-select select2-add" data-name="to_dept">
                                 <option value="">-- Select Dept --</option>
-                                @foreach($role as $kr => $vr)
-                                    <option value="{{$vr->id}}">{{$vr->name}}</option>
+                                @foreach ($role as $kr => $vr)
+                                    <option value="{{ $vr->id }}">{{ $vr->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -137,10 +139,11 @@
                         <div class="mb-3">
                             <label for="" class="form-label">Tujuan Dept</label>
                             {{-- <input type="text" class="form-control" id="" data-name="edit_to_dept"> --}}
-                            <select name="" id="" class="form-select select2-edit" data-name="edit_to_dept">
+                            <select name="" id="" class="form-select select2-edit"
+                                data-name="edit_to_dept">
                                 <option value="">-- Select Dept --</option>
-                                @foreach($role as $kr => $vr)
-                                    <option value="{{$vr->id}}">{{$vr->name}}</option>
+                                @foreach ($role as $kr => $vr)
+                                    <option value="{{ $vr->id }}">{{ $vr->name }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -26,7 +26,7 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('users', [MainController::class, 'users'])->name('users');
     Route::get('inputsurat', [MainController::class, 'inputsurat'])->name('inputsurat');
-    
+
 
     //Action
     Route::post('upload_profile', [MainController::class, 'upload_profile'])->name('upload_profile');
@@ -39,5 +39,4 @@ Route::middleware(['auth'])->group(function () {
     Route::post('actionadd', [MainController::class, 'actionadd'])->name('actionadd');
     Route::post('addform', [MainController::class, 'addform'])->name('addform');
     Route::post('actioneditform', [MainController::class, 'actioneditform'])->name('actioneditform');
-    
 });

@@ -39,10 +39,10 @@ class MainController extends Controller
     {
         $idn_user   = idn_user(auth::user()->id);
         $arr        = DB::table('trx_surat')->select('trx_surat.*', 'b.name as usr_name', 'c.name as usr_role', 'd.name as usr_to_dept')
-                    ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
-                    ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
-                    ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
-                    ->where('trx_surat.is_active', 1)->get();
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
+            ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
+            ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
+            ->where('trx_surat.is_active', 1)->get();
         $role        = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
             'title' => 'Add Form',
@@ -68,11 +68,11 @@ class MainController extends Controller
 
         if ($dt['to_dept'] == 1) {
             $dtrole    = "ADDIR";
-        } elseif ($idn_user->role_id == 2) {
+        } elseif ($dt['to_dept'] == 2) {
             $dtrole    = "HRGA";
-        } elseif ($idn_user->role_id == 3) {
+        } elseif ($dt['to_dept'] == 3) {
             $dtrole    = "ADADM";
-        } elseif ($idn_user->role_id == 4){
+        } elseif ($dt['to_dept'] == 4) {
             $dtrole    = "ADFIN";
         } else {
             $dtrole    = "NULL";
@@ -111,13 +111,14 @@ class MainController extends Controller
         $arr        = DB::select("SELECT * FROM trx_surat");
         $jml        = count($arr) + 1;
 
+
         if ($dt['to_dept'] == 1) {
             $dtrole    = "ADDIR";
-        } elseif ($idn_user->role_id == 2) {
+        } elseif ($dt['to_dept'] == 2) {
             $dtrole    = "HRGA";
-        } elseif ($idn_user->role_id == 3) {
+        } elseif ($dt['to_dept'] == 3) {
             $dtrole    = "ADADM";
-        } elseif ($idn_user->role_id == 4){
+        } elseif ($dt['to_dept'] == 4) {
             $dtrole    = "ADFIN";
         } else {
             $dtrole    = "NULL";
