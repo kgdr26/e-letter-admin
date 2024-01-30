@@ -66,7 +66,7 @@ class MainController extends Controller
         $arr        = DB::select("SELECT * FROM trx_surat WHERE MONTH(date_release) = $bulan AND YEAR(date_release) = $thn");
         $jml        = count($arr) + 1;
 
-        if ($$dt['to_dept'] == 1) {
+        if ($dt['to_dept'] == 1) {
             $dtrole    = "ADDIR";
         } elseif ($idn_user->role_id == 2) {
             $dtrole    = "HRGA";
@@ -111,7 +111,7 @@ class MainController extends Controller
         $arr        = DB::select("SELECT * FROM trx_surat");
         $jml        = count($arr) + 1;
 
-        if ($$dt['to_dept'] == 1) {
+        if ($dt['to_dept'] == 1) {
             $dtrole    = "ADDIR";
         } elseif ($idn_user->role_id == 2) {
             $dtrole    = "HRGA";
