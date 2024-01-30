@@ -47,7 +47,7 @@
                                                 {{ \Carbon\Carbon::parse($value->date_release)->isoFormat('dddd, DD MMM YYYY') }}
                                             </td>
                                             <td class="text-center">{{ $value->usr_name }}</td>
-                                            <td class="text-center">{{ $value->tujuan }}</td>
+                                            <td class="text-center">{{$value->usr_to_dept}}</td>
                                             <td class="text-center">
                                                 {{ \Carbon\Carbon::parse($value->last_update)->isoFormat('dddd, DD MMM YYYY HH:mm:ss') }}
                                             </td>
@@ -95,7 +95,12 @@
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Tujuan Dept</label>
-                            <input type="text" class="form-control" id="" data-name="tujuan">
+                            <select name="" id="" class="form-select select2-add" data-name="to_dept">
+                                <option value="">-- Select Dept --</option>
+                                @foreach($role as $kr => $vr)
+                                    <option value="{{$vr->id}}">{{$vr->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -131,7 +136,13 @@
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Tujuan Dept</label>
-                            <input type="text" class="form-control" id="" data-name="edit_tujuan">
+                            {{-- <input type="text" class="form-control" id="" data-name="edit_to_dept"> --}}
+                            <select name="" id="" class="form-select select2-edit" data-name="edit_to_dept">
+                                <option value="">-- Select Dept --</option>
+                                @foreach($role as $kr => $vr)
+                                    <option value="{{$vr->id}}">{{$vr->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -149,14 +160,14 @@
         $(document).on("click", "[data-name='add']", function(e) {
             $("[data-name='date_release']").val('');
             $("[data-name='notes']").val('');
-            $("[data-name='tujuan']").val('');
+            $("[data-name='to_dept']").val('');
             $("#modal_add").modal('show');
         });
 
         $(document).on("click", "[data-name='save_add']", function(e) {
             var date_release = $("[data-name='date_release']").val();
             var notes = $("[data-name='notes']").val();
-            var tujuan = $("[data-name='tujuan']").val();
+            var to_dept = $("[data-name='to_dept']").val();
             var is_active = 1;
             var employe = "{!! $idn_user->id !!}";
             var table = "trx_surat";
@@ -164,12 +175,12 @@
             var data = {
                 date_release: date_release,
                 notes: notes,
-                tujuan: tujuan,
+                to_dept: to_dept,
                 is_active: is_active,
                 employe: employe
             };
 
-            if (date_release === '' || notes === '' || tujuan === '') {
+            if (date_release === '' || notes === '' || to_dept === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Form is empty!',
@@ -237,7 +248,7 @@
                     $("[data-name='edit_id']").val(data['data'].id);
                     $("[data-name='edit_date_release']").val(data['data'].date_release);
                     $("[data-name='edit_notes']").val(data['data'].notes);
-                    $("[data-name='edit_tujuan']").val(data['data'].tujuan);
+                    $("[data-name='edit_to_dept']").val(data['data'].to_dept).trigger("change");;
                     $("[data-name='edit_letter_admin']").val(data['data'].letter_admin);
                     $("#modal_edit").modal('show');
                 },
@@ -259,7 +270,7 @@
         $(document).on("click", "[data-name='save_edit']", function(e) {
             var date_release = $("[data-name='edit_date_release']").val();
             var notes = $("[data-name='edit_notes']").val();
-            var tujuan = $("[data-name='edit_tujuan']").val();
+            var to_dept = $("[data-name='edit_to_dept']").val();
             var letter_admin = $("[data-name='edit_letter_admin']").val();
 
             var table = "trx_surat";
@@ -268,11 +279,11 @@
             var dats = {
                 date_release: date_release,
                 notes: notes,
-                tujuan: tujuan,
+                to_dept: to_dept,
                 letter_admin: letter_admin,
             };
 
-            if (date_release === '' || notes === '') {
+            if (date_release === '' || notes === '' || to_dept === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Form is empty!',

@@ -1,5 +1,5 @@
 /*
-SQLyog Community v13.2.0 (64 bit)
+SQLyog Community v13.1.9 (64 bit)
 MySQL - 10.11.4-MariaDB : Database - db_e_letter_admin
 *********************************************************************
 */
@@ -27,7 +27,7 @@ CREATE TABLE `mst_role` (
   `update_by` int(11) DEFAULT NULL,
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 /*Data for the table `mst_role` */
 
@@ -35,7 +35,8 @@ insert  into `mst_role`(`id`,`name`,`is_active`,`update_by`,`last_update`) value
 (1,'DIREKSI',1,1,'2024-01-26 02:10:28'),
 (2,'HR',1,1,'2024-01-26 02:10:40'),
 (3,'ADMINISTRASI',1,1,'2024-01-26 02:10:54'),
-(4,'FINANCE',1,1,'2024-01-26 08:54:28');
+(4,'FINANCE',1,1,'2024-01-26 08:54:28'),
+(5,'SUPERADMIN',1,1,'2024-01-28 19:27:28');
 
 /*Table structure for table `trx_surat` */
 
@@ -47,20 +48,22 @@ CREATE TABLE `trx_surat` (
   `notes` text DEFAULT NULL,
   `date_release` timestamp NULL DEFAULT NULL,
   `employe` int(11) DEFAULT NULL,
+  `to_dept` int(11) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
   `update_by` int(11) DEFAULT NULL,
   `is_active` int(11) DEFAULT NULL,
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 /*Data for the table `trx_surat` */
 
-insert  into `trx_surat`(`id`,`letter_admin`,`notes`,`date_release`,`employe`,`role_id`,`update_by`,`is_active`,`last_update`) values 
-(1,'001/ADDIR/I/2024','Data-Test','2024-01-27 00:00:00',1,1,1,1,'2024-01-27 14:38:55'),
-(2,'002/ADFIN/I/2024','Data-Test 2','2024-01-27 00:00:00',5,4,5,1,'2024-01-27 14:46:07'),
-(3,'003/ADFIN/I/2024','Data-Test 3','2024-01-27 00:00:00',5,4,5,1,'2024-01-27 14:46:19'),
-(4,'004/ADADM/I/2024','Data-Test 4','2024-01-27 00:00:00',4,3,4,1,'2024-01-27 14:46:57');
+insert  into `trx_surat`(`id`,`letter_admin`,`notes`,`date_release`,`employe`,`to_dept`,`role_id`,`update_by`,`is_active`,`last_update`) values 
+(1,'001/ADDIR/I/2024','Data-Test','2024-01-27 00:00:00',1,1,1,1,1,'2024-01-30 09:41:48'),
+(2,'002/ADFIN/I/2024','Data-Test 2','2024-01-27 00:00:00',5,1,4,5,1,'2024-01-30 09:41:49'),
+(3,'003/ADFIN/I/2024','Data-Test 3','2024-01-27 00:00:00',5,1,4,5,1,'2024-01-30 09:41:49'),
+(4,'004/ADADM/I/2024','Data-Test 4','2024-01-27 00:00:00',4,1,3,4,1,'2024-01-30 09:41:51'),
+(5,'001/ADDIR/II/2024','asdsdasdasdasd','2024-02-06 00:00:00',1,1,1,1,1,'2024-01-30 09:29:33');
 
 /*Table structure for table `users` */
 

@@ -38,14 +38,17 @@ class MainController extends Controller
     function inputsurat()
     {
         $idn_user   = idn_user(auth::user()->id);
-        $arr        = DB::table('trx_surat')->select('trx_surat.*', 'users.name as usr_name', 'mst_role.name as usr_role')
-            ->leftJoin('users', 'users.id', '=', 'trx_surat.employe')
-            ->leftJoin('mst_role', 'mst_role.id', '=', 'trx_surat.role_id')
-            ->where('trx_surat.is_active', 1)->get();
+        $arr        = DB::table('trx_surat')->select('trx_surat.*', 'b.name as usr_name', 'c.name as usr_role', 'd.name as usr_to_dept')
+                    ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
+                    ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
+                    ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
+                    ->where('trx_surat.is_active', 1)->get();
+        $role        = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
             'title' => 'Add Form',
             'arr'   => $arr,
-            'idn_user' => $idn_user
+            'idn_user' => $idn_user,
+            'role'  => $role
         );
 
         return view('Surat.input')->with($data);
@@ -60,7 +63,7 @@ class MainController extends Controller
         $bulan      = $tgl->format('m');
         $thn        = $tgl->format('Y');
         $blnromawi  = getRomawi($bulan);
-        $arr        = DB::select("SELECT * FROM trx_surat");
+        $arr        = DB::select("SELECT * FROM trx_surat WHERE MONTH(date_release) = $bulan AND YEAR(date_release) = $thn");
         $jml        = count($arr) + 1;
 
         if ($idn_user->role_id == 1) {
@@ -80,7 +83,7 @@ class MainController extends Controller
             'date_release'  => $dt['date_release'],
             'employe'       => $idn_user->id,
             'update_by' => auth::user()->id,
-            'tujuan'        => $dt['tujuan'],
+            'to_dept'        => $dt['to_dept'],
             'role_id'       => $idn_user->role_id,
             'is_active' => 1,
 
@@ -124,7 +127,7 @@ class MainController extends Controller
             'notes'         => $dt['notes'],
             'date_release'  => $dt['date_release'],
             'employe'       => $idn_user->id,
-            'tujuan'        => $dt['tujuan'],
+            'to_dept'       => $dt['to_dept'],
             'role_id'       => $idn_user->role_id,
             'update_by' => auth::user()->id,
 
