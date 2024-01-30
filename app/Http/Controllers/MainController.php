@@ -42,7 +42,7 @@ class MainController extends Controller
             ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
             ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
             ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
-            ->where('trx_surat.is_active', 1)->get();
+            ->where('trx_surat.is_active', 1)->orderBy('trx_surat.letter_admin', 'asc')->get();
         $role        = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
             'title' => 'Add Form',
