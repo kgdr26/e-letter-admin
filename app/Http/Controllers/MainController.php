@@ -63,7 +63,8 @@ class MainController extends Controller
         $bulan      = $tgl->format('m');
         $thn        = $tgl->format('Y');
         $blnromawi  = getRomawi($bulan);
-        $arr        = DB::select("SELECT * FROM trx_surat WHERE MONTH(date_release) = $bulan AND YEAR(date_release) = $thn");
+        $dttodept   = $dt['to_dept'];
+        $arr        = DB::select("SELECT * FROM trx_surat WHERE MONTH(date_release) = $bulan AND YEAR(date_release) = $thn AND to_dept = $dttodept");
         $jml        = count($arr) + 1;
 
         if ($dt['to_dept'] == 1) {
@@ -84,7 +85,7 @@ class MainController extends Controller
             'notes'         => $dt['notes'],
             'date_release'  => $dt['date_release'],
             'employe'       => $idn_user->id,
-            'update_by' => auth::user()->id,
+            'update_by'     => auth::user()->id,
             'to_dept'        => $dt['to_dept'],
             'role_id'       => $idn_user->role_id,
             'is_active' => 1,
@@ -108,7 +109,8 @@ class MainController extends Controller
         $bulan      = $tgl->format('m');
         $thn        = $tgl->format('Y');
         $blnromawi  = getRomawi($bulan);
-        $arr        = DB::select("SELECT * FROM trx_surat");
+        $dttodept   = $dt['to_dept'];
+        $arr        = DB::select("SELECT * FROM trx_surat WHERE MONTH(date_release) = $bulan AND YEAR(date_release) = $thn AND to_dept = $dttodept");
         $jml        = count($arr) + 1;
 
 
@@ -125,7 +127,7 @@ class MainController extends Controller
         }
 
         $expld_letter   = explode("/", $dt['letter_admin']);
-        $tletter_admin  = $expld_letter[0] . "/" . $dtrole . "/" . $blnromawi . "/" . $thn;
+        $tletter_admin  = sprintf("%03d", $jml) . "/" . $dtrole . "/" . $blnromawi . "/" . $thn;
 
         $data   = array(
             'letter_admin'  => $tletter_admin,

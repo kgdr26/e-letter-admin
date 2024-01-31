@@ -53,14 +53,19 @@
                                             </td>
 
                                             <td class="text-center">
-                                                @if ($idn_user->id == 1)
-                                                    <button type="button" class="btn btn-outline-info" data-name="edit"
-                                                        data-item="{{ $value->id }}">
-                                                        Edit
-                                                    </button>
+                                                @if($value->update_by == $idn_user->id || $idn_user->role_id == 5)
+                                                    @php
+                                                        $disabled_button    = '';
+                                                    @endphp
+                                                @else
+                                                    @php
+                                                        $disabled_button    = 'disabled';
+                                                    @endphp
                                                 @endif
-                                                <button type="button" class="btn btn-outline-danger" data-name="delete"
-                                                    data-item="{{ $value->id }}">
+                                                <button type="button" class="btn btn-outline-info" data-name="edit" data-item="{{ $value->id }}" {{$disabled_button}}>
+                                                    Edit
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger" data-name="delete" data-item="{{ $value->id }}" {{$disabled_button}}>
                                                     Delete
                                                 </button>
                                             </td>
