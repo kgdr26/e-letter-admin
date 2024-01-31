@@ -53,19 +53,21 @@
                                             </td>
 
                                             <td class="text-center">
-                                                @if($value->update_by == $idn_user->id || $idn_user->role_id == 5)
+                                                @if ($value->update_by == $idn_user->id || $idn_user->role_id == 5)
                                                     @php
-                                                        $disabled_button    = '';
+                                                        $disabled_button = '';
                                                     @endphp
                                                 @else
                                                     @php
-                                                        $disabled_button    = 'disabled';
+                                                        $disabled_button = 'disabled';
                                                     @endphp
                                                 @endif
-                                                <button type="button" class="btn btn-outline-info" data-name="edit" data-item="{{ $value->id }}" {{$disabled_button}}>
+                                                <button type="button" class="btn btn-outline-info" data-name="edit"
+                                                    data-item="{{ $value->id }}" {{ $disabled_button }}>
                                                     Edit
                                                 </button>
-                                                <button type="button" class="btn btn-outline-danger" data-name="delete" data-item="{{ $value->id }}" {{$disabled_button}}>
+                                                <button type="button" class="btn btn-outline-danger" data-name="delete"
+                                                    data-item="{{ $value->id }}" {{ $disabled_button }}>
                                                     Delete
                                                 </button>
                                             </td>
@@ -105,7 +107,10 @@
                             <select name="" id="" class="form-select select2-add" data-name="to_dept">
                                 <option value="">-- Select Dept --</option>
                                 @foreach ($role as $kr => $vr)
-                                    <option value="{{ $vr->id }}">{{ $vr->name }}</option>
+                                    @if ($vr->id != 5)
+                                        <option value="{{ $vr->id }}">{{ $vr->name }}</option>
+                                    @endif
+                                    {{-- <option value="{{ $vr->id }}">{{ $vr->name }}</option> --}}
                                 @endforeach
                             </select>
                         </div>
@@ -148,7 +153,10 @@
                                 data-name="edit_to_dept">
                                 <option value="">-- Select Dept --</option>
                                 @foreach ($role as $kr => $vr)
-                                    <option value="{{ $vr->id }}">{{ $vr->name }}</option>
+                                    @if ($vr->id != 5)
+                                        <option value="{{ $vr->id }}">{{ $vr->name }}</option>
+                                    @endif
+                                    {{-- <option value="{{ $vr->id }}">{{ $vr->name }}</option> --}}
                                 @endforeach
                             </select>
                         </div>

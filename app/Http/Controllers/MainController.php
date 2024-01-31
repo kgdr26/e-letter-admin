@@ -75,6 +75,8 @@ class MainController extends Controller
             $dtrole    = "ADADM";
         } elseif ($dt['to_dept'] == 4) {
             $dtrole    = "ADFIN";
+        } elseif ($dt['to_dept'] == 6) {
+            $dtrole    = "ADDMKT";
         } else {
             $dtrole    = "NULL";
         }
@@ -122,6 +124,8 @@ class MainController extends Controller
             $dtrole    = "ADADM";
         } elseif ($dt['to_dept'] == 4) {
             $dtrole    = "ADFIN";
+        } elseif ($dt['to_dept'] == 6) {
+            $dtrole    = "ADDMKT";
         } else {
             $dtrole    = "NULL";
         }
