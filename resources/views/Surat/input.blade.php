@@ -137,8 +137,7 @@
                     <div class="card-style">
                         <div class="mb-3">
                             <label for="" class="form-label">Tanggal</label>
-                            <input type="text" class="form-control" id="" placeholder=""
-                                data-name="edit_date_release">
+                            <input type="text" class="form-control" id="" placeholder="" data-name="edit_date_release" readonly>
                             <input type="hidden" data-name="edit_id">
                             <input type="hidden" data-name="edit_letter_admin">
                         </div>
@@ -149,8 +148,7 @@
                         <div class="mb-3">
                             <label for="" class="form-label">Tujuan Dept</label>
                             {{-- <input type="text" class="form-control" id="" data-name="edit_to_dept"> --}}
-                            <select name="" id="" class="form-select select2-edit"
-                                data-name="edit_to_dept">
+                            <select name="" id="" class="form-select select2-edit" data-name="edit_to_dept">
                                 <option value="">-- Select Dept --</option>
                                 @foreach ($role as $kr => $vr)
                                     @if ($vr->id != 5)
@@ -159,6 +157,7 @@
                                     {{-- <option value="{{ $vr->id }}">{{ $vr->name }}</option> --}}
                                 @endforeach
                             </select>
+                            <input type="hidden" data-name="edit_to_dept_old">
                         </div>
                     </div>
                 </div>
@@ -264,7 +263,8 @@
                     $("[data-name='edit_id']").val(data['data'].id);
                     $("[data-name='edit_date_release']").val(data['data'].date_release);
                     $("[data-name='edit_notes']").val(data['data'].notes);
-                    $("[data-name='edit_to_dept']").val(data['data'].to_dept).trigger("change");;
+                    $("[data-name='edit_to_dept']").val(data['data'].to_dept).trigger("change");
+                    $("[data-name='edit_to_dept_old']").val(data['data'].to_dept);
                     $("[data-name='edit_letter_admin']").val(data['data'].letter_admin);
                     $("#modal_edit").modal('show');
                 },
@@ -287,6 +287,7 @@
             var date_release = $("[data-name='edit_date_release']").val();
             var notes = $("[data-name='edit_notes']").val();
             var to_dept = $("[data-name='edit_to_dept']").val();
+            var to_dept_old = $("[data-name='edit_to_dept_old']").val();
             var letter_admin = $("[data-name='edit_letter_admin']").val();
 
             var table = "trx_surat";
@@ -297,6 +298,7 @@
                 notes: notes,
                 to_dept: to_dept,
                 letter_admin: letter_admin,
+                to_dept_old: to_dept_old
             };
 
             if (date_release === '' || notes === '' || to_dept === '') {
