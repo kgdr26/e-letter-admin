@@ -114,6 +114,7 @@ class MainController extends Controller
         $dttodept   = $dt['to_dept'];
         $arr        = DB::select("SELECT * FROM trx_surat WHERE MONTH(date_release) = $bulan AND YEAR(date_release) = $thn AND to_dept = $dttodept");
         $jml        = count($arr) + 1;
+        $dt_count   = sprintf("%03d", $jml);
 
 
         if ($dt['to_dept'] == 1) {
@@ -131,7 +132,14 @@ class MainController extends Controller
         }
 
         $expld_letter   = explode("/", $dt['letter_admin']);
-        $tletter_admin  = sprintf("%03d", $jml) . "/" . $dtrole . "/" . $blnromawi . "/" . $thn;
+
+        if($expld_letter == $jml){
+            $count_sr       = $expld_letter[0];
+        }else{
+            $count_sr       = $dt_count;
+        }
+
+        $tletter_admin  = $count_sr . "/" . $dtrole . "/" . $blnromawi . "/" . $thn;
 
         $data   = array(
             'letter_admin'  => $tletter_admin,
