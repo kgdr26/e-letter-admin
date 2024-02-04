@@ -133,9 +133,9 @@ class MainController extends Controller
 
         $expld_letter   = explode("/", $dt['letter_admin']);
 
-        if($dt['to_dept'] == $dt['to_dept_old']){
+        if ($dt['to_dept'] == $dt['to_dept_old']) {
             $count_sr       = $expld_letter[0];
-        }else{
+        } else {
             $count_sr       = $dt_count;
         }
 
@@ -314,5 +314,19 @@ class MainController extends Controller
         $table  = $request['table'];
         $arr    = DB::select("SELECT * FROM $table WHERE $field=$id AND is_active=1 ");
         return response($arr);
+    }
+
+
+    // Peminjaman Asset
+    function peminjamanasset()
+    {
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $data = array(
+            'title' => 'Peminjaman Asset',
+            'arr'   => $arr,
+            'idn_user' => $idn_user
+        );
+        return view('Surat.peminjamanasset')->with($data);
     }
 }

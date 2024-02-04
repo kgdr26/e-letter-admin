@@ -26,6 +26,7 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth'])->group(function () {
     Route::get('users', [MainController::class, 'users'])->name('users');
     Route::get('inputsurat', [MainController::class, 'inputsurat'])->name('inputsurat');
+    Route::get('peminjamanasset', [MainController::class, 'peminjamanasset'])->name('peminjamanasset');
 
 
     //Action

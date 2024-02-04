@@ -19,6 +19,13 @@
         @endif
 
         <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('peminjamanasset') }}">
+                <i class="bi bi-person-circle"></i>
+                <span>Peminjaman Asset</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('logout') }}">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Logout</span>
