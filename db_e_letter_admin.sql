@@ -1,5 +1,5 @@
 /*
-SQLyog Community v13.1.9 (64 bit)
+SQLyog Community v13.2.0 (64 bit)
 MySQL - 10.11.4-MariaDB : Database - db_e_letter_admin
 *********************************************************************
 */
@@ -32,11 +32,6 @@ CREATE TABLE `mst_role` (
 /*Data for the table `mst_role` */
 
 insert  into `mst_role`(`id`,`name`,`is_active`,`update_by`,`last_update`) values 
-(1,'DIREKSI',1,1,'2024-01-26 02:10:28'),
-(2,'HR',1,1,'2024-01-26 02:10:40'),
-(3,'ADMINISTRASI',1,1,'2024-01-26 02:10:54'),
-(4,'FINANCE',1,1,'2024-01-26 08:54:28'),
-(5,'SUPERADMIN',1,1,'2024-01-28 19:27:28'),
 (1,'DIREKSI',1,1,'2024-01-25 19:10:28'),
 (2,'HR',1,1,'2024-01-25 19:10:40'),
 (3,'ADMINISTRASI',1,1,'2024-01-25 19:10:54'),
@@ -65,8 +60,6 @@ CREATE TABLE `trx_surat` (
 /*Data for the table `trx_surat` */
 
 insert  into `trx_surat`(`id`,`letter_admin`,`notes`,`date_release`,`employe`,`to_dept`,`role_id`,`update_by`,`is_active`,`last_update`) values 
-(1,'001/ADDIR/II/2024','-','2024-02-01 00:00:00',1,1,1,1,1,'2024-02-01 21:58:12'),
-(2,'001/HRGA/III/2024','Tes ediit','2024-03-05 00:00:00',1,2,1,1,1,'2024-02-01 22:00:23'),
 (1,'001/ADDIR/I/2024','Surat Kiriman','2024-01-01 17:00:00',2,1,2,2,1,'2024-02-02 01:19:06'),
 (2,'002/ADDIR/I/2024','PPSK','2024-01-01 17:00:00',2,1,2,2,1,'2024-02-02 01:14:37'),
 (3,'003/ADDIR/I/2024','PPSK','2024-01-01 17:00:00',2,1,2,2,1,'2024-02-02 01:14:55'),
@@ -123,24 +116,20 @@ CREATE TABLE `users` (
   `update_by` int(11) DEFAULT NULL,
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 /*Data for the table `users` */
 
 insert  into `users`(`id`,`username`,`password`,`pass`,`role_id`,`name`,`email`,`no_tlp`,`foto`,`status`,`is_active`,`update_by`,`last_update`) values 
-(1,'superadmin','$2y$12$dZBewE74BT/hir9Y81eugOlAWjnIoDmUedTmGXjJ83pvbIuP2.5Yy','123',1,'Superadmin','superadmin@gmail.com','081211159962','default.jpg',1,1,1,'2024-01-26 09:03:44'),
-(2,'jessica','$2y$12$acttIZrFxuspedt6zEru4uhYHCkMPme/2jGzoaJSlfA8U0rsoJmcO','123',2,'Jessica','jessica@gmail.com','0888877772','default.jpg',0,1,1,'2024-01-26 08:12:39'),
-(3,'tes','$2y$12$ztOPiTcW3E6gwetVtzojseB1VaageRmAg9vVu5gUpy6f4MM050O1u','123456',3,'tes 123','tes@gmailo.com','88888','10569.png',0,0,1,'2024-01-26 02:12:03'),
-(4,'Richardus','$2y$12$BwNlomFI.VuR311/QozG5O6QSzPUbzxn3I18CAKKY0xM4XFbCGNvy','123',4,'Richardus','Richardus@gmail.com','0812312234214','default.jpg',0,1,1,'2024-01-27 14:48:42'),
-(5,'Dinar','$2y$12$FhNAW.36ymZB/Xs22lsw1uwGkIt9WOybOpqm/tCSYcw.JAEiu9vwi','123',3,'Dinar','Dinar@gmail.com','081231213','default.jpg',0,1,1,'2024-01-27 14:48:52'),
-(6,'Direktur','$2y$12$OCc4eIMLgH0G1/9eS.suOep/z6N3eZh2/3YBxJqNzE1ZwQ1OnqQOe','123',1,'Direktur','XXXXX@gmail.com','0812XXXXXXX','default.jpg',NULL,1,1,'2024-01-27 14:40:10'),
 (1,'superadmin','$2y$12$iP7EyzlYctfhiBInZIM0AenakDcqzoCzcNCa/GxwUpInag8Z9Dtki','123',5,'Superadmin',NULL,NULL,'default.jpg',1,1,1,'2024-01-31 09:46:33'),
 (2,'jessica','$2y$12$acttIZrFxuspedt6zEru4uhYHCkMPme/2jGzoaJSlfA8U0rsoJmcO','123',2,'Jessica','jessica@gmail.com','0888877772','default.jpg',0,1,1,'2024-01-26 01:12:39'),
 (3,'tes','$2y$12$ztOPiTcW3E6gwetVtzojseB1VaageRmAg9vVu5gUpy6f4MM050O1u','123456',3,'tes 123','tes@gmailo.com','88888','10569.png',0,0,1,'2024-01-25 19:12:03'),
 (4,'Richardus','$2y$12$39nAmxHJlPYiOOMd6cy28e6EsKZAodJxLiHNVozPRxsmYn5DWc6YO','123',4,'Richardus',NULL,NULL,'default.jpg',0,1,1,'2024-01-31 09:45:44'),
 (5,'Dinar','$2y$12$eq0ue0QZIKTXxsCdvrN/DeNUGt6cDU/Ph1UbgocVwFg00z9dtKiIe','123',3,'Dinar',NULL,NULL,'default.jpg',0,1,1,'2024-01-31 09:45:21'),
 (6,'Direktur','$2y$12$oK14uvPa/h6r.DGdcfYoo.ru3ux1uRmOLbuPCZSZAuBVkrqE9WoY2','123',1,'Direktur',NULL,NULL,'default.jpg',NULL,1,1,'2024-01-31 09:45:12'),
-(7,'Ulfa','$2y$12$ZxET1etoPSi8Hf1cAe3Ppuew40oaO.qKxsaQL8qbZPr50bd.Mc.wq','123',2,'Ulfa',NULL,NULL,'default.jpg',NULL,1,1,'2024-01-31 09:43:11');
+(7,'Ulfa','$2y$12$ZxET1etoPSi8Hf1cAe3Ppuew40oaO.qKxsaQL8qbZPr50bd.Mc.wq','123',2,'Ulfa',NULL,NULL,'default.jpg',NULL,1,1,'2024-01-31 09:43:11'),
+(8,'Hardi','$2y$12$8Iv.ebZ6lR4a23N8UPVNMeZqaOsGWtZKxEe/N71WfSJ8mmz1ypZLS','123',6,'Hardi',NULL,NULL,'default.jpg',NULL,1,1,'2024-02-04 19:18:36'),
+(9,'Ridho','$2y$12$4dsjDbznrM4C.v.Z8LYEr.owJKCNZiOTea6rm6GsbVj3tyoSfzF3W','123',6,'Ridho',NULL,NULL,'default.jpg',NULL,1,1,'2024-02-04 19:18:56');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
