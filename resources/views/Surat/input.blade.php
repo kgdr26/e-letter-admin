@@ -421,12 +421,12 @@
             autoclose: true
         });
 
-        $('input[data-name="edit_date_release"]').datepicker({
-            format: "yyyy-mm-dd",
-            viewMode: "days",
-            minViewMode: "days",
-            autoclose: true
-        });
+        // $('input[data-name="edit_date_release"]').datepicker({
+        //     format: "yyyy-mm-dd",
+        //     viewMode: "days",
+        //     minViewMode: "days",
+        //     autoclose: true
+        // });
     </script>
 
     {{-- Select2 --}}
