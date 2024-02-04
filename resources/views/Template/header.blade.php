@@ -73,13 +73,13 @@
                     <div class="col-4">
                         <div class="card-style">
                             <div class="card-foto">
-                                <img src="" alt="user avatar" id="img_edit">
+                                <img src="" alt="user avatar" id="profile_img_edit">
                             </div>
                             <div class="input-type-file">
-                                <input type="file" id="edit_foto" name="edit_foto" accept="image/*" />
-                                <label for="edit_foto">Choose File</label>
+                                <input type="file" id="profile_edit_foto" name="profile_edit_foto" accept="image/*" />
+                                <label for="profile_edit_foto">Choose File</label>
                             </div>
-                            <input type="hidden" id="edit_name_foto" data-name="profile_edit_foto">
+                            <input type="hidden" id="profile_edit_name_foto" data-name="profile_edit_foto">
                         </div>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
                 $("[data-name='profile_edit_role_id']").val(data['data'].role_id).trigger("change");
                 $("[data-name='profile_edit_foto']").val(data['data'].foto);
                 var show_foto = "{{ asset('profile') }}/" + data['data'].foto;
-                $('#img_edit').attr('src', show_foto);
+                $('#profile_img_edit').attr('src', show_foto);
                 $("#modal_edit_profile").modal('show');
             },
             error: function(data) {
@@ -164,6 +164,8 @@
             role_id: role_id,
             foto: foto
         };
+
+        // console.log(dats);
 
         if (name === '' || no_tlp === '' || email === '' || username === '' || password === '' || role_id ===
             '') {
@@ -223,7 +225,7 @@
             })
         } else {
             var uploadedFile = URL.createObjectURL(e.target.files[0]);
-            $('#img_edit').attr('src', uploadedFile);
+            $('#profile_img_edit').attr('src', uploadedFile);
             var photo = e.target.files[0];
             var formData = new FormData();
             formData.append('add_foto', photo);
