@@ -54,9 +54,7 @@
                                 <select data-name="profile_edit_role_id" class="form-select select-2-edit" readonly>
                                     <option value="">-- Select Role --</option>
                                     @foreach($role as $key => $value)
-                                        @if($value->id != 5)
-                                            <option value="{{$value->id}}">{{$value->name}}</option>
-                                        @endif
+                                        <option value="{{$value->id}}">{{$value->name}}</option>
                                     @endforeach
                                 </select>
                             </div>
