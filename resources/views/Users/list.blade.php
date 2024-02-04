@@ -357,7 +357,7 @@
                     $("[data-name='edit_password']").val(data['data'].pass);
                     $("[data-name='edit_role_id']").val(data['data'].role_id).trigger("change");
                     $("[data-name='edit_foto']").val(data['data'].foto);
-                    var show_foto = "assets/images/profiles/" + data['data'].foto;
+                    var show_foto = "{{ asset('profile') }}/" + data['data'].foto;
                     $('#img_edit').attr('src', show_foto);
                     $("#modal_edit").modal('show');
                 },
