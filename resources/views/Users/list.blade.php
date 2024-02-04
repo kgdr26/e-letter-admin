@@ -95,10 +95,11 @@
                                     <label for="" class="form-label">Role</label>
                                     <select data-name="role_id" class="form-select select-2-add">
                                         <option value="">-- Select Role --</option>
-                                        <option value="1">DIREKTUR</option>
-                                        <option value="2">HR</option>
-                                        <option value="3">ADMINISTRASI</option>
-                                        <option value="4">FINANCE</option>
+                                        @foreach($role as $key => $value)
+                                            @if($value->id != 5)
+                                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                            @endif
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="mb-3">
@@ -168,10 +169,11 @@
                                     <label for="" class="form-label">Role</label>
                                     <select data-name="edit_role_id" class="form-select select-2-edit">
                                         <option value="">-- Select Role --</option>
-                                        <option value="1">DIREKTUR</option>
-                                        <option value="2">HR</option>
-                                        <option value="3">ADMINISTRASI</option>
-                                        <option value="4">FINANCE</option>
+                                        @foreach($role as $key => $value)
+                                            @if($value->id != 5)
+                                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                            @endif
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="mb-3">

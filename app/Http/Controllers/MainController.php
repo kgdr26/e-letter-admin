@@ -26,10 +26,12 @@ class MainController extends Controller
     {
         $idn_user   = idn_user(auth::user()->id);
         $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
             'title' => 'Users',
             'arr'   => $arr,
-            'idn_user' => $idn_user
+            'idn_user' => $idn_user,
+            'role'  => $role
         );
 
         return view('Users.list')->with($data);
