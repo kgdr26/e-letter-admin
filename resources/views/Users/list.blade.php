@@ -9,7 +9,6 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
                             <span>Users</span>
-
                             <button type="button" class="btn btn-success" data-name="add">ADD USERS</button>
                         </div>
                     </div>
@@ -95,9 +94,9 @@
                                     <label for="" class="form-label">Role</label>
                                     <select data-name="role_id" class="form-select select-2-add">
                                         <option value="">-- Select Role --</option>
-                                        @foreach($role as $key => $value)
-                                            @if($value->id != 5)
-                                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                        @foreach ($role as $key => $value)
+                                            @if ($value->id != 5)
+                                                <option value="{{ $value->id }}">{{ $value->name }}</option>
                                             @endif
                                         @endforeach
                                     </select>
@@ -169,9 +168,9 @@
                                     <label for="" class="form-label">Role</label>
                                     <select data-name="edit_role_id" class="form-select select-2-edit">
                                         <option value="">-- Select Role --</option>
-                                        @foreach($role as $key => $value)
-                                            @if($value->id != 5)
-                                                <option value="{{$value->id}}">{{$value->name}}</option>
+                                        @foreach ($role as $key => $value)
+                                            @if ($value->id != 5)
+                                                <option value="{{ $value->id }}">{{ $value->name }}</option>
                                             @endif
                                         @endforeach
                                     </select>

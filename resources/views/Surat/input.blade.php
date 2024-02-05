@@ -39,49 +39,52 @@
                                         $no = 1;
                                     @endphp
                                     @foreach ($arr as $key => $value)
-                                        <tr>
-                                            <td>{{ $no++ }}</td>
-                                            <td>{{ $value->letter_admin }}</td>
-                                            <td>{{ $value->notes }}</td>
-                                            <td class="text-center">{{ $value->usr_role }}</td>
-                                            <td class="text-right">
-                                                {{ \Carbon\Carbon::parse($value->date_release)->isoFormat('dddd, DD MMM YYYY') }}
-                                            </td>
-                                            <td class="text-center">{{ $value->usr_name }}</td>
-                                            <td class="text-center">{{ $value->usr_to_dept }}</td>
-                                            <td class="text-center">
-                                                {{ \Carbon\Carbon::parse($value->last_update)->isoFormat('dddd, DD MMM YYYY HH:mm:ss') }}
-                                            </td>
+                                        @if ($value->update_by == $idn_user->id || $idn_user->role_id == 5 || $idn_user->role_id == 7)
+                                            <tr>
+                                                <td>{{ $no++ }}</td>
+                                                <td>{{ $value->letter_admin }}</td>
+                                                <td>{{ $value->notes }}</td>
+                                                <td class="text-center">{{ $value->usr_role }}</td>
+                                                <td class="text-right">
+                                                    {{ \Carbon\Carbon::parse($value->date_release)->isoFormat('dddd, DD MMM YYYY') }}
+                                                </td>
+                                                <td class="text-center">{{ $value->usr_name }}</td>
+                                                <td class="text-center">{{ $value->usr_to_dept }}</td>
+                                                <td class="text-center">
+                                                    {{ \Carbon\Carbon::parse($value->last_update)->isoFormat('dddd, DD MMM YYYY HH:mm:ss') }}
+                                                </td>
 
-                                            <td class="text-center">
-                                                @if ($value->update_by == $idn_user->id || $idn_user->role_id == 5)
-                                                    @php
-                                                        $disabled_button = '';
-                                                    @endphp
-                                                @else
-                                                    @php
-                                                        $disabled_button = 'disabled';
-                                                    @endphp
-                                                @endif
-                                                <button type="button" class="btn btn-outline-info btn-sm" data-name="edit"
-                                                    data-item="{{ $value->id }}" {{ $disabled_button }}>
-                                                    Edit
-                                                </button>
-                                                <button type="button" class="btn btn-outline-warning btn-sm">
-                                                    Upload
-                                                </button>
-                                                <button type="button" class="btn btn-outline-danger btn-sm"
-                                                    data-name="delete" data-item="{{ $value->id }}"
-                                                    {{ $disabled_button }}>
-                                                    Delete
-                                                </button>
-                                            </td>
-                                            <td class="text-center">
-                                                <button type="button" class="btn btn-outline-danger btn-sm">
-                                                    <i class="bi bi-filetype-pdf" style="font-size: 15px"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
+                                                <td class="text-center">
+                                                    @if ($value->update_by == $idn_user->id || $idn_user->role_id == 5)
+                                                        @php
+                                                            $disabled_button = '';
+                                                        @endphp
+                                                    @else
+                                                        @php
+                                                            $disabled_button = 'disabled';
+                                                        @endphp
+                                                    @endif
+                                                    <button type="button" class="btn btn-outline-info btn-sm"
+                                                        data-name="edit" data-item="{{ $value->id }}"
+                                                        {{ $disabled_button }}>
+                                                        Edit
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-warning btn-sm">
+                                                        Upload
+                                                    </button>
+                                                    <button type="button" class="btn btn-outline-danger btn-sm"
+                                                        data-name="delete" data-item="{{ $value->id }}"
+                                                        {{ $disabled_button }}>
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-outline-danger btn-sm">
+                                                        <i class="bi bi-filetype-pdf" style="font-size: 15px"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>

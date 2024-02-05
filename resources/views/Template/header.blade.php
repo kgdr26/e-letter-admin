@@ -1,4 +1,3 @@
-
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
@@ -13,9 +12,10 @@
     </div>
 
     <nav class="header-nav ms-auto">
-        <a class="nav-profile d-flex align-items-center pe-0 me-3" href="#" data-name="profile_show" data-item="{{$idn_user->id}}">
-            <img src="{{ asset('profile/'.$idn_user->foto) }}" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block ps-2">{{$idn_user->name}}</span>
+        <a class="nav-profile d-flex align-items-center pe-0 me-3" href="#" data-name="profile_show"
+            data-item="{{ $idn_user->id }}">
+            <img src="{{ asset('profile/' . $idn_user->foto) }}" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block ps-2">{{ $idn_user->name }}</span>
         </a>
     </nav>
 
@@ -53,8 +53,8 @@
                                 <label for="" class="form-label">Role</label>
                                 <select data-name="profile_edit_role_id" class="form-select select-2-edit" readonly>
                                     <option value="">-- Select Role --</option>
-                                    @foreach($role as $key => $value)
-                                        <option value="{{$value->id}}">{{$value->name}}</option>
+                                    @foreach ($role as $key => $value)
+                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -76,7 +76,8 @@
                                 <img src="" alt="user avatar" id="profile_img_edit">
                             </div>
                             <div class="input-type-file">
-                                <input type="file" id="profile_edit_foto" name="profile_edit_foto" accept="image/*" />
+                                <input type="file" id="profile_edit_foto" name="profile_edit_foto"
+                                    accept="image/*" />
                                 <label for="profile_edit_foto">Choose File</label>
                             </div>
                             <input type="hidden" id="profile_edit_name_foto" data-name="profile_edit_foto">
