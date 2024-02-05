@@ -31,6 +31,7 @@
                                         <th>To Dept</th>
                                         <th>Date Creation</th>
                                         <th class="text-center">Action</th>
+                                        <th class="text-center">Show Files</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -62,13 +63,22 @@
                                                         $disabled_button = 'disabled';
                                                     @endphp
                                                 @endif
-                                                <button type="button" class="btn btn-outline-info" data-name="edit"
+                                                <button type="button" class="btn btn-outline-info btn-sm" data-name="edit"
                                                     data-item="{{ $value->id }}" {{ $disabled_button }}>
                                                     Edit
                                                 </button>
-                                                <button type="button" class="btn btn-outline-danger" data-name="delete"
-                                                    data-item="{{ $value->id }}" {{ $disabled_button }}>
+                                                <button type="button" class="btn btn-outline-warning btn-sm">
+                                                    Upload
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger btn-sm"
+                                                    data-name="delete" data-item="{{ $value->id }}"
+                                                    {{ $disabled_button }}>
                                                     Delete
+                                                </button>
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-outline-danger btn-sm">
+                                                    <i class="bi bi-filetype-pdf" style="font-size: 15px"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -137,7 +147,8 @@
                     <div class="card-style">
                         <div class="mb-3">
                             <label for="" class="form-label">Tanggal</label>
-                            <input type="text" class="form-control" id="" placeholder="" data-name="edit_date_release" readonly>
+                            <input type="text" class="form-control" id="" placeholder=""
+                                data-name="edit_date_release" readonly>
                             <input type="hidden" data-name="edit_id">
                             <input type="hidden" data-name="edit_letter_admin">
                         </div>
@@ -148,7 +159,8 @@
                         <div class="mb-3">
                             <label for="" class="form-label">Tujuan Dept</label>
                             {{-- <input type="text" class="form-control" id="" data-name="edit_to_dept"> --}}
-                            <select name="" id="" class="form-select select2-edit" data-name="edit_to_dept">
+                            <select name="" id="" class="form-select select2-edit"
+                                data-name="edit_to_dept">
                                 <option value="">-- Select Dept --</option>
                                 @foreach ($role as $kr => $vr)
                                     @if ($vr->id != 5)
