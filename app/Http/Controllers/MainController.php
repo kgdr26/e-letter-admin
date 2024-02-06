@@ -168,6 +168,26 @@ class MainController extends Controller
         return response('success');
     }
 
+    // Upload Surat
+    function upload_surat(Request $request): object{
+        if ($request->hasFile('add_file')) {
+            $fourRandomDigit = rand(10, 99999);
+            $photo      = $request->file('add_file');
+            $fileName   = $fourRandomDigit . '.' . $photo->getClientOriginalExtension();
+
+            $path = public_path() . '/assets/file/';
+
+            File::makeDirectory($path, 0777, true, true);
+
+            $request->file('add_file')->move($path, $fileName);
+
+            return response($fileName);
+        } else {
+            return response('Failed');
+        }
+    }
+
+
     // Upload Image
     function upload_profile(Request $request): object
     {

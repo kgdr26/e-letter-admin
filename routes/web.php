@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
 
     //Action
     Route::post('upload_profile', [MainController::class, 'upload_profile'])->name('upload_profile');
+    Route::post('upload_surat', [MainController::class, 'upload_surat'])->name('upload_surat');
     Route::post('actionshowdata', [MainController::class, 'actionshowdata'])->name('actionshowdata');
     Route::post('actionshowdatawmulti', [MainController::class, 'actionshowdatawmulti'])->name('actionshowdatawmulti');
     Route::post('actionlistdata', [MainController::class, 'actionlistdata'])->name('actionlistdata');

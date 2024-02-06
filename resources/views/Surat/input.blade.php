@@ -64,24 +64,26 @@
                                                             $disabled_button = 'disabled';
                                                         @endphp
                                                     @endif
-                                                    <button type="button" class="btn btn-outline-info btn-sm"
-                                                        data-name="edit" data-item="{{ $value->id }}"
-                                                        {{ $disabled_button }}>
+                                                    <button type="button" class="btn btn-outline-info btn-sm" data-name="edit" data-item="{{ $value->id }}" {{ $disabled_button }}>
                                                         Edit
                                                     </button>
-                                                    <button type="button" class="btn btn-outline-warning btn-sm">
+                                                    <button type="button" class="btn btn-outline-warning btn-sm" data-name="upload_file" data-item="{{ $value->id }}">
                                                         Upload
                                                     </button>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                                        data-name="delete" data-item="{{ $value->id }}"
-                                                        {{ $disabled_button }}>
+                                                    <button type="button" class="btn btn-outline-danger btn-sm" data-name="delete" data-item="{{ $value->id }}" {{ $disabled_button }}>
                                                         Delete
                                                     </button>
                                                 </td>
                                                 <td class="text-center">
-                                                    <button type="button" class="btn btn-outline-danger btn-sm">
-                                                        <i class="bi bi-filetype-pdf" style="font-size: 15px"></i>
-                                                    </button>
+                                                    @if($value->name_file == null)
+                                                        <a href="" class="btn btn-outline-danger btn-sm" target="_blank" disabled>
+                                                            <i class="bi bi-filetype-pdf" style="font-size: 15px"></i>
+                                                        </a>    
+                                                    @else
+                                                        <a href="{{asset('assets/file/'.$value->name_file)}}" class="btn btn-outline-danger btn-sm" target="_blank">
+                                                            <i class="bi bi-filetype-pdf" style="font-size: 15px"></i>
+                                                        </a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endif
@@ -184,6 +186,42 @@
         </div>
     </div>
     {{-- End Modal Edit --}}
+
+    {{-- Modal Upload File --}}
+    <div class="modal fade" id="modal_upload_file" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Upload File</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <div class="card-style">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Upload File</label>
+                                    <input type="file" class="form-control" id="add_file" placeholder="" data-name="file_name">
+                                    <input type="hidden" id="file_name" data-name="name_file">
+                                    <input type="hidden" data-name="id_surat">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row" id="fileInfo">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-name="save_file">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Upload File --}}
 
     {{-- JS Add Data --}}
     <script>
@@ -419,6 +457,141 @@
         });
     </script>
     {{-- End JS Delete Data --}}
+
+    {{-- JS Upload FIle --}}
+    <script>
+        $(document).on("click", "[data-name='upload_file']", function(e) {
+            var id = $(this).attr("data-item");
+            $("[data-name='file_name']").val('');
+            $("#file_name").val('');
+            $("[data-name='id_surat']").val(id);
+            $("#modal_upload_file").modal('show');
+        });
+
+        $(document).ready(function() {
+        // Handle change event of file input
+            $("[data-name='file_name']").change(function(e) {
+                // Get the files
+
+
+                var ext = $("#add_file").val().split('.').pop().toLowerCase();
+                // console.log(ext)
+                if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Format image failed!'
+                    })
+                } else {
+                    var uploadedFile = URL.createObjectURL(e.target.files[0]);
+                    var photo = e.target.files[0];
+                    var formData = new FormData();
+                    formData.append('add_file', photo);
+                    $.ajax({
+                        url: "{{ route('upload_surat') }}",
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(res) {
+                            // console.log(res);
+
+                            var files = e.target.files[0];
+
+                            // console.log(files);
+
+                            // Clear previous file information
+                            $('#fileInfo').html('');
+
+                            // Loop through the files and display information
+                            var html = '';
+
+                            var fileName = files.name;
+                            var fileSize = files.size;
+                            var fileSizeKB = fileSize/1024;
+
+                            html += '<div class="col-12 mb-3">';
+                            html += '<div class="card-preview-file">';
+                            html += '<button class="btn btn-remove" type="button" data-item="remove_file">';
+                            html += '<i class="bi bi-x-lg"></i>';
+                            html += '</button>';
+                            html += '<div class="card-info-file">';
+                            html += '<p>'+fileName+'</p>';
+                            html += '<p>'+fileSizeKB.toFixed(2)+' KB</p>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            // Display file information
+
+                            $('#file_name').val(res);
+                            $('#fileInfo').append(html);
+                        }
+                    })
+
+                }
+
+
+
+                
+            });
+        });
+
+        $(document).on("click", "[data-name='save_file']", function(e) {
+            var name_file   = $("[data-name='name_file']").val();
+            var table       = "trx_surat";
+            var whr         = "id";
+            var id          = $("[data-name='id_surat']").val();
+            var dats = {
+                name_file: name_file,
+            };
+
+            if (name_file === '') {
+                Swal.fire({
+                    position: 'center',
+                    title: 'Form is empty!',
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('actionedit') }}",
+                    data: {
+                        id: id,
+                        whr: whr,
+                        table: table,
+                        dats: dats
+                    },
+                    cache: false,
+                    success: function(data) {
+                        // console.log(data);
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Success!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then((data) => {
+                            location.reload();
+                        })
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Action Not Valid!',
+                            icon: 'warning',
+                            showConfirmButton: true,
+                            // timer: 1500
+                        }).then((data) => {
+                            // location.reload();
+                        })
+                    }
+                });
+            }
+        });
+    </script>
+    {{-- End JS Upload File --}}
 
     {{-- JS Datatable --}}
     <script>
