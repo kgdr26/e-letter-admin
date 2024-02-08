@@ -43,7 +43,7 @@
                                         @if ($value->update_by == $idn_user->id || $idn_user->role_id == 5 || $idn_user->role_id == 7)
                                             <tr>
                                                 <td>{{ $no++ }}</td>
-                                                <<td>{{ $value->is_active }}</td>
+                                                <td>st{{ $value->is_active }}</td>
                                                 <td>{{ $value->letter_admin }}</td>
                                                 <td>{{ $value->notes }}</td>
                                                 <td class="text-center">{{ $value->usr_role }}</td>
