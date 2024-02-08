@@ -46,14 +46,14 @@ class MainController extends Controller
                 ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
                 ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
                 ->whereIn('trx_surat.role_id', [6,7])
-                // ->where('trx_surat.is_active', 1)
+                ->where('trx_surat.is_active', 1)
                 ->orderBy('trx_surat.letter_admin', 'asc')->get();
         }else{
             $arr        = DB::table('trx_surat')->select('trx_surat.*', 'b.name as usr_name', 'c.name as usr_role', 'd.name as usr_to_dept')
                 ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
                 ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
                 ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
-                // ->where('trx_surat.is_active', 1)
+                ->where('trx_surat.is_active', 1)
                 ->orderBy('trx_surat.letter_admin', 'asc')->get();
         }
 
