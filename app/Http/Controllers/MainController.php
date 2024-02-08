@@ -173,7 +173,8 @@ class MainController extends Controller
         if ($request->hasFile('add_file')) {
             $fourRandomDigit = rand(10, 99999);
             $photo      = $request->file('add_file');
-            $fileName   = $fourRandomDigit . '.' . $photo->getClientOriginalExtension();
+            // $fileName   = $fourRandomDigit . '.' . $photo->getClientOriginalExtension();
+            $fileName      = $photo->getClientOriginalName();
 
             $path = public_path() . '/assets/file/';
 

@@ -475,8 +475,8 @@
 
 
                 var ext = $("#add_file").val().split('.').pop().toLowerCase();
-                // console.log(ext)
-                if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf']) == -1) {
+                // console.log(e.target.files[0])
+                if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg', 'pdf', 'xlsx', 'xls']) == -1) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
@@ -494,7 +494,7 @@
                         processData: false,
                         contentType: false,
                         success: function(res) {
-                            // console.log(res);
+                            console.log(res);
 
                             var files = e.target.files[0];
 
@@ -529,10 +529,6 @@
                     })
 
                 }
-
-
-
-                
             });
         });
 
