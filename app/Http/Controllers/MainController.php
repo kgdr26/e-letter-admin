@@ -40,15 +40,15 @@ class MainController extends Controller
     function inputsurat()
     {
         $idn_user   = idn_user(auth::user()->id);
-        if($idn_user->role_id == 7){
+        if ($idn_user->role_id == 7) {
             $arr        = DB::table('trx_surat')->select('trx_surat.*', 'b.name as usr_name', 'c.name as usr_role', 'd.name as usr_to_dept')
                 ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
                 ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
                 ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
-                ->whereIn('trx_surat.role_id', [6,7])
+                ->whereIn('trx_surat.role_id', [6, 7])
                 ->where('trx_surat.is_active', 1)
                 ->orderBy('trx_surat.letter_admin', 'asc')->get();
-        }else{
+        } else {
             $arr        = DB::table('trx_surat')->select('trx_surat.*', 'b.name as usr_name', 'c.name as usr_role', 'd.name as usr_to_dept')
                 ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
                 ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
@@ -171,7 +171,8 @@ class MainController extends Controller
     }
 
     // Upload Surat
-    function upload_surat(Request $request): object{
+    function upload_surat(Request $request): object
+    {
         if ($request->hasFile('add_file')) {
             $fourRandomDigit = rand(10, 99999);
             $photo      = $request->file('add_file');
@@ -357,11 +358,14 @@ class MainController extends Controller
     {
         $idn_user   = idn_user(auth::user()->id);
         $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
-            'title' => 'Peminjaman Asset',
+            'title' => 'Users',
             'arr'   => $arr,
-            'idn_user' => $idn_user
+            'idn_user' => $idn_user,
+            'role'  => $role
         );
+
         return view('Surat.peminjamanasset')->with($data);
     }
 }
