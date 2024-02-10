@@ -24,8 +24,13 @@ Route::post('login', [AuthController::class, 'login'])->name('login_post');
 Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
+    // Users
     Route::get('users', [MainController::class, 'users'])->name('users');
+
+    // Form Surat
     Route::get('inputsurat', [MainController::class, 'inputsurat'])->name('inputsurat');
+
+    // Asset Lending
     Route::get('peminjamanasset', [MainController::class, 'peminjamanasset'])->name('peminjamanasset');
 
 
@@ -41,4 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('actionadd', [MainController::class, 'actionadd'])->name('actionadd');
     Route::post('addform', [MainController::class, 'addform'])->name('addform');
     Route::post('actioneditform', [MainController::class, 'actioneditform'])->name('actioneditform');
+
+    // Asset Lending
+
 });
