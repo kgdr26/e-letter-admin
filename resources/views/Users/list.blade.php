@@ -81,6 +81,11 @@
                                         data-name="name">
                                 </div>
                                 <div class="mb-3">
+                                    <label for="" class="form-label">NPK</label>
+                                    <input type="text" class="form-control" id="" placeholder="NPK"
+                                        data-name="npk">
+                                </div>
+                                <div class="mb-3">
                                     <label for="" class="form-label">No TLP</label>
                                     <input type="text" class="form-control" id="" placeholder="No TLP"
                                         data-name="no_tlp">
@@ -155,6 +160,11 @@
                                     <input type="hidden" data-name="edit_id">
                                 </div>
                                 <div class="mb-3">
+                                    <label for="" class="form-label">NPK</label>
+                                    <input type="text" class="form-control" id="" placeholder="NPK"
+                                        data-name="edit_npk">
+                                </div>
+                                <div class="mb-3">
                                     <label for="" class="form-label">No TLP</label>
                                     <input type="text" class="form-control" id="" placeholder="No TLP"
                                         data-name="edit_no_tlp">
@@ -214,6 +224,7 @@
     <script>
         $(document).on("click", "[data-name='add']", function(e) {
             $("[data-name='name']").val('');
+            $("[data-name='npk']").val('');
             $("[data-name='no_tlp']").val('');
             $("[data-name='email']").val('');
             $("[data-name='username']").val('');
@@ -225,6 +236,7 @@
 
         $(document).on("click", "[data-name='save_add']", function(e) {
             var name = $("[data-name='name']").val();
+            var npk = $("[data-name='npk']").val();
             var no_tlp = $("[data-name='no_tlp']").val();
             var email = $("[data-name='email']").val();
             var username = $("[data-name='username']").val();
@@ -242,6 +254,7 @@
 
             var data = {
                 name: name,
+                npk: npk,
                 no_tlp: no_tlp,
                 email: email,
                 username: username,
@@ -350,6 +363,7 @@
                     // console.log(data['data']);
                     $("[data-name='edit_id']").val(data['data'].id);
                     $("[data-name='edit_name']").val(data['data'].name);
+                    $("[data-name='edit_npk']").val(data['data'].npk);
                     $("[data-name='edit_no_tlp']").val(data['data'].no_tlp);
                     $("[data-name='edit_email']").val(data['data'].email);
                     $("[data-name='edit_username']").val(data['data'].username);
@@ -377,6 +391,7 @@
 
         $(document).on("click", "[data-name='save_edit']", function(e) {
             var name = $("[data-name='edit_name']").val();
+            var npk = $("[data-name='edit_npk']").val();
             var no_tlp = $("[data-name='edit_no_tlp']").val();
             var email = $("[data-name='edit_email']").val();
             var username = $("[data-name='edit_username']").val();
@@ -394,6 +409,7 @@
             var id = $("[data-name='edit_id']").val();
             var dats = {
                 name: name,
+                npk: npk,
                 no_tlp: no_tlp,
                 email: email,
                 username: username,

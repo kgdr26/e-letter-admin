@@ -33,6 +33,14 @@ Route::middleware(['auth'])->group(function () {
     // Asset Lending
     Route::get('peminjamanasset', [MainController::class, 'peminjamanasset'])->name('peminjamanasset');
 
+    // Assets
+    Route::get('assetsdash', [MainController::class, 'assetsdash'])->name('assetsdash');
+    Route::get('assetscreate', [MainController::class, 'assetscreate'])->name('assetscreate');
+    Route::get('assetsdephed', [MainController::class, 'assetsdephed'])->name('assetsdephed');
+    Route::get('assetsfirst', [MainController::class, 'assetsfirst'])->name('assetsfirst');
+    Route::get('assetssecond', [MainController::class, 'assetssecond'])->name('assetssecond');
+    Route::get('assetsdirector', [MainController::class, 'assetsdirector'])->name('assetsdirector');
+    Route::get('assetsdata', [MainController::class, 'assetsdata'])->name('assetsdata');
 
     //Action
     Route::post('upload_profile', [MainController::class, 'upload_profile'])->name('upload_profile');

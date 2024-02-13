@@ -17,6 +17,7 @@
         <!-- Vendor CSS Files -->
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/daterangepicker/datepicker.css')}}" />
         <link rel="stylesheet" type="text/css" href="{{ asset('assets/daterangepicker/daterangepicker.css')}}" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
         <link rel="stylesheet" href="{{asset('assets/daterangepicker/datepicker.min.css')}}">
         <link href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
         <link href="{{ asset('assets/select2/select2.min.css') }}" rel="stylesheet">
@@ -33,6 +34,7 @@
         <script src="{{ asset ('assets/js/jquery.min.js')}}"></script>
         <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
         <script type="text/javascript" src="{{ asset('assets/daterangepicker/bootstrap-datepicker.js')}}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
         <script src="{{asset('assets/select2/select2.min.js')}}"></script>
         <script src="{{asset('assets/sweetalert2/sweetalert2.all.min.js')}}"></script>
         <script src="{{ asset ('assets/highchart/highcharts.js')}}"></script>

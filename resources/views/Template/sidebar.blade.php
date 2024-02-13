@@ -19,7 +19,7 @@
         @endif
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ route('peminjamanasset') }}">
+            <a class="nav-link collapsed" href="{{ route('assetsdash') }}">
                 <i class="bi bi-person-circle"></i>
                 <span>Asset Lending</span>
             </a>

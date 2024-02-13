@@ -249,6 +249,7 @@ class MainController extends Controller
                 'pass'      => $dt['password'],
                 'role_id'   => $dt['role_id'],
                 'name'      => $dt['name'],
+                'npk'      => $dt['npk'],
                 'email'     => $dt['email'],
                 'no_tlp'    => $dt['no_tlp'],
                 'foto'      => $dt['foto'],
@@ -277,6 +278,7 @@ class MainController extends Controller
                 'pass'      => $dt['password'],
                 'role_id'   => $dt['role_id'],
                 'name'      => $dt['name'],
+                'npk'      => $dt['npk'],
                 'email'     => $dt['email'],
                 'no_tlp'    => $dt['no_tlp'],
                 'foto'      => $dt['foto'],
@@ -348,7 +350,7 @@ class MainController extends Controller
         }
         $field  = $request['field'];
         $table  = $request['table'];
-        $arr    = DB::select("SELECT * FROM $table WHERE $field=$id AND is_active=1 ");
+        $arr    = DB::select("SELECT * FROM $table WHERE $field='$id' AND is_active=1 ");
         return response($arr);
     }
 
@@ -359,11 +361,134 @@ class MainController extends Controller
         $idn_user   = idn_user(auth::user()->id);
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $asset      = DB::select("SELECT name FROM mst_asset where is_active=1 GROUP BY name");
         $data = array(
             'title' => 'Users',
             'arr'   => $arr,
             'idn_user' => $idn_user,
-            'role'  => $role
+            'role'  => $role,
+            'asset' => $asset
+        );
+
+        return view('Surat.peminjamanasset')->with($data);
+    }
+
+    function assetsdash()
+    {
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $asset      = DB::select("SELECT name FROM mst_asset where is_active=1 GROUP BY name");
+        $data = array(
+            'title' => 'Users',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role'  => $role,
+            'asset' => $asset
+        );
+
+        return view('Surat.dashboard')->with($data);
+    }
+
+    function assetscreate()
+    {
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $asset      = DB::select("SELECT * FROM mst_asset where is_active=1");
+        $data = array(
+            'title' => 'Assets',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role'  => $role,
+            'asset' => $asset
+        );
+
+        return view('Surat.create')->with($data);
+    }
+
+    function assetsdephed()
+    {
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
+                        ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+                        ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->get();
+        $data = array(
+            'title' => 'Users',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role'  => $role,
+            'asset' => $asset
+        );
+
+        return view('Surat.dephed')->with($data);
+    }
+
+    function assetsfirst()
+    {
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $asset      = DB::select("SELECT name FROM mst_asset where is_active=1 GROUP BY name");
+        $data = array(
+            'title' => 'Users',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role'  => $role,
+            'asset' => $asset
+        );
+
+        return view('Surat.peminjamanasset')->with($data);
+    }
+
+    function assetssecond()
+    {
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $asset      = DB::select("SELECT name FROM mst_asset where is_active=1 GROUP BY name");
+        $data = array(
+            'title' => 'Users',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role'  => $role,
+            'asset' => $asset
+        );
+
+        return view('Surat.peminjamanasset')->with($data);
+    }
+
+    function assetsdirector()
+    {
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $asset      = DB::select("SELECT name FROM mst_asset where is_active=1 GROUP BY name");
+        $data = array(
+            'title' => 'Users',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role'  => $role,
+            'asset' => $asset
+        );
+
+        return view('Surat.peminjamanasset')->with($data);
+    }
+
+    function assetsdata()
+    {
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $asset      = DB::select("SELECT name FROM mst_asset where is_active=1 GROUP BY name");
+        $data = array(
+            'title' => 'Users',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role'  => $role,
+            'asset' => $asset
         );
 
         return view('Surat.peminjamanasset')->with($data);

@@ -40,6 +40,11 @@
                                 <input type="hidden" data-name="profile_edit_id">
                             </div>
                             <div class="mb-3">
+                                <label for="" class="form-label">NPK</label>
+                                <input type="text" class="form-control" id="" placeholder="NPK"
+                                    data-name="profile_edit_npk">
+                            </div>
+                            <div class="mb-3">
                                 <label for="" class="form-label">No TLP</label>
                                 <input type="text" class="form-control" id="" placeholder="No TLP"
                                     data-name="profile_edit_no_tlp">
@@ -114,6 +119,7 @@
                 // console.log(data['data']);
                 $("[data-name='profile_edit_id']").val(data['data'].id);
                 $("[data-name='profile_edit_name']").val(data['data'].name);
+                $("[data-name='profile_edit_npk']").val(data['data'].npk);
                 $("[data-name='profile_edit_no_tlp']").val(data['data'].no_tlp);
                 $("[data-name='profile_edit_email']").val(data['data'].email);
                 $("[data-name='profile_edit_username']").val(data['data'].username);
@@ -141,6 +147,7 @@
 
     $(document).on("click", "[data-name='save_edit_profile']", function(e) {
         var name = $("[data-name='profile_edit_name']").val();
+        var npk = $("[data-name='profile_edit_npk']").val();
         var no_tlp = $("[data-name='profile_edit_no_tlp']").val();
         var email = $("[data-name='profile_edit_email']").val();
         var username = $("[data-name='profile_edit_username']").val();
@@ -158,6 +165,7 @@
         var id = $("[data-name='profile_edit_id']").val();
         var dats = {
             name: name,
+            npk: npk,
             no_tlp: no_tlp,
             email: email,
             username: username,
