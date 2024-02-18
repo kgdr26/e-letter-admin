@@ -370,7 +370,7 @@ class MainController extends Controller
             'asset' => $asset
         );
 
-        return view('Surat.peminjamanasset')->with($data);
+        return view('Peminjaman.peminjamanasset')->with($data);
     }
 
     function assetsdash()
@@ -387,7 +387,7 @@ class MainController extends Controller
             'asset' => $asset
         );
 
-        return view('Surat.dashboard')->with($data);
+        return view('Peminjaman.dashboard')->with($data);
     }
 
     function assetscreate()
@@ -404,10 +404,90 @@ class MainController extends Controller
             'asset' => $asset
         );
 
-        return view('Surat.create')->with($data);
+        return view('Peminjaman.create')->with($data);
     }
 
     function assetsdephed()
+    {
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
+                        ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+                        ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
+                        ->where('trx_assets_landing.status', 1)->get();
+        $data = array(
+            'title' => 'Users',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role'  => $role,
+            'asset' => $asset
+        );
+
+        return view('Peminjaman.dephed')->with($data);
+    }
+
+    function assetsfirst()
+    {
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
+                        ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+                        ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
+                        ->where('trx_assets_landing.status', 2)->get();
+        $data = array(
+            'title' => 'Users',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role'  => $role,
+            'asset' => $asset
+        );
+
+        return view('Peminjaman.first')->with($data);
+    }
+
+    function assetssecond()
+    {
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
+                        ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+                        ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
+                        ->where('trx_assets_landing.status', 3)->get();
+        $data = array(
+            'title' => 'Users',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role'  => $role,
+            'asset' => $asset
+        );
+
+        return view('Peminjaman.second')->with($data);
+    }
+
+    function assetsdirector()
+    {
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
+                        ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+                        ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
+                        ->where('trx_assets_landing.status', 4)->get();
+        $data = array(
+            'title' => 'Users',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role'  => $role,
+            'asset' => $asset
+        );
+
+        return view('Peminjaman.director')->with($data);
+    }
+
+    function assetsdata()
     {
         $idn_user   = idn_user(auth::user()->id);
         $arr        = DB::select("SELECT * FROM users where is_active=1");
@@ -423,74 +503,23 @@ class MainController extends Controller
             'asset' => $asset
         );
 
-        return view('Surat.dephed')->with($data);
+        return view('Peminjaman.data')->with($data);
     }
 
-    function assetsfirst()
-    {
-        $idn_user   = idn_user(auth::user()->id);
-        $arr        = DB::select("SELECT * FROM users where is_active=1");
-        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
-        $asset      = DB::select("SELECT name FROM mst_asset where is_active=1 GROUP BY name");
-        $data = array(
-            'title' => 'Users',
-            'arr'   => $arr,
-            'idn_user' => $idn_user,
-            'role'  => $role,
-            'asset' => $asset
-        );
+    function assetscall(){
+        $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
+                    ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+                    ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->get();
+        $events = [];
+        foreach($asset AS $key => $val){
+            $events[] = [
+                'id' => $val->id,
+                'title' => $val->ast_name.' - '.$val->ast_no.' ('.$val->usr_name.')',
+                'start' => $val->date_start,
+                'end' => $val->date_end,
+            ];
+        }
 
-        return view('Surat.peminjamanasset')->with($data);
-    }
-
-    function assetssecond()
-    {
-        $idn_user   = idn_user(auth::user()->id);
-        $arr        = DB::select("SELECT * FROM users where is_active=1");
-        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
-        $asset      = DB::select("SELECT name FROM mst_asset where is_active=1 GROUP BY name");
-        $data = array(
-            'title' => 'Users',
-            'arr'   => $arr,
-            'idn_user' => $idn_user,
-            'role'  => $role,
-            'asset' => $asset
-        );
-
-        return view('Surat.peminjamanasset')->with($data);
-    }
-
-    function assetsdirector()
-    {
-        $idn_user   = idn_user(auth::user()->id);
-        $arr        = DB::select("SELECT * FROM users where is_active=1");
-        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
-        $asset      = DB::select("SELECT name FROM mst_asset where is_active=1 GROUP BY name");
-        $data = array(
-            'title' => 'Users',
-            'arr'   => $arr,
-            'idn_user' => $idn_user,
-            'role'  => $role,
-            'asset' => $asset
-        );
-
-        return view('Surat.peminjamanasset')->with($data);
-    }
-
-    function assetsdata()
-    {
-        $idn_user   = idn_user(auth::user()->id);
-        $arr        = DB::select("SELECT * FROM users where is_active=1");
-        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
-        $asset      = DB::select("SELECT name FROM mst_asset where is_active=1 GROUP BY name");
-        $data = array(
-            'title' => 'Users',
-            'arr'   => $arr,
-            'idn_user' => $idn_user,
-            'role'  => $role,
-            'asset' => $asset
-        );
-
-        return view('Surat.peminjamanasset')->with($data);
+        return response()->json($events);
     }
 }

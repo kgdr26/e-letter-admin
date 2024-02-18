@@ -45,6 +45,8 @@
         <link href="{{asset('assets/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
         <script src="{{asset('assets/datatables/jquery.dataTables.min.js')}}"></script>
         <script src="{{asset('assets/datatables/dataTables.bootstrap4.min.js')}}"></script>
+        <script src="{{ asset ('assets/js/index.global.min.js')}}"></script>
+        
         <script>
             $.ajaxSetup({
                 headers: {

@@ -21,29 +21,25 @@
                     </li>
 
                     <li class="nav-item">
-                        <a href="" class="nav-link">First Approved</a>
+                        <a href="{{route('assetsfirst')}}" class="nav-link">First Approved</a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="" class="nav-link">Second Approved</a>
+                        <a href="{{route('assetssecond')}}" class="nav-link">Second Approved</a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="" class="nav-link">Director Approve</a>
+                        <a href="{{route('assetsdirector')}}" class="nav-link">Director Approve</a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="" class="nav-link">Show Lending Asset</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="" class="nav-link">Data Asset</a>
+                        <a href="{{route('assetsdata')}}" class="nav-link">Show Lending Asset</a>
                     </li>
                 </ul>
 
                 <div class="tab-content pt-2 mt-3">
                     <div class="tab-pane fade show active" >
-                        <div class="row">
+                        <div class="row mb-3">
                             <!-- Card with an Borrowed -->
                             <div class="col-lg-2">
                                 <div class="card">
@@ -121,6 +117,16 @@
                             </div>
                             <!-- End Card with an Is Being Borrowed -->
                         </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div id="calendar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -128,5 +134,30 @@
         </div>
     </div>
 </section>
+
+{{-- Fullcalendar --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+    
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+            left: 'prev',
+            center: 'title',
+            right: 'next'
+            },
+            initialDate: new Date(),
+            navLinks: true, // can click day/week names to navigate views
+            businessHours: true, // display business hours
+            editable: true,
+            selectable: true,
+            events: 'assetscall'
+        });
+    
+        calendar.render();
+    });
+  
+</script>
+{{-- End Fullcalendar --}}
 
 @stop
