@@ -1,5 +1,5 @@
 /*
-SQLyog Community v13.2.0 (64 bit)
+SQLyog Community v13.1.9 (64 bit)
 MySQL - 10.11.4-MariaDB : Database - db_e_letter_admin
 *********************************************************************
 */
@@ -15,6 +15,28 @@ MySQL - 10.11.4-MariaDB : Database - db_e_letter_admin
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`db_e_letter_admin` /*!40100 DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci */;
 
 USE `db_e_letter_admin`;
+
+/*Table structure for table `mst_asset` */
+
+DROP TABLE IF EXISTS `mst_asset`;
+
+CREATE TABLE `mst_asset` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `no_assets` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `update_by` int(11) DEFAULT NULL,
+  `is_active` int(11) DEFAULT NULL,
+  `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+/*Data for the table `mst_asset` */
+
+insert  into `mst_asset`(`id`,`no_assets`,`name`,`status`,`update_by`,`is_active`,`last_update`) values 
+(1,'B 123 XYZ','Avanza Veloz',0,1,1,'2024-02-10 16:02:45'),
+(2,'B 321 XYZ','Avanza Veloz',0,1,1,'2024-02-10 16:02:49'),
+(3,'R 0001','Room Floor 1st',0,1,1,'2024-02-13 22:31:21');
 
 /*Table structure for table `mst_role` */
 
@@ -38,7 +60,34 @@ insert  into `mst_role`(`id`,`name`,`is_active`,`update_by`,`last_update`) value
 (4,'FINANCE',1,1,'2024-01-26 01:54:28'),
 (5,'SUPERADMIN',1,1,'2024-01-28 12:27:28'),
 (6,'MARKETING',1,1,'2024-01-31 02:06:21'),
-(7,'SP MARKETING',1,1,'2024-02-04 19:30:37');
+(7,'SP MARKETING',1,1,'2024-02-04 19:22:48');
+
+/*Table structure for table `trx_assets_landing` */
+
+DROP TABLE IF EXISTS `trx_assets_landing`;
+
+CREATE TABLE `trx_assets_landing` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) DEFAULT NULL,
+  `id_dephed` int(11) DEFAULT NULL,
+  `id_first` int(11) DEFAULT NULL,
+  `id_second` int(11) DEFAULT NULL,
+  `id_director` int(11) DEFAULT NULL,
+  `date_start` datetime DEFAULT NULL,
+  `date_end` datetime DEFAULT NULL,
+  `data_asset` int(11) DEFAULT NULL,
+  `necessity` text DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+/*Data for the table `trx_assets_landing` */
+
+insert  into `trx_assets_landing`(`id`,`id_user`,`id_dephed`,`id_first`,`id_second`,`id_director`,`date_start`,`date_end`,`data_asset`,`necessity`,`status`,`last_update`) values 
+(1,1,1,1,1,1,'2024-02-14 08:00:21','2024-02-14 23:15:34',1,'Tesss iput',5,'2024-02-18 10:44:20'),
+(2,1,NULL,NULL,NULL,NULL,'2024-02-15 09:00:39','2024-02-24 23:15:50',1,'tes',1,'2024-02-18 11:38:15'),
+(3,1,NULL,NULL,NULL,NULL,'2024-02-16 23:03:33','2024-02-17 23:03:36',1,'tessss',1,'2024-02-13 23:19:01');
 
 /*Table structure for table `trx_surat` */
 
@@ -62,45 +111,45 @@ CREATE TABLE `trx_surat` (
 /*Data for the table `trx_surat` */
 
 insert  into `trx_surat`(`id`,`letter_admin`,`notes`,`date_release`,`employe`,`to_dept`,`role_id`,`name_file`,`update_by`,`is_active`,`last_update`) values 
-(1,'001/ADDIR/I/2024','Surat Kiriman','2024-01-02',2,1,2,'49627.pdf',2,1,'2024-02-07 01:54:24'),
-(2,'002/ADDIR/I/2024','PPSK','2024-01-02',2,1,2,'',2,1,'2024-02-02 01:14:37'),
-(3,'003/ADDIR/I/2024','PPSK','2024-01-02',2,1,2,'',2,1,'2024-02-02 01:14:55'),
-(4,'004/ADDIR/I/2024','SKPK MR','2024-01-02',2,1,2,'',2,1,'2024-02-02 01:15:09'),
-(5,'005/ADDIR/I/2024','SKPK Security','2024-01-02',2,1,2,'',2,1,'2024-02-02 01:15:23'),
-(6,'006/ADDIR/I/2024','PKWT','2024-01-02',2,1,2,'',2,1,'2024-02-02 01:15:36'),
-(7,'007/ADDIR/I/2024','SKPKT','2024-01-02',2,1,2,'',2,1,'2024-02-02 01:16:12'),
-(8,'008/ADDIR/I/2024','ITAS EB','2024-01-02',2,1,2,'63218.pdf',2,1,'2024-02-06 08:30:59'),
-(9,'009/ADDIR/I/2024','PKWT','2024-01-02',2,1,2,'',2,1,'2024-02-02 01:16:48'),
-(10,'010/ADDIR/I/2024','SK Tunj','2024-01-17',2,1,2,'',2,1,'2024-02-02 01:17:15'),
-(11,'011/ADDIR/I/2024','SK Tunj','2024-01-17',2,1,2,'',2,1,'2024-02-02 01:17:48'),
-(12,'012/ADDIR/I/2024','SK Core Value','2024-01-22',2,1,2,'',2,1,'2024-02-02 01:18:29'),
-(13,'013/ADDIR/I/2024','SK Neop','2024-01-22',2,1,2,'',2,1,'2024-02-02 01:21:34'),
-(14,'014/ADDIR/I/2024','PKWT','2024-01-22',2,1,2,'',2,1,'2024-02-02 01:21:45'),
-(15,'015/ADDIR/I/2024','Payroll','2024-01-23',2,1,2,'',2,1,'2024-02-02 01:21:55'),
-(16,'001/HRGA/I/2024','Pengantar MCU SE','2024-01-04',7,2,2,'',7,1,'2024-02-02 01:27:40'),
-(17,'002/HRGA/I/2024','SK Magang Clerisela','2024-01-08',7,2,2,'',7,1,'2024-02-02 01:28:33'),
-(18,'003/HRGA/I/2024','SK Permohonan Pak Sapto','2024-01-11',7,2,2,'',7,1,'2024-02-02 01:29:01'),
-(19,'004/HRGA/I/2024','Pemberitahuan Tetangga (Simulasi)','2024-01-14',7,2,2,'',7,1,'2024-02-02 01:29:37'),
-(20,'005/HRGA/I/2024','Pemberitahuan Tetangga (Simulasi)','2024-01-14',7,2,2,'',7,1,'2024-02-02 01:29:48'),
-(21,'006/HRGA/I/2024','SK Erik','2024-01-25',7,2,2,'',7,1,'2024-02-02 01:30:05'),
-(22,'007/HRGA/I/2024','Pengantar MCU','2024-01-26',7,2,2,'',7,1,'2024-02-02 01:30:27'),
-(23,'008/HRGA/I/2024','Training','2024-01-29',7,2,2,'',7,1,'2024-02-02 01:31:34'),
-(24,'009/HRGA/I/2024','SK - Bangun Sutopo','2024-01-29',7,2,2,'',7,1,'2024-02-02 01:32:30'),
-(25,'010/HRGA/I/2024','SK Magang','2024-01-29',7,2,2,'',7,1,'2024-02-02 01:33:25'),
-(26,'011/HRGA/I/2024','SK - Mugi Pramono K3','2024-01-30',7,2,2,'',7,1,'2024-02-02 01:34:08'),
-(27,'001/ADADM/I/2024','Reiken','2024-01-02',5,3,3,'',5,1,'2024-02-02 03:28:56'),
-(28,'002/ADADM/I/2024','Pengembalian Dana','2024-01-04',5,3,3,'',5,1,'2024-02-02 03:30:16'),
-(29,'003/ADADM/I/2024','Surat Tagih Non PPH','2024-01-18',5,3,3,'',5,1,'2024-02-02 03:31:34'),
-(30,'004/ADADM/I/2024','Surat Permohonan Pengembalian','2024-01-24',5,3,3,'',5,1,'2024-02-02 03:33:11'),
-(31,'005/ADADM/I/2024','Surat Pernyataan Perbedaan','2024-01-30',5,3,3,'',5,1,'2024-02-02 03:33:49'),
-(32,'006/ADADM/I/2024','Surat Pernyataan Perbedaan','2024-01-31',5,3,3,'49552.pdf',5,1,'2024-02-06 04:48:57'),
-(33,'007/ADADM/II/2024','Surat Pernyataan Perbedaan','2024-02-02',5,3,3,'38102.pdf',5,1,'2024-02-06 08:03:11'),
-(34,'012/HRGA/II/2024','SK Magang','2024-02-01',7,2,2,'',7,1,'2024-02-02 03:34:49'),
-(35,'016/ADDIR/I/2024','PPSK','2024-01-23',2,1,2,'',2,1,'2024-02-02 03:36:08'),
-(36,'017/ADDIR/I/2024','PKWT','2024-01-31',2,1,2,'',2,1,'2024-02-02 03:36:23'),
-(37,'007/ADADM/II/2024','Surat Pernyataan Perbedaan Masa Invoice, Surat Jalan, dengan Faktur Pajak','2024-02-05',4,3,4,'Surat Keterangan Perbedaan Tanggal Invoice dan Faktur Pajak - CNC.pdf',4,1,'2024-02-08 21:02:54'),
-(38,'008/ADADM/II/2024','Surat Pernyataan Perbedaan Invoice & Faktur Pajak - Indonesia Tooling Technology','2024-02-05',4,3,4,'',4,1,'2024-02-08 21:03:02'),
-(39,'001/ADDMKT/II/2024','Surat Pemberitahuan Libur','2024-02-07',12,6,6,NULL,12,1,'2024-02-08 20:29:01');
+(1,'001/ADDIR/I/2024','Surat Kiriman','2024-01-01',2,1,2,'unta-di-depan-masjid.pdf',2,1,'2024-02-08 19:54:43'),
+(2,'002/ADDIR/I/2024','PPSK','2024-01-01',2,1,2,NULL,2,1,'2024-02-02 01:14:37'),
+(3,'003/ADDIR/I/2024','PPSK','2024-01-01',2,1,2,NULL,2,1,'2024-02-02 01:14:55'),
+(4,'004/ADDIR/I/2024','SKPK MR','2024-01-01',2,1,2,NULL,2,1,'2024-02-02 01:15:09'),
+(5,'005/ADDIR/I/2024','SKPK Security','2024-01-01',2,1,2,NULL,2,1,'2024-02-02 01:15:23'),
+(6,'006/ADDIR/I/2024','PKWT','2024-01-01',2,1,2,NULL,2,1,'2024-02-02 01:15:36'),
+(7,'007/ADDIR/I/2024','SKPKT','2024-01-01',2,1,2,NULL,2,1,'2024-02-02 01:16:12'),
+(8,'008/ADDIR/I/2024','ITAS EB','2024-01-01',2,1,2,NULL,2,1,'2024-02-02 01:16:25'),
+(9,'009/ADDIR/I/2024','PKWT','2024-01-01',2,1,2,NULL,2,1,'2024-02-02 01:16:48'),
+(10,'010/ADDIR/I/2024','SK Tunj','2024-01-16',2,1,2,NULL,2,1,'2024-02-02 01:17:15'),
+(11,'011/ADDIR/I/2024','SK Tunj','2024-01-16',2,1,2,NULL,2,1,'2024-02-02 01:17:48'),
+(12,'012/ADDIR/I/2024','SK Core Value','2024-01-21',2,1,2,NULL,2,1,'2024-02-02 01:18:29'),
+(13,'013/ADDIR/I/2024','SK Neop','2024-01-21',2,1,2,NULL,2,1,'2024-02-02 01:21:34'),
+(14,'014/ADDIR/I/2024','PKWT','2024-01-21',2,1,2,NULL,2,1,'2024-02-02 01:21:45'),
+(15,'015/ADDIR/I/2024','Payroll','2024-01-22',2,1,2,NULL,2,1,'2024-02-02 01:21:55'),
+(16,'001/HRGA/I/2024','Pengantar MCU SE','2024-01-03',7,2,2,NULL,7,1,'2024-02-02 01:27:40'),
+(17,'002/HRGA/I/2024','SK Magang Clerisela','2024-01-07',7,2,2,NULL,7,1,'2024-02-02 01:28:33'),
+(18,'003/HRGA/I/2024','SK Permohonan Pak Sapto','2024-01-10',7,2,2,NULL,7,1,'2024-02-02 01:29:01'),
+(19,'004/HRGA/I/2024','Pemberitahuan Tetangga (Simulasi)','2024-01-13',7,2,2,NULL,7,1,'2024-02-02 01:29:37'),
+(20,'005/HRGA/I/2024','Pemberitahuan Tetangga (Simulasi)','2024-01-13',7,2,2,NULL,7,1,'2024-02-02 01:29:48'),
+(21,'006/HRGA/I/2024','SK Erik','2024-01-24',7,2,2,NULL,7,1,'2024-02-02 01:30:05'),
+(22,'007/HRGA/I/2024','Pengantar MCU','2024-01-25',7,2,2,NULL,7,1,'2024-02-02 01:30:27'),
+(23,'008/HRGA/I/2024','Training','2024-01-28',7,2,2,NULL,7,1,'2024-02-02 01:31:34'),
+(24,'009/HRGA/I/2024','SK - Bangun Sutopo','2024-01-28',7,2,2,NULL,7,1,'2024-02-02 01:32:30'),
+(25,'010/HRGA/I/2024','SK Magang','2024-01-28',7,2,2,NULL,7,1,'2024-02-02 01:33:25'),
+(26,'011/HRGA/I/2024','SK - Mugi Pramono K3','2024-01-29',7,2,2,NULL,7,1,'2024-02-02 01:34:08'),
+(27,'001/ADADM/I/2024','Reiken','2024-01-01',5,3,3,'16843.pdf',5,1,'2024-02-06 09:53:14'),
+(28,'002/ADADM/I/2024','Pengembalian Dana','2024-01-03',5,3,3,NULL,5,1,'2024-02-02 03:30:16'),
+(29,'003/ADADM/I/2024','Surat Tagih Non PPH','2024-01-17',5,3,3,NULL,5,1,'2024-02-02 03:31:34'),
+(30,'004/ADADM/I/2024','Surat Permohonan Pengembalian','2024-01-23',5,3,3,NULL,5,1,'2024-02-02 03:33:11'),
+(31,'005/ADADM/I/2024','Surat Pernyataan Perbedaan','2024-01-29',5,3,3,NULL,5,1,'2024-02-02 03:33:49'),
+(32,'006/ADADM/I/2024','Surat Pernyataan Perbedaan','2024-01-30',5,3,3,NULL,5,1,'2024-02-02 03:33:39'),
+(33,'007/ADADM/II/2024','Surat Pernyataan Perbedaan','2024-02-01',5,3,3,NULL,5,1,'2024-02-02 03:33:59'),
+(34,'012/HRGA/II/2024','SK Magang','2024-01-31',7,2,2,NULL,7,1,'2024-02-02 03:34:49'),
+(35,'016/ADDIR/I/2024','PPSK','2024-01-22',2,1,2,NULL,2,1,'2024-02-02 03:36:08'),
+(36,'017/ADDIR/I/2024','PKWT','2024-01-30',2,1,2,NULL,2,1,'2024-02-02 03:36:23'),
+(37,'001/ADDMKT/III/2024','-','2024-03-13',8,6,7,NULL,8,1,'2024-02-04 19:39:09'),
+(38,'002/ADDMKT/II/2024','dedw','2024-02-08',8,6,7,NULL,8,1,'2024-02-04 19:45:52'),
+(39,'018/ADDIR/II/2024','dsdsd','2024-02-07',1,1,5,NULL,1,1,'2024-02-06 15:28:24');
 
 /*Table structure for table `users` */
 
@@ -113,6 +162,7 @@ CREATE TABLE `users` (
   `pass` varchar(255) DEFAULT NULL,
   `role_id` int(11) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
+  `npk` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `no_tlp` varchar(255) DEFAULT NULL,
   `foto` varchar(255) DEFAULT NULL,
@@ -121,42 +171,20 @@ CREATE TABLE `users` (
   `update_by` int(11) DEFAULT NULL,
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`username`,`password`,`pass`,`role_id`,`name`,`email`,`no_tlp`,`foto`,`status`,`is_active`,`update_by`,`last_update`) values 
-(1,'superadmin','$2y$12$WWTcjpyZ6klM0r4Duufr/u/J5noGURIj3QsutaVXExbUELLogaqcG','123',5,'Superadmin','-','-','74648.jpg',1,1,1,'2024-02-07 03:17:27'),
-(2,'jessica','$2y$12$UDGQXLiA9NtKCV1ETd4ume8.V6IHh2Tg4dPFghRv5MwpCID2abRCG','adasi',2,'Jessica','jessica@gmail.com','0888877772','default.jpg',0,1,1,'2024-02-07 14:53:45'),
-(3,'tes','$2y$12$ztOPiTcW3E6gwetVtzojseB1VaageRmAg9vVu5gUpy6f4MM050O1u','123456',3,'tes 123','tes@gmailo.com','88888','10569.png',0,0,1,'2024-01-25 12:12:03'),
-(4,'Richardus','$2y$12$39nAmxHJlPYiOOMd6cy28e6EsKZAodJxLiHNVozPRxsmYn5DWc6YO','123',4,'Richardus',NULL,NULL,'default.jpg',0,1,1,'2024-01-31 02:45:44'),
-(5,'Dinar','$2y$12$eq0ue0QZIKTXxsCdvrN/DeNUGt6cDU/Ph1UbgocVwFg00z9dtKiIe','123',3,'Dinar',NULL,NULL,'default.jpg',0,1,1,'2024-01-31 02:45:21'),
-(6,'Direktur','$2y$12$oK14uvPa/h6r.DGdcfYoo.ru3ux1uRmOLbuPCZSZAuBVkrqE9WoY2','123',1,'Direktur',NULL,NULL,'default.jpg',NULL,1,1,'2024-01-31 02:45:12'),
-(7,'Ulfa','$2y$12$ZxET1etoPSi8Hf1cAe3Ppuew40oaO.qKxsaQL8qbZPr50bd.Mc.wq','123',2,'Ulfa',NULL,NULL,'default.jpg',NULL,1,1,'2024-01-31 02:43:11'),
-(8,'Hardi','$2y$12$8Iv.ebZ6lR4a23N8UPVNMeZqaOsGWtZKxEe/N71WfSJ8mmz1ypZLS','123',7,'Hardi',NULL,NULL,'default.jpg',NULL,1,1,'2024-02-04 12:59:04'),
-(9,'Ridho','$2y$12$4dsjDbznrM4C.v.Z8LYEr.owJKCNZiOTea6rm6GsbVj3tyoSfzF3W','123',6,'Ridho',NULL,NULL,'default.jpg',NULL,1,1,'2024-02-04 12:18:56'),
-(10,'Ilham','$2y$12$WJO8XID7MR.QpGsGxWguZOQi58VQiWcdieG4OeAX9lUd9GLT7iVaa','123',6,'Ilham','-','-','default.jpg',NULL,1,1,'2024-02-05 01:17:06'),
-(11,'Hery','$2y$12$XRS169m9.BMyc8hyJIPwAuALg7.q5LQknguVwN70bKMfPBD6ccOSO','123',6,'Hery','-','-','default.jpg',NULL,1,1,'2024-02-05 01:18:23'),
-(12,'Herliana','$2y$12$fU12mzv.AtcVjNBWKb42OuyBjtOmmASF5lqciz3xx4vq3nOd/BeMa','123',6,'Herliana','-','-','default.jpg',NULL,1,1,'2024-02-05 01:19:12'),
-(13,'Claudia','$2y$12$inI0yf5V/pEthJQ5MBS6MO5tmP.QUYyeQ3e2rkre/3ha/43YRYWJG','123',6,'Claudia','-','-','default.jpg',NULL,1,1,'2024-02-05 01:26:08'),
-(14,'Putri','$2y$12$sHbYwkOhVI2Ufzxp20lMr.7P9ilb3u5OEkvq4NO5s5pyVu/6OSYIC','123',6,'Putri','-','-','default.jpg',NULL,1,1,'2024-02-05 01:26:41'),
-(15,'Erik','$2y$12$QbgUKDag20vZCcVgWiPXiO9QnSwfjzqqGXw51LrGcX9xIqSWK2Ue.','123',6,'Erik','-','-','default.jpg',NULL,1,1,'2024-02-05 01:33:11'),
-(16,'Hexapa','$2y$12$N/h/fuCxGpELA8Y8WwcOf.n9/MnnnOMvdOiJWzzZRL7/PhDrbb/di','123',6,'Hexapa','-','-','default.jpg',NULL,1,1,'2024-02-05 01:33:34'),
-(17,'Dania','$2y$12$o9G42PAdffdqdbnCifirG.AO.S.oxjWA3i.670n8UelkD/EDtFko2','123',6,'Dania','-','-','default.jpg',NULL,1,1,'2024-02-06 05:46:33'),
-(18,'Jun','$2y$12$a.GvVwcUG4lXoIX00N4WheAibdM2OScg8RtBf6tN4MgTeK8Sge8Gi','123',6,'Jun','-','-','default.jpg',NULL,1,1,'2024-02-06 05:46:50'),
-(19,'Wulyo','$2y$12$WdhI8y7DUllXO3PLmCTEyu6HwmDzb3dTJUzrL166ujdQmeawnnzbq','123',6,'Wulyo','-','-','default.jpg',NULL,1,1,'2024-02-06 05:47:12'),
-(20,'Sendi','$2y$12$q5zNNafpuzwdqreQ/X6e9uAsH860kLql6X0R4BJ6xsaL1Cid6Xyy6','123',6,'Sendi','-','-','default.jpg',NULL,1,1,'2024-02-06 05:47:32'),
-(21,'Welem','$2y$12$KijH2iRzIlFBDlNcK8uWm.icZ2H0Hpy.yVMz0lq2223JNP.FIuO0O','123',6,'Welem','-','-','default.jpg',NULL,1,1,'2024-02-06 05:47:52'),
-(22,'Totok','$2y$12$bZcNA6KorE4jcKRUfKyM3uRVbobOBCAkO5Cw1GdPtGW1/I2vFnILe','123',7,'Totok','-','-','default.jpg',NULL,1,1,'2024-02-06 05:48:17'),
-(23,'Dwi','$2y$12$OivzGDWlENcws2UJuxZuC.gMAaRzYjgV/WrLYh/lUzbaC5EaS07sm','123',6,'Dwi','-','-','default.jpg',NULL,1,1,'2024-02-06 05:48:31'),
-(24,'Risfan','$2y$12$hWMOiZTNsD.sxs7bwfMs5u4zyOBd/PDhu4HZ/esK3U1nxkkTUHYZu','123',6,'Risfan','-','-','default.jpg',NULL,1,1,'2024-02-06 05:48:53'),
-(25,'Harry','$2y$12$YdqaKjbanQv8riUfKu432useuIwHKwBjWyYnkQ/tLKtqgPP4n4cue','123',6,'Harry','-','-','35088.jpg',NULL,1,1,'2024-02-07 03:17:45'),
-(26,'Lina','$2y$12$OJ8kwvfypGKCrdrC8LEfkO3JZJjiTUu1E6XDUEySb7z6GbVIKDN7a','123',6,'Lina','-','-','default.jpg',NULL,1,1,'2024-02-06 05:49:25'),
-(27,'Cahyo','$2y$12$M1yQPhrRS7E5e4aSmmlIKeViHL6EuZt/DREi9Xy1VlwlUBioyrk1q','123',4,'Cahyo','-','-','default.jpg',NULL,1,1,'2024-02-06 05:52:00'),
-(28,'Adhi','$2y$12$aSkI8F4B/ROuHA1oWrHFGOWhR/eM2Pu3bZv1xHhR9OkIz58KkBGqK','123',4,'Adhi','-','-','default.jpg',NULL,1,1,'2024-02-06 05:52:19'),
-(29,'Sarah','$2y$12$GrPySfDuTb5Say4UhP.oj.3J16D7qTd8QOik/3EBsQwhy3Xl9tJN.','123',6,'Sarah','-','-','default.jpg',NULL,1,1,'2024-02-08 20:33:45'),
-(30,'Sony','$2y$12$qUTwwKPvi2vWiCbuvUr8nOF/OrupY4oupLMMjjppsbE4Ltwu0NBHq','123',6,'Sony','-','-','default.jpg',NULL,1,1,'2024-02-08 20:34:44'),
-(31,'Dimas','$2y$12$vGb7M6CNt22Mk/ulV3Wc7.B.UwrUWxqh5BpLrxRCvmNqUuGW8kvV6','123',6,'Dimas','-','-','default.jpg',NULL,1,1,'2024-02-08 20:35:02');
+insert  into `users`(`id`,`username`,`password`,`pass`,`role_id`,`name`,`npk`,`email`,`no_tlp`,`foto`,`status`,`is_active`,`update_by`,`last_update`) values 
+(1,'superadmin','$2y$12$FnK4ACd8SljPJlusUlAIsOQtatwq1GcXBaB91Gon3FwYplQwcM286','123',5,'Superadmin','1123456','-','-','19737.jpg',1,1,1,'2024-02-10 15:20:08'),
+(2,'jessica','$2y$12$acttIZrFxuspedt6zEru4uhYHCkMPme/2jGzoaJSlfA8U0rsoJmcO','123',2,'Jessica',NULL,'jessica@gmail.com','0888877772','default.jpg',0,1,1,'2024-01-26 01:12:39'),
+(3,'tes','$2y$12$ztOPiTcW3E6gwetVtzojseB1VaageRmAg9vVu5gUpy6f4MM050O1u','123456',3,'tes 123',NULL,'tes@gmailo.com','88888','10569.png',0,0,1,'2024-01-25 19:12:03'),
+(4,'Richardus','$2y$12$39nAmxHJlPYiOOMd6cy28e6EsKZAodJxLiHNVozPRxsmYn5DWc6YO','123',4,'Richardus',NULL,NULL,NULL,'default.jpg',0,1,1,'2024-01-31 09:45:44'),
+(5,'Dinar','$2y$12$eq0ue0QZIKTXxsCdvrN/DeNUGt6cDU/Ph1UbgocVwFg00z9dtKiIe','123',3,'Dinar',NULL,NULL,NULL,'default.jpg',0,1,1,'2024-01-31 09:45:21'),
+(6,'Direktur','$2y$12$oK14uvPa/h6r.DGdcfYoo.ru3ux1uRmOLbuPCZSZAuBVkrqE9WoY2','123',1,'Direktur',NULL,NULL,NULL,'default.jpg',NULL,1,1,'2024-01-31 09:45:12'),
+(7,'Ulfa','$2y$12$ZxET1etoPSi8Hf1cAe3Ppuew40oaO.qKxsaQL8qbZPr50bd.Mc.wq','123',2,'Ulfa',NULL,NULL,NULL,'default.jpg',NULL,1,1,'2024-01-31 09:43:11'),
+(8,'Hardi','$2y$12$PNbx2VHdxRbxoouZUPSL5e5v0gbFY2o.QXIf5F6/KobXY2aBe541C','123',7,'Hardi',NULL,'-','0812','45964.jpg',NULL,1,1,'2024-02-04 20:16:12'),
+(9,'Ridho','$2y$12$4dsjDbznrM4C.v.Z8LYEr.owJKCNZiOTea6rm6GsbVj3tyoSfzF3W','123',6,'Ridho',NULL,NULL,NULL,'default.jpg',NULL,1,1,'2024-02-04 19:18:56');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
