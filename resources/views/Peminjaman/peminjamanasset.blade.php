@@ -33,13 +33,12 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="secondapprove-tab" data-bs-toggle="tab"
                                 data-bs-target="#secondapprove" type="button" role="tab" aria-controls="contact"
-                                aria-selected="false">Second
-                                Approved</button>
+                                aria-selected="false">Security</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
-                                type="button" role="tab" aria-controls="contact" aria-selected="false">Director
-                                Approve</button>
+                                type="button" role="tab" aria-controls="contact"
+                                aria-selected="false">Returned</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
@@ -51,15 +50,14 @@
                                 type="button" role="tab" aria-controls="contact" aria-selected="false">
                                 Data Asset</button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        {{-- <li class="nav-item" role="presentation">
                             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
                                 type="button" role="tab" aria-controls="contact" aria-selected="false">
                                 Settings</button>
-                        </li>
+                        </li> --}}
                     </ul>
                     <div class="tab-content pt-2 mt-3" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel"
-                            aria-labelledby="home-tab">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="row">
                                 <!-- Card with an Borrowed -->
                                 <div class="col-lg-2">

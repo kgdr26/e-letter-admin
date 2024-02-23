@@ -363,7 +363,7 @@ class MainController extends Controller
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $asset      = DB::select("SELECT name FROM mst_asset where is_active=1 GROUP BY name");
         $data = array(
-            'title' => 'Users',
+            'title' => 'Lending Assets',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role,
@@ -380,7 +380,7 @@ class MainController extends Controller
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $asset      = DB::select("SELECT name FROM mst_asset where is_active=1 GROUP BY name");
         $data = array(
-            'title' => 'Users',
+            'title' => 'Dashboard',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role,
@@ -397,7 +397,7 @@ class MainController extends Controller
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $asset      = DB::select("SELECT * FROM mst_asset where is_active=1");
         $data = array(
-            'title' => 'Assets',
+            'title' => 'Create Form',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role,
@@ -413,11 +413,11 @@ class MainController extends Controller
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
-                        ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
-                        ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
-                        ->where('trx_assets_landing.status', 1)->get();
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+            ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
+            ->where('trx_assets_landing.status', 1)->get();
         $data = array(
-            'title' => 'Users',
+            'title' => 'DepHead Approve',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role,
@@ -433,11 +433,11 @@ class MainController extends Controller
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
-                        ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
-                        ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
-                        ->where('trx_assets_landing.status', 2)->get();
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+            ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
+            ->where('trx_assets_landing.status', 2)->get();
         $data = array(
-            'title' => 'Users',
+            'title' => 'HRGA Approve',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role,
@@ -453,11 +453,11 @@ class MainController extends Controller
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
-                        ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
-                        ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
-                        ->where('trx_assets_landing.status', 3)->get();
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+            ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
+            ->where('trx_assets_landing.status', 3)->get();
         $data = array(
-            'title' => 'Users',
+            'title' => 'Security',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role,
@@ -473,11 +473,11 @@ class MainController extends Controller
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
-                        ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
-                        ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
-                        ->where('trx_assets_landing.status', 4)->get();
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+            ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
+            ->where('trx_assets_landing.status', 4)->get();
         $data = array(
-            'title' => 'Users',
+            'title' => 'Returned',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role,
@@ -493,10 +493,10 @@ class MainController extends Controller
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
-                        ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
-                        ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->get();
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+            ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->get();
         $data = array(
-            'title' => 'Users',
+            'title' => 'Show Lending Assets',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role,
@@ -506,15 +506,16 @@ class MainController extends Controller
         return view('Peminjaman.data')->with($data);
     }
 
-    function assetscall(){
+    function assetscall()
+    {
         $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
-                    ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
-                    ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->get();
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+            ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->get();
         $events = [];
-        foreach($asset AS $key => $val){
+        foreach ($asset as $key => $val) {
             $events[] = [
                 'id' => $val->id,
-                'title' => $val->ast_name.' - '.$val->ast_no.' ('.$val->usr_name.')',
+                'title' => $val->ast_name . ' - ' . $val->ast_no . ' (' . $val->usr_name . ')',
                 'start' => $val->date_start,
                 'end' => $val->date_end,
             ];
