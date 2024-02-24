@@ -29,14 +29,14 @@
                             </li>
 
                             <li class="nav-item" role="presentation">
-                                <a href="{{ route('assetsdirector') }}" class="nav-link active">Returned</a>
+                                <a href="{{ route('assetsdirector') }}" class="nav-link">Returned</a>
                             </li>
                         @endif
                         <li class="nav-item" role="presentation">
                             <a href="{{ route('assetsdata') }}" class="nav-link">Show Lending Asset</a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('dataasset') }}" class="nav-link">Data Asset</a>
+                            <a href="{{ route('dataasset') }}" class="nav-link active">Data Asset</a>
                         </li>
                     </ul>
 
@@ -47,12 +47,13 @@
                                     <thead>
                                         <tr class="text-center">
                                             <th>No</th>
-                                            <th>User Create</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
-                                            <th>Assets</th>
-                                            <th>Necessity</th>
-                                            <th class="text-center">Action</th>
+                                            <th>Name Assets</th>
+                                            <th>No Police</th>
+                                            <th>Merk/Type</th>
+                                            <th>Year</th>
+                                            <th>Locations</th>
+                                            <th>Category</th>
+                                            <th>Ownership</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -60,18 +61,20 @@
                                             $no = 1;
                                         @endphp
                                         @foreach ($asset as $key => $value)
-                                            <tr>
+                                            <tr class="text-center">
                                                 <td>{{ $no++ }}</td>
-                                                <td>{{ $value->usr_name }}</td>
-                                                <td>{{ $value->date_start }}</td>
-                                                <td>{{ $value->date_end }}</td>
-                                                <td>{{ $value->ast_name }} - {{ $value->ast_no }}</td>
-                                                <td>{{ $value->necessity }}</td>
+                                                <td>{{ $value->name }}</td>
+                                                <td>{{ $value->no_assets }}</td>
+                                                <td>{{ $value->merk }}</td>
+                                                <td>{{ $value->tahun }}</td>
+                                                <td>{{ $value->lokasi }}</td>
+                                                <td>{{ $value->kategori }}</td>
+                                                <td>{{ $value->kepemilikan }}</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-name="approve"
-                                                        data-item="{{ $value->id }}">
-                                                        Returned
-                                                    </button>
+                                                    {{-- <button type="button" class="btn btn-success btn-sm"
+                                                        data-name="approve" data-item="{{ $value->id }}">
+                                                        Approve HRGA
+                                                    </button> --}}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -89,17 +92,17 @@
     <script>
         $(document).on("click", "[data-name='approve']", function(e) {
             var id = $(this).attr("data-item");
-            var id_director = "{!! $idn_user->id !!}";
-            var status = 5;
+            var id_first = "{!! $idn_user->id !!}";
+            var status = 3;
 
             var table = "trx_assets_landing";
             var whr = "id";
             var dats = {
-                id_director: id_director,
+                id_first: id_first,
                 status: status
             };
 
-            if (id === '' || id_director === '') {
+            if (id === '' || id_first === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Form is empty!',

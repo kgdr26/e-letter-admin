@@ -43,8 +43,8 @@ insert  into `mst_asset`(`id`,`no_assets`,`name`,`merk`,`tahun`,`status`,`lokasi
 (2,'B 1231 FYV','F600RV-GMDF33','Xenia','2009',0,'Deltamas','Mobil','ADASI',1,1,'2024-02-22 16:11:27'),
 (3,'B 1161 FLT','Fortuner 2.5 G M/T','Fortuner','2015',0,'Delta Silicon 8','Mobil','ADASI',1,1,'2024-02-22 11:17:49'),
 (4,'B 1187 FYY','S4Q1RV-ZMDEJJ HJ','Grandmax','2013',0,'Delta Silicon 8','Mobil','ADASI',1,1,'2024-02-22 16:11:31'),
-(5,'Room Meeting 1st','Room Meeting 1st','RM-1st',NULL,0,NULL,NULL,NULL,1,1,'2024-02-22 11:25:49'),
-(6,'Room Meeting 2st','Room Meeting 2st','RM-2st',NULL,0,NULL,NULL,NULL,1,1,'2024-02-22 11:25:58');
+(5,'Room Meeting 1st','Room Meeting 1st','RM-1st',NULL,0,NULL,'Ruangan',NULL,1,1,'2024-02-24 13:43:28'),
+(6,'Room Meeting 2st','Room Meeting 2st','RM-2st',NULL,0,NULL,'Ruangan',NULL,1,1,'2024-02-24 13:43:33');
 
 /*Table structure for table `mst_role` */
 

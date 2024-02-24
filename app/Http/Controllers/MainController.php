@@ -506,6 +506,27 @@ class MainController extends Controller
         return view('Peminjaman.data')->with($data);
     }
 
+    function dataasset()
+    {
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $asset       = DB::select("SELECT * FROM mst_asset where is_active=1");
+        // $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
+        //     ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+        //     ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
+        //     ->where('trx_assets_landing.status', 2)->get();
+        $data = array(
+            'title' => 'Show Data Assets',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role' => $role,
+            'asset'  => $asset
+        );
+
+        return view('Peminjaman.dataasset')->with($data);
+    }
+
     function assetscall()
     {
         $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')

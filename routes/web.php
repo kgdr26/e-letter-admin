@@ -42,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('assetssecond', [MainController::class, 'assetssecond'])->name('assetssecond');
     Route::get('assetsdirector', [MainController::class, 'assetsdirector'])->name('assetsdirector');
     Route::get('assetsdata', [MainController::class, 'assetsdata'])->name('assetsdata');
+    Route::get('dataasset', [MainController::class, 'dataasset'])->name('dataasset');
 
 
     //Action

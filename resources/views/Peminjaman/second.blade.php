@@ -9,7 +9,7 @@
 
                     <ul class="nav nav-tabs">
                         <li class="nav-item" role="presentation">
-                            <a href="{{ route('assetsdash') }}" class="nav-link">Dahboard</a>
+                            <a href="{{ route('assetsdash') }}" class="nav-link">Dashboard</a>
                         </li>
 
                         <li class="nav-item" role="presentation">
@@ -36,7 +36,7 @@
                             <a href="{{ route('assetsdata') }}" class="nav-link">Show Lending Asset</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Data Asset</a>
+                            <a href="{{ route('dataasset') }}" class="nav-link">Data Asset</a>
                         </li>
                     </ul>
 
