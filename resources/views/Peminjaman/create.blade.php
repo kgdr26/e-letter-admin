@@ -77,9 +77,22 @@
                                         <div class="col-12">
                                             <div class="row mb-3">
                                                 <div class="col-12">
-                                                    <label for="inputAsset" class="form-label">Assets Name</label>
-                                                    <select id="inputAsset" class="form-select select2"
-                                                        data-name="data_asset">
+                                                    <label for="" class="form-label">Type</label>
+                                                    <select id="" class="form-select select2" data-name="data_type">
+                                                        <option>Choose...</option>
+                                                        @foreach ($type as $k => $v)
+                                                            <option value="{{ $v->kategori }}">{{ $v->kategori }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="row mb-3">
+                                                <div class="col-12">
+                                                    <label for="" class="form-label">Assets Name</label>
+                                                    <select id="" class="form-select select2" data-name="data_asset">
                                                         <option>Choose...</option>
                                                         @foreach ($asset as $k => $v)
                                                             <option value="{{ $v->id }}">{{ $v->merk }} -
@@ -92,7 +105,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-12 mb-3">
+                                        <div class="col-12 mb-3"
                                             <label for="inputNecessity" class="form-label">Necessity</label>
                                             <textarea name="" id="" cols="30" rows="5" class="form-control" data-name="necessity"></textarea>
                                         </div>

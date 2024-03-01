@@ -35,7 +35,6 @@
         <script src="{{asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
         <script type="text/javascript" src="{{ asset('assets/daterangepicker/bootstrap-datepicker.js')}}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
-        <script src="{{asset('assets/select2/select2.min.js')}}"></script>
         <script src="{{asset('assets/sweetalert2/sweetalert2.all.min.js')}}"></script>
         <script src="{{ asset ('assets/highchart/highcharts.js')}}"></script>
 
@@ -46,6 +45,7 @@
         <script src="{{asset('assets/datatables/jquery.dataTables.min.js')}}"></script>
         <script src="{{asset('assets/datatables/dataTables.bootstrap4.min.js')}}"></script>
         <script src="{{ asset ('assets/js/index.global.min.js')}}"></script>
+        <script src="{{asset('assets/select2/select2.min.js')}}"></script>
         
         <script>
             $.ajaxSetup({

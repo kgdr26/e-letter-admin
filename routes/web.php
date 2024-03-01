@@ -43,7 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('assetsdirector', [MainController::class, 'assetsdirector'])->name('assetsdirector');
     Route::get('assetsdata', [MainController::class, 'assetsdata'])->name('assetsdata');
     Route::get('dataasset', [MainController::class, 'dataasset'])->name('dataasset');
-
+    Route::get('scurity', [MainController::class, 'scurity'])->name('scurity');
 
     //Action
     Route::post('upload_profile', [MainController::class, 'upload_profile'])->name('upload_profile');
@@ -57,6 +57,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('actionadd', [MainController::class, 'actionadd'])->name('actionadd');
     Route::post('addform', [MainController::class, 'addform'])->name('addform');
     Route::post('actioneditform', [MainController::class, 'actioneditform'])->name('actioneditform');
+    Route::post('detaildataassets', [MainController::class, 'detaildataassets'])->name('detaildataassets');
+    
+
+    
 
     // Asset Lending
 
