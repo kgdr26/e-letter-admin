@@ -16,7 +16,12 @@ class AuthController extends Controller
     public function ShowFormLogin()
     {
         if (Auth::check()) {
-            return redirect()->route('inputsurat');
+            // return redirect()->route('inputsurat');
+            if(auth::user()->role_id == 8){
+                return redirect()->route('scurity');
+            }else{
+                return redirect()->route('inputsurat');
+            } 
         }
         return view('login');
     }
@@ -48,7 +53,11 @@ class AuthController extends Controller
         Auth::attempt($data);
 
         if (Auth::check()) { // true sekalian session field di users nanti bisa dipanggil via Auth
-            return redirect()->route('inputsurat');
+            if(auth::user()->role_id == 8){
+                return redirect()->route('scurity');
+            }else{
+                return redirect()->route('inputsurat');
+            }            
         } else {
             //Login Fail
             Session::flash('error', 'Username atau Password salah');

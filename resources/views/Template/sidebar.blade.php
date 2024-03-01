@@ -2,12 +2,17 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ route('inputsurat') }}">
-                <i class="bi bi-person-circle"></i>
-                <span>Input Surat</span>
-            </a>
-        </li>
+        @if($idn_user->role_id == 8)
+
+        @else
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('inputsurat') }}">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Input Surat</span>
+                </a>
+            </li>    
+        @endif
+        
 
         @if ($idn_user->id == 1)
             <li class="nav-item">
@@ -18,12 +23,16 @@
             </li>
         @endif
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ route('assetsdash') }}">
-                <i class="bi bi-person-circle"></i>
-                <span>Asset Lending</span>
-            </a>
-        </li>
+        @if($idn_user->role_id == 8)
+
+        @else
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('assetsdash') }}">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Asset Lending</span>
+                </a>
+            </li>
+        @endif
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('scurity') }}">
