@@ -24,14 +24,6 @@
                             <li class="nav-item">
                                 <a href="{{ route('assetsfirst') }}" class="nav-link">HRGA Approved</a>
                             </li>
-
-                            <li class="nav-item">
-                                <a href="{{ route('assetssecond') }}" class="nav-link">Security</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="{{ route('assetsdirector') }}" class="nav-link">Returned</a>
-                            </li>
                         @endif
                         <li class="nav-item">
                             <a href="{{ route('assetsdata') }}" class="nav-link">Show Lending Asset</a>

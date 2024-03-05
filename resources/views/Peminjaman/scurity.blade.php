@@ -64,6 +64,7 @@
                 </div>
                 <div class="card-footer">
                     <button type="button" class="btn btn-success" data-name="approve">Approve</button>
+                    <button type="button" class="btn btn-success" data-name="returned" style="display: none">Returned</button>
                 </div>
             </div>
         </div>
@@ -102,6 +103,14 @@
                     $("[data-name='val_ast_tahun']").text(': '+data['data'].ast_tahun);
                     $("[data-name='val_ast_lokasi']").text(': '+data['data'].ast_lokasi);
                     $("[data-name='val_ast_kepemilikan']").text(': '+data['data'].ast_kepemilikan);
+                    
+                    if(data['data'].status == 4){
+                        $("[data-name='approve']").hide();
+                        $("[data-name='returned']").show();
+                    }else{
+                        $("[data-name='approve']").show();
+                        $("[data-name='returned']").hide();
+                    }
                 }
             },
             error: function(data) {
@@ -181,5 +190,65 @@
     });
 </script>
 {{-- End Approve Assets --}}
+
+<script>
+    $(document).on("click", "[data-name='returned']", function(e) {
+        var id          = $("[data-name='val_id']").val();
+        var id_director = "{!! $idn_user->id !!}";
+        var status = 5;
+
+        var table = "trx_assets_landing";
+        var whr = "id";
+        var dats = {
+            id_director: id_director,
+            status: status
+        };
+
+        if (id === '' || id_director === '') {
+            Swal.fire({
+                position: 'center',
+                title: 'Form is empty!',
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 1000
+            })
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "{{ route('actionedit') }}",
+                data: {
+                    id: id,
+                    whr: whr,
+                    table: table,
+                    dats: dats
+                },
+                cache: false,
+                success: function(data) {
+                    // console.log(data);
+                    Swal.fire({
+                        position: 'center',
+                        title: 'Success!',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then((data) => {
+                        location.reload();
+                    })
+                },
+                error: function(data) {
+                    Swal.fire({
+                        position: 'center',
+                        title: 'Action Not Valid!',
+                        icon: 'warning',
+                        showConfirmButton: true,
+                        // timer: 1500
+                    }).then((data) => {
+                        // location.reload();
+                    })
+                }
+            });
+        }
+    });
+</script>
 
 @stop
