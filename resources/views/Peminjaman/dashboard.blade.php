@@ -30,7 +30,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="" class="nav-link">Data Asset</a>
+                            <a href="{{ route('dataasset') }}" class="nav-link">Data Asset</a>
                         </li>
                     </ul>
 
