@@ -44,6 +44,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('assetsdata', [MainController::class, 'assetsdata'])->name('assetsdata');
     Route::get('dataasset', [MainController::class, 'dataasset'])->name('dataasset');
     Route::get('scurity', [MainController::class, 'scurity'])->name('scurity');
+    Route::get('assetscheck', [MainController::class, 'assetscheck'])->name('assetscheck');
+    Route::get('assetchecksheetcall', [MainController::class, 'assetchecksheetcall'])->name('assetchecksheetcall');
+    
 
     //Action
     Route::post('upload_profile', [MainController::class, 'upload_profile'])->name('upload_profile');

@@ -42,6 +42,13 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('assetscheck') }}">
+                <i class="bi bi-person-circle"></i>
+                <span>Asset Checksheet</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('logout') }}">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Logout</span>

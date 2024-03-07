@@ -575,4 +575,47 @@ class MainController extends Controller
                         ->where('trx_assets_landing.date_start', 'LIKE', '%' . $date . '%')->first();
         return response($arr);
     }
+
+    function assetscheck(Request $request): object{
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $assets     = DB::table('mst_asset')->where('kategori', 'Mobil')->where('is_active', 1)->get();
+
+        $data = array(
+            'title'     => 'Checksheet Assets',
+            'arr'       => $arr,
+            'idn_user'  => $idn_user,
+            'role'      => $role,
+            'assets'    => $assets
+        );
+
+        return view('Checksheet.list')->with($data);
+    }
+
+    function assetchecksheetcall(){
+        $asset      = DB::table('trx_chceksheet_asset')->select('trx_chceksheet_asset.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_chceksheet_asset.id_user')
+            ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_chceksheet_asset.id_asset')->get();
+        $events = [];
+        foreach ($asset as $key => $val) {
+            if($val->type == 1){
+                $color  = '#59B4C3';
+                $ket    = "Perpanjang Pajak";
+            }else{
+                $color = '#74E291';
+                $ket    = "Service";
+            }
+            $events[] = [
+                'id'    => $val->id,
+                'title' => $val->ast_name . ' - ' . $val->ast_no . ' (' . $ket . ')',
+                'start' => $val->tanggal,
+                'end'   => $val->tanggal,
+                'color' => $color
+            ];
+        }
+
+        return response()->json($events);
+    }
+    
 }
