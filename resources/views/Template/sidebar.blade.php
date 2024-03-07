@@ -2,17 +2,16 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
 
-        @if($idn_user->role_id == 8)
-
+        @if ($idn_user->role_id == 8)
         @else
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('inputsurat') }}">
                     <i class="bi bi-person-circle"></i>
                     <span>Input Surat</span>
                 </a>
-            </li>    
+            </li>
         @endif
-        
+
 
         @if ($idn_user->id == 1)
             <li class="nav-item">
@@ -23,8 +22,7 @@
             </li>
         @endif
 
-        @if($idn_user->role_id == 8)
-
+        @if ($idn_user->role_id == 8)
         @else
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('assetsdash') }}">
@@ -37,7 +35,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('scurity') }}">
                 <i class="bi bi-person-circle"></i>
-                <span>Scurity</span>
+                <span>Security</span>
             </a>
         </li>
 
