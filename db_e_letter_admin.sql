@@ -1,5 +1,5 @@
 /*
-SQLyog Community v13.2.0 (64 bit)
+SQLyog Community v13.1.9 (64 bit)
 MySQL - 10.11.4-MariaDB : Database - db_e_letter_admin
 *********************************************************************
 */
@@ -57,7 +57,7 @@ CREATE TABLE `mst_role` (
   `update_by` int(11) DEFAULT NULL,
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 /*Data for the table `mst_role` */
 
@@ -68,7 +68,8 @@ insert  into `mst_role`(`id`,`name`,`is_active`,`update_by`,`last_update`) value
 (4,'FINANCE',1,1,'2024-01-26 01:54:28'),
 (5,'SUPERADMIN',1,1,'2024-01-28 12:27:28'),
 (6,'MARKETING',1,1,'2024-01-31 02:06:21'),
-(7,'SP MARKETING',1,1,'2024-02-04 19:30:37');
+(7,'SP MARKETING',1,1,'2024-02-04 19:30:37'),
+(8,'SCURITY',1,1,'2024-02-29 11:27:33');
 
 /*Table structure for table `trx_assets_landing` */
 
@@ -88,7 +89,7 @@ CREATE TABLE `trx_assets_landing` (
   `status` int(11) DEFAULT NULL,
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 /*Data for the table `trx_assets_landing` */
 
@@ -98,7 +99,29 @@ insert  into `trx_assets_landing`(`id`,`id_user`,`id_dephed`,`id_first`,`id_seco
 (3,1,1,1,1,1,'2024-02-21 14:00:57','2024-02-21 14:01:00',3,'Meeting with Pol',5,'2024-02-21 14:54:42'),
 (4,1,1,NULL,NULL,NULL,'2024-02-21 14:08:34','2024-02-21 14:08:36',2,'Visited to EDC',2,'2024-02-21 14:10:02'),
 (5,1,1,1,1,1,'2024-02-24 14:45:51','2024-02-24 14:45:53',1,'Seminar',5,'2024-02-21 14:49:14'),
-(6,1,NULL,NULL,NULL,NULL,'2024-02-06 14:54:55','2024-02-09 14:54:57',1,'Sosialisasi Sekolah',1,'2024-02-21 14:55:12');
+(6,1,NULL,NULL,1,NULL,'2024-03-01 14:54:55','2024-03-10 14:54:57',1,'Sosialisasi Sekolah',4,'2024-03-01 09:33:04'),
+(7,1,1,1,1,1,'2024-03-05 08:58:13','2024-03-05 08:58:20',1,'tessss',4,'2024-03-05 10:46:10');
+
+/*Table structure for table `trx_chceksheet_asset` */
+
+DROP TABLE IF EXISTS `trx_chceksheet_asset`;
+
+CREATE TABLE `trx_chceksheet_asset` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) DEFAULT NULL,
+  `id_asset` int(11) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `tanggal` date DEFAULT NULL,
+  `keterangan` mediumtext DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+/*Data for the table `trx_chceksheet_asset` */
+
+insert  into `trx_chceksheet_asset`(`id`,`id_user`,`id_asset`,`type`,`tanggal`,`keterangan`) values 
+(1,1,1,1,'2024-03-20',NULL),
+(2,1,2,2,'2024-03-20','Tesssss'),
+(3,1,3,1,'2024-03-29',NULL);
 
 /*Table structure for table `trx_surat` */
 
@@ -182,7 +205,7 @@ CREATE TABLE `users` (
   `update_by` int(11) DEFAULT NULL,
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 /*Data for the table `users` */
 
@@ -217,7 +240,8 @@ insert  into `users`(`id`,`username`,`password`,`pass`,`role_id`,`name`,`npk`,`e
 (28,'Adhi','$2y$12$aSkI8F4B/ROuHA1oWrHFGOWhR/eM2Pu3bZv1xHhR9OkIz58KkBGqK','123',4,'Adhi',NULL,'-','-','default.jpg',NULL,1,1,'2024-02-06 05:52:19'),
 (29,'Sarah','$2y$12$GrPySfDuTb5Say4UhP.oj.3J16D7qTd8QOik/3EBsQwhy3Xl9tJN.','123',6,'Sarah',NULL,'-','-','default.jpg',NULL,1,1,'2024-02-08 20:33:45'),
 (30,'Sony','$2y$12$qUTwwKPvi2vWiCbuvUr8nOF/OrupY4oupLMMjjppsbE4Ltwu0NBHq','123',6,'Sony',NULL,'-','-','default.jpg',NULL,1,1,'2024-02-08 20:34:44'),
-(31,'Dimas','$2y$12$vGb7M6CNt22Mk/ulV3Wc7.B.UwrUWxqh5BpLrxRCvmNqUuGW8kvV6','123',6,'Dimas',NULL,'-','-','default.jpg',NULL,1,1,'2024-02-08 20:35:02');
+(31,'Dimas','$2y$12$vGb7M6CNt22Mk/ulV3Wc7.B.UwrUWxqh5BpLrxRCvmNqUuGW8kvV6','123',6,'Dimas',NULL,'-','-','default.jpg',NULL,1,1,'2024-02-08 20:35:02'),
+(32,'scurity','$2y$12$mdUvzV.ofxf4mHuwj5apBOOj1A3v5m/MGXkdjiE54yVrJtn4io6MK','123',8,'Scurity',NULL,'-','-','default.jpg',NULL,1,1,'2024-02-29 11:29:35');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
