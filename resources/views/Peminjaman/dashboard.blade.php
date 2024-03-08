@@ -44,7 +44,7 @@
                                         <div class="card-body text-center">
                                             <h5 class="card-title">Available</h5>
                                             <hr>
-                                            <button type="button" class="btn btn-info" data-name="add">5</button>
+                                            <button type="button" class="btn btn-info" data-name="add">-</button>
                                         </div>
                                     </div>
                                 </div>
@@ -57,7 +57,7 @@
                                         <div class="card-body text-center">
                                             <h5 class="card-title">Already Booked</h5>
                                             <hr>
-                                            <button type="button" class="btn btn-info" data-name="add">5</button>
+                                            <button type="button" class="btn btn-info" data-name="add">{{count($dataapphrga)}}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -70,7 +70,7 @@
                                         <div class="card-body text-center">
                                             <h5 class="card-title">Currently Borrowed</h5>
                                             <hr>
-                                            <button type="button" class="btn btn-info" data-name="add">5</button>
+                                            <button type="button" class="btn btn-info" data-name="add">{{count($dataappscurity)}}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@
                                         <div class="card-body text-center">
                                             <h5 class="card-title">Returned</h5>
                                             <hr>
-                                            <button type="button" class="btn btn-info" data-name="add">5</button>
+                                            <button type="button" class="btn btn-info" data-name="add">{{count($dataappbalik)}}</button>
                                         </div>
                                     </div>
                                 </div>

@@ -379,12 +379,29 @@ class MainController extends Controller
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $asset      = DB::select("SELECT name FROM mst_asset where is_active=1 GROUP BY name");
+        $datatersedia   = '';
+        $dataapphrga    = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+            ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
+            ->where('trx_assets_landing.status', 2)->get();
+        $dataappscurity = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+            ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
+            ->where('trx_assets_landing.status', 4)->get();
+        $dataappbalik   = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+            ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
+            ->where('trx_assets_landing.status', 5)->get();
+
         $data = array(
             'title' => 'Dashboard',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role,
-            'asset' => $asset
+            'asset' => $asset,
+            'dataapphrga'       => $dataapphrga,
+            'dataappscurity'    => $dataappscurity,
+            'dataappbalik'      => $dataappbalik
         );
 
         return view('Peminjaman.dashboard')->with($data);
@@ -418,6 +435,7 @@ class MainController extends Controller
             ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
             ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
             ->where('trx_assets_landing.status', 1)->get();
+
         $data = array(
             'title' => 'DepHead Approve',
             'arr'   => $arr,
