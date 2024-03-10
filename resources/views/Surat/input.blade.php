@@ -14,7 +14,7 @@
                         <div class="d-flex justify-content-between">
                             <span>List Form</span>
 
-                            <button type="button" class="btn btn-success" data-name="add">ADD FORM</button>
+                            <button type="button" class="btn btn-success" data-name="add">Create</button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -66,23 +66,30 @@
                                                             $disabled_button = 'disabled';
                                                         @endphp
                                                     @endif
-                                                    <button type="button" class="btn btn-outline-info btn-sm" data-name="edit" data-item="{{ $value->id }}" {{ $disabled_button }}>
+                                                    <button type="button" class="btn btn-outline-info btn-sm"
+                                                        data-name="edit" data-item="{{ $value->id }}"
+                                                        {{ $disabled_button }}>
                                                         Edit
                                                     </button>
-                                                    <button type="button" class="btn btn-outline-warning btn-sm" data-name="upload_file" data-item="{{ $value->id }}">
+                                                    <button type="button" class="btn btn-outline-warning btn-sm"
+                                                        data-name="upload_file" data-item="{{ $value->id }}">
                                                         Upload
                                                     </button>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm" data-name="delete" data-item="{{ $value->id }}" {{ $disabled_button }}>
+                                                    <button type="button" class="btn btn-outline-danger btn-sm"
+                                                        data-name="delete" data-item="{{ $value->id }}"
+                                                        {{ $disabled_button }}>
                                                         Delete
                                                     </button>
                                                 </td>
                                                 <td class="text-center">
-                                                    @if($value->name_file == null)
-                                                        <a href="" class="btn btn-outline-danger btn-sm" target="_blank" disabled>
+                                                    @if ($value->name_file == null)
+                                                        <a href="" class="btn btn-outline-danger btn-sm"
+                                                            target="_blank" disabled>
                                                             <i class="bi bi-filetype-pdf" style="font-size: 15px"></i>
-                                                        </a>    
+                                                        </a>
                                                     @else
-                                                        <a href="{{asset('assets/file/'.$value->name_file)}}" class="btn btn-outline-danger btn-sm" target="_blank">
+                                                        <a href="{{ asset('assets/file/' . $value->name_file) }}"
+                                                            class="btn btn-outline-danger btn-sm" target="_blank">
                                                             <i class="bi bi-filetype-pdf" style="font-size: 15px"></i>
                                                         </a>
                                                     @endif
@@ -105,22 +112,22 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Form</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="card-style">
                         <div class="mb-3">
-                            <label for="" class="form-label">Tanggal</label>
+                            <label for="" class="form-label">Date</label>
                             <input type="text" class="form-control" id="" placeholder=""
                                 data-name="date_release">
                         </div>
                         <div class="mb-3">
-                            <label for="" class="form-label">Keterangan</label>
+                            <label for="" class="form-label">Noted/Remark</label>
                             <textarea name="" id="" cols="30" rows="10" class="form-control" data-name="notes"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="" class="form-label">Tujuan Dept</label>
+                            <label for="" class="form-label">Dept. Purpose</label>
                             <select name="" id="" class="form-select select2-add" data-name="to_dept">
                                 <option value="">-- Select Dept --</option>
                                 @foreach ($role as $kr => $vr)
@@ -147,24 +154,24 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Form</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Update Form</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="card-style">
                         <div class="mb-3">
-                            <label for="" class="form-label">Tanggal</label>
+                            <label for="" class="form-label">Update Date</label>
                             <input type="text" class="form-control" id="" placeholder=""
                                 data-name="edit_date_release" readonly>
                             <input type="hidden" data-name="edit_id">
                             <input type="hidden" data-name="edit_letter_admin">
                         </div>
                         <div class="mb-3">
-                            <label for="" class="form-label">Keterangan</label>
+                            <label for="" class="form-label">Update Note/Remark</label>
                             <textarea name="" id="" cols="30" rows="10" class="form-control" data-name="edit_notes"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="" class="form-label">Tujuan Dept</label>
+                            <label for="" class="form-label">Update Dept. Purpose</label>
                             {{-- <input type="text" class="form-control" id="" data-name="edit_to_dept"> --}}
                             <select name="" id="" class="form-select select2-edit"
                                 data-name="edit_to_dept">
@@ -190,7 +197,8 @@
     {{-- End Modal Edit --}}
 
     {{-- Modal Upload File --}}
-    <div class="modal fade" id="modal_upload_file" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal_upload_file" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -203,7 +211,8 @@
                             <div class="card-style">
                                 <div class="mb-3">
                                     <label for="" class="form-label">Upload File</label>
-                                    <input type="file" class="form-control" id="add_file" placeholder="" data-name="file_name">
+                                    <input type="file" class="form-control" id="add_file" placeholder=""
+                                        data-name="file_name">
                                     <input type="hidden" id="file_name" data-name="name_file">
                                     <input type="hidden" data-name="id_surat">
                                 </div>
@@ -471,7 +480,7 @@
         });
 
         $(document).ready(function() {
-        // Handle change event of file input
+            // Handle change event of file input
             $("[data-name='file_name']").change(function(e) {
                 // Get the files
 
@@ -510,16 +519,17 @@
 
                             var fileName = files.name;
                             var fileSize = files.size;
-                            var fileSizeKB = fileSize/1024;
+                            var fileSizeKB = fileSize / 1024;
 
                             html += '<div class="col-12 mb-3">';
                             html += '<div class="card-preview-file">';
-                            html += '<button class="btn btn-remove" type="button" data-item="remove_file">';
+                            html +=
+                                '<button class="btn btn-remove" type="button" data-item="remove_file">';
                             html += '<i class="bi bi-x-lg"></i>';
                             html += '</button>';
                             html += '<div class="card-info-file">';
-                            html += '<p>'+fileName+'</p>';
-                            html += '<p>'+fileSizeKB.toFixed(2)+' KB</p>';
+                            html += '<p>' + fileName + '</p>';
+                            html += '<p>' + fileSizeKB.toFixed(2) + ' KB</p>';
                             html += '</div>';
                             html += '</div>';
                             html += '</div>';
@@ -535,10 +545,10 @@
         });
 
         $(document).on("click", "[data-name='save_file']", function(e) {
-            var name_file   = $("[data-name='name_file']").val();
-            var table       = "trx_surat";
-            var whr         = "id";
-            var id          = $("[data-name='id_surat']").val();
+            var name_file = $("[data-name='name_file']").val();
+            var table = "trx_surat";
+            var whr = "id";
+            var id = $("[data-name='id_surat']").val();
             var dats = {
                 name_file: name_file,
             };

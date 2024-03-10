@@ -59,7 +59,7 @@ class MainController extends Controller
 
         $role        = DB::select("SELECT * FROM mst_role where id NOT IN (7) AND is_active=1");
         $data = array(
-            'title' => 'Add Form',
+            'title' => 'Adm. Letter',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role
@@ -565,7 +565,8 @@ class MainController extends Controller
         return response()->json($events);
     }
 
-    function scurity(){
+    function scurity()
+    {
         $idn_user   = idn_user(auth::user()->id);
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
@@ -573,28 +574,30 @@ class MainController extends Controller
             ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
             ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->get();
         $data = array(
-            'title'     => 'Scurity',
+            'title'     => 'Security',
             'arr'       => $arr,
             'idn_user'  => $idn_user,
             'role'      => $role,
             'asset'     => $asset
         );
 
-        return view('Peminjaman.scurity')->with($data);
+        return view('Peminjaman.second')->with($data);
     }
 
-    function detaildataassets(Request $request): object{
+    function detaildataassets(Request $request): object
+    {
         $no_assets  = $request['no_assets'];
         $date       = date('Y-m-d');
         $arr['data']    = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no', 'c.merk as ast_merk', 'c.tahun as ast_tahun', 'c.lokasi as ast_lokasi', 'c.kepemilikan as ast_kepemilikan')
-                        ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
-                        ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
-                        ->where('c.no_assets', $no_assets)
-                        ->where('trx_assets_landing.date_start', 'LIKE', '%' . $date . '%')->first();
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+            ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
+            ->where('c.no_assets', $no_assets)
+            ->where('trx_assets_landing.date_start', 'LIKE', '%' . $date . '%')->first();
         return response($arr);
     }
 
-    function assetscheck(Request $request): object{
+    function assetscheck(Request $request): object
+    {
         $idn_user   = idn_user(auth::user()->id);
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
@@ -611,16 +614,17 @@ class MainController extends Controller
         return view('Checksheet.list')->with($data);
     }
 
-    function assetchecksheetcall(){
+    function assetchecksheetcall()
+    {
         $asset      = DB::table('trx_chceksheet_asset')->select('trx_chceksheet_asset.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
             ->leftJoin('users AS b', 'b.id', '=', 'trx_chceksheet_asset.id_user')
             ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_chceksheet_asset.id_asset')->get();
         $events = [];
         foreach ($asset as $key => $val) {
-            if($val->type == 1){
+            if ($val->type == 1) {
                 $color  = '#59B4C3';
                 $ket    = "Perpanjang Pajak";
-            }else{
+            } else {
                 $color = '#74E291';
                 $ket    = "Service";
             }
