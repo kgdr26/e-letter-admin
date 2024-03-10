@@ -2,7 +2,12 @@
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="" class="logo d-flex align-items-center">
-            <span class="d-none d-lg-block">e-Book Administration</span>
+            <img src="{{ asset('assets/img/LogoStar_1.png') }}" alt="">
+            {{-- class="d-none d-lg-block" --}}
+            <span class="d-none d-lg-block fs-6 ps-3">Digital <br>Administration System
+            </span>
+            <br>
+            {{-- <small>Digital Administration System</small> --}}
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>

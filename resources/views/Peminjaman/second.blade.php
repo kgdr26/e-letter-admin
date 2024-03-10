@@ -12,9 +12,10 @@
                             <a href="{{ route('assetsdash') }}" class="nav-link">Dashboard</a>
                         </li>
 
-                        <li class="nav-item" role="presentation">
+                        {{-- <li class="nav-item" role="presentation">
                             <a href="{{ route('assetscreate') }}" class="nav-link">Create Form</a>
-                        </li>
+                        </li> --}}
+
                         @if ($idn_user->id == 1)
                             <li class="nav-item" role="presentation">
                                 <a href="{{ route('assetsdephed') }}" class="nav-link">DepHead Approved</a>
@@ -31,13 +32,16 @@
                             <li class="nav-item" role="presentation">
                                 <a href="{{ route('assetsdirector') }}" class="nav-link">Returned</a>
                             </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('dataasset') }}" class="nav-link">Data Asset</a>
+                            </li>
                         @endif
+
                         <li class="nav-item" role="presentation">
                             <a href="{{ route('assetsdata') }}" class="nav-link">Show Lending Asset</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route('dataasset') }}" class="nav-link">Data Asset</a>
-                        </li>
+
                     </ul>
 
                     <div class="tab-content pt-2 mt-3">
