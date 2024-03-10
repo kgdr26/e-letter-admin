@@ -46,6 +46,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('scurity', [MainController::class, 'scurity'])->name('scurity');
     Route::get('assetscheck', [MainController::class, 'assetscheck'])->name('assetscheck');
     Route::get('assetchecksheetcall', [MainController::class, 'assetchecksheetcall'])->name('assetchecksheetcall');
+
+    // Document
+    Route::get('document', [MainController::class, 'document'])->name('document');
     
 
     //Action

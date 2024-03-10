@@ -12,6 +12,12 @@
             </li>
         @endif
 
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('document') }}">
+                <i class="bi bi-person-circle"></i>
+                <span>Document</span>
+            </a>
+        </li>
 
         @if ($idn_user->id == 1)
             <li class="nav-item">

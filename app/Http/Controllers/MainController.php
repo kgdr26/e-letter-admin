@@ -635,5 +635,19 @@ class MainController extends Controller
 
         return response()->json($events);
     }
+
+    function document(){
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM trx_folder where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $data = array(
+            'title' => 'Document',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role'  => $role
+        );
+
+        return view('Document.folder')->with($data);
+    }
     
 }
