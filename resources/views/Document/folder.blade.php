@@ -22,7 +22,7 @@
         
         @foreach($arr as $key => $v)
             <div class="col-xxl-4 col-md-6">
-                <a href="#" data-name="add">
+                <a href="{{route('detaildocument',['id_folder'=>$v->id])}}" data-name="">
                     <div class="card info-card sales-card">
 
                         <div class="filter">

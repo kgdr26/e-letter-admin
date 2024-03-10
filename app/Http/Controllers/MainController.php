@@ -653,5 +653,22 @@ class MainController extends Controller
 
         return view('Document.folder')->with($data);
     }
+
+    function detaildocument(Request $request){
+
+        $id_folder   = $request['id_folder'];
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::table('trx_file')->where('id_folder', $id_folder)->where('is_active', 1)->get();
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $data = array(
+            'title' => 'Detail Documen',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role'  => $role
+        );
+
+        return view('Document.folder')->with($data);
+
+    }
     
 }

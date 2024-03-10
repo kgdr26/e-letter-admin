@@ -49,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Document
     Route::get('document', [MainController::class, 'document'])->name('document');
+    Route::get('detaildocument', [MainController::class, 'detaildocument'])->name('detaildocument');
     
 
     //Action
