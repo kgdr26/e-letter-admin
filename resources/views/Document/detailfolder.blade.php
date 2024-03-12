@@ -4,57 +4,55 @@
 <section class="section dashboard">
     <div class="row">
 
-        <div class="col-xxl-2 col-md-6">
-            <a href="#" data-name="add">
-                <div class="card info-card revenue-card">
-                    <div class="card-body">
-                        <h5 class="card-title">ADD FilE</h5>
-    
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-folder-plus"></i>
-                            </div>
-                        </div>
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <span>List File</span>
+
+                        <button type="button" class="btn btn-success" data-name="add">Add File</button>
                     </div>
                 </div>
-            </a>
-        </div>
-        
-        @foreach($arr as $key => $v)
-            <div class="col-xxl-4 col-md-6">
-                <a href="{{route('detaildocument',['id_folder'=>$v->id])}}" data-name="">
-                    <div class="card info-card sales-card">
-
-                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <li class="dropdown-header text-start">
-                                    <h6>Action</h6>
-                                </li>
-            
-                                <li><a class="dropdown-item" href="#">Edit</a></li>
-                                <li><a class="dropdown-item" href="#">Delete</a></li>
-                            </ul>
-                        </div>
-        
-                        <div class="card-body">
-                            <h5 class="card-title">Folder Name <span>| {{$v->folder_name}}</span></h5>
-            
-                            <div class="d-flex align-items-center">
-                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-file-earmark-check"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                    <h6>145</h6>
-                                    <span class="text-muted small pt-2 ps-1">Files</span>
-                                </div>
-                            </div>
-                        </div>
-        
+                <div class="card-body">
+                    <div class="table-responsive mt-3">
+                        <table class="table" id="dataTable">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>No</th>
+                                    <th>File Name</th>
+                                    <th>Ukuran File</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $no = 1;
+                                @endphp
+                                @foreach ($arr as $key => $value)
+                                    <tr>
+                                        <td>{{ $no++ }}</td>
+                                        <td>{{ $value->file_name }}</td>
+                                        <td>{{ $value->ukuran }}.Kb</td>
+                                        
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-outline-info btn-sm" data-name="edit" data-item="{{ $value->id }}">
+                                                Edit
+                                            </button>
+                                            <button type="button" class="btn btn-outline-warning btn-sm" data-name="show" data-item="{{ $value->file_name }}">
+                                                Show
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger btn-sm" data-name="delete" data-item="{{ $value->id }}">
+                                                Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                </a>
+                </div>
             </div>
-        @endforeach
+        </div>
 
     </div>
 </section>
@@ -64,14 +62,27 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Add Folder</h5>
+                <h5 class="modal-title">Add File</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
+
+                    <div class="col-12 mb-3">
+                        <div class="card-style">
+                            <div class="mb-3">
+                                <label for="" class="form-label">Upload File</label>
+                                <input type="file" class="form-control" id="add_file" placeholder="" data-name="file_name">
+                                <input type="hidden" id="file_name" data-name="name_file">
+                                <input type="hidden" data-name="ukuran">
+                                <input type="hidden" data-name="id_folder" value="{{$id_folder}}">
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-12">
-                        <label for="" class="form-label">Folder Name</label>
-                        <input type="text" class="form-control" id="" data-name="folder_name">
+                        <div class="row" id="fileInfo">
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -84,26 +95,89 @@
 </div>
 {{-- End Modal Add --}}
 
+{{-- Modal Edit --}}
+<div class="modal fade" id="modal_edit" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit File</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-12 mb-3">
+                        <div class="card-style">
+                            <div class="mb-3">
+                                <label for="" class="form-label">Upload File</label>
+                                <input type="file" class="form-control" id="edit_file" placeholder="" data-name="edit_file_name">
+                                <input type="hidden" id="edit_file_name" data-name="edit_name_file">
+                                <input type="hidden" data-name="edit_ukuran">
+                                <input type="hidden" data-name="edit_id">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row" id="fileInfoedit">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-name="save_edit">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- End Modal Edit --}}
+
+{{-- Modal Show --}}
+<div class="modal fade" id="modal_show" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Show File</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <embed id="show_file" type="application/pdf" src="" style="width: 100%;height: 80vh;"></embed>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-name="">Download File</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- End Modal Show --}}
+
 {{-- JS Add Data --}}
 <script>
     $(document).on("click", "[data-name='add']", function (e) {
-        $("[data-name='folder_name']").val('');
+        $("[data-name='file_name']").val('');
+        $("[data-name='ukuran']").val('');
         $("#modal_add").modal('show');
     });
 
     $(document).on("click", "[data-name='save_add']", function (e) {
-        var folder_name = $("[data-name='folder_name']").val();
+        var file_name = $("[data-name='name_file']").val();
+        var ukuran = $("[data-name='ukuran']").val();
+        var id_folder = $("[data-name='id_folder']").val();
         var is_active   = 1;
         var update_by   = "{!! $idn_user->id !!}";
-        var table       = "trx_folder";
+        var table       = "trx_file";
 
         var data = {
-                folder_name:folder_name,
+                file_name:file_name,
+                ukuran:ukuran,
+                id_folder:id_folder,
                 is_active: is_active,
                 update_by: update_by
             };
 
-        if (folder_name === '') {
+        if (file_name === '') {
             Swal.fire({
                 position:'center',
                 title: 'Form is empty!',
@@ -145,7 +219,287 @@
         }
 
     });
+
+    $(document).ready(function() {
+        // Handle change event of file input
+        $("[data-name='file_name']").change(function(e) {
+            // Get the files
+
+
+            var ext = $("#add_file").val().split('.').pop().toLowerCase();
+            // console.log(e.target.files[0])
+            if ($.inArray(ext, ['pdf']) == -1) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Format image failed!'
+                })
+            } else {
+                var uploadedFile = URL.createObjectURL(e.target.files[0]);
+                var photo = e.target.files[0];
+                var formData = new FormData();
+                formData.append('add_file', photo);
+                $.ajax({
+                    url: "{{ route('upload_surat') }}",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(res) {
+                        console.log(res);
+
+                        var files = e.target.files[0];
+
+                        // console.log(files);
+
+                        // Clear previous file information
+                        $('#fileInfo').html('');
+
+                        // Loop through the files and display information
+                        var html = '';
+
+                        var fileName = files.name;
+                        var fileSize = files.size;
+                        var fileSizeKB = fileSize / 1024;
+
+                        html += '<div class="col-12 mb-3">';
+                        html += '<div class="card-preview-file">';
+                        html +=
+                            '<button class="btn btn-remove" type="button" data-item="remove_file">';
+                        html += '<i class="bi bi-x-lg"></i>';
+                        html += '</button>';
+                        html += '<div class="card-info-file">';
+                        html += '<p>' + fileName + '</p>';
+                        html += '<p>' + fileSizeKB.toFixed(2) + ' KB</p>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                        // Display file information
+
+                        $('#file_name').val(fileName);
+                        $("[data-name='ukuran']").val(fileSizeKB.toFixed(2));
+                        $('#fileInfo').append(html);
+                    }
+                })
+
+            }
+        });
+    });
 </script>
 {{-- End JS Add Data --}}
+
+{{-- JS Edit Data --}}
+<script>
+    $(document).on("click", "[data-name='edit']", function (e) {
+        var id = $(this).attr("data-item");
+        $("[data-name='edit_name_file']").val('');
+        $("[data-name='edit_ukuran']").val('');
+        $("[data-name='edit_id']").val(id);
+        $("#modal_edit").modal('show');
+    });
+
+    $(document).on("click", "[data-name='save_edit']", function (e) {
+        var file_name   = $("[data-name='edit_name_file']").val();
+        var ukuran      = $("[data-name='edit_ukuran']").val();
+        var update_by   = "{!! $idn_user->id !!}";
+
+        var table = "trx_file";
+        var whr = "id";
+        var id = $("[data-name='edit_id']").val();
+        var dats = {
+            file_name: file_name,
+            ukuran: ukuran,
+            update_by: update_by
+        };
+
+        if (file_name === '') {
+            Swal.fire({
+                position: 'center',
+                title: 'Form is empty!',
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 1000
+            })
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "{{ route('actionedit') }}",
+                data: {
+                    id: id,
+                    whr: whr,
+                    table: table,
+                    dats: dats
+                },
+                cache: false,
+                success: function(data) {
+                    // console.log(data);
+                    Swal.fire({
+                        position: 'center',
+                        title: 'Success!',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then((data) => {
+                        location.reload();
+                    })
+                },
+                error: function(data) {
+                    Swal.fire({
+                        position: 'center',
+                        title: 'Action Not Valid!',
+                        icon: 'warning',
+                        showConfirmButton: true,
+                        // timer: 1500
+                    }).then((data) => {
+                        // location.reload();
+                    })
+                }
+            });
+        }
+
+    });
+
+    $(document).ready(function() {
+        // Handle change event of file input
+        $("[data-name='edit_file_name']").change(function(e) {
+            // Get the files
+
+
+            var ext = $("#edit_file").val().split('.').pop().toLowerCase();
+            // console.log(e.target.files[0])
+            if ($.inArray(ext, ['pdf']) == -1) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Format image failed!'
+                })
+            } else {
+                var uploadedFile = URL.createObjectURL(e.target.files[0]);
+                var photo = e.target.files[0];
+                var formData = new FormData();
+                formData.append('add_file', photo);
+                $.ajax({
+                    url: "{{ route('upload_surat') }}",
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(res) {
+                        console.log(res);
+
+                        var files = e.target.files[0];
+
+                        // console.log(files);
+
+                        // Clear previous file information
+                        $('#fileInfoedit').html('');
+
+                        // Loop through the files and display information
+                        var html = '';
+
+                        var fileName = files.name;
+                        var fileSize = files.size;
+                        var fileSizeKB = fileSize / 1024;
+
+                        html += '<div class="col-12 mb-3">';
+                        html += '<div class="card-preview-file">';
+                        html +=
+                            '<button class="btn btn-remove" type="button" data-item="remove_file">';
+                        html += '<i class="bi bi-x-lg"></i>';
+                        html += '</button>';
+                        html += '<div class="card-info-file">';
+                        html += '<p>' + fileName + '</p>';
+                        html += '<p>' + fileSizeKB.toFixed(2) + ' KB</p>';
+                        html += '</div>';
+                        html += '</div>';
+                        html += '</div>';
+                        // Display file information
+
+                        $('#edit_file_name').val(fileName);
+                        $("[data-name='edit_ukuran']").val(fileSizeKB.toFixed(2));
+                        $('#fileInfoedit').append(html);
+                    }
+                })
+
+            }
+        });
+    });
+</script>
+{{-- End JS Edit Data --}}
+
+{{-- JS Delete Data --}}
+<script>
+    $(document).on("click", "[data-name='delete']", function(e) {
+        var id = $(this).attr("data-item");
+        var table = 'trx_file';
+        var whr = 'id';
+
+        Swal.fire({
+            title: 'Anda yakin?',
+            text: 'Aksi ini tidak dapat diulang!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus data!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('actiondelete') }}",
+                    data: {
+                        id: id,
+                        whr: whr,
+                        table: table
+                    },
+                    cache: false,
+                    success: function(data) {
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Success!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then((data) => {
+                            location.reload();
+                        })
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Action Not Valid!',
+                            icon: 'warning',
+                            showConfirmButton: true,
+                            // timer: 1500
+                        }).then((data) => {
+                            // location.reload();
+                        })
+                    }
+                });
+            }
+        })
+    });
+</script>
+{{-- End JS Delete Data --}}
+
+{{-- JS Show file --}}
+<script>
+    $(document).on("click", "[data-name='show']", function(e) {
+        var file_name   = $(this).attr("data-item");
+        var file        = "{{ asset('assets/file') }}/" + file_name;
+        $('#show_file').attr('src', file);
+        $("#modal_show").modal('show');
+    });
+</script>
+{{-- End JS Show File  --}}
+
+{{-- JS Datatable --}}
+<script>
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+    });
+</script>
+{{-- End JS Datatable --}}
 
 @stop

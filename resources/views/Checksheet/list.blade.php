@@ -74,7 +74,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Form</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Detail</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -85,7 +85,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-name="save_add">Save</button>
             </div>
         </div>
     </div>
@@ -186,13 +185,22 @@
             selectable: true,
             events: 'assetchecksheetcall',
             dateClick: function(info) {
+                
                 var clickedDate = info.date;
                 var eventsForDate = calendar.getEvents().filter(function(event) {
                     return event.start.toDateString() === clickedDate.toDateString();
                 });
                 var eventListHTML = '<ul>';
                 eventsForDate.forEach(function(event) {
-                    eventListHTML += '<li>' + event.title + '</li>';
+                    console.log(event);
+                    eventListHTML += '<li>';
+                    eventListHTML += event.title + '<br>';
+                    if(event.extendedProps.keterangan === null){
+                        eventListHTML += 'Keterangan : -';
+                    }else{
+                        eventListHTML += 'Keterangan : '+event.extendedProps.keterangan;
+                    }
+                    eventListHTML += '</li>';
                 });
                 eventListHTML += '</ul>';
 

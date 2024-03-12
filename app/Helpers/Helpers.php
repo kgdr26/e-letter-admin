@@ -49,6 +49,20 @@ function getRomawi($bln){
             return "XII";
             break;
     }
- }
+}
+
+
+function countingfile(){
+    $folder    = DB::select("SELECT * FROM trx_folder where is_active=1");
+    $arr       = [];
+
+    foreach($folder as $key => $val){
+        $file               = DB::table('trx_file')->where('id_folder', $val->id)->where('is_active', 1)->get();
+        $arr[$val->id]    = count($file);
+    }
+
+    return $arr;
+}
+
 
 ?>

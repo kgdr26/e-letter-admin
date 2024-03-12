@@ -192,6 +192,27 @@ class MainController extends Controller
     }
 
 
+    // Upload File
+    function upload_file(Request $request): object
+    {
+        if ($request->hasFile('add_file')) {
+            $fourRandomDigit = rand(10, 99999);
+            $photo      = $request->file('add_file');
+            // $fileName   = $fourRandomDigit . '.' . $photo->getClientOriginalExtension();
+            $fileName      = $photo->getClientOriginalName();
+
+            $path = public_path() . '/assets/file/';
+
+            File::makeDirectory($path, 0777, true, true);
+
+            $request->file('add_file')->move($path, $fileName);
+
+            return response($fileName);
+        } else {
+            return response('Failed');
+        }
+    }
+
     // Upload Image
     function upload_profile(Request $request): object
     {
@@ -555,10 +576,12 @@ class MainController extends Controller
         $events = [];
         foreach ($asset as $key => $val) {
             $events[] = [
-                'id' => $val->id,
-                'title' => $val->ast_name . ' - ' . $val->ast_no . ' (' . $val->usr_name . ')',
-                'start' => $val->date_start,
-                'end' => $val->date_end,
+                'id'        => $val->id,
+                'title'     => $val->ast_name . ' - ' . $val->ast_no . ' (' . $val->usr_name . ')',
+                'tglstart'  => $val->date_start,
+                'tglend'    => $val->date_end,
+                'start'     => $val->date_start,
+                'end'       => $val->date_end,
             ];
         }
 
@@ -631,6 +654,7 @@ class MainController extends Controller
             $events[] = [
                 'id'    => $val->id,
                 'title' => $val->ast_name . ' - ' . $val->ast_no . ' (' . $ket . ')',
+                'keterangan' => $val->keterangan,
                 'start' => $val->tanggal,
                 'end'   => $val->tanggal,
                 'color' => $color
@@ -641,14 +665,16 @@ class MainController extends Controller
     }
 
     function document(){
-        $idn_user   = idn_user(auth::user()->id);
-        $arr        = DB::select("SELECT * FROM trx_folder where is_active=1");
-        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $idn_user       = idn_user(auth::user()->id);
+        $arr            = DB::select("SELECT * FROM trx_folder where is_active=1");
+        $role           = DB::select("SELECT * FROM mst_role where is_active=1");
+        $countingfile   = countingfile();
         $data = array(
             'title' => 'Document',
             'arr'   => $arr,
             'idn_user' => $idn_user,
-            'role'  => $role
+            'role'  => $role,
+            'countingfile'  => $countingfile
         );
 
         return view('Document.folder')->with($data);
@@ -664,11 +690,18 @@ class MainController extends Controller
             'title' => 'Detail Documen',
             'arr'   => $arr,
             'idn_user' => $idn_user,
-            'role'  => $role
+            'role'  => $role,
+            'id_folder' => $id_folder
         );
 
-        return view('Document.folder')->with($data);
+        return view('Document.detailfolder')->with($data);
 
     }
     
+
+    function test(){
+     
+        $arr = countingfile();
+        echo '<pre>';print_r($arr);exit;
+    }
 }

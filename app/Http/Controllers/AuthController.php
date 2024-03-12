@@ -18,7 +18,7 @@ class AuthController extends Controller
         if (Auth::check()) {
             // return redirect()->route('inputsurat');
             if(auth::user()->role_id == 8){
-                return redirect()->route('scurity');
+                return redirect()->route('assetsdash');
             }else{
                 return redirect()->route('inputsurat');
             } 
@@ -54,7 +54,7 @@ class AuthController extends Controller
 
         if (Auth::check()) { // true sekalian session field di users nanti bisa dipanggil via Auth
             if(auth::user()->role_id == 8){
-                return redirect()->route('scurity');
+                return redirect()->route('assetsdash');
             }else{
                 return redirect()->route('inputsurat');
             }            
