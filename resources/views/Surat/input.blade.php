@@ -40,7 +40,7 @@
                                         $no = 1;
                                     @endphp
                                     @foreach ($arr as $key => $value)
-                                        @if ($value->update_by == $idn_user->id || $idn_user->role_id == 5 || $idn_user->role_id == 7)
+                                        @if ($value->update_by == $idn_user->id || $idn_user->role_id == 1 || $idn_user->role_id == 7)
                                             <tr>
                                                 <td>{{ $no++ }}</td>
                                                 {{-- <td>st{{ $value->is_active }}</td> --}}
@@ -57,7 +57,7 @@
                                                 </td>
 
                                                 <td class="text-center">
-                                                    @if ($value->update_by == $idn_user->id || $idn_user->role_id == 5)
+                                                    @if ($value->update_by == $idn_user->id || $idn_user->role_id == 1)
                                                         @php
                                                             $disabled_button = '';
                                                         @endphp
