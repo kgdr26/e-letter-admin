@@ -66,8 +66,8 @@
 
     <title>Login</title>
     <!-- Favicons -->
-    <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
-    <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+    <link href="{{ asset('assets/img/LogoStar_ADASI.png') }}" rel="icon">
+    <link href="{{ asset('assets/img/LogoStar_ADASI.png') }}" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -132,12 +132,14 @@
                             </div><!-- End Logo --> --}}
 
                             <div class="card mb-3 login-form">
-
                                 <div class="card-body">
-
                                     <div class="pt-4 pb-2">
-                                        <h5 class="card-title pb-0 fs-4">Welcome</h5>
-                                        <p class="small">Please login to your account</p>
+                                        <div style="text-align: center;">
+                                            <img src="{{ asset('assets/img/AdasiLg1-removebg-preview.png') }}"
+                                                alt="Welcome Astra Daido Steel Indonesia" style="max-width: 70%;">
+                                            <h5 class="card-title pb-0 fs-4">Welcome</h5>
+                                            <p class="small">Please login to your account</p>
+                                        </div>
                                         <hr>
                                     </div>
 
