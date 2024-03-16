@@ -27,9 +27,7 @@
         
         @foreach($arr as $key => $v)
             <div class="col-xxl-2 col-md-2">
-                
                 <div class="card info-card sales-card">
-
                     @php
                         $role_data_document    = ['1','12'];
                     @endphp
@@ -54,32 +52,17 @@
                             <div class="d-flex align-items-center">
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                     <i class="bi bi-file-earmark-check"></i>
-                                    </div>
-                                    <div class="ps-3">
+                                </div>
+                                <div class="ps-3">
                                     <h6>{{$countingfile[$v->id]}}</h6>
                                     <span class="text-muted small pt-2 ps-1">Files</span>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <a href="{{ route('detaildocument', ['id_folder' => $v->id]) }}">
-                                    <h5 class="card-title">{{ $v->folder_name }}</h5>
-
-                                    <div class="d-flex align-items-center">
-                                        <div
-                                            class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-file-earmark-check"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>{{ $countingfile[$v->id] }}</h6>
-                                            <span class="text-muted small pt-2 ps-1">Files</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+                        </a>
                     </div>
-                @endforeach
+                </div>
             </div>
+        @endforeach
     </section>
 
     {{-- Modal Add --}}
