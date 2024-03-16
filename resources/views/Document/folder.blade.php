@@ -4,38 +4,48 @@
 <section class="section dashboard">
     <div class="row">
 
-        <div class="col-xxl-2 col-md-2">
-            <a href="#" data-name="add">
-                <div class="card info-card revenue-card">
-                    <div class="card-body">
-                        <h5 class="card-title">ADD FOLDER</h5>
-    
-                        <div class="d-flex align-items-center justify-content-center">
-                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="bi bi-folder-plus"></i>
+        @php
+            $role_data_document    = ['1','12'];
+        @endphp
+        @if(in_array($idn_user->role_id , $role_data_document))
+            <div class="col-xxl-2 col-md-2">
+                <a href="#" data-name="add">
+                    <div class="card info-card revenue-card">
+                        <div class="card-body">
+                            <h5 class="card-title">ADD FOLDER</h5>
+        
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-folder-plus"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
+        @endif
         
         @foreach($arr as $key => $v)
             <div class="col-xxl-2 col-md-2">
                 
                 <div class="card info-card sales-card">
 
-                    <div class="filter">
-                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            <li class="dropdown-header text-start">
-                                <h6>Action</h6>
-                            </li>
-        
-                            <li><a class="dropdown-item" href="#" data-name="edit" data-item="{{$v->id}}">Edit</a></li>
-                            <li><a class="dropdown-item" href="#" data-name="delete" data-item="{{$v->id}}">Delete</a></li>
-                        </ul>
-                    </div>
+                    @php
+                        $role_data_document    = ['1','12'];
+                    @endphp
+                    @if(in_array($idn_user->role_id , $role_data_document))
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Action</h6>
+                                </li>
+            
+                                <li><a class="dropdown-item" href="#" data-name="edit" data-item="{{$v->id}}">Edit</a></li>
+                                <li><a class="dropdown-item" href="#" data-name="delete" data-item="{{$v->id}}">Delete</a></li>
+                            </ul>
+                        </div>
+                    @endif
     
                     <div class="card-body">
                         <a href="{{route('detaildocument',['id_folder'=>$v->id])}}">

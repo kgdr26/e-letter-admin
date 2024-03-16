@@ -71,7 +71,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('assetscheck', [MainController::class, 'assetscheck'])->name('assetscheck');
     });
 
-
     Route::get('document', [MainController::class, 'document'])->name('document');
     Route::get('detaildocument', [MainController::class, 'detaildocument'])->name('detaildocument');
 

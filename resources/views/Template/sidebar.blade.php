@@ -14,7 +14,7 @@
         @endif
 
         @php
-            $role_data_side    = ['1','2','3','4','5','6','7','8','9','10','11'];
+            $role_data_side    = ['1','2','3','4','5','6','7','8','9','10','11','12'];
         @endphp
         @if(in_array($idn_user->role_id , $role_data_side))
             <li class="nav-item">

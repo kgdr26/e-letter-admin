@@ -10,7 +10,12 @@
                     <div class="d-flex justify-content-between">
                         <span>List File</span>
 
-                        <button type="button" class="btn btn-success" data-name="add">Add File</button>
+                        @php
+                            $role_data_document    = ['1','12'];
+                        @endphp
+                        @if(in_array($idn_user->role_id , $role_data_document))
+                            <button type="button" class="btn btn-success" data-name="add">Add File</button>
+                        @endif
                     </div>
                 </div>
                 <div class="card-body">
@@ -35,15 +40,25 @@
                                         <td>{{ $value->ukuran }}.Kb</td>
                                         
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-outline-info btn-sm" data-name="edit" data-item="{{ $value->id }}">
-                                                Edit
-                                            </button>
+                                            @php
+                                                $role_data_document    = ['1','12'];
+                                            @endphp
+                                            @if(in_array($idn_user->role_id , $role_data_document))
+                                                <button type="button" class="btn btn-outline-info btn-sm" data-name="edit" data-item="{{ $value->id }}">
+                                                    Edit
+                                                </button>
+                                            @endif
                                             <button type="button" class="btn btn-outline-warning btn-sm" data-name="show" data-item="{{ $value->file_name }}">
                                                 Show
                                             </button>
-                                            <button type="button" class="btn btn-outline-danger btn-sm" data-name="delete" data-item="{{ $value->id }}">
-                                                Delete
-                                            </button>
+                                            @php
+                                                $role_data_document    = ['1','12'];
+                                            @endphp
+                                            @if(in_array($idn_user->role_id , $role_data_document))
+                                                <button type="button" class="btn btn-outline-danger btn-sm" data-name="delete" data-item="{{ $value->id }}">
+                                                    Delete
+                                                </button>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

@@ -75,9 +75,6 @@
                     $(".preload-wrapper").css("display", "none");
                 }
             });
-
-
-
         });
     </script>
 </head>
