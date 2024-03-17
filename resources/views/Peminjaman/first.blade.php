@@ -67,8 +67,7 @@
                                                 <td>{{ $value->ast_name }} - {{ $value->ast_no }}</td>
                                                 <td>{{ $value->necessity }}</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-success btn-sm"
-                                                        data-name="approve" data-item="{{ $value->id }}">
+                                                    <button type="button" class="btn btn-success btn-sm" data-name="approve" data-item="{{ $value->id }}" data-kategori="{{$value->ast_kat}}">
                                                         Approve HRGA
                                                     </button>
                                                 </td>
@@ -88,8 +87,15 @@
     <script>
         $(document).on("click", "[data-name='approve']", function(e) {
             var id = $(this).attr("data-item");
+            var kategori = $(this).attr("data-kategori");
             var id_first = "{!! $idn_user->id !!}";
-            var status = 3;
+
+            if(kategori === 1){
+                var status = 3;
+            }else{
+                var status = 4;
+            }
+            
 
             var table = "trx_assets_landing";
             var whr = "id";

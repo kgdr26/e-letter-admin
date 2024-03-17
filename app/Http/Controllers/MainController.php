@@ -473,7 +473,7 @@ class MainController extends Controller
         $idn_user   = idn_user(auth::user()->id);
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
-        $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
+        $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no', 'c.kategori as ast_kat')
             ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
             ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
             ->where('trx_assets_landing.status', 2)->get();
@@ -698,10 +698,16 @@ class MainController extends Controller
 
     }
     
+    function maincekketersediaanassets(Request $request){
+        $reqbooking  = $request['reqbooking'];
+        $kategori  = $request['kategori'];
+        $arr = cekketersediaanassets($reqbooking, $kategori);
+        return response($arr);
+    }
 
     function test(){
      
-        $arr = countingfile();
+        $arr = cekketersediaanassets();
         echo '<pre>';print_r($arr);exit;
     }
 }

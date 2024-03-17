@@ -77,9 +77,8 @@
                                                     <label for="" class="form-label">Type</label>
                                                     <select id="" class="form-select select2" data-name="data_type">
                                                         <option>Choose...</option>
-                                                        @foreach ($type as $k => $v)
-                                                            <option value="{{ $v->kategori }}">{{ $v->kategori }}</option>
-                                                        @endforeach
+                                                        <option value="1">Mobil</option>
+                                                        <option value="2">Ruangan</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -91,10 +90,10 @@
                                                     <label for="" class="form-label">Assets Name</label>
                                                     <select id="" class="form-select select2" data-name="data_asset">
                                                         <option>Choose...</option>
-                                                        @foreach ($asset as $k => $v)
+                                                        {{-- @foreach ($asset as $k => $v)
                                                             <option value="{{ $v->id }}">{{ $v->merk }} -
                                                                 {{ $v->no_assets }}</option>
-                                                        @endforeach
+                                                        @endforeach --}}
                                                     </select>
                                                 </div>
                                             </div>
@@ -103,7 +102,7 @@
 
                                     <div class="row">
                                         <div class="col-12 mb-3"
-                                            <label for="inputNecessity" class="form-label">Necessity</label>
+                                            <label for="" class="form-label">Necessity</label>
                                             <textarea name="" id="" cols="30" rows="5" class="form-control" data-name="necessity"></textarea>
                                         </div>
                                         <div class="text-center">
@@ -122,7 +121,65 @@
         </div>
     </section>
 
+    {{-- JS Create Data --}}
     <script>
+        $(document).on("change", "[data-name='data_type']", function(e) {
+            var kategori = $(this).val();
+            var date_start = $("[data-name='date_start']").val();
+            var date_end = $("[data-name='date_end']").val();
+
+            var arrstart = moment(date_start);
+            var arrend = moment(date_end);
+            var arrtglloop = [];
+            while (arrstart <= arrend) {
+                arrtglloop.push(arrstart.format('YYYY-MM-DD'));
+                arrstart.add(1, 'days');
+            }
+
+            var arrtgl  = JSON.stringify(arrtglloop);
+
+            if (date_start === '' || date_end === '') {
+                Swal.fire({
+                    position: 'center',
+                    title: 'Form is empty!',
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+            }else{
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('maincekketersediaanassets') }}",
+                    data: {
+                        reqbooking: arrtgl,
+                        kategori: kategori
+                    },
+                    cache: false,
+                    success: function(data) {
+                        console.log(data);
+                        var html = '<option>Choose...</option>';
+                        $.each(data, function(index, value) {
+                            html += "<option value='"+value.id+"'>"+value.name+" - "+value.no_assets+"</option>";
+                        });
+
+                        $("[data-name='data_asset']").html(html);
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Action Not Valid!',
+                            icon: 'warning',
+                            showConfirmButton: true,
+                            // timer: 1500
+                        }).then((data) => {
+                            // location.reload();
+                        })
+                    }
+                });
+            }
+
+        });
+
         $(document).on("click", "[data-name='save_data']", function(e) {
             var date_start = $("[data-name='date_start']").val();
             var date_end = $("[data-name='date_end']").val();
@@ -132,10 +189,24 @@
             var table = "trx_assets_landing";
             var status = 1;
 
+            // var arrstart    = moment(date_start).format('Y-mm-D');
+            // var arrend    = moment(date_end).format('Y-mm-D');
+
+            var arrstart = moment(date_start);
+            var arrend = moment(date_end);
+            var arrtglloop = [];
+            while (arrstart <= arrend) {
+                arrtglloop.push(arrstart.format('YYYY-MM-DD'));
+                arrstart.add(1, 'days');
+            }
+
+            var arrtgl  = JSON.stringify(arrtglloop);
+
             var data = {
                 date_start: date_start,
                 date_end: date_end,
                 data_asset: data_asset,
+                arrtgl: arrtgl,
                 necessity: necessity,
                 id_user: id_user,
                 status: status
@@ -186,6 +257,7 @@
 
         });
     </script>
+    {{-- End JS Create Data --}}
 
     <script>
         $('input[data-name="date_start"]').datetimepicker({

@@ -1,5 +1,5 @@
 /*
-SQLyog Community v13.2.0 (64 bit)
+SQLyog Community v13.1.9 (64 bit)
 MySQL - 10.11.4-MariaDB : Database - db_e_letter_admin
 *********************************************************************
 */
@@ -28,7 +28,7 @@ CREATE TABLE `mst_asset` (
   `tahun` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `lokasi` varchar(255) DEFAULT NULL,
-  `kategori` varchar(255) DEFAULT NULL,
+  `kategori` int(11) DEFAULT NULL,
   `kepemilikan` varchar(255) DEFAULT NULL,
   `update_by` int(11) DEFAULT NULL,
   `is_active` int(11) DEFAULT NULL,
@@ -39,12 +39,12 @@ CREATE TABLE `mst_asset` (
 /*Data for the table `mst_asset` */
 
 insert  into `mst_asset`(`id`,`no_assets`,`name`,`merk`,`tahun`,`status`,`lokasi`,`kategori`,`kepemilikan`,`update_by`,`is_active`,`last_update`) values 
-(1,'B 1064 FYU','Kijang Innova V','Inova','2013',0,'Delta Silicon 8','Mobil','ADASI',1,1,'2024-02-22 16:11:17'),
-(2,'B 1231 FYV','F600RV-GMDF33','Xenia','2009',0,'Deltamas','Mobil','ADASI',1,1,'2024-02-22 16:11:27'),
-(3,'B 1161 FLT','Fortuner 2.5 G M/T','Fortuner','2015',0,'Delta Silicon 8','Mobil','ADASI',1,1,'2024-02-22 11:17:49'),
-(4,'B 1187 FYY','S4Q1RV-ZMDEJJ HJ','Grandmax','2013',0,'Delta Silicon 8','Mobil','ADASI',1,1,'2024-02-22 16:11:31'),
-(5,'Room Meeting 1st','Room Meeting 1st','RM-1st',NULL,0,NULL,'Ruangan',NULL,1,1,'2024-02-24 13:43:28'),
-(6,'Room Meeting 2st','Room Meeting 2st','RM-2st',NULL,0,NULL,'Ruangan',NULL,1,1,'2024-02-24 13:43:33');
+(1,'B 1064 FYU','Kijang Innova V','Inova','2013',0,'Delta Silicon 8',1,'ADASI',1,1,'2024-03-17 10:39:21'),
+(2,'B 1231 FYV','F600RV-GMDF33','Xenia','2009',0,'Deltamas',1,'ADASI',1,1,'2024-03-17 10:39:21'),
+(3,'B 1161 FLT','Fortuner 2.5 G M/T','Fortuner','2015',0,'Delta Silicon 8',1,'ADASI',1,1,'2024-03-17 10:39:22'),
+(4,'B 1187 FYY','S4Q1RV-ZMDEJJ HJ','Grandmax','2013',0,'Delta Silicon 8',1,'ADASI',1,1,'2024-03-17 10:39:23'),
+(5,'Room Meeting 1st','Room Meeting 1st','RM-1st',NULL,0,NULL,2,NULL,1,1,'2024-03-17 10:39:23'),
+(6,'Room Meeting 2st','Room Meeting 2st','RM-2st',NULL,0,NULL,2,NULL,1,1,'2024-03-17 10:39:31');
 
 /*Table structure for table `mst_role` */
 
@@ -57,7 +57,7 @@ CREATE TABLE `mst_role` (
   `update_by` int(11) DEFAULT NULL,
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
 
 /*Data for the table `mst_role` */
 
@@ -72,7 +72,8 @@ insert  into `mst_role`(`id`,`name`,`is_active`,`update_by`,`last_update`) value
 (8,'SECURITY',1,1,'2024-02-24 14:15:55'),
 (9,'GENERAL AFFAIR',1,1,'2024-03-10 12:37:04'),
 (10,'SP HRGA FIN ACC IT',1,1,'2024-03-10 20:54:14'),
-(11,'SP HR',1,1,'2024-03-10 20:54:27');
+(11,'SP HR',1,1,'2024-03-10 20:54:27'),
+(12,'Document',1,1,'2024-03-15 12:48:00');
 
 /*Table structure for table `trx_assets_landing` */
 
@@ -87,14 +88,21 @@ CREATE TABLE `trx_assets_landing` (
   `id_director` int(11) DEFAULT NULL,
   `date_start` datetime DEFAULT NULL,
   `date_end` datetime DEFAULT NULL,
+  `arrtgl` text DEFAULT NULL,
   `data_asset` int(11) DEFAULT NULL,
   `necessity` text DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 /*Data for the table `trx_assets_landing` */
+
+insert  into `trx_assets_landing`(`id`,`id_user`,`id_dephed`,`id_first`,`id_second`,`id_director`,`date_start`,`date_end`,`arrtgl`,`data_asset`,`necessity`,`status`,`last_update`) values 
+(1,1,NULL,NULL,NULL,NULL,'2024-03-18 11:28:30','2024-03-19 11:28:31','[\"2024-03-18\",\"2024-03-19\"]',1,'Tes',1,'2024-03-17 11:28:38'),
+(2,1,NULL,NULL,NULL,NULL,'2024-03-20 11:54:50','2024-03-21 11:54:52','[\"2024-03-20\",\"2024-03-21\"]',1,'tes',1,'2024-03-17 11:55:00'),
+(3,1,NULL,NULL,NULL,NULL,'2024-03-19 12:23:16','2024-03-20 12:23:22','[\"2024-03-19\",\"2024-03-20\"]',2,'Tes',1,'2024-03-17 12:23:33'),
+(4,1,1,1,NULL,NULL,'2024-03-18 14:23:21','2024-03-18 15:45:23','[\"2024-03-18\"]',5,'Meeting',4,'2024-03-17 14:33:07');
 
 /*Table structure for table `trx_chceksheet_asset` */
 
@@ -108,7 +116,7 @@ CREATE TABLE `trx_chceksheet_asset` (
   `tanggal` date DEFAULT NULL,
   `keterangan` mediumtext DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 /*Data for the table `trx_chceksheet_asset` */
 
@@ -117,7 +125,33 @@ insert  into `trx_chceksheet_asset`(`id`,`id_user`,`id_asset`,`type`,`tanggal`,`
 (2,1,2,2,'2024-03-20','Tesssss'),
 (3,1,3,1,'2024-03-29',NULL),
 (4,1,2,2,'2024-03-07','Ganti Oli\nGanti Mobil'),
-(5,1,1,1,'2024-03-15',NULL);
+(5,1,1,1,'2024-03-15',NULL),
+(6,1,3,2,'2024-03-15','Ganti oli\nGanti Ban\nGanti Kopling');
+
+/*Table structure for table `trx_file` */
+
+DROP TABLE IF EXISTS `trx_file`;
+
+CREATE TABLE `trx_file` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_folder` int(11) DEFAULT NULL,
+  `file_name` varchar(255) DEFAULT NULL,
+  `ukuran` varchar(255) DEFAULT NULL,
+  `is_active` int(11) DEFAULT NULL,
+  `update_by` int(11) DEFAULT NULL,
+  `last_update` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+/*Data for the table `trx_file` */
+
+insert  into `trx_file`(`id`,`id_folder`,`file_name`,`ukuran`,`is_active`,`update_by`,`last_update`) values 
+(1,1,'Mange Role-Data-Sistem',NULL,0,1,'2024-03-10 21:15:29'),
+(2,1,'Mange Role-Data-Sistem.xlsx','59.63',0,1,'2024-03-10 21:18:13'),
+(3,1,'Mange Role-Data-Sistem.xlsx','59.63',0,1,'2024-03-10 21:19:13'),
+(4,1,'Negative List Digitalisasi CED P3-1.pdf','271.75',1,1,'2024-03-10 21:28:21'),
+(5,1,'unta-di-depan-masjid.pdf','134.89',1,1,'2024-03-11 14:14:19'),
+(6,1,'OT Seksi Plastic Injection P3_fxrgsu.pdf','116.62',1,1,'2024-03-11 14:23:54');
 
 /*Table structure for table `trx_folder` */
 
@@ -130,9 +164,13 @@ CREATE TABLE `trx_folder` (
   `update_by` int(11) DEFAULT NULL,
   `last_update` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 /*Data for the table `trx_folder` */
+
+insert  into `trx_folder`(`id`,`folder_name`,`is_active`,`update_by`,`last_update`) values 
+(1,'Tes Input',1,1,'2024-03-10 21:02:17'),
+(2,'Tess Add Edit',1,1,'2024-03-11 11:08:18');
 
 /*Table structure for table `trx_surat` */
 
@@ -230,7 +268,7 @@ CREATE TABLE `users` (
 /*Data for the table `users` */
 
 insert  into `users`(`id`,`username`,`password`,`pass`,`role_id`,`name`,`npk`,`email`,`no_tlp`,`foto`,`status`,`is_active`,`update_by`,`last_update`) values 
-(1,'superadmin','$2y$12$0cV0/5Fy7gCIxK1T5iZ8penMy.0HPoFzdIeRbdhdI/Ez7yP.W2Y86','Super123',5,'Superadmin','','-','-','74648.jpg',1,1,1,'2024-02-08 14:17:26'),
+(1,'superadmin','$2y$12$0cV0/5Fy7gCIxK1T5iZ8penMy.0HPoFzdIeRbdhdI/Ez7yP.W2Y86','Super123',1,'Superadmin','','-','-','74648.jpg',1,1,1,'2024-03-12 12:16:57'),
 (2,'jessica','$2y$12$E.VaKgMUJHmTFOStJ9uUE.QCAZHYVoyzaKgV2igW2Uf4C0e7wEg8C','adasi',2,'Jessica','5584','jessica@gmail.com','0888877772','default.jpg',0,1,1,'2024-03-08 00:47:50'),
 (3,'tes','$2y$12$ztOPiTcW3E6gwetVtzojseB1VaageRmAg9vVu5gUpy6f4MM050O1u','123456',3,'tes 123','','tes@gmailo.com','88888','10569.png',0,0,1,'2024-01-25 05:12:03'),
 (4,'Richardus','$2y$12$39nAmxHJlPYiOOMd6cy28e6EsKZAodJxLiHNVozPRxsmYn5DWc6YO','123',4,'Richardus','',NULL,NULL,'default.jpg',0,1,1,'2024-01-30 19:45:44'),

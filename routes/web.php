@@ -93,6 +93,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('addform', [MainController::class, 'addform'])->name('addform');
     Route::post('actioneditform', [MainController::class, 'actioneditform'])->name('actioneditform');
     Route::post('detaildataassets', [MainController::class, 'detaildataassets'])->name('detaildataassets');
+    Route::post('maincekketersediaanassets', [MainController::class, 'maincekketersediaanassets'])->name('maincekketersediaanassets');
     
 
     // Asset Lending
