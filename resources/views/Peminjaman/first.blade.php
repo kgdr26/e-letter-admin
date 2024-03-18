@@ -90,7 +90,7 @@
             var kategori = $(this).attr("data-kategori");
             var id_first = "{!! $idn_user->id !!}";
 
-            if(kategori === 1){
+            if(kategori === '1'){
                 var status = 3;
             }else{
                 var status = 4;
