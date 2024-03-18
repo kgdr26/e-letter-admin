@@ -72,25 +72,31 @@ function cekketersediaanassets($reqbooking, $kategori){
     $asst           = [];
     $arrloop        = 0;
 
-    foreach($terbooking as $k => $v){
-        $idasset        = $v->data_asset;
-        $tglterbooking  = json_decode($v->arrtgl);
-        foreach($tglterbooking as $kt => $vt){
-            $asst[$arrloop]['id']        = $idasset;
-            $asst[$arrloop]['tgl']        = $vt;
-            $arrloop++;
+    if(count($terbooking) == 0){
+        $asset          = DB::table('mst_asset')->where('kategori', $kategori)->where('is_active', 1)->get();
+    }else{
+        foreach($terbooking as $k => $v){
+            $idasset        = $v->data_asset;
+            $tglterbooking  = json_decode($v->arrtgl);
+            foreach($tglterbooking as $kt => $vt){
+                $asst[$arrloop]['id']        = $idasset;
+                $asst[$arrloop]['tgl']        = $vt;
+                $arrloop++;
+            }
         }
+        
+        foreach($asst as $ka => $kv){
+            if(in_array($kv['tgl'], $reqbooking)){
+                $dtass[$ka]= $kv['id'];
+            }
+        }
+
+        $datain         = array_unique($dtass);
+
+        
+        $asset          = DB::table('mst_asset')->where('kategori', $kategori)->where('is_active', 1)->whereNotIn('id', $datain)->get();
     }
     
-    foreach($asst as $ka => $kv){
-        if(in_array($kv['tgl'], $reqbooking)){
-            $dtass[$ka]= $kv['id'];
-        }
-    }
-
-    $datain         = array_unique($dtass);
-
-    $asset          = DB::table('mst_asset')->where('kategori', $kategori)->where('is_active', 1)->whereNotIn('id', $datain)->get();
     foreach($asset as $a => $s){
         $arr[$a]['id']          = $s->id;
         $arr[$a]['no_assets']   = $s->no_assets;
