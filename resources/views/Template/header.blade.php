@@ -4,8 +4,7 @@
         <a href="" class="logo d-flex align-items-center">
             <img src="{{ asset('assets/img/LogoStar_1.png') }}" alt="">
             {{-- class="d-none d-lg-block" --}}
-            <span class="d-none d-lg-block fs-6 ps-3">Digital <br>Administration System
-            </span>
+            <span class="d-none d-lg-block fs-6 ps-3">Digital <br>Administration System </span>
             <br>
             {{-- <small>Digital Administration System</small> --}}
         </a>
