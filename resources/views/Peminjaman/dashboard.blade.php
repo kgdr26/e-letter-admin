@@ -39,76 +39,71 @@
                         </li>
                     </ul> --}}
 
-                    <div class="tab-content pt-2 mt-3">
+                    {{-- <div class="tab-content pt-2 mt-3">
                         <div class="tab-pane fade show active">
-                            <div class="row mb-3">
-                                <!-- Card with an Borrowed -->
-                                <div class="col-lg-3">
+                            <div class="row mb-3"> --}}
+                    <!-- Card with an Borrowed -->
+                    {{-- <div class="col-lg-3">
                                     <div class="card">
-                                        {{-- <img src="assets/img/card.jpg" class="card-img-top" alt="..."> --}}
                                         <div class="card-body text-center">
                                             <h5 class="card-title">Available</h5>
                                             <hr>
                                             <button type="button" class="btn btn-info" data-name="add">0</button>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- End Card with an Borrowed -->
+                                </div> --}}
+                    <!-- End Card with an Borrowed -->
 
-                                <!-- Card with an Is Being Borrowed -->
-                                <div class="col-lg-3">
+                    <!-- Card with an Is Being Borrowed -->
+                    {{-- <div class="col-lg-3">
                                     <div class="card">
-                                        {{-- <img src="assets/img/card.jpg" class="card-img-top" alt="..."> --}}
                                         <div class="card-body text-center">
                                             <h5 class="card-title">Already Booked</h5>
                                             <hr>
                                             <button type="button" class="btn btn-info" data-name="add">{{count($dataapphrga)}}</button>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- End Card with an Is Being Borrowed -->
+                                </div> --}}
+                    <!-- End Card with an Is Being Borrowed -->
 
-                                <!-- Card with an Is Being Borrowed -->
-                                <div class="col-lg-3">
+                    <!-- Card with an Is Being Borrowed -->
+                    {{-- <div class="col-lg-3">
                                     <div class="card">
-                                        {{-- <img src="assets/img/card.jpg" class="card-img-top" alt="..."> --}}
                                         <div class="card-body text-center">
                                             <h5 class="card-title">Currently Borrowed</h5>
                                             <hr>
                                             <button type="button" class="btn btn-info" data-name="add">{{count($dataappscurity)}}</button>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- End Card with an Is Being Borrowed -->
+                                </div> --}}
+                    <!-- End Card with an Is Being Borrowed -->
 
-                                <!-- Card with an Is Being Borrowed -->
-                                <div class="col-lg-3">
+                    <!-- Card with an Is Being Borrowed -->
+                    {{-- <div class="col-lg-3">
                                     <div class="card">
-                                        {{-- <img src="assets/img/card.jpg" class="card-img-top" alt="..."> --}}
                                         <div class="card-body text-center">
                                             <h5 class="card-title">Returned</h5>
                                             <hr>
                                             <button type="button" class="btn btn-info" data-name="add">{{count($dataappbalik)}}</button>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- End Card with an Is Being Borrowed -->
-                            </div>
+                                </div> --}}
+                    <!-- End Card with an Is Being Borrowed -->
+                    {{-- </div> --}}
 
-                            <hr>
-                            <div class="row mb-3">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div id="calendar"></div>
-                                        </div>
-                                    </div>
+                    <div class="row mb-3 mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div id="calendar"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        </div>
         </div>
     </section>
 
@@ -122,7 +117,7 @@
                 <div class="modal-body">
                     <h4 id="tanggalevent"></h4>
                     <div id="listevent">
-    
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -152,7 +147,7 @@
                 selectable: true,
                 events: 'assetscall',
                 dateClick: function(info) {
-                
+
                     var clickedDate = info.date;
                     var eventsForDate = calendar.getEvents().filter(function(event) {
                         return event.start.toDateString() === clickedDate.toDateString();
@@ -162,14 +157,15 @@
                         console.log(event);
                         eventListHTML += '<li>';
                         eventListHTML += event.title + '<br>';
-                        eventListHTML += 'Start Datetime : '+event.extendedProps.tglstart+ '<br>';
-                        eventListHTML += 'End Datetime : '+event.extendedProps.tglend;
+                        eventListHTML += 'Start Datetime : ' + event.extendedProps.tglstart +
+                            '<br>';
+                        eventListHTML += 'End Datetime : ' + event.extendedProps.tglend;
                         eventListHTML += '</li>';
                     });
                     eventListHTML += '</ul>';
 
-                    var datereal    = moment(clickedDate);
-                    $('#tanggalevent').text('Tanggal : '+datereal.format('DD MMM YYYY'));
+                    var datereal = moment(clickedDate);
+                    $('#tanggalevent').text('Tanggal : ' + datereal.format('DD MMM YYYY'));
                     $('#listevent').html(eventListHTML);
                     $('#show_list_event').modal('show');
                 }
