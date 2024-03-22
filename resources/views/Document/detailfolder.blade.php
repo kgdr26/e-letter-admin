@@ -24,9 +24,10 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th>No</th>
-                                        <th>File Name</th>
+                                        <th>Tittle</th>
+                                        <th>File</th>
+                                        <th>Size</th>
                                         <th>Departement</th>
-                                        <th>Ukuran File</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
@@ -37,9 +38,10 @@
                                     @foreach ($arr as $key => $value)
                                         <tr class="text-center">
                                             <td>{{ $no++ }}</td>
+                                            <td>{{ $value->tittle }}</td>
                                             <td>{{ $value->file_name }}</td>
-                                            <td>{{ $value->departement }}</td>
                                             <td>{{ $value->ukuran }}.Kb</td>
+                                            <td>{{ $value->to_dept }}</td>
 
                                             <td class="text-center">
                                                 @php
@@ -92,8 +94,8 @@
                             <div class="card-style">
                                 <div class="mb-3">
                                     <div>
-                                        <label for="" class="form-label">Departement</label>
-                                        <input type="text" class="form-control" id="add" data-name="departement">
+                                        <label for="" class="form-label">Tittle</label>
+                                        <input type="text" class="form-control" id="add" data-name="tittle">
                                     </div>
                                     <label for="" class="form-label">Upload File</label>
                                     <input type="file" class="form-control" id="add_file" placeholder=""
@@ -101,6 +103,19 @@
                                     <input type="hidden" id="file_name" data-name="name_file">
                                     <input type="hidden" data-name="ukuran">
                                     <input type="hidden" data-name="id_folder" value="{{ $id_folder }}">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Dept. Purpose</label>
+                                        <select name="" id="" class="form-select select2-add"
+                                            data-name="to_dept">
+                                            <option value="">-- Select Dept --</option>
+                                            @foreach ($role as $kr => $vr)
+                                                @if ($vr->id != 1 && $vr->id != 11 && $vr->id != 12)
+                                                    <option value="{{ $vr->id }}">{{ $vr->name }}</option>
+                                                @endif
+                                                {{-- <option value="{{ $vr->id }}">{{ $vr->name }}</option> --}}
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -135,9 +150,9 @@
                             <div class="card-style">
                                 <div class="mb-3">
                                     <div class="mb-3">
-                                        <label for="" class="form-label">Departement</label>
+                                        <label for="" class="form-label">Tittle</label>
                                         <input name="" id="" cols="30" rows="10"
-                                            class="form-control" data-name="edit_departement"></textarea>
+                                            class="form-control" data-name="edit_tittle"></textarea>
                                     </div>
                                     <label for="" class="form-label">Upload File</label>
                                     <input type="file" class="form-control" id="edit_file" placeholder=""
@@ -145,6 +160,20 @@
                                     <input type="hidden" id="edit_file_name" data-name="edit_name_file">
                                     <input type="hidden" data-name="edit_ukuran">
                                     <input type="hidden" data-name="edit_id">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Dept. Purpose</label>
+                                        <select name="" id="" class="form-select select2-edit"
+                                            data-name="edit_to_dept">
+                                            <option value="">-- Select Dept --</option>
+                                            @foreach ($role as $kr => $vr)
+                                                @if ($vr->id != 1 && $vr->id != 11 && $vr->id != 12)
+                                                    <option value="{{ $vr->id }}">{{ $vr->name }}</option>
+                                                @endif
+                                                {{-- <option value="{{ $vr->id }}">{{ $vr->name }}</option> --}}
+                                            @endforeach
+                                        </select>
+                                        <input type="hidden" data-name="edit_to_dept_old">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -176,10 +205,10 @@
                     <embed id="show_file" type="application/pdf" src=""
                         style="width: 100%;height: 80vh;"></embed>
                 </div>
-                <div class="modal-footer">
+                {{-- <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" data-name="">Download File</button>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>
@@ -189,15 +218,17 @@
     <script>
         $(document).on("click", "[data-name='add']", function(e) {
             $("[data-name='file_name']").val('');
-            $("[data-name='departement']").val('');
+            $("[data-name='tittle']").val('');
             $("[data-name='ukuran']").val('');
+            $("[data-name='to_dept']").val('');
             $("#modal_add").modal('show');
         });
 
         $(document).on("click", "[data-name='save_add']", function(e) {
             var file_name = $("[data-name='name_file']").val();
-            var departement = $("[data-name='departement']").val();
+            var tittle = $("[data-name='tittle']").val();
             var ukuran = $("[data-name='ukuran']").val();
+            var to_dept = $("[data-name='to_dept']").val();
             var id_folder = $("[data-name='id_folder']").val();
             var is_active = 1;
             var update_by = "{!! $idn_user->id !!}";
@@ -205,8 +236,9 @@
 
             var data = {
                 file_name: file_name,
-                departement: departement,
+                tittle: tittle,
                 ukuran: ukuran,
+                to_dept: to_dept,
                 id_folder: id_folder,
                 is_active: is_active,
                 update_by: update_by
@@ -331,16 +363,18 @@
         $(document).on("click", "[data-name='edit']", function(e) {
             var id = $(this).attr("data-item");
             $("[data-name='edit_name_file']").val('');
-            $("[data-name='edit_departement']").val('');
+            $("[data-name='edit_tittle']").val('');
             $("[data-name='edit_ukuran']").val('');
+            $("[data-name='edit_to_dept']").val('');
             $("[data-name='edit_id']").val(id);
             $("#modal_edit").modal('show');
         });
 
         $(document).on("click", "[data-name='save_edit']", function(e) {
             var file_name = $("[data-name='edit_name_file']").val();
-            var departement = $("[data-name='edit_departement']").val();
+            var tittle = $("[data-name='edit_tittle']").val();
             var ukuran = $("[data-name='edit_ukuran']").val();
+            var to_dept = $("[data-name='edit_to_dept']").val();
             var update_by = "{!! $idn_user->id !!}";
 
             var table = "trx_file";
@@ -348,8 +382,9 @@
             var id = $("[data-name='edit_id']").val();
             var dats = {
                 file_name: file_name,
-                departement: departement,
+                tittle: tittle,
                 ukuran: ukuran,
+                to_dept: to_dept,
                 update_by: update_by
             };
 
@@ -528,7 +563,7 @@
     <script>
         $(document).on("click", "[data-name='show']", function(e) {
             var file_name = $(this).attr("data-item");
-            var departement = $(this).attr("data-item");
+            var to_dept = $(this).attr("data-item");
             var file = "{{ asset('assets/file') }}/" + file_name;
             $('#show_file').attr('src', file);
             $("#modal_show").modal('show');
