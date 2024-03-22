@@ -686,7 +686,10 @@ class MainController extends Controller
 
         $id_folder   = $request['id_folder'];
         $idn_user   = idn_user(auth::user()->id);
-        $arr        = DB::table('trx_file')->where('id_folder', $id_folder)->where('is_active', 1)->get();
+        $arr        = DB::table('trx_file')->select('trx_file.*', 'b.name as role_name')
+                        ->leftJoin('mst_role AS b', 'b.id', '=', 'trx_file.to_dept')
+                        ->where('trx_file.id_folder', $id_folder)
+                        ->where('trx_file.is_active', 1)->get();
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
             'title' => 'Detail Document',
