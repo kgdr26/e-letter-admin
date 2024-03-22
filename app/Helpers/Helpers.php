@@ -65,9 +65,19 @@ function countingfile(){
 }
 
 
-function cekketersediaanassets($reqbooking, $kategori){
+function cekketersediaanassets($reqbooking, $kategori, $date_start, $date_end){
     $reqbooking     = json_decode($reqbooking);
-    $terbooking     = DB::table('trx_assets_landing')->get();
+    $dataassets     = DB::table('mst_asset')->where('is_active', 1)->where('kategori', $kategori)->get();
+    $dtmasst        = [];
+
+    foreach($dataassets as $da => $dv){
+        $dtarrast[$da] = $dv->id;
+    }
+
+    $dtmasstunq     = array_unique($dtarrast);
+    $date_start     = $date_start;
+    $date_end       = $date_end;
+    $terbooking     = DB::table('trx_assets_landing')->whereIn('data_asset', $dtmasstunq)->get();
     $arr            = [];
     $asst           = [];
     $arrloop        = 0;
@@ -76,11 +86,13 @@ function cekketersediaanassets($reqbooking, $kategori){
     foreach($terbooking as $k => $v){
         $idasset        = $v->data_asset;
         $tglterbooking  = json_decode($v->arrtgl);
+
         foreach($tglterbooking as $kt => $vt){
-            $asst[$arrloop]['id']        = $idasset;
-            $asst[$arrloop]['tgl']        = $vt;
+            $asst[$arrloop]['id']    = $idasset;
+            $asst[$arrloop]['tgl']   = $vt;
             $arrloop++;
         }
+
     }
     
     foreach($asst as $ka => $kv){
