@@ -93,7 +93,7 @@
             if(kategori === '1'){
                 var status = 3;
             }else{
-                var status = 4;
+                var status = 5;
             }
             
 

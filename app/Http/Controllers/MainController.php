@@ -703,14 +703,19 @@ class MainController extends Controller
     {
         $reqbooking  = $request['reqbooking'];
         $kategori  = $request['kategori'];
-        $arr = cekketersediaanassets($reqbooking, $kategori);
+        $date_start  = $request['date_start'];
+        $date_end  = $request['date_end'];
+        $arr = cekketersediaanassets($reqbooking, $kategori, $date_start, $date_end);
         return response($arr);
     }
 
     function test()
     {
-
-        $arr = cekketersediaanassets();
+        $reqbooking  = '["2024-03-23"]';
+        $kategori  = 2;
+        $date_start  = '2024-03-23 08:00:08';
+        $date_end  = '2024-03-23 10:00:33';
+        $arr = cekketersediaanassets($reqbooking, $kategori, $date_start, $date_end);
         echo '<pre>';
         print_r($arr);
         exit;

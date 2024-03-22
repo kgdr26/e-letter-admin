@@ -132,11 +132,13 @@
             var arrend = moment(date_end);
             var arrtglloop = [];
             while (arrstart <= arrend) {
-                arrtglloop.push(arrstart.format('YYYY-MM-DD'));
-                arrstart.add(1, 'days');
+                arrtglloop.push(arrstart.format('YYYY-MM-DD HH'));
+                arrstart.add(1, 'hours');
             }
 
             var arrtgl  = JSON.stringify(arrtglloop);
+
+            console.log(arrtgl);
 
             if (date_start === '' || date_end === '') {
                 Swal.fire({
@@ -152,7 +154,9 @@
                     url: "{{ route('maincekketersediaanassets') }}",
                     data: {
                         reqbooking: arrtgl,
-                        kategori: kategori
+                        kategori: kategori,
+                        date_start: date_start,
+                        date_end: date_end
                     },
                     cache: false,
                     success: function(data) {
@@ -196,8 +200,8 @@
             var arrend = moment(date_end);
             var arrtglloop = [];
             while (arrstart <= arrend) {
-                arrtglloop.push(arrstart.format('YYYY-MM-DD'));
-                arrstart.add(1, 'days');
+                arrtglloop.push(arrstart.format('YYYY-MM-DD HH'));
+                arrstart.add(1, 'hours');
             }
 
             var arrtgl  = JSON.stringify(arrtglloop);
