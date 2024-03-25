@@ -43,13 +43,13 @@ insert  into `mst_asset`(`id`,`no_assets`,`name`,`merk`,`tahun`,`status`,`lokasi
 (2,'B 1231 FYV','Xenia','F600RV-GMDF33','2009',0,'Deltamas',1,'ADASI',1,1,'2024-03-18 15:51:53'),
 (3,'B 1161 FLT','Fortuner','Fortuner 2.5 G M/T','2015',0,'Delta Silicon 8',1,'ADASI',1,0,'2024-03-25 09:54:26'),
 (4,'B 1187 FYY','Grandmax','Grandmax','2013',0,'Delta Silicon 8',1,'ADASI',1,1,'2024-03-18 15:52:00'),
-(5,'Ruang Meeting Lantai 2','Room Semangat Keprimaan','RM-1st','0000',0,'Delta Silicon 8',2,'ADASI',1,1,'2024-03-20 22:25:28'),
-(6,'Ruang Meeting Lantai 2','Room Kerjasama','RM-2st','0000',0,'Delta Silicon 8',2,'ADASI',1,1,'2024-03-20 22:25:34'),
-(7,'Ruang Meeting Lantai 2','Room Fokus Pada Customer','RM-4st','0000',0,'Delta Silicon 8',2,'ADASI',1,1,'2024-03-20 22:25:36'),
-(8,'Ruang Meeting Lantai 1','Room Terpercaya','RM-4st','0000',0,'Delta Silicon 8',2,'ADASI',1,1,'2024-03-20 22:25:41'),
-(9,'Ruang Meeting Lantai 1','Room Handal','RM-5st','0000',0,'Delta Silicon 8',2,'ADASI',1,1,'2024-03-20 22:25:43'),
-(10,'B 2964 FOB','Avanza','W100RE-LBDFJ 1.3 E CVT','2024',0,'Delta Silicon 8',1,'KOPERASI',1,1,'2024-03-25 09:58:43'),
-(11,'B 2108 UIL','Avanza','E1.3 AT B23','2023',0,'Delta Silicon 8',1,'TRAC',1,1,'2024-03-25 09:59:53');
+(5,'B 2964 FOB','Avanza','W100RE-LBDFJ 1.3 E CVT','2024',0,'Delta Silicon 8',1,'KOPERASI',1,1,'2024-03-25 09:58:43'),
+(6,'B 2108 UIL','Avanza','E1.3 AT B23','2023',0,'Delta Silicon 8',1,'TRAC',1,1,'2024-03-25 09:59:53'),
+(7,'Ruang Meeting Lantai 2','Room Semangat Keprimaan','RM-1st','0000',0,'Delta Silicon 8',2,'ADASI',1,1,'2024-03-20 22:25:28'),
+(8,'Ruang Meeting Lantai 2','Room Kerjasama','RM-2st','0000',0,'Delta Silicon 8',2,'ADASI',1,1,'2024-03-20 22:25:34'),
+(9,'Ruang Meeting Lantai 2','Room Fokus Pada Customer','RM-4st','0000',0,'Delta Silicon 8',2,'ADASI',1,1,'2024-03-20 22:25:36'),
+(10,'Ruang Meeting Lantai 1','Room Terpercaya','RM-4st','0000',0,'Delta Silicon 8',2,'ADASI',1,1,'2024-03-20 22:25:41'),
+(11,'Ruang Meeting Lantai 1','Room Handal','RM-5st','0000',0,'Delta Silicon 8',2,'ADASI',1,1,'2024-03-20 22:25:43');
 
 /*Table structure for table `mst_role` */
 
