@@ -9,7 +9,6 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
                             <span>List File</span>
-
                             @php
                                 $role_data_document = ['1', '12'];
                             @endphp
@@ -27,6 +26,9 @@
                                         <th>Tittle</th>
                                         <th>File</th>
                                         <th>Size</th>
+                                        <th>Status</th>
+                                        <th>Rev-n</th>
+                                        <th>Eff.Date</th>
                                         <th>Departement</th>
                                         <th class="text-center">Action</th>
                                     </tr>
@@ -41,6 +43,9 @@
                                             <td>{{ $value->tittle }}</td>
                                             <td>{{ $value->file_name }}</td>
                                             <td>{{ $value->ukuran }}.Kb</td>
+                                            <td>{{ $value->status }}</td>
+                                            <td>{{ $value->revisi }}</td>
+                                            <td>{{ $value->tgl_efektif }}</td>
                                             <td>{{ $value->role_name }}</td>
 
                                             <td class="text-center">
@@ -93,16 +98,34 @@
                         <div class="col-12 mb-3">
                             <div class="card-style">
                                 <div class="mb-3">
-                                    <label for="" class="form-label">Tittle</label>
-                                    <input type="text" class="form-control" id="add" data-name="tittle">
-                                </div>
-                                <div class="mb-3">
                                     <label for="" class="form-label">Upload File</label>
                                     <input type="file" class="form-control" id="add_file" placeholder=""
                                         data-name="file_name">
                                     <input type="hidden" id="file_name" data-name="name_file">
                                     <input type="hidden" data-name="ukuran">
                                     <input type="hidden" data-name="id_folder" value="{{ $id_folder }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Tittle</label>
+                                    <input type="text" class="form-control" id="add" data-name="tittle">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Status</label>
+                                    <select name="" id="" class="form-select select-2-add"
+                                        data-name="status">
+                                        <option value="">-- Select Status --</option>
+                                        <option value="AKTIVE">AKTIVE</option>
+                                        <option value="NON-AKTIVE">NON-ACTIVE</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Rev-n</label>
+                                    <input type="text" class="form-control" id="add" data-name="revisi">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Eff.Date</label>
+                                    <input type="date" class="form-control" id="" placeholder=""
+                                        data-name="tgl_efektif">
                                 </div>
                                 <div class="mb-3">
                                     <label for="" class="form-label">Departement</label>
@@ -151,16 +174,37 @@
                         <div class="col-12 mb-3">
                             <div class="card-style">
                                 <div class="mb-3">
-                                    <label for="" class="form-label">Tittle</label>
-                                    <input name="" id="" cols="30" rows="10"
-                                        class="form-control" data-name="edit_tittle"></textarea>
-                                </div>
-                                <div class="mb-3">
                                     <label for="" class="form-label">Upload File</label>
                                     <input type="file" class="form-control" id="edit_file" placeholder=""
                                         data-name="edit_file_name">
                                     <input type="hidden" id="edit_file_name" data-name="edit_name_file">
                                     <input type="hidden" data-name="edit_ukuran">
+                                    <input type="hidden" data-name="edit_id">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Tittle</label>
+                                    <input name="" id="" cols="30" rows="10"
+                                        class="form-control" data-name="edit_tittle"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Status</label>
+                                    <select name="" id="" class="form-select select-2-edit"
+                                        data-name="edit_status">
+                                        <option value="">-- Select Status --</option>
+                                        <option value="AKTIVE">AKTIVE</option>
+                                        <option value="NON-AKTIVE">NON-ACTIVE</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Rev-n</label>
+                                    <input name="" id="" cols="30" rows="10"
+                                        class="form-control" data-name="edit_revisi"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Change Eff.Date</label>
+                                    <input type="date" class="form-control" id="" placeholder=""
+                                        data-name="edit_tgl_efektif">
                                     <input type="hidden" data-name="edit_id">
                                 </div>
                                 <div class="mb-3">
@@ -223,6 +267,9 @@
             $("[data-name='file_name']").val('');
             $("[data-name='tittle']").val('');
             $("[data-name='ukuran']").val('');
+            $("[data-name='status']").val('');
+            $("[data-name='revisi']").val('');
+            $("[data-name='tgl_efektif']").val('');
             $("[data-name='to_dept']").val('');
             $("#modal_add").modal('show');
         });
@@ -231,6 +278,9 @@
             var file_name = $("[data-name='name_file']").val();
             var tittle = $("[data-name='tittle']").val();
             var ukuran = $("[data-name='ukuran']").val();
+            var status = $("[data-name='status']").val();
+            var revisi = $("[data-name='revisi']").val();
+            var tgl_efektif = $("[data-name='tgl_efektif']").val();
             var to_dept = $("[data-name='to_dept']").val();
             var id_folder = $("[data-name='id_folder']").val();
             var is_active = 1;
@@ -241,6 +291,9 @@
                 file_name: file_name,
                 tittle: tittle,
                 ukuran: ukuran,
+                status: status,
+                revisi: revisi,
+                tgl_efektif: tgl_efektif,
                 to_dept: to_dept,
                 id_folder: id_folder,
                 is_active: is_active,
@@ -384,6 +437,9 @@
                     $("[data-name='edit_name_file']").val(data['data'].file_name);
                     // $("[data-name='edit_file_name']").val(data['data'].file_name);
                     $("[data-name='edit_ukuran']").val(data['data'].ukuran);
+                    $("[data-name='edit_status']").val(data['data'].status);
+                    $("[data-name='edit_revisi']").val(data['data'].revisi);
+                    $("[data-name='edit_tgl_efektif']").val(data['data'].tgl_efektif);
                     $("[data-name='edit_to_dept']").val(data['data'].to_dept).trigger("change");
                     $("#modal_edit").modal('show');
                 },
@@ -404,6 +460,9 @@
         $(document).on("click", "[data-name='save_edit']", function(e) {
             var file_name = $("[data-name='edit_name_file']").val();
             var ukuran = $("[data-name='edit_ukuran']").val();
+            var status = $("[data-name='edit_status']").val();
+            var revisi = $("[data-name='edit_revisi']").val();
+            var tgl_efektif = $("[data-name='edit_tgl_efektif']").val();
             var to_dept = $("[data-name='edit_to_dept']").val();
             var tittle = $("[data-name='edit_tittle']").val();
             var update_by = "{!! $idn_user->id !!}";
@@ -414,6 +473,9 @@
             var dats = {
                 file_name: file_name,
                 ukuran: ukuran,
+                status: status,
+                revisi: revisi,
+                tgl_efektif: tgl_efektif,
                 to_dept: to_dept,
                 tittle: tittle,
                 update_by: update_by
