@@ -249,13 +249,17 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <embed id="show_file" type="application/pdf" src=""
-                        style="width: 100%;height: 80vh;"></embed>
+                    <embed id="show_file" type="application/pdf" src="" style="width: 100%;height: 80vh;"></embed>
                 </div>
-                {{-- <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-name="">Download File</button>
-            </div> --}}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    @php
+                        $role_download = ['1', '12'];
+                    @endphp
+                    @if (in_array($idn_user->role_id, $role_download))
+                        <a href="" class="btn btn-primary" target="_blank" data-name="download_documen">Download File</a>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
@@ -659,6 +663,7 @@
             var to_dept = $(this).attr("data-item");
             var file = "{{ asset('assets/file') }}/" + file_name;
             $('#show_file').attr('src', file);
+            $("[data-name='download_documen']").attr('href', file);
             $("#modal_show").modal('show');
         });
     </script>
