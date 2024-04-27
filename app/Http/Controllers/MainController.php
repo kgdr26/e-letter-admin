@@ -714,10 +714,10 @@ class MainController extends Controller
 
     function test()
     {
-        $reqbooking  = '["2024-03-23"]';
-        $kategori  = 2;
-        $date_start  = '2024-03-23 08:00:08';
-        $date_end  = '2024-03-23 10:00:33';
+        $reqbooking  = '["2024-04-27"]';
+        $kategori  = 1;
+        $date_start  = '2024-04-27 20:00:00';
+        $date_end  = '2024-04-27 23:00:00';
         $arr = cekketersediaanassets($reqbooking, $kategori, $date_start, $date_end);
         echo '<pre>';
         print_r($arr);

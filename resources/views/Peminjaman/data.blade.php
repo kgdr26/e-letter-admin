@@ -87,6 +87,10 @@
                                                         <button type="button" class="btn btn-danger btn-sm" disabled>
                                                             Returned
                                                         </button>
+                                                    @elseif($value->status == 6)
+                                                        <button type="button" class="btn btn-danger btn-sm" disabled>
+                                                            Canceled
+                                                        </button>
                                                     @else
                                                         <button type="button" class="btn btn-primary btn-sm" disabled>
                                                             Approve

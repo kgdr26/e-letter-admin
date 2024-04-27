@@ -77,7 +77,7 @@ function cekketersediaanassets($reqbooking, $kategori, $date_start, $date_end){
     $dtmasstunq     = array_unique($dtarrast);
     $date_start     = $date_start;
     $date_end       = $date_end;
-    $terbooking     = DB::table('trx_assets_landing')->whereIn('data_asset', $dtmasstunq)->get();
+    $terbooking     = DB::table('trx_assets_landing')->whereIn('data_asset', $dtmasstunq)->whereNotIn('status', [5,6])->get();
     $arr            = [];
     $asst           = [];
     $arrloop        = 0;

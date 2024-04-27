@@ -67,8 +67,10 @@
                                                 <td>{{ $value->ast_name }} - {{ $value->ast_no }}</td>
                                                 <td>{{ $value->necessity }}</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-name="approve"
-                                                        data-item="{{ $value->id }}">
+                                                    <button type="button" class="btn btn-danger btn-sm" data-name="canceled" data-item="{{ $value->id }}">
+                                                        Cancel
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm" data-name="approve" data-item="{{ $value->id }}">
                                                         Returned
                                                     </button>
                                                 </td>
@@ -145,6 +147,68 @@
         });
     </script>
     {{-- End Approve Assets --}}
+
+    {{-- Cancel Assets --}}
+    <script>
+        $(document).on("click", "[data-name='canceled']", function(e) {
+            var id = $(this).attr("data-item");
+            var id_director = "{!! $idn_user->id !!}";
+            var status = 6;
+
+            var table = "trx_assets_landing";
+            var whr = "id";
+            var dats = {
+                id_director: id_director,
+                status: status
+            };
+
+            if (id === '' || id_director === '') {
+                Swal.fire({
+                    position: 'center',
+                    title: 'Form is empty!',
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('actionedit') }}",
+                    data: {
+                        id: id,
+                        whr: whr,
+                        table: table,
+                        dats: dats
+                    },
+                    cache: false,
+                    success: function(data) {
+                        // console.log(data);
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Success!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then((data) => {
+                            location.reload();
+                        })
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Action Not Valid!',
+                            icon: 'warning',
+                            showConfirmButton: true,
+                            // timer: 1500
+                        }).then((data) => {
+                            // location.reload();
+                        })
+                    }
+                });
+            }
+        });
+    </script>
+    {{-- End Cancel Assets --}}
 
     {{-- JS Datatable --}}
     <script>

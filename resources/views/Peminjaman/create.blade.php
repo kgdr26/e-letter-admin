@@ -138,7 +138,7 @@
 
             var arrtgl  = JSON.stringify(arrtglloop);
 
-            console.log(arrtgl);
+            // console.log(arrtgl);
 
             if (date_start === '' || date_end === '') {
                 Swal.fire({
