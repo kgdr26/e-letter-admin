@@ -86,21 +86,51 @@
         </div>
     </section>
 
+    {{-- Modal Noted Cancel --}}
+    <div class="modal fade" id="modal_noted" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Noted</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="" class="form-label">Note</label>
+                            <textarea name="" id="" cols="30" rows="10" class="form-control" data-name="text_note"></textarea>
+                            <input type="hidden" data-name="id_trx_assets_landing">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-name="save_noted">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Noted Cancel --}}
+
     {{-- Approve Assets --}}
     <script>
         $(document).on("click", "[data-name='approve']", function(e) {
             var id = $(this).attr("data-item");
             var id_director = "{!! $idn_user->id !!}";
+            var date            = new Date();
+            var datetime        = moment(date);
+            var director_detail   = '["'+datetime.format('YYYY-MM-DD HH:mm:ss')+'","-"]';
             var status = 5;
 
             var table = "trx_assets_landing";
             var whr = "id";
             var dats = {
                 id_director: id_director,
+                director_detail: director_detail,
                 status: status
             };
 
-            if (id === '' || id_director === '') {
+            if (id === '' || id_director === '' || director_detail === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Form is empty!',
@@ -152,17 +182,31 @@
     <script>
         $(document).on("click", "[data-name='canceled']", function(e) {
             var id = $(this).attr("data-item");
-            var id_director = "{!! $idn_user->id !!}";
+            $("[data-name='id_trx_assets_landing']").val(id);
+            $("#modal_noted").modal('show');
+            var date = new Date();
+            var datetime = moment(date);
+            // console.log(datetime.format('YYYY-MM-DD HH:mm:ss'));
+        });
+
+        $(document).on("click", "[data-name='save_noted']", function(e) {
+            var id              = $("[data-name='id_trx_assets_landing']").val();
+            var note            = $("[data-name='text_note']").val();
+            var id_director     = "{!! $idn_user->id !!}";
+            var date            = new Date();
+            var datetime        = moment(date);
+            var director_detail = '["'+datetime.format('YYYY-MM-DD HH:mm:ss')+'","'+note+'"]';
             var status = 6;
 
             var table = "trx_assets_landing";
             var whr = "id";
             var dats = {
                 id_director: id_director,
+                director_detail,
                 status: status
             };
 
-            if (id === '' || id_director === '') {
+            if (id === '' || id_director === '' || director_detail === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Form is empty!',
