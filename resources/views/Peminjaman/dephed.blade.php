@@ -66,11 +66,13 @@
                                                 <td>{{ $value->date_end }}</td>
                                                 <td>{{ $value->ast_name }} - {{ $value->ast_no }}</td>
                                                 <td>{{ $value->necessity }}</td>
-                                                <td>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-name="canceled" data-item="{{ $value->id }}">
-                                                        Cancel
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        data-name="canceled" data-item="{{ $value->id }}">
+                                                        Rejected
                                                     </button>
-                                                    <button type="button" class="btn btn-info btn-sm" data-name="approve" data-item="{{ $value->id }}">
+                                                    <button type="button" class="btn btn-info btn-sm" data-name="approve"
+                                                        data-item="{{ $value->id }}">
                                                         Approve Dephead
                                                     </button>
                                                 </td>
@@ -117,9 +119,9 @@
         $(document).on("click", "[data-name='approve']", function(e) {
             var id = $(this).attr("data-item");
             var id_dephed = "{!! $idn_user->id !!}";
-            var date            = new Date();
-            var datetime        = moment(date);
-            var dephed_detail   = '["'+datetime.format('YYYY-MM-DD HH:mm:ss')+'","-"]';
+            var date = new Date();
+            var datetime = moment(date);
+            var dephed_detail = '["' + datetime.format('YYYY-MM-DD HH:mm:ss') + '","-"]';
             var status = 2;
 
             var table = "trx_assets_landing";
@@ -190,13 +192,13 @@
         });
 
         $(document).on("click", "[data-name='save_noted']", function(e) {
-            var id              = $("[data-name='id_trx_assets_landing']").val();
-            var note            = $("[data-name='text_note']").val();
-            var date            = new Date();
-            var datetime        = moment(date);
-            var dephed_detail   = '["'+datetime.format('YYYY-MM-DD HH:mm:ss')+'","'+note+'"]';
-            var id_dephed   = "{!! $idn_user->id !!}";
-            var status      = 6;
+            var id = $("[data-name='id_trx_assets_landing']").val();
+            var note = $("[data-name='text_note']").val();
+            var date = new Date();
+            var datetime = moment(date);
+            var dephed_detail = '["' + datetime.format('YYYY-MM-DD HH:mm:ss') + '","' + note + '"]';
+            var id_dephed = "{!! $idn_user->id !!}";
+            var status = 6;
 
             var table = "trx_assets_landing";
             var whr = "id";
