@@ -116,7 +116,210 @@ function cekketersediaanassets($reqbooking, $kategori, $date_start, $date_end){
 }
 
 
+function detailtimeline($id){
+    $data   = collect(\DB::select("SELECT * FROM trx_assets_landing WHERE id='$id'"))->first();
 
+    $arr    = '';
+    $arr  .='<li class="timeline-item">';
+    $arr  .='<div class="timeline-badge primary"><i class="glyphicon glyphicon-check"></i></div>';
+    $arr  .='<div class="timeline-panel">';
+    $arr  .='<div class="timeline-heading">';
+    $arr  .='<h4 class="timeline-title">CREATE</h4>';
+    $arr  .='<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>'.$data->date_create.'</small></p>';
+    $arr  .='</div>';
+    $arr  .='<div class="timeline-body">';
+    $arr  .='<div class="row">';
+    $usr   = collect(\DB::select("SELECT * FROM users WHERE id='$data->id_user'"))->first();
+    $arr  .='<div class="col-lg-4 col-md-4 label ">User Action</div>';
+    $arr  .='<div class="col-lg-8 col-md-8">'.$usr->name.'</div>';
+    $arr  .='</div>';
+    $arr  .='<div class="row">';
+    $arr  .='<div class="col-lg-4 col-md-4 label ">NPK</div>';
+    $arr  .='<div class="col-lg-8 col-md-8">'.$usr->npk.'</div>';
+    $arr  .='</div>';
+    $arr  .='<div class="row">';
+    $arr  .='<div class="col-lg-4 col-md-4 label ">Note</div>';
+    $arr  .='<div class="col-lg-8 col-md-8">'.$data->necessity.'</div>';
+    $arr  .='</div>';
+    $arr  .='</div>';
+    $arr  .='</div>';
+    $arr  .='</li>';
+
+    $dtid_dephed = $data->id_dephed;
+    if($dtid_dephed != null || $dtid_dephed != ''){
+        $arr  .='<li class="timeline-item">';
+        $arr  .='<div class="timeline-badge primary"><i class="glyphicon glyphicon-check"></i></div>';
+        $arr  .='<div class="timeline-panel">';
+        $arr  .='<div class="timeline-heading">';
+        $arr  .='<h4 class="timeline-title">CREATE</h4>';
+        $dtrinci    = json_decode($data->dephed_detail);
+        if($data->dephed_detail != null || $data->dephed_detail != ''){
+            $arr  .='<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>'.$dtrinci[0].'</small></p>';
+        }else{
+            $arr  .='<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>-</small></p>';
+        }
+        $arr  .='</div>';
+        $arr  .='<div class="timeline-body">';
+        $arr  .='<div class="row">';
+        $usr   = collect(\DB::select("SELECT * FROM users WHERE id='$data->id_dephed'"))->first();
+        $arr  .='<div class="col-lg-4 col-md-4 label ">User Action</div>';
+        $arr  .='<div class="col-lg-8 col-md-8">'.$usr->name.'</div>';
+        $arr  .='</div>';
+        $arr  .='<div class="row">';
+        $arr  .='<div class="col-lg-4 col-md-4 label ">NPK</div>';
+        $arr  .='<div class="col-lg-8 col-md-8">'.$usr->npk.'</div>';
+        $arr  .='</div>';
+        $arr  .='<div class="row">';
+        $arr  .='<div class="col-lg-4 col-md-4 label ">Note</div>';
+        if($data->dephed_detail != null || $data->dephed_detail != ''){
+            $arr  .='<div class="col-lg-8 col-md-8">'.$dtrinci[1].'</div>';
+        }else{
+            $arr  .='<div class="col-lg-8 col-md-8">-</div>';
+        }
+        $arr  .='</div>';
+        $arr  .='</div>';
+        $arr  .='</div>';
+        $arr  .='</li>';
+    }
+
+    $dtid_first = $data->id_first;
+    if($dtid_first != null || $dtid_first != ''){
+        $arr  .='<li class="timeline-item">';
+        $arr  .='<div class="timeline-badge primary"><i class="glyphicon glyphicon-check"></i></div>';
+        $arr  .='<div class="timeline-panel">';
+        $arr  .='<div class="timeline-heading">';
+        $arr  .='<h4 class="timeline-title">HRGA APPROVED</h4>';
+        $dtrinci    = json_decode($data->first_detail);
+        if($data->first_detail != null || $data->first_detail != ''){
+            $arr  .='<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>'.$dtrinci[0].'</small></p>';
+        }else{
+            $arr  .='<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>-</small></p>';
+        }
+        $arr  .='</div>';
+        $arr  .='<div class="timeline-body">';
+        $arr  .='<div class="row">';
+        $usr   = collect(\DB::select("SELECT * FROM users WHERE id='$data->id_first'"))->first();
+        $arr  .='<div class="col-lg-4 col-md-4 label ">User Action</div>';
+        $arr  .='<div class="col-lg-8 col-md-8">'.$usr->name.'</div>';
+        $arr  .='</div>';
+        $arr  .='<div class="row">';
+        $arr  .='<div class="col-lg-4 col-md-4 label ">NPK</div>';
+        $arr  .='<div class="col-lg-8 col-md-8">'.$usr->npk.'</div>';
+        $arr  .='</div>';
+        $arr  .='<div class="row">';
+        $arr  .='<div class="col-lg-4 col-md-4 label ">Note</div>';
+        if($data->first_detail != null || $data->first_detail != ''){
+            $arr  .='<div class="col-lg-8 col-md-8">'.$dtrinci[1].'</div>';
+        }else{
+            $arr  .='<div class="col-lg-8 col-md-8">-</div>';
+        }
+        $arr  .='</div>';
+        $arr  .='</div>';
+        $arr  .='</div>';
+        $arr  .='</li>';
+    }
+
+    $dtid_second = $data->id_second;
+    if($dtid_second != null || $dtid_second != ''){
+        $arr  .='<li class="timeline-item">';
+        $arr  .='<div class="timeline-badge primary"><i class="glyphicon glyphicon-check"></i></div>';
+        $arr  .='<div class="timeline-panel">';
+        $arr  .='<div class="timeline-heading">';
+        $arr  .='<h4 class="timeline-title">SCURITY</h4>';
+        $dtrinci    = json_decode($data->second_detail);
+        if($data->second_detail != null || $data->second_detail != ''){
+            $arr  .='<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>'.$dtrinci[0].'</small></p>';
+        }else{
+            $arr  .='<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>-</small></p>';
+        }
+        $arr  .='</div>';
+        $arr  .='<div class="timeline-body">';
+        $arr  .='<div class="row">';
+        $usr   = collect(\DB::select("SELECT * FROM users WHERE id='$data->id_second'"))->first();
+        $arr  .='<div class="col-lg-4 col-md-4 label ">User Action</div>';
+        $arr  .='<div class="col-lg-8 col-md-8">'.$usr->name.'</div>';
+        $arr  .='</div>';
+        $arr  .='<div class="row">';
+        $arr  .='<div class="col-lg-4 col-md-4 label ">NPK</div>';
+        $arr  .='<div class="col-lg-8 col-md-8">'.$usr->npk.'</div>';
+        $arr  .='</div>';
+        $arr  .='<div class="row">';
+        $arr  .='<div class="col-lg-4 col-md-4 label ">Note</div>';
+        if($data->second_detail != null || $data->second_detail != ''){
+            $arr  .='<div class="col-lg-8 col-md-8">'.$dtrinci[1].'</div>';
+        }else{
+            $arr  .='<div class="col-lg-8 col-md-8">-</div>';
+        }
+        $arr  .='</div>';
+        $arr  .='</div>';
+        $arr  .='</div>';
+        $arr  .='</li>';
+    }
+
+    $dtid_director = $data->id_director;
+    if($dtid_director != null || $dtid_director != ''){
+        $arr  .='<li class="timeline-item">';
+        $arr  .='<div class="timeline-badge primary"><i class="glyphicon glyphicon-check"></i></div>';
+        $arr  .='<div class="timeline-panel">';
+        $arr  .='<div class="timeline-heading">';
+        $arr  .='<h4 class="timeline-title">RETURNED</h4>';
+        $dtrinci    = json_decode($data->director_detail);
+        if($data->director_detail != null || $data->director_detail != ''){
+            $arr  .='<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>'.$dtrinci[0].'</small></p>';
+        }else{
+            $arr  .='<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>-</small></p>';
+        }
+        $arr  .='</div>';
+        $arr  .='<div class="timeline-body">';
+        $arr  .='<div class="row">';
+        $usr   = collect(\DB::select("SELECT * FROM users WHERE id='$data->id_director'"))->first();
+        $arr  .='<div class="col-lg-4 col-md-4 label ">User Action</div>';
+        $arr  .='<div class="col-lg-8 col-md-8">'.$usr->name.'</div>';
+        $arr  .='</div>';
+        $arr  .='<div class="row">';
+        $arr  .='<div class="col-lg-4 col-md-4 label ">NPK</div>';
+        $arr  .='<div class="col-lg-8 col-md-8">'.$usr->npk.'</div>';
+        $arr  .='</div>';
+        $arr  .='<div class="row">';
+        $arr  .='<div class="col-lg-4 col-md-4 label ">Note</div>';
+        if($data->director_detail != null || $data->director_detail != ''){
+            $arr  .='<div class="col-lg-8 col-md-8">'.$dtrinci[1].'</div>';
+        }else{
+            $arr  .='<div class="col-lg-8 col-md-8">-</div>';
+        }
+        $arr  .='</div>';
+        $arr  .='</div>';
+        $arr  .='</div>';
+        $arr  .='</li>';
+    }
+
+    $arr  .='<li class="timeline-item" style="display:none">';
+    $arr  .='<div class="timeline-badge primary"><i class="glyphicon glyphicon-check"></i></div>';
+    $arr  .='<div class="timeline-panel">';
+    $arr  .='<div class="timeline-heading">';
+    $arr  .='<h4 class="timeline-title">CREATE</h4>';
+    $arr  .='<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>'.$data->date_create.'</small></p>';
+    $arr  .='</div>';
+    $arr  .='<div class="timeline-body">';
+    $arr  .='<div class="row">';
+    $usr   = collect(\DB::select("SELECT * FROM users WHERE id='$data->id_user'"))->first();
+    $arr  .='<div class="col-lg-4 col-md-4 label ">User Action</div>';
+    $arr  .='<div class="col-lg-8 col-md-8">'.$usr->name.'</div>';
+    $arr  .='</div>';
+    $arr  .='<div class="row">';
+    $arr  .='<div class="col-lg-4 col-md-4 label ">NPK</div>';
+    $arr  .='<div class="col-lg-8 col-md-8">'.$usr->npk.'</div>';
+    $arr  .='</div>';
+    $arr  .='<div class="row">';
+    $arr  .='<div class="col-lg-4 col-md-4 label ">Note</div>';
+    $arr  .='<div class="col-lg-8 col-md-8">'.$data->necessity.'</div>';
+    $arr  .='</div>';
+    $arr  .='</div>';
+    $arr  .='</div>';
+    $arr  .='</li>';
+
+    return $arr;
+}
 
 
 ?>

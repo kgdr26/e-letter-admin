@@ -193,6 +193,10 @@
             var table = "trx_assets_landing";
             var status = 1;
 
+            var date            = new Date();
+            var datetime        = moment(date);
+            var date_create     = datetime.format('YYYY-MM-DD HH:mm:ss');
+
             // var arrstart    = moment(date_start).format('Y-mm-D');
             // var arrend    = moment(date_end).format('Y-mm-D');
 
@@ -207,6 +211,7 @@
             var arrtgl  = JSON.stringify(arrtglloop);
 
             var data = {
+                date_create: date_create,
                 date_start: date_start,
                 date_end: date_end,
                 data_asset: data_asset,

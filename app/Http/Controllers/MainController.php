@@ -534,8 +534,8 @@ class MainController extends Controller
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
-            ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
-            ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->get();
+                    ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+                    ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->orderBy('trx_assets_landing.id', 'desc')->get();
         $data = array(
             'title' => 'Show Lending Assets',
             'arr'   => $arr,
@@ -712,13 +712,27 @@ class MainController extends Controller
         return response($arr);
     }
 
+    function showdetailtimeline(Request $request)
+    {
+        $id         = $request['id'];
+        $listdata    = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'b.npk', 'c.name as ast_name', 'c.no_assets as ast_no')
+                    ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+                    ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->where('trx_assets_landing.id', $id)->first();
+        $detailtimeline = detailtimeline($id );
+
+        $arr['listdata']    = $listdata;
+        $arr['timeline']    = $detailtimeline;
+
+        return $arr;
+    }
+
     function test()
     {
         $reqbooking  = '["2024-04-27"]';
         $kategori  = 1;
         $date_start  = '2024-04-27 20:00:00';
         $date_end  = '2024-04-27 23:00:00';
-        $arr = cekketersediaanassets($reqbooking, $kategori, $date_start, $date_end);
+        $arr = detailtimeline(7);
         echo '<pre>';
         print_r($arr);
         exit;
