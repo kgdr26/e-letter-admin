@@ -67,10 +67,9 @@
                                                 <td>{{ $value->ast_name }} - {{ $value->ast_no }}</td>
                                                 <td>{{ $value->necessity }}</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-name="canceled" data-item="{{ $value->id }}">
-                                                        Cancel
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-name="approve" data-item="{{ $value->id }}">
+                                                    {{-- x --}}
+                                                    <button type="button" class="btn btn-danger btn-sm" data-name="approve"
+                                                        data-item="{{ $value->id }}">
                                                         Returned
                                                     </button>
                                                 </td>
@@ -117,9 +116,9 @@
         $(document).on("click", "[data-name='approve']", function(e) {
             var id = $(this).attr("data-item");
             var id_director = "{!! $idn_user->id !!}";
-            var date            = new Date();
-            var datetime        = moment(date);
-            var director_detail   = '["'+datetime.format('YYYY-MM-DD HH:mm:ss')+'","-"]';
+            var date = new Date();
+            var datetime = moment(date);
+            var director_detail = '["' + datetime.format('YYYY-MM-DD HH:mm:ss') + '","-"]';
             var status = 5;
 
             var table = "trx_assets_landing";
@@ -190,12 +189,12 @@
         });
 
         $(document).on("click", "[data-name='save_noted']", function(e) {
-            var id              = $("[data-name='id_trx_assets_landing']").val();
-            var note            = $("[data-name='text_note']").val();
-            var id_director     = "{!! $idn_user->id !!}";
-            var date            = new Date();
-            var datetime        = moment(date);
-            var director_detail = '["'+datetime.format('YYYY-MM-DD HH:mm:ss')+'","'+note+'"]';
+            var id = $("[data-name='id_trx_assets_landing']").val();
+            var note = $("[data-name='text_note']").val();
+            var id_director = "{!! $idn_user->id !!}";
+            var date = new Date();
+            var datetime = moment(date);
+            var director_detail = '["' + datetime.format('YYYY-MM-DD HH:mm:ss') + '","' + note + '"]';
             var status = 6;
 
             var table = "trx_assets_landing";
