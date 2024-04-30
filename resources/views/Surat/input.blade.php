@@ -131,7 +131,8 @@
                             <select name="" id="" class="form-select select2-add" data-name="to_dept">
                                 <option value="">-- Select Dept --</option>
                                 @foreach ($role as $kr => $vr)
-                                    @if ($vr->id != 1 && $vr->id != 11 && $vr->id != 12)
+                                    {{-- @if ($vr->id != 1 && $vr->id != 11 && $vr->id != 12 && $vr->id != 5) --}}
+                                    @if ($vr->id == 2 || $vr->id == 3 || $vr->id == 4 || $vr->id == 5 || $vr->id == 6)
                                         <option value="{{ $vr->id }}">{{ $vr->name }}</option>
                                     @endif
                                     {{-- <option value="{{ $vr->id }}">{{ $vr->name }}</option> --}}
@@ -177,7 +178,8 @@
                                 data-name="edit_to_dept">
                                 <option value="">-- Select Dept --</option>
                                 @foreach ($role as $kr => $vr)
-                                    @if ($vr->id != 1 && $vr->id != 11 && $vr->id != 12)
+                                    {{-- @if ($vr->id != 1 && $vr->id != 11 && $vr->id != 12) --}}
+                                    @if ($vr->id == 2 || $vr->id == 3 || $vr->id == 4 || $vr->id == 5 || $vr->id == 6)
                                         <option value="{{ $vr->id }}">{{ $vr->name }}</option>
                                     @endif
                                     {{-- <option value="{{ $vr->id }}">{{ $vr->name }}</option> --}}

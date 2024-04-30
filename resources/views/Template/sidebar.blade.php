@@ -2,7 +2,26 @@
 
     <ul class="sidebar-nav" id="sidebar-nav">
         @php
-            $role_data_side = ['1', '2', '3', '4', '5', '6', '7', '9', '10', '11', '12'];
+            $role_data_side = [
+                '1',
+                '7',
+                '9',
+                '10',
+                '11',
+                '12',
+                '13',
+                '14',
+                '15',
+                '16',
+                '17',
+                '18',
+                '19',
+                '20',
+                '21',
+                '22',
+                '23',
+                '25',
+            ];
         @endphp
         @if (in_array($idn_user->role_id, $role_data_side))
             <li class="nav-item">
@@ -14,7 +33,26 @@
         @endif
 
         @php
-            $role_data_side = ['1', '2', '3', '4', '5', '6', '7', '9', '10', '11', '12'];
+            $role_data_side = [
+                '1',
+                '7',
+                '9',
+                '10',
+                '11',
+                '12',
+                '13',
+                '14',
+                '15',
+                '16',
+                '17',
+                '18',
+                '19',
+                '20',
+                '21',
+                '22',
+                '23',
+                '25',
+            ];
         @endphp
         @if (in_array($idn_user->role_id, $role_data_side))
             <li class="nav-item">
@@ -38,7 +76,26 @@
         @endif
 
         @php
-            $role_data_side = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+            $role_data_side = [
+                '1',
+                '7',
+                '9',
+                '10',
+                '11',
+                '12',
+                '13',
+                '14',
+                '15',
+                '16',
+                '17',
+                '18',
+                '19',
+                '20',
+                '21',
+                '22',
+                '23',
+                '25',
+            ];
         @endphp
         @if (in_array($idn_user->role_id, $role_data_side))
             <li class="nav-item">
@@ -57,7 +114,7 @@
         </li> --}}
 
         @php
-            $role_data_side = ['1', '2', '9', '10', '11'];
+            $role_data_side = ['1', '8', '16', '22'];
         @endphp
         @if (in_array($idn_user->role_id, $role_data_side))
             <li class="nav-item">

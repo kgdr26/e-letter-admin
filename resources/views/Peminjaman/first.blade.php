@@ -66,11 +66,14 @@
                                                 <td>{{ $value->date_end }}</td>
                                                 <td>{{ $value->ast_name }} - {{ $value->ast_no }}</td>
                                                 <td>{{ $value->necessity }}</td>
-                                                <td>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-name="canceled" data-item="{{ $value->id }}">
-                                                        Cancel
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        data-name="canceled" data-item="{{ $value->id }}">
+                                                        Rejected
                                                     </button>
-                                                    <button type="button" class="btn btn-success btn-sm" data-name="approve" data-item="{{ $value->id }}" data-kategori="{{$value->ast_kat}}">
+                                                    <button type="button" class="btn btn-success btn-sm"
+                                                        data-name="approve" data-item="{{ $value->id }}"
+                                                        data-kategori="{{ $value->ast_kat }}">
                                                         Approve HRGA
                                                     </button>
                                                 </td>
@@ -118,16 +121,16 @@
             var id = $(this).attr("data-item");
             var kategori = $(this).attr("data-kategori");
             var id_first = "{!! $idn_user->id !!}";
-            var date            = new Date();
-            var datetime        = moment(date);
-            var first_detail   = '["'+datetime.format('YYYY-MM-DD HH:mm:ss')+'","-"]';
+            var date = new Date();
+            var datetime = moment(date);
+            var first_detail = '["' + datetime.format('YYYY-MM-DD HH:mm:ss') + '","-"]';
 
-            if(kategori === '1'){
+            if (kategori === '1') {
                 var status = 3;
-            }else{
+            } else {
                 var status = 5;
             }
-            
+
             var table = "trx_assets_landing";
             var whr = "id";
             var dats = {
@@ -196,12 +199,12 @@
         });
 
         $(document).on("click", "[data-name='save_noted']", function(e) {
-            var id              = $("[data-name='id_trx_assets_landing']").val();
-            var note            = $("[data-name='text_note']").val();
-            var id_first        = "{!! $idn_user->id !!}";
-            var date            = new Date();
-            var datetime        = moment(date);
-            var first_detail    = '["'+datetime.format('YYYY-MM-DD HH:mm:ss')+'","'+note+'"]';
+            var id = $("[data-name='id_trx_assets_landing']").val();
+            var note = $("[data-name='text_note']").val();
+            var id_first = "{!! $idn_user->id !!}";
+            var date = new Date();
+            var datetime = moment(date);
+            var first_detail = '["' + datetime.format('YYYY-MM-DD HH:mm:ss') + '","' + note + '"]';
             var status = 6;
             var table = "trx_assets_landing";
             var whr = "id";

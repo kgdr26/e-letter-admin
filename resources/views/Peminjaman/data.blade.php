@@ -70,7 +70,7 @@
                                                 <td class="text-center">
                                                     @if ($value->status == 1)
                                                         <button type="button" class="btn btn-secondary btn-sm" disabled>
-                                                            Create
+                                                            Create Form
                                                         </button>
                                                     @elseif($value->status == 2)
                                                         <button type="button" class="btn btn-info btn-sm" disabled>
@@ -82,7 +82,7 @@
                                                         </button>
                                                     @elseif($value->status == 4)
                                                         <button type="button" class="btn btn-warning btn-sm" disabled>
-                                                            Security Validate
+                                                            Validate
                                                         </button>
                                                     @elseif($value->status == 5)
                                                         <button type="button" class="btn btn-danger btn-sm" disabled>
@@ -90,11 +90,11 @@
                                                         </button>
                                                     @elseif($value->status == 6)
                                                         <button type="button" class="btn btn-danger btn-sm" disabled>
-                                                            Canceled
+                                                            Rejected
                                                         </button>
                                                     @else
                                                         <button type="button" class="btn btn-primary btn-sm" disabled>
-                                                            Approve
+                                                            Approved
                                                         </button>
                                                     @endif
                                                 </td>
