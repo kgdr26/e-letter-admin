@@ -120,13 +120,15 @@
             var datetime = moment(date);
             var director_detail = '["' + datetime.format('YYYY-MM-DD HH:mm:ss') + '","-"]';
             var status = 5;
+            var update_by = "{!! $idn_user->id !!}";
 
             var table = "trx_assets_landing";
             var whr = "id";
             var dats = {
                 id_director: id_director,
                 director_detail: director_detail,
-                status: status
+                status: status,
+                update_by: update_by
             };
 
             if (id === '' || id_director === '' || director_detail === '') {

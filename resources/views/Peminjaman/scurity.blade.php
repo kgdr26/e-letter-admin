@@ -140,12 +140,14 @@
             var id = $("[data-name='val_id']").val();
             var id_second = "{!! $idn_user->id !!}";
             var status = 4;
+            var update_by = "{!! $idn_user->id !!}";
 
             var table = "trx_assets_landing";
             var whr = "id";
             var dats = {
                 id_second: id_second,
-                status: status
+                status: status,
+                update_by: update_by
             };
 
             if (id === '' || id_second === '') {

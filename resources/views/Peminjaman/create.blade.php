@@ -192,6 +192,7 @@
             var id_user = "{!! $idn_user->id !!}";
             var table = "trx_assets_landing";
             var status = 1;
+            var update_by = "{!! $idn_user->id !!}";
 
             var date            = new Date();
             var datetime        = moment(date);
@@ -218,7 +219,8 @@
                 arrtgl: arrtgl,
                 necessity: necessity,
                 id_user: id_user,
-                status: status
+                status: status,
+                update_by: update_by
             };
 
             if (date_start === '' || date_end === '' || data_asset === '' || necessity === '' || id_user === '') {

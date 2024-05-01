@@ -123,13 +123,15 @@
             var datetime = moment(date);
             var dephed_detail = '["' + datetime.format('YYYY-MM-DD HH:mm:ss') + '","-"]';
             var status = 2;
+            var update_by = "{!! $idn_user->id !!}";
 
             var table = "trx_assets_landing";
             var whr = "id";
             var dats = {
                 id_dephed: id_dephed,
                 dephed_detail: dephed_detail,
-                status: status
+                status: status,
+                update_by: update_by
             };
 
             if (id === '' || id_dephed === '' || dephed_detail === '') {

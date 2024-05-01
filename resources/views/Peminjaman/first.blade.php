@@ -124,6 +124,7 @@
             var date = new Date();
             var datetime = moment(date);
             var first_detail = '["' + datetime.format('YYYY-MM-DD HH:mm:ss') + '","-"]';
+            var update_by = "{!! $idn_user->id !!}";
 
             if (kategori === '1') {
                 var status = 3;
@@ -136,7 +137,8 @@
             var dats = {
                 id_first: id_first,
                 first_detail: first_detail,
-                status: status
+                status: status,
+                update_by: update_by
             };
 
             if (id === '' || id_first === '' || first_detail === '') {

@@ -715,13 +715,14 @@ class MainController extends Controller
     function showdetailtimeline(Request $request)
     {
         $id         = $request['id'];
-        $listdata    = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'b.npk', 'c.name as ast_name', 'c.no_assets as ast_no')
+        $listdata    = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'b.npk', 'c.name as ast_name', 'c.no_assets as ast_no', 'd.name as updt_name')
                     ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+                    ->leftJoin('users AS d', 'd.id', '=', 'trx_assets_landing.update_by')
                     ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->where('trx_assets_landing.id', $id)->first();
-        $detailtimeline = detailtimeline($id);
+        // $detailtimeline = detailtimeline($id);
 
         $arr['listdata']    = $listdata;
-        $arr['timeline']    = $detailtimeline;
+        // $arr['timeline']    = $detailtimeline;
 
         return $arr;
     }
