@@ -73,9 +73,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('document', [MainController::class, 'document'])->name('document');
     Route::get('detaildocument', [MainController::class, 'detaildocument'])->name('detaildocument');
-
-
     Route::get('scurity', [MainController::class, 'scurity'])->name('scurity');
+
+    Route::get('employeloan', [MainController::class, 'employeloan'])->name('employeloan');
+    Route::post('dataemploye', [MainController::class, 'dataemploye'])->name('dataemploye');
+    
     
     //Action
     Route::get('assetscall', [MainController::class, 'assetscall'])->name('assetscall');

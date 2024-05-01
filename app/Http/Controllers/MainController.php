@@ -718,7 +718,7 @@ class MainController extends Controller
         $listdata    = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'b.npk', 'c.name as ast_name', 'c.no_assets as ast_no')
                     ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
                     ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->where('trx_assets_landing.id', $id)->first();
-        $detailtimeline = detailtimeline($id );
+        $detailtimeline = detailtimeline($id);
 
         $arr['listdata']    = $listdata;
         $arr['timeline']    = $detailtimeline;
@@ -726,13 +726,39 @@ class MainController extends Controller
         return $arr;
     }
 
+    function employeloan()
+    {
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk')
+                    ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')->orderBy('trx_employe_loan.id', 'desc')->get();
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $listkarayawan  = DB::select("SELECT * FROM mst_karyawan where is_active=1");
+        $data = array(
+            'title' => 'Employe Loan',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role'  => $role,
+            'listkarayawan' => $listkarayawan
+        );
+
+        return view('Employeloan.list')->with($data);
+    }
+
+    function dataemploye(Request $request){
+        $type     = $request['type'];
+        $bulan    = $request['bulan'];
+        $idkry    = $request['idkry'];
+        $arr    = showdataemploye($type, $bulan, $idkry);
+        return response($arr);
+    }
+     
     function test()
     {
         $reqbooking  = '["2024-04-27"]';
         $kategori  = 1;
         $date_start  = '2024-04-27 20:00:00';
         $date_end  = '2024-04-27 23:00:00';
-        $arr = detailtimeline(7);
+        $arr = showdataemploye();
         echo '<pre>';
         print_r($arr);
         exit;

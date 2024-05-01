@@ -126,6 +126,20 @@
         @endif
 
         <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('employeloan') }}">
+                <i class="bi bi-person-circle"></i>
+                <span>Employe Loan</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="">
+                <i class="bi bi-person-circle"></i>
+                <span>Karyawan</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('logout') }}">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Logout</span>

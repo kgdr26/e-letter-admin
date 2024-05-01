@@ -4,6 +4,29 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Carbon\Carbon;
+
+function convertToIndonesianMonth($date) {
+    $months = [
+        1 => 'Januari',
+        2 => 'Februari',
+        3 => 'Maret',
+        4 => 'April',
+        5 => 'Mei',
+        6 => 'Juni',
+        7 => 'Juli',
+        8 => 'Agustus',
+        9 => 'September',
+        10 => 'Oktober',
+        11 => 'November',
+        12 => 'Desember'
+    ];
+
+    $date = Carbon::parse($date);
+    $month = $months[$date->month];
+
+    return $month . ' ' . $date->year;
+}
 
 function idn_user($id){
     $arr    = collect(\DB::select("SELECT * FROM users WHERE id='$id'"))->first();
@@ -321,5 +344,38 @@ function detailtimeline($id){
     return $arr;
 }
 
+function showdataemploye(){
+
+    $data   = DB::table('trx_employe_loan')->where('is_active', 1)->get();
+    $bulan  = date('Y-m');
+
+    $categories     = [];
+    $dibayar        = [];
+    $terbayarkan    = [];
+    $sisa           = [];
+    foreach($data as $key => $val){
+        $kry                = collect(\DB::select("SELECT * FROM mst_karyawan WHERE id='$val->id_karyawan'"))->first();
+        $listpembayaran     = json_decode($val->list_pembayaran);
+        foreach($listpembayaran as $list => $pem){
+            if($pem->bulan == $bulan){
+                $dibayar[$key]      = intval($pem->nominal);
+                $terbayarkan[$key]  = intval($pem->terbayarkan);
+                $sisa[$key]         = intval($pem->sisa);
+            }
+        }
+
+        if(count($listpembayaran) !== 0){
+            $categories[$key] = $kry->name;
+        }
+    }
+
+    $arr['categories']      = $categories;
+    $arr['dibayar']         = $dibayar;
+    $arr['terbayarkan']     = $terbayarkan;
+    $arr['sisa']            = $sisa;
+
+
+    return $arr;
+}
 
 ?>
