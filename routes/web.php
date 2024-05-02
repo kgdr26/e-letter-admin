@@ -27,47 +27,47 @@ Route::get('test', [MainController::class, 'test'])->name('test');
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::middleware(['auth'],'role_id:1')->group(function () {
+    Route::middleware(['auth'], 'role_id:1')->group(function () {
         Route::get('users', [MainController::class, 'users'])->name('users');
     });
 
-    Route::middleware(['auth'],'role_id:1|2|3|4|5|6|7|9|10|11')->group(function () {
+    Route::middleware(['auth'], 'role_id:1|7|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|25')->group(function () {
         Route::get('inputsurat', [MainController::class, 'inputsurat'])->name('inputsurat');
     });
 
-    Route::middleware(['auth'],'role_id:1|2|3|4|5|6|7|8|9|10|11')->group(function () {
+    Route::middleware(['auth'], 'role_id:1|7|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25')->group(function () {
         Route::get('assetsdash', [MainController::class, 'assetsdash'])->name('assetsdash');
     });
 
-    Route::middleware(['auth'],'role_id:1|2|3|4|5|6|7|9|10|11')->group(function () {
+    Route::middleware(['auth'], 'role_id:1|7|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|25')->group(function () {
         Route::get('assetscreate', [MainController::class, 'assetscreate'])->name('assetscreate');
     });
 
-    Route::middleware(['auth'],'role_id:1|7|10')->group(function () {
+    Route::middleware(['auth'], 'role_id:1|7|8|9|10')->group(function () {
         Route::get('assetsdephed', [MainController::class, 'assetsdephed'])->name('assetsdephed');
     });
 
-    Route::middleware(['auth'],'role_id:1|2|11')->group(function () {
+    Route::middleware(['auth'], 'role_id:1|16|21|22')->group(function () {
         Route::get('assetsfirst', [MainController::class, 'assetsfirst'])->name('assetsfirst');
     });
 
-    Route::middleware(['auth'],'role_id:1|8')->group(function () {
+    Route::middleware(['auth'], 'role_id:1|24')->group(function () {
         Route::get('assetssecond', [MainController::class, 'assetssecond'])->name('assetssecond');
     });
 
-    Route::middleware(['auth'],'role_id:1|8')->group(function () {
+    Route::middleware(['auth'], 'role_id:1|24')->group(function () {
         Route::get('assetsdirector', [MainController::class, 'assetsdirector'])->name('assetsdirector');
     });
 
-    Route::middleware(['auth'],'role_id:1|2|3|4|5|6|7|8|9|10|11')->group(function () {
+    Route::middleware(['auth'], 'role_id:1|7|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25')->group(function () {
         Route::get('assetsdata', [MainController::class, 'assetsdata'])->name('assetsdata');
     });
 
-    Route::middleware(['auth'],'role_id:1|2|9|10|11')->group(function () {
+    Route::middleware(['auth'], 'role_id:1|8|16|21|22')->group(function () {
         Route::get('dataasset', [MainController::class, 'dataasset'])->name('dataasset');
     });
 
-    Route::middleware(['auth'],'role_id:1|2|9|10|11')->group(function () {
+    Route::middleware(['auth'], 'role_id:1|8|16|21|22')->group(function () {
         Route::get('assetscheck', [MainController::class, 'assetscheck'])->name('assetscheck');
     });
 
@@ -77,8 +77,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('employeloan', [MainController::class, 'employeloan'])->name('employeloan');
     Route::post('dataemploye', [MainController::class, 'dataemploye'])->name('dataemploye');
-    
-    
+
+
     //Action
     Route::get('assetscall', [MainController::class, 'assetscall'])->name('assetscall');
     Route::get('assetchecksheetcall', [MainController::class, 'assetchecksheetcall'])->name('assetchecksheetcall');

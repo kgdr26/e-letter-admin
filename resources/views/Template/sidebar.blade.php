@@ -1,10 +1,11 @@
 <aside id="sidebar" class="sidebar">
-
     <ul class="sidebar-nav" id="sidebar-nav">
+        <li class="nav-heading">GENERAL</li>
         @php
             $role_data_side = [
                 '1',
                 '7',
+                '8',
                 '9',
                 '10',
                 '11',
@@ -26,7 +27,7 @@
         @if (in_array($idn_user->role_id, $role_data_side))
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('inputsurat') }}">
-                    <i class="bi bi-person-circle"></i>
+                    <i class="bi bi-journal-text"></i>
                     <span>Adm. Letter</span>
                 </a>
             </li>
@@ -79,6 +80,7 @@
             $role_data_side = [
                 '1',
                 '7',
+                '8',
                 '9',
                 '10',
                 '11',
@@ -94,13 +96,14 @@
                 '21',
                 '22',
                 '23',
+                '24',
                 '25',
             ];
         @endphp
         @if (in_array($idn_user->role_id, $role_data_side))
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('assetsdash') }}">
-                    <i class="bi bi-person-circle"></i>
+                    <i class="bi bi-layout-text-window-reverse"></i>
                     <span>Asset Lending</span>
                 </a>
             </li>
@@ -112,36 +115,43 @@
                 <span>Security</span>
             </a>
         </li> --}}
-
         @php
-            $role_data_side = ['1', '8', '16', '22'];
+            $role_data_side = ['1', '8', '16'];
         @endphp
         @if (in_array($idn_user->role_id, $role_data_side))
+            <li class="nav-heading">HRGA</li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('assetscheck') }}">
-                    <i class="bi bi-person-circle"></i>
-                    <span>General Affair</span>
+                <a class="nav-link collapsed" href="{{ route('employeloan') }}">
+                    <i class="bi bi-gem"></i>
+                    <span>Employe Loan</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="">
+                    <i class="bi bi-bar-chart"></i>
+                    <span>Dashboard CLP | COP</span>
                 </a>
             </li>
         @endif
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ route('employeloan') }}">
-                <i class="bi bi-person-circle"></i>
-                <span>Employe Loan</span>
-            </a>
-        </li>
+        @php
+            $role_data_side = ['1', '8', '16', '21', '22'];
+        @endphp
+        @if (in_array($idn_user->role_id, $role_data_side))
+            <li class="nav-heading">GENERAL AFFAIR</li>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('assetscheck') }}">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Checksheet Cars</span>
+                </a>
+            </li>
+        @endif
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="">
-                <i class="bi bi-person-circle"></i>
-                <span>Karyawan</span>
-            </a>
-        </li>
-
+        <hr>
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('logout') }}">
-                <i class="bi bi-box-arrow-right"></i>
+                <i class="bi bi-box-arrow-in-right"></i>
                 <span>Logout</span>
             </a>
         </li>

@@ -17,11 +17,11 @@ class AuthController extends Controller
     {
         if (Auth::check()) {
             // return redirect()->route('inputsurat');
-            if(auth::user()->role_id == 8){
+            if (auth::user()->role_id == 24) {
                 return redirect()->route('assetsdash');
-            }else{
+            } else {
                 return redirect()->route('inputsurat');
-            } 
+            }
         }
         return view('login');
     }
@@ -41,7 +41,7 @@ class AuthController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput($request->all);
         }
 
@@ -53,20 +53,20 @@ class AuthController extends Controller
         Auth::attempt($data);
 
         if (Auth::check()) { // true sekalian session field di users nanti bisa dipanggil via Auth
-            if(auth::user()->role_id == 8){
+            if (auth::user()->role_id == 24) {
                 return redirect()->route('assetsdash');
-            }else{
+            } else {
                 return redirect()->route('inputsurat');
-            }            
+            }
         } else {
             //Login Fail
             Session::flash('error', 'Username atau Password salah');
             return redirect()->route('login');
         }
-
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         header("cache-Control: no-store, no-cache, must-revalidate");
         header("cache-Control: post-check=0, pre-check=0", false);
         header("Pragma: no-cache");
@@ -76,6 +76,4 @@ class AuthController extends Controller
         Auth::logout(); // menghapus session yang aktif
         return redirect()->route('login');
     }
-
-
 }

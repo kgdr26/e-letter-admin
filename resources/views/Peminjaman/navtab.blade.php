@@ -52,7 +52,6 @@
             '21',
             '22',
             '23',
-            '24',
             '25',
         ];
     @endphp
@@ -80,7 +79,7 @@
     @endif
 
     @php
-        $role_data = ['1', '16'];
+        $role_data = ['1', '16', '21', '22'];
     @endphp
     @if (in_array($idn_user->role_id, $role_data))
         @php
