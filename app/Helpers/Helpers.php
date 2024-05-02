@@ -344,28 +344,88 @@ function detailtimeline($id){
     return $arr;
 }
 
-function showdataemploye(){
+function showdataemploye($type, $bulan, $idkry){
 
     $data   = DB::table('trx_employe_loan')->where('is_active', 1)->get();
-    $bulan  = date('Y-m');
 
-    $categories     = [];
-    $dibayar        = [];
-    $terbayarkan    = [];
-    $sisa           = [];
-    foreach($data as $key => $val){
-        $kry                = collect(\DB::select("SELECT * FROM mst_karyawan WHERE id='$val->id_karyawan'"))->first();
-        $listpembayaran     = json_decode($val->list_pembayaran);
-        foreach($listpembayaran as $list => $pem){
-            if($pem->bulan == $bulan){
-                $dibayar[$key]      = intval($pem->nominal);
-                $terbayarkan[$key]  = intval($pem->terbayarkan);
-                $sisa[$key]         = intval($pem->sisa);
+    if($type == 'bulan'){
+        if($bulan == '0' || $bulan == null){
+            $bulan  = date('Y-m');
+        }else{
+            $bulan  = $bulan;
+        }
+        
+        // $bulan  = "2024-02";
+    
+        $categories     = [];
+        $dibayar        = [];
+        $terbayarkan    = [];
+        $sisa           = [];
+        $tes            = [];
+        $noarr          = 0;
+        foreach($data as $key => $val){
+            $kry                = collect(\DB::select("SELECT * FROM mst_karyawan WHERE id='$val->id_karyawan'"))->first();
+            $listpembayaran     = json_decode($val->list_pembayaran);
+    
+            if(count($listpembayaran) !== 0){
+                $categories[$noarr] = $kry->name;
+                foreach($listpembayaran as $list => $pem){
+                    if($pem->bulan == $bulan){
+                        $dibayar[$noarr]      = intval($pem->nominal);
+                        $terbayarkan[$noarr]  = intval($pem->terbayarkan);
+                        $sisa[$noarr]         = intval($pem->sisa);
+                        $noarr++;
+                    }
+                }
             }
+            
         }
 
+    }elseif($type == 'karyawan'){
+        $categories     = [];
+        $dibayar        = [];
+        $terbayarkan    = [];
+        $sisa           = [];
+        $tes            = [];
+        $noarr          = 0;
+
+        $kry    = collect(\DB::select("SELECT * FROM trx_employe_loan WHERE id_karyawan='$idkry' AND is_active='1'"))->first();
+        $listpembayaran     = json_decode($kry->list_pembayaran);
+    
         if(count($listpembayaran) !== 0){
-            $categories[$key] = $kry->name;
+            foreach($listpembayaran as $list => $pem){
+                $categories[$list]   = convertToIndonesianMonth($pem->bulan.'-01');
+                $dibayar[$list]      = intval($pem->nominal);
+                $terbayarkan[$list]  = intval($pem->terbayarkan);
+                $sisa[$list]         = intval($pem->sisa);
+            }
+        }
+    }else{
+        $bulan  = date('Y-m');
+        // $bulan  = "2024-02";
+    
+        $categories     = [];
+        $dibayar        = [];
+        $terbayarkan    = [];
+        $sisa           = [];
+        $tes            = [];
+        $noarr          = 0;
+        foreach($data as $key => $val){
+            $kry                = collect(\DB::select("SELECT * FROM mst_karyawan WHERE id='$val->id_karyawan'"))->first();
+            $listpembayaran     = json_decode($val->list_pembayaran);
+    
+            if(count($listpembayaran) !== 0){
+                $categories[$noarr] = $kry->name;
+                foreach($listpembayaran as $list => $pem){
+                    if($pem->bulan == $bulan){
+                        $dibayar[$noarr]      = intval($pem->nominal);
+                        $terbayarkan[$noarr]  = intval($pem->terbayarkan);
+                        $sisa[$noarr]         = intval($pem->sisa);
+                        $noarr++;
+                    }
+                }
+            }
+            
         }
     }
 

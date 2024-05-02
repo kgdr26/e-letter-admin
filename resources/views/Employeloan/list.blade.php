@@ -6,7 +6,18 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
-                            <span>Chart Employen</span>
+                            <span id="nameidentitas">Chart Employen</span>
+
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                     Filter
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#" data-name="filter_realtime">Realtime</a></li>
+                                    <li><a class="dropdown-item" href="#" data-name="filter_bulan">Bulan</a></li>
+                                    <li><a class="dropdown-item" href="#" data-name="filter_karyawan">Karyawan</a></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -109,6 +120,61 @@
     </div>
     {{-- End Modal ADD --}}
 
+    {{-- Modal Add --}}
+    <div class="modal fade" id="modal_filter_bulan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Filter By Bulan</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-style">
+                        <div class="mb-3">
+                            <label for="" class="form-label">Bulan</label>
+                            <input type="text" class="form-control" id="" placeholder="" data-name="select_filter_bulan">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-name="save_filter_bulan">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal ADD --}}
+
+    {{-- Modal Add --}}
+    <div class="modal fade" id="modal_filter_karyawan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Filter By Karyawan</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-style">
+                        <div class="mb-3">
+                            <label for="" class="form-label">Select Karyawan</label>
+                            <select name="" id="" class="form-select select-2-select_filter_karyawan" data-name="select_filter_karyawan">
+                                <option value="">-- Select Karyawan --</option>
+                                @foreach($filterkaryawan as $key => $val)
+                                    <option value="{{$val->id_kry}},{{$val->npk}} - {{$val->name}}">{{$val->npk}} - {{$val->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-name="save_filter_karyawan">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal ADD --}}
+
     <script>
         $(document).ready(function() {
             setTimeout(updatechart);
@@ -197,6 +263,51 @@
         });
     </script>
     {{-- End JS Data --}}
+
+    {{-- JS Filter --}}
+    <script>
+        $(document).on("click", "[data-name='filter_realtime']", function(e) {
+            var bulan   = 0;
+            var type    = 0;
+            var idkry   = 0;
+            updatechart(type, bulan, idkry);
+            $("#nameidentitas").text("Chart Employen Realtime");
+        });
+
+        $(document).on("click", "[data-name='filter_bulan']", function(e) {
+            $("[data-name='select_filter_bulan']").val('');
+            $("#modal_filter_bulan").modal('show');
+        });
+
+        $(document).on("click", "[data-name='save_filter_bulan']", function(e) {
+            var bulan   = $("[data-name='select_filter_bulan']").val();
+            var type    = "bulan";
+            var idkry   = 0;
+            updatechart(type, bulan, idkry);
+            $("#modal_filter_bulan").modal('hide');
+            $("#nameidentitas").text("Chart Employen Bulan "+bulan);
+            // alert(bulan);
+        });
+
+        $(document).on("click", "[data-name='filter_karyawan']", function(e) {
+            $("[data-name='select_filter_karyawan']").val('').trigger("change");
+            $("#modal_filter_karyawan").modal('show');
+        });
+
+        $(document).on("click", "[data-name='save_filter_karyawan']", function(e) {
+            var bulan   = 0;
+            var type    = "karyawan";
+            var krywse  = $("[data-name='select_filter_karyawan']").val();
+            var slykry  = krywse.split(",");
+            var idkry   = slykry[0];
+            updatechart(type, bulan, idkry);
+            $("#modal_filter_karyawan").modal('hide');
+            $("#nameidentitas").text("Chart Employen "+slykry[1]);
+            
+            // alert(bulan);
+        });
+    </script>
+    {{-- End JS Filter --}}
 
     {{-- Chart Employen --}}
     <script>
@@ -370,11 +481,26 @@
             width: '100%',
             dropdownParent: $("#modal_edit")
         });
+
+        $(".select-2-select_filter_karyawan").select2({
+            allowClear: false,
+            width: '100%',
+            dropdownParent: $("#modal_filter_karyawan")
+        });
+
+        
     </script>
     {{-- End Select2 --}}
 
     <script>
         $('input[data-name="start_bulan"]').datepicker({
+            format: "yyyy-mm",
+            viewMode: "months", 
+                minViewMode: "months",
+            autoclose: true
+        });
+
+        $('input[data-name="select_filter_bulan"]').datepicker({
             format: "yyyy-mm",
             viewMode: "months", 
                 minViewMode: "months",

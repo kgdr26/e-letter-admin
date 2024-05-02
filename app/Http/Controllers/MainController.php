@@ -734,12 +734,15 @@ class MainController extends Controller
                     ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')->orderBy('trx_employe_loan.id', 'desc')->get();
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $listkarayawan  = DB::select("SELECT * FROM mst_karyawan where is_active=1");
+        $filterkaryawan = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk', 'b.id as id_kry')
+                    ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')->where('trx_employe_loan.is_active', 1)->orderBy('trx_employe_loan.id', 'desc')->get();
         $data = array(
             'title' => 'Employe Loan',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role,
-            'listkarayawan' => $listkarayawan
+            'listkarayawan' => $listkarayawan,
+            'filterkaryawan' => $filterkaryawan
         );
 
         return view('Employeloan.list')->with($data);
@@ -759,7 +762,7 @@ class MainController extends Controller
         $kategori  = 1;
         $date_start  = '2024-04-27 20:00:00';
         $date_end  = '2024-04-27 23:00:00';
-        $arr = showdataemploye();
+        $arr = showdataemploye('karyawan', 0, 3);
         echo '<pre>';
         print_r($arr);
         exit;
