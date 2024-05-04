@@ -32,7 +32,10 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
                             <span>Employe Loan</span>
-                            <button type="button" class="btn btn-success" data-name="add">ADD Employe Loan</button>
+                            <div>
+                                <button type="button" class="btn btn-success" data-name="add_setting_bulan_thr">Setting Bulan THR</button>
+                                <button type="button" class="btn btn-success" data-name="add">ADD Employe Loan</button>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -175,11 +178,210 @@
     </div>
     {{-- End Modal ADD --}}
 
+    {{-- Modal Setting Bulan THR --}}
+    <div class="modal fade" id="modal_setting_bulan_thr" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Setting Bulan THR</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-style">
+                        <div class="mb-3">
+                            <label for="" class="form-label">Tahun Dan Bulan</label>
+                            <input type="text" class="form-control" id="" placeholder="" data-name="setting_tahun_bulan">
+                        </div>
+
+                        <div class="table-responsive mt-3">
+                            <table class="table" id="dataTable_bulanthr">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th>TAHUN & BULAN</th>
+                                        <th>UPDATE BY</th>
+                                        <th>DATETIME</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $no = 1;
+                                    @endphp
+                                    @foreach($listbulanthr as $key => $val)
+                                        <tr>
+                                            <td>{{$no++}}</td>
+                                            <td>{{convertToIndonesianMonth($val->tahun.'-'.$val->bulan.'-01')}}</td>
+                                            <td>{{$val->name}}</td>
+                                            <td>{{$val->last_update}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-name="save_setting_thr">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Setting Bulan THR --}}
+
     <script>
         $(document).ready(function() {
             setTimeout(updatechart);
         });
     </script>
+
+    {{-- Js Add  Setting Bulan THR--}}
+    <script>
+        $(document).on("click", "[data-name='add_setting_bulan_thr']", function(e) {
+            $("[data-name='setting_tahun_bulan']").val('');
+            $("#modal_setting_bulan_thr").modal('show');
+        });
+
+        $(document).on("click", "[data-name='save_setting_thr']", function(e) {
+            var tahun_bulan     = $("[data-name='setting_tahun_bulan']").val();
+            var thn_i           = tahun_bulan.split("-");
+            var is_active       = 1;
+            var update_by       = "{!! $idn_user->id !!}";
+            var table           = "trx_setting_bulan_thr";
+
+            if (tahun_bulan === '') {
+                Swal.fire({
+                    position: 'center',
+                    title: 'Form is empty!',
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+            } else {
+
+                var id      = thn_i[0];
+                var field   = 'tahun';
+
+                $.ajax({
+                type: "POST",
+                url: "{{ route('actionshowdata') }}",
+                data: {
+                    id: id,
+                    table: table,
+                    field: field
+                },
+                cache: false,
+                success: function(data) {
+                    // console.log(data['data']);
+
+                    if(data['data'] == null){
+                        // alert('Data Tidak Ada');
+
+
+
+                    }else{
+                        // alert('Data Ada');
+                        var whr = "id";
+                        var id  = data['data'].id;
+                        var dats = {
+                            bulan: thn_i[1],
+                            update_by: update_by
+                        };
+
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ route('actionedit') }}",
+                            data: {
+                                id: id,
+                                whr: whr,
+                                table: table,
+                                dats: dats
+                            },
+                            cache: false,
+                            success: function(data) {
+                                // console.log(data);
+                                Swal.fire({
+                                    position: 'center',
+                                    title: 'Success!',
+                                    icon: 'success',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then((data) => {
+                                    location.reload();
+                                })
+                            },
+                            error: function(data) {
+                                Swal.fire({
+                                    position: 'center',
+                                    title: 'Action Not Valid!',
+                                    icon: 'warning',
+                                    showConfirmButton: true,
+                                    // timer: 1500
+                                }).then((data) => {
+                                    // location.reload();
+                                })
+                            }
+                        });
+
+                    }
+
+                    // var data = {
+                    //     tahun_bulan: tahun_bulan,
+                    //     is_active: is_active,
+                    //     update_by: update_by,
+                    // };
+                },
+                error: function(data) {
+                    Swal.fire({
+                        position: 'center',
+                        title: 'Action Not Valid!',
+                        icon: 'warning',
+                        showConfirmButton: true,
+                        // timer: 1500
+                    }).then((data) => {
+                        // location.reload();
+                    })
+                }
+            });
+
+                // $.ajax({
+                //     type: "POST",
+                //     url: "{{ route('actionadd') }}",
+                //     data: {
+                //         table: table,
+                //         data: data
+                //     },
+                //     cache: false,
+                //     success: function(data) {
+                //         // console.log(data);
+                //         $("#modal_add").modal('hide');
+                //         Swal.fire({
+                //             position: 'center',
+                //             title: 'Success!',
+                //             icon: 'success',
+                //             showConfirmButton: false,
+                //             timer: 1500
+                //         }).then((data) => {
+                //             location.reload();
+                //         })
+                //     },
+                //     error: function(data) {
+                //         Swal.fire({
+                //             position: 'center',
+                //             title: 'Action Not Valid!',
+                //             icon: 'warning',
+                //             showConfirmButton: true,
+                //             // timer: 1500
+                //         }).then((data) => {
+                //             // location.reload();
+                //         })
+                //     }
+                // });
+            }
+
+        });
+    </script>
+    {{-- Js Add  Setting Bulan THR--}}
 
     {{-- Js Add --}}
     <script>
@@ -465,6 +667,12 @@
         $(document).ready(function() {
             $('#dataTable').DataTable();
         });
+
+        $(document).ready(function() {
+            $('#dataTable_bulanthr').DataTable();
+        });
+
+        
     </script>
     {{-- End JS Datatable --}}
 
@@ -496,14 +704,35 @@
         $('input[data-name="start_bulan"]').datepicker({
             format: "yyyy-mm",
             viewMode: "months", 
-                minViewMode: "months",
+            minViewMode: "months",
             autoclose: true
         });
 
         $('input[data-name="select_filter_bulan"]').datepicker({
             format: "yyyy-mm",
             viewMode: "months", 
-                minViewMode: "months",
+            minViewMode: "months",
+            autoclose: true
+        });
+
+        $('input[data-name="setting_tahun_bulan"]').datepicker({
+            format: "yyyy-mm",
+            viewMode: "months", 
+            minViewMode: "months",
+            autoclose: true
+        });
+
+        $('input[data-name="setting_bulan_thr"]').datepicker({
+            format: "mm",
+            viewMode: "months", 
+            minViewMode: "months",
+            autoclose: true
+        });
+
+        $('input[data-name="setting_thn_thr"]').datepicker({
+            format: "yyyy",
+            viewMode: "years", 
+            minViewMode: "years",
             autoclose: true
         });
     </script>

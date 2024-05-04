@@ -735,14 +735,17 @@ class MainController extends Controller
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $listkarayawan  = DB::select("SELECT * FROM mst_karyawan where is_active=1");
         $filterkaryawan = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk', 'b.id as id_kry')
-                    ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')->where('trx_employe_loan.is_active', 1)->orderBy('trx_employe_loan.id', 'desc')->get();
+                        ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')->where('trx_employe_loan.is_active', 1)->orderBy('trx_employe_loan.id', 'desc')->get();
+        $listbulanthr   = DB::table('trx_setting_bulan_thr')->select('trx_setting_bulan_thr.*', 'b.name')
+                        ->leftJoin('users AS b', 'b.id', '=', 'trx_setting_bulan_thr.update_by')->where('trx_setting_bulan_thr.is_active', 1)->orderBy('trx_setting_bulan_thr.id', 'desc')->get();
         $data = array(
             'title' => 'Employe Loan',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role,
             'listkarayawan' => $listkarayawan,
-            'filterkaryawan' => $filterkaryawan
+            'filterkaryawan' => $filterkaryawan,
+            'listbulanthr'  => $listbulanthr
         );
 
         return view('Employeloan.list')->with($data);
