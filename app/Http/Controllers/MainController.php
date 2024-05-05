@@ -731,7 +731,7 @@ class MainController extends Controller
     {
         $idn_user   = idn_user(auth::user()->id);
         $arr        = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk')
-                    ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')->orderBy('trx_employe_loan.id', 'desc')->get();
+                    ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')->where('trx_employe_loan.is_active', 1)->orderBy('trx_employe_loan.id', 'desc')->get();
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $listkarayawan  = DB::select("SELECT * FROM mst_karyawan where is_active=1");
         $filterkaryawan = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk', 'b.id as id_kry')
@@ -758,6 +758,11 @@ class MainController extends Controller
         $arr    = showdataemploye($type, $bulan, $idkry);
         return response($arr);
     }
+
+    function action_autogenerateloan(Request $request){
+        $arr    = autogenerateloan();
+        return response($arr);
+    }
      
     function test()
     {
@@ -765,7 +770,7 @@ class MainController extends Controller
         $kategori  = 1;
         $date_start  = '2024-04-27 20:00:00';
         $date_end  = '2024-04-27 23:00:00';
-        $arr = showdataemploye('karyawan', 0, 3);
+        $arr = autogenerateloan();
         echo '<pre>';
         print_r($arr);
         exit;

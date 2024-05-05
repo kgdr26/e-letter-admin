@@ -438,4 +438,74 @@ function showdataemploye($type, $bulan, $idkry){
     return $arr;
 }
 
+function autogenerateloan(){
+    $data   =  DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk')
+            ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')
+            ->where('trx_employe_loan.is_active', 1)->orderBy('trx_employe_loan.id', 'desc')->get();
+
+    $bln    = array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12');
+
+    $dt     = [];
+
+    foreach($data as $key => $val){
+        $dt[$key]['id']             = $val->id;
+        $dt[$key]['name']           = $val->name;
+        $dt[$key]['nominal_loan']   = $val->nominal_loan;
+        $dt[$key]['bulan_loan']     = $val->bulan_loan;
+        $dt[$key]['loan_perbulan']  = $val->loan_perbulan;
+        $dt[$key]['start_bulan']    = $val->start_bulan;
+
+        $start_bulan                = $val->start_bulan;
+        $exlp_bulan                 = explode("-", $start_bulan);
+        $jml_bulan                  = $val->bulan_loan;
+
+        $bulan_awal_index           = intval($exlp_bulan[1])-1;
+        $tahun_awal                 = $exlp_bulan[0];
+        $forbulan                   = [];
+        $v_terbayarkan              = 0;
+        $v_sisa                     = 0;
+        $v_nominal                  = 0;
+        $v_list_pembayaran          = '';
+        for ($i = 0; $i < $jml_bulan; $i++) {
+            $indeks_bulan           = ($bulan_awal_index + $i) % 12;
+            $tahun                  = $tahun_awal + floor(($bulan_awal_index + $i) / 12);
+
+            $dataExists             = DB::table('trx_setting_bulan_thr')->where('tahun', $tahun)->where('bulan', $bln[$indeks_bulan])->exists();
+            if($bln[$indeks_bulan] == '12' || $dataExists == 1){
+                $jmlck      = 2;
+            }else{
+                $jmlck      = 1;
+            }
+
+            $v_nominal                                  = $val->loan_perbulan*$jmlck;
+            $v_terbayarkan                              += $v_nominal;
+            if($v_sisa == 0){
+                $v_sisa                                     = $val->nominal_loan-$v_terbayarkan;
+            }else{
+                $v_sisa                                     = $v_sisa-$v_nominal;
+            }
+            
+
+            if($v_sisa >= 0){
+                $dt[$key]['loopbulan'][$i]['bulan']         = $tahun."-".$bln[$indeks_bulan];
+                $dt[$key]['loopbulan'][$i]['jml']           = $jmlck;
+                $dt[$key]['loopbulan'][$i]['nominal']       = $v_nominal;
+                $dt[$key]['loopbulan'][$i]['terbayarkan']   = $v_terbayarkan;
+                $dt[$key]['loopbulan'][$i]['sisa']          = $v_sisa;
+    
+                $v_list_pembayaran .= '{"bulan": "'.$tahun.'-'.$bln[$indeks_bulan].'","jml": "'.$jmlck.'","nominal": "'.$v_nominal.'","terbayarkan": "'.$v_terbayarkan.'","sisa": "'.$v_sisa.'"},';
+            }
+        }
+        $k_list_pembayaran              = '['.substr($v_list_pembayaran, 0, -1).']';
+        $dt[$key]['list_pembayaran']    = $k_list_pembayaran;
+
+        DB::table('trx_employe_loan')->where('id', $val->id)->update(['list_pembayaran'=>$k_list_pembayaran]);
+    }
+
+    $arr           = $dt;
+
+    // return $arr;
+    return response('success');
+}
+
 ?>

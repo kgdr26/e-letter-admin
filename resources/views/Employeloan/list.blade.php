@@ -229,11 +229,40 @@
     </div>
     {{-- End Modal Setting Bulan THR --}}
 
+    {{-- JS Update Chart --}}
     <script>
         $(document).ready(function() {
             setTimeout(updatechart);
         });
+
+        function js_autogenerateloan() {
+            var cek    = type;
+            var data   = bulan;
+            $.ajax({
+                url: "{{route('action_autogenerateloan')}}",
+                type: "POST",
+                data: {
+                    cek: cek, data:data
+                },
+                dataType: 'json',
+                global: false,
+                cache: false,
+                success: function(data) {
+                    console.log(data);
+                },
+                complete: function(data) {
+                    console.log(data);
+                }
+            });
+        }
     </script>
+    {{-- End JS Update Chart --}}
+
+    {{-- Js Auto Generate Loan --}}
+    <script>
+        
+    </script>
+    {{-- End Js Auto Generate Loan --}}
 
     {{-- Js Add  Setting Bulan THR--}}
     <script>
@@ -263,120 +292,127 @@
                 var field   = 'tahun';
 
                 $.ajax({
-                type: "POST",
-                url: "{{ route('actionshowdata') }}",
-                data: {
-                    id: id,
-                    table: table,
-                    field: field
-                },
-                cache: false,
-                success: function(data) {
-                    // console.log(data['data']);
+                    type: "POST",
+                    url: "{{ route('actionshowdata') }}",
+                    data: {
+                        id: id,
+                        table: table,
+                        field: field
+                    },
+                    cache: false,
+                    success: function(data) {
+                        // console.log(data['data']);
 
-                    if(data['data'] == null){
-                        // alert('Data Tidak Ada');
+                        if(data['data'] == null){
+                            // alert('Data Tidak Ada');
+
+                            var is_active = 1;
+                            var update_by = "{!! $idn_user->id !!}";
+
+                            var data = {
+                                tahun: thn_i[0],
+                                bulan: thn_i[1],
+                                is_active: is_active,
+                                update_by: update_by,
+                            };
+
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ route('actionadd') }}",
+                                data: {
+                                    table: table,
+                                    data: data
+                                },
+                                cache: false,
+                                success: function(data) {
+                                    // console.log(data);
+                                    $("#modal_setting_bulan_thr").modal('hide');
+                                    Swal.fire({
+                                        position: 'center',
+                                        title: 'Success!',
+                                        icon: 'success',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then((data) => {
+                                        js_autogenerateloan();
+                                        location.reload();
+                                    })
+                                },
+                                error: function(data) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        title: 'Action Not Valid!',
+                                        icon: 'warning',
+                                        showConfirmButton: true,
+                                        // timer: 1500
+                                    }).then((data) => {
+                                        // location.reload();
+                                    })
+                                }
+                            });
 
 
+                        }else{
+                            // alert('Data Ada');
+                            var whr = "id";
+                            var id  = data['data'].id;
+                            var dats = {
+                                bulan: thn_i[1],
+                                update_by: update_by
+                            };
 
-                    }else{
-                        // alert('Data Ada');
-                        var whr = "id";
-                        var id  = data['data'].id;
-                        var dats = {
-                            bulan: thn_i[1],
-                            update_by: update_by
-                        };
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ route('actionedit') }}",
+                                data: {
+                                    id: id,
+                                    whr: whr,
+                                    table: table,
+                                    dats: dats
+                                },
+                                cache: false,
+                                success: function(data) {
+                                    // console.log(data);
+                                    $("#modal_setting_bulan_thr").modal('hide');
+                                    Swal.fire({
+                                        position: 'center',
+                                        title: 'Success!',
+                                        icon: 'success',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    }).then((data) => {
+                                        js_autogenerateloan();
+                                        location.reload();
+                                    })
+                                },
+                                error: function(data) {
+                                    Swal.fire({
+                                        position: 'center',
+                                        title: 'Action Not Valid!',
+                                        icon: 'warning',
+                                        showConfirmButton: true,
+                                        // timer: 1500
+                                    }).then((data) => {
+                                        // location.reload();
+                                    })
+                                }
+                            });
 
-                        $.ajax({
-                            type: "POST",
-                            url: "{{ route('actionedit') }}",
-                            data: {
-                                id: id,
-                                whr: whr,
-                                table: table,
-                                dats: dats
-                            },
-                            cache: false,
-                            success: function(data) {
-                                // console.log(data);
-                                Swal.fire({
-                                    position: 'center',
-                                    title: 'Success!',
-                                    icon: 'success',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                }).then((data) => {
-                                    location.reload();
-                                })
-                            },
-                            error: function(data) {
-                                Swal.fire({
-                                    position: 'center',
-                                    title: 'Action Not Valid!',
-                                    icon: 'warning',
-                                    showConfirmButton: true,
-                                    // timer: 1500
-                                }).then((data) => {
-                                    // location.reload();
-                                })
-                            }
-                        });
-
+                        }
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Action Not Valid!',
+                            icon: 'warning',
+                            showConfirmButton: true,
+                            // timer: 1500
+                        }).then((data) => {
+                            // location.reload();
+                        })
                     }
+                });
 
-                    // var data = {
-                    //     tahun_bulan: tahun_bulan,
-                    //     is_active: is_active,
-                    //     update_by: update_by,
-                    // };
-                },
-                error: function(data) {
-                    Swal.fire({
-                        position: 'center',
-                        title: 'Action Not Valid!',
-                        icon: 'warning',
-                        showConfirmButton: true,
-                        // timer: 1500
-                    }).then((data) => {
-                        // location.reload();
-                    })
-                }
-            });
-
-                // $.ajax({
-                //     type: "POST",
-                //     url: "{{ route('actionadd') }}",
-                //     data: {
-                //         table: table,
-                //         data: data
-                //     },
-                //     cache: false,
-                //     success: function(data) {
-                //         // console.log(data);
-                //         $("#modal_add").modal('hide');
-                //         Swal.fire({
-                //             position: 'center',
-                //             title: 'Success!',
-                //             icon: 'success',
-                //             showConfirmButton: false,
-                //             timer: 1500
-                //         }).then((data) => {
-                //             location.reload();
-                //         })
-                //     },
-                //     error: function(data) {
-                //         Swal.fire({
-                //             position: 'center',
-                //             title: 'Action Not Valid!',
-                //             icon: 'warning',
-                //             showConfirmButton: true,
-                //             // timer: 1500
-                //         }).then((data) => {
-                //             // location.reload();
-                //         })
-                //     }
-                // });
             }
 
         });
@@ -445,6 +481,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         }).then((data) => {
+                            js_autogenerateloan();
                             location.reload();
                         })
                     },
