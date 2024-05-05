@@ -47,7 +47,7 @@
                                         <th>NAME</th>
                                         <th>NIK</th>
                                         <th>NOMINAL</th>
-                                        <th>JUMLAH BULAN</th>
+                                        <th>JUMLAH CICILAN</th>
                                         <th>PEMBAYARAN PERBULAN</th>
                                         <th>START BULAN</th>
                                     </tr>
@@ -100,7 +100,7 @@
                             <input type="text" class="form-control" id="" placeholder="" data-name="nominal">
                         </div>
                         <div class="mb-3">
-                            <label for="" class="form-label">Jumlah Bulan</label>
+                            <label for="" class="form-label">Jumlah Cicilan</label>
                             <input type="number" class="form-control" id="" placeholder="" data-name="bulan_loan">
                         </div>
                         <div class="mb-3">
@@ -236,8 +236,8 @@
         });
 
         function js_autogenerateloan() {
-            var cek    = type;
-            var data   = bulan;
+            var cek    = 0;
+            var data   = 0;
             $.ajax({
                 url: "{{route('action_autogenerateloan')}}",
                 type: "POST",
@@ -327,6 +327,7 @@
                                 success: function(data) {
                                     // console.log(data);
                                     $("#modal_setting_bulan_thr").modal('hide');
+                                    js_autogenerateloan();
                                     Swal.fire({
                                         position: 'center',
                                         title: 'Success!',
@@ -334,7 +335,6 @@
                                         showConfirmButton: false,
                                         timer: 1500
                                     }).then((data) => {
-                                        js_autogenerateloan();
                                         location.reload();
                                     })
                                 },
@@ -374,6 +374,7 @@
                                 success: function(data) {
                                     // console.log(data);
                                     $("#modal_setting_bulan_thr").modal('hide');
+                                    js_autogenerateloan();
                                     Swal.fire({
                                         position: 'center',
                                         title: 'Success!',
@@ -381,7 +382,6 @@
                                         showConfirmButton: false,
                                         timer: 1500
                                     }).then((data) => {
-                                        js_autogenerateloan();
                                         location.reload();
                                     })
                                 },
@@ -474,6 +474,7 @@
                     success: function(data) {
                         // console.log(data);
                         $("#modal_add").modal('hide');
+                        js_autogenerateloan();
                         Swal.fire({
                             position: 'center',
                             title: 'Success!',
@@ -481,7 +482,6 @@
                             showConfirmButton: false,
                             timer: 1500
                         }).then((data) => {
-                            js_autogenerateloan();
                             location.reload();
                         })
                     },
