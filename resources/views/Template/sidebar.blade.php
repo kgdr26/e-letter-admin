@@ -123,16 +123,16 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{ route('employeloan') }}">
                     <i class="bi bi-gem"></i>
-                    <span>Employe Loan</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="">
-                    <i class="bi bi-bar-chart"></i>
                     <span>Dashboard CLP | COP</span>
                 </a>
             </li>
+
+            {{-- <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('viewtableemployeloan') }}">
+                    <i class="bi bi-bar-chart"></i>
+                    <span>View Loan Program</span>
+                </a>
+            </li> --}}
         @endif
 
         @php

@@ -10,7 +10,7 @@
                         <div class="d-flex justify-content-between">
                             <span>List File</span>
                             @php
-                                $role_data_document = ['1', '12'];
+                                $role_data_document = ['1', '23'];
                             @endphp
                             @if (in_array($idn_user->role_id, $role_data_document))
                                 <button type="button" class="btn btn-success" data-name="add">Add File</button>
@@ -50,7 +50,7 @@
 
                                             <td class="text-center">
                                                 @php
-                                                    $role_data_document = ['1', '12'];
+                                                    $role_data_document = ['1', '23'];
                                                 @endphp
                                                 @if (in_array($idn_user->role_id, $role_data_document))
                                                     <button type="button" class="btn btn-outline-info btn-sm"
@@ -133,7 +133,7 @@
                                         data-name="to_dept">
                                         <option value="">-- Select Dept --</option>
                                         @php
-                                            $idroletampil = ['14', '13', '16', '15'];
+                                            $idroletampil = ['7', '8', '9', '10'];
                                         @endphp
                                         @foreach ($role as $kr => $vr)
                                             @if (in_array($vr->id, $idroletampil))
@@ -213,7 +213,7 @@
                                         data-name="edit_to_dept">
                                         <option value="">-- Select Dept --</option>
                                         @php
-                                            $idroletampil = ['14', '13', '16', '15'];
+                                            $idroletampil = ['7', '8', '9', '10'];
                                         @endphp
                                         @foreach ($role as $kr => $vr)
                                             @if (in_array($vr->id, $idroletampil))
@@ -249,7 +249,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <embed id="show_file" type="application/pdf" src="" style="width: 100%;height: 80vh;"></embed>
+                    <embed id="show_file" type="application/pdf" src=""
+                        style="width: 100%;height: 80vh;"></embed>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -257,7 +258,8 @@
                         $role_download = ['1', '12'];
                     @endphp
                     @if (in_array($idn_user->role_id, $role_download))
-                        <a href="" class="btn btn-primary" target="_blank" data-name="download_documen">Download File</a>
+                        <a href="" class="btn btn-primary" target="_blank" data-name="download_documen">Download
+                            File</a>
                     @endif
                 </div>
             </div>
