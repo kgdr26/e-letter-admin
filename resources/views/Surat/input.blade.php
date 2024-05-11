@@ -38,9 +38,10 @@
                                 <tbody>
                                     @php
                                         $no = 1;
+                                        $role_show_data = explode(",",$whrshow);
                                     @endphp
                                     @foreach ($arr as $key => $value)
-                                        @if ($value->update_by == $idn_user->id || $idn_user->role_id == 1 || $idn_user->role_id == 7)
+                                        @if (in_array($value->role_id, $role_show_data))
                                             <tr>
                                                 <td>{{ $no++ }}</td>
                                                 {{-- <td>st{{ $value->is_active }}</td> --}}
@@ -128,14 +129,10 @@
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Dept. Purpose</label>
-                            <select name="" id="" class="form-select select2-add" data-name="to_dept">
+                            <select name="" id="" class="form-select select-2-add" data-name="to_dept">
                                 <option value="">-- Select Dept --</option>
                                 @foreach ($role as $kr => $vr)
-                                    {{-- @if ($vr->id != 1 && $vr->id != 11 && $vr->id != 12 && $vr->id != 5) --}}
-                                    @if ($vr->id == 2 || $vr->id == 3 || $vr->id == 4 || $vr->id == 5 || $vr->id == 6)
-                                        <option value="{{ $vr->id }}">{{ $vr->name }}</option>
-                                    @endif
-                                    {{-- <option value="{{ $vr->id }}">{{ $vr->name }}</option> --}}
+                                    <option value="{{ $vr->id }}">{{ $vr->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -174,15 +171,10 @@
                         <div class="mb-3">
                             <label for="" class="form-label">Update Dept. Purpose</label>
                             {{-- <input type="text" class="form-control" id="" data-name="edit_to_dept"> --}}
-                            <select name="" id="" class="form-select select2-edit"
-                                data-name="edit_to_dept">
+                            <select name="" id="" class="form-select select-2-edit" data-name="edit_to_dept">
                                 <option value="">-- Select Dept --</option>
                                 @foreach ($role as $kr => $vr)
-                                    {{-- @if ($vr->id != 1 && $vr->id != 11 && $vr->id != 12) --}}
-                                    @if ($vr->id == 2 || $vr->id == 3 || $vr->id == 4 || $vr->id == 5 || $vr->id == 6)
-                                        <option value="{{ $vr->id }}">{{ $vr->name }}</option>
-                                    @endif
-                                    {{-- <option value="{{ $vr->id }}">{{ $vr->name }}</option> --}}
+                                    <option value="{{ $vr->id }}">{{ $vr->name }}</option>
                                 @endforeach
                             </select>
                             <input type="hidden" data-name="edit_to_dept_old">

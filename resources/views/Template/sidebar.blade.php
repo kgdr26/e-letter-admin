@@ -136,6 +136,18 @@
         @endif
 
         @php
+            $role_data_side = ['1', '8', '16'];
+        @endphp
+        @if (in_array($idn_user->role_id, $role_data_side))
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{{ route('employeloanperuser') }}">
+                    <i class="bi bi-gem"></i>
+                    <span>Loan Per User</span>
+                </a>
+            </li>
+        @endif
+
+        @php
             $role_data_side = ['1', '8', '16', '21', '22'];
         @endphp
         @if (in_array($idn_user->role_id, $role_data_side))

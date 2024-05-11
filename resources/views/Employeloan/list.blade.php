@@ -50,6 +50,7 @@
                                         <th class="text-center">NO</th>
                                         <th class="text-center">NAME</th>
                                         <th>NIK</th>
+                                        <th>GOLONGAN</th>
                                         <th>NOMINAL</th>
                                         <th class="text-center">JUMLAH CICILAN</th>
                                         <th>PEMBAYARAN PERBULAN</th>
@@ -67,13 +68,21 @@
                                             <td>{{ $no++ }}</td>
                                             <td>{{ $val->name }}</td>
                                             <td>{{ $val->npk }}</td>
+                                            <td>{{ $val->golongan }}</td>
                                             <td>{{ 'Rp ' . number_format($val->nominal_loan, 0, ',', '.') }}</td>
                                             <td class="text-center">{{ $val->bulan_loan }} Bulan</td>
                                             <td>{{ 'Rp ' . number_format($val->loan_perbulan, 0, ',', '.') }}</td>
                                             <td>{{ convertToIndonesianMonth($val->start_bulan . '-01') }}</td>
-                                            <td>{{ convertToIndonesianMonth($val->ending_bulan . '-01') }}</td>
+                                            <td>
+                                                @php
+                                                    $shw_listpem    = json_decode($val->list_pembayaran);
+                                                    $shw_count      = count($shw_listpem);
+                                                    $lastElement    = end($shw_listpem);
+                                                @endphp
+                                                {{convertToIndonesianMonth($lastElement->bulan . '-01')}}
+                                            </td>
                                             <td class="text-center">
-                                                <a href=""><i class="bi bi-gift-fill fs-4"></i></a>
+                                                <button type="button" class="btn btn-primary" data-name="show_list_table" data-item="{{$val->id_karyawan}}"><i class="bi bi-gift-fill fs-4"></i></button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -111,17 +120,6 @@
                             <span style="color: red;">*</span>
                             <input type="text" class="form-control" id="" placeholder="" data-name="nominal">
                         </div>
-                        {{-- <div class="col-md-12 mb-3">
-                            <label for="inputState" class="form-label">Golongan</label>
-                            <select id="inputState" class="form-select">
-                                <option selected>Choose Option...</option>
-                                <option>3A</option>
-                                <option>3A</option>
-                                <option>3A</option>
-                                <option>3A</option>
-                                <option>3A</option>
-                            </select>
-                        </div> --}}
 
                         {{-- CHECKBOX GOLONGAN --}}
                         <div class="col-md-12 mb-3">
@@ -129,79 +127,79 @@
                             <span style="color: red;">*</span>
                             <div>
                                 <div class="form-check form-check-inline ms-5 mt-2">
-                                    <input class="form-check-input" type="checkbox" id="3A1" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A1" name="golongan" value="3A">
                                     <label class="form-check-label" for="3A1">3A</label>
                                 </div>
                                 <div class="form-check form-check-inline ms-5">
-                                    <input class="form-check-input" type="checkbox" id="3A2" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A2" name="golongan" value="3B">
                                     <label class="form-check-label" for="3A2">3B</label>
                                 </div>
                                 <div class="form-check form-check-inline ms-5">
-                                    <input class="form-check-input" type="checkbox" id="3A3" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A3" name="golongan" value="3C">
                                     <label class="form-check-label" for="3A3">3C</label>
                                 </div>
                                 <div class="form-check form-check-inline ms-5">
-                                    <input class="form-check-input" type="checkbox" id="3A4" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A4" name="golongan" value="3D">
                                     <label class="form-check-label" for="3A4">3D</label>
                                 </div>
                                 <div class="form-check form-check-inline ms-5">
-                                    <input class="form-check-input" type="checkbox" id="3A5" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A5" name="golongan" value="3E">
                                     <label class="form-check-label" for="3A5">3E</label>
                                 </div>
                                 <div class="form-check form-check-inline ms-5">
-                                    <input class="form-check-input" type="checkbox" id="3A6" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A6" name="golongan" value="3F">
                                     <label class="form-check-label" for="3A6">3F</label>
                                 </div>
                             </div>
                             <div>
                                 <div class="form-check form-check-inline ms-5 mt-2">
-                                    <input class="form-check-input" type="checkbox" id="3A1" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A1" name="golongan" value="4A">
                                     <label class="form-check-label" for="3A1">4A</label>
                                 </div>
                                 <div class="form-check form-check-inline ms-5">
-                                    <input class="form-check-input" type="checkbox" id="3A2" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A2" name="golongan" value="4B">
                                     <label class="form-check-label" for="3A2">4B</label>
                                 </div>
                                 <div class="form-check form-check-inline ms-5">
-                                    <input class="form-check-input" type="checkbox" id="3A3" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A3" name="golongan" value="4C">
                                     <label class="form-check-label" for="3A3">4C</label>
                                 </div>
                                 <div class="form-check form-check-inline ms-5">
-                                    <input class="form-check-input" type="checkbox" id="3A4" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A4" name="golongan" value="4D">
                                     <label class="form-check-label" for="3A4">4D</label>
                                 </div>
                                 <div class="form-check form-check-inline ms-5">
-                                    <input class="form-check-input" type="checkbox" id="3A5" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A5" name="golongan" value="4E">
                                     <label class="form-check-label" for="3A5">4E</label>
                                 </div>
                                 <div class="form-check form-check-inline ms-5">
-                                    <input class="form-check-input" type="checkbox" id="3A6" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A6" name="golongan" value="4F">
                                     <label class="form-check-label" for="3A6">4F</label>
                                 </div>
                             </div>
                             <div>
                                 <div class="form-check form-check-inline ms-5 mt-2">
-                                    <input class="form-check-input" type="checkbox" id="3A1" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A1" name="golongan" value="5A">
                                     <label class="form-check-label" for="3A1">5A</label>
                                 </div>
                                 <div class="form-check form-check-inline ms-5">
-                                    <input class="form-check-input" type="checkbox" id="3A2" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A2" name="golongan" value="5B">
                                     <label class="form-check-label" for="3A2">5B</label>
                                 </div>
                                 <div class="form-check form-check-inline ms-5">
-                                    <input class="form-check-input" type="checkbox" id="3A3" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A3" name="golongan" value="5C">
                                     <label class="form-check-label" for="3A3">5C</label>
                                 </div>
                                 <div class="form-check form-check-inline ms-5">
-                                    <input class="form-check-input" type="checkbox" id="3A4" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A4" name="golongan" value="5D">
                                     <label class="form-check-label" for="3A4">5D</label>
                                 </div>
                                 <div class="form-check form-check-inline ms-5">
-                                    <input class="form-check-input" type="checkbox" id="3A5" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A5" name="golongan" value="5E">
                                     <label class="form-check-label" for="3A5">5E</label>
                                 </div>
                                 <div class="form-check form-check-inline ms-5">
-                                    <input class="form-check-input" type="checkbox" id="3A6" value="3A">
+                                    <input class="form-check-input" type="radio" id="3A6" name="golongan" value="5F">
                                     <label class="form-check-label" for="3A6">5F</label>
                                 </div>
                             </div>
@@ -346,7 +344,8 @@
                                     @foreach ($listbulanthr as $key => $val)
                                         <tr>
                                             <td>{{ $no++ }}</td>
-                                            <td>{{ convertToIndonesianMonth($val->tahun . '-' . $val->bulan . '-01') }}
+                                            <td>
+                                                {{ convertToIndonesianMonth($val->tahun . '-' . $val->bulan . '-01') }}
                                             </td>
                                             <td>{{ $val->name }}</td>
                                             <td>{{ $val->last_update }}</td>
@@ -365,6 +364,76 @@
         </div>
     </div>
     {{-- End Modal Setting Bulan THR --}}
+
+    {{-- Modal Add --}}
+    <div class="modal fade" id="modal_show_list_table_karyawan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">List Table Loan Per Karyawan</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-style">
+
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label for="" class="form-label">NAME</label>
+                            <input type="text" class="form-control" id="" placeholder="" data-name="name_list_loan" disabled>
+                        </div>
+    
+                        <div class="col-6 mb-3">
+                            <label for="" class="form-label">NPK</label>
+                            <input type="text" class="form-control" id="" placeholder="" data-name="npk_list_loan" disabled>
+                        </div>
+    
+                        <div class="col-6 mb-3">
+                            <label for="" class="form-label">NOMINAL LOAN</label>
+                            <input type="text" class="form-control" id="" placeholder="" data-name="nominal_list_loan" disabled>
+                        </div>
+
+                        <div class="col-6 mb-3">
+                            <label for="" class="form-label">GOLONGAN</label>
+                            <input type="text" class="form-control" id="" placeholder="" data-name="golongan_list_loan" disabled>
+                        </div>
+    
+                        <div class="col-6">
+                            <label for="" class="form-label">START LOAN</label>
+                            <input type="text" class="form-control" id="" placeholder="" data-name="start_list_loan" disabled>
+                        </div>
+    
+                        <div class="col-6">
+                            <label for="" class="form-label">END LOAN</label>
+                            <input type="text" class="form-control" id="" placeholder="" data-name="end_list_loan" disabled>
+                        </div>
+                    </div>
+
+
+                    <div class="table-responsive mt-3">
+                        <table class="table" id="dataTableshow">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">NO</th>
+                                    <th class="text-center">TAHUN BULAN</th>
+                                    <th>NOMINAL PEMBAYARAN</th>
+                                    <th>NOMINAL TERBAYARKAN</th>
+                                    <th>NOMINAL SISA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- End Modal ADD --}}
 
     {{-- JS Update Chart --}}
     <script>
@@ -395,6 +464,15 @@
         }
     </script>
     {{-- End JS Update Chart --}}
+
+    {{-- JS Show Table --}}
+    <script>
+        $(document).on("click", "[data-name='show_list_table']", function(e) {
+            
+            $("#modal_show_list_table_karyawan").modal('show');
+        });
+    </script>
+    {{-- End Js Show Table --}}
 
     {{-- Js Auto Generate Loan --}}
     <script></script>
@@ -567,6 +645,7 @@
         });
 
         $(document).on("click", "[data-name='save_add']", function(e) {
+            var golongan = $("input[type=radio][name=golongan]:checked").val();
             var id_karyawan = $("[data-name='id_karyawan']").val();
             var nominal = $("[data-name='nominal']").val();
             var nominal_loan = nominal.replace(/[^\d]/g, '');
@@ -588,6 +667,7 @@
                 start_bulan: start_bulan,
                 ending_bulan: ending_bulan,
                 list_pembayaran: list_pembayaran,
+                golongan: golongan,
                 is_active: is_active,
                 update_by: update_by,
             };
@@ -850,6 +930,11 @@
         $(document).ready(function() {
             $('#dataTable_bulanthr').DataTable();
         });
+
+        $(document).ready(function() {
+            $('#dataTableshow').DataTable();
+        });
+
     </script>
     {{-- End JS Datatable --}}
 

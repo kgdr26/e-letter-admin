@@ -77,6 +77,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('employeloan', [MainController::class, 'employeloan'])->name('employeloan');
     Route::post('dataemploye', [MainController::class, 'dataemploye'])->name('dataemploye');
+    Route::get('employeloanperuser', [MainController::class, 'employeloanperuser'])->name('employeloanperuser');
+    
 
 
     //Action

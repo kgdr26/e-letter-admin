@@ -40,29 +40,42 @@ class MainController extends Controller
     function inputsurat()
     {
         $idn_user   = idn_user(auth::user()->id);
-        if ($idn_user->role_id == 7) {
-            $arr        = DB::table('trx_surat')->select('trx_surat.*', 'b.name as usr_name', 'c.name as usr_role', 'd.name as usr_to_dept')
-                ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
-                ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
-                ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
-                ->whereIn('trx_surat.role_id', [6, 7])
-                ->where('trx_surat.is_active', 1)
-                ->orderBy('trx_surat.letter_admin', 'asc')->get();
-        } else {
-            $arr        = DB::table('trx_surat')->select('trx_surat.*', 'b.name as usr_name', 'c.name as usr_role', 'd.name as usr_to_dept')
-                ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
-                ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
-                ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
-                ->where('trx_surat.is_active', 1)
-                ->orderBy('trx_surat.letter_admin', 'asc')->get();
-        }
+        $whrrole    = collect(\DB::select("SELECT * FROM mst_role WHERE id='$idn_user->role_id'"))->first();
+        $whrshow    = $whrrole->whr_show_surat;
 
-        $role        = DB::select("SELECT * FROM mst_role where id NOT IN (7) AND is_active=1");
+        // if ($idn_user->role_id == 7) {
+        //     $arr        = DB::table('trx_surat')->select('trx_surat.*', 'b.name as usr_name', 'c.name as usr_role', 'd.name as usr_to_dept')
+        //         ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
+        //         ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
+        //         ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
+        //         ->whereIn('trx_surat.role_id', [6,7])
+        //         ->where('trx_surat.is_active', 1)
+        //         ->orderBy('trx_surat.letter_admin', 'asc')->get();
+        // } else {
+        //     $arr        = DB::table('trx_surat')->select('trx_surat.*', 'b.name as usr_name', 'c.name as usr_role', 'd.name as usr_to_dept')
+        //         ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
+        //         ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
+        //         ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
+        //         ->where('trx_surat.is_active', 1)
+        //         ->orderBy('trx_surat.letter_admin', 'asc')->get();
+        // }
+
+        $arr        = DB::table('trx_surat')->select('trx_surat.*', 'b.name as usr_name', 'c.name as usr_role', 'd.name as usr_to_dept')
+                ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
+                ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
+                ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
+                ->where('trx_surat.is_active', 1)
+                ->orderBy('trx_surat.letter_admin', 'asc')->get();
+
+        
+        $whrlist                = $whrrole->whr_input_surat;
+        $role                   = DB::select("SELECT * FROM mst_role WHERE id IN ($whrlist)");
         $data = array(
             'title' => 'Adm. Letter',
             'arr'   => $arr,
             'idn_user' => $idn_user,
-            'role'  => $role
+            'role'  => $role,
+            'whrshow'   => $whrshow
         );
 
         return view('Surat.input')->with($data);
@@ -102,7 +115,7 @@ class MainController extends Controller
             'date_release'  => $dt['date_release'],
             'employe'       => $idn_user->id,
             'update_by'     => auth::user()->id,
-            'to_dept'        => $dt['to_dept'],
+            'to_dept'       => $dt['to_dept'],
             'role_id'       => $idn_user->role_id,
             'is_active' => 1,
 
@@ -749,6 +762,34 @@ class MainController extends Controller
         );
 
         return view('Employeloan.list')->with($data);
+    }
+
+    function employeloanperuser()
+    {
+        $idn_user   = idn_user(auth::user()->id);
+        $idusr      = auth::user()->id;
+        $cruser     = collect(\DB::select("SELECT * FROM users WHERE id='$idusr' AND is_active='1'"))->first();
+        $npk        = str_replace(' ', '', $cruser->npk);
+        $kry_id     = collect(\DB::select("SELECT * FROM mst_karyawan WHERE npk='$npk'"))->first();
+        $id_karyawan = $kry_id->id;
+        $listkry    = collect(\DB::select("SELECT * FROM trx_employe_loan WHERE id_karyawan='$id_karyawan' AND is_active='1'"))->first();
+        if($listkry){
+            $arr        = json_decode($listkry->list_pembayaran);
+        }else{
+            $arr        = [];
+        }
+        
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $data = array(
+            'title' => 'Employe Loan',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'idkaryawan' => $id_karyawan,
+            'namekaryawan' => $kry_id->name,
+            'role'  => $role,
+        );
+
+        return view('Employeloan.peruser')->with($data);
     }
 
     function dataemploye(Request $request){
