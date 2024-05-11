@@ -82,7 +82,7 @@
                                                 {{convertToIndonesianMonth($lastElement->bulan . '-01')}}
                                             </td>
                                             <td class="text-center">
-                                                <button type="button" class="btn btn-primary" data-name="show_list_table" data-item="{{$val->id_karyawan}}"><i class="bi bi-gift-fill fs-4"></i></button>
+                                                <button type="button" class="btn btn-primary" data-name="show_list_table" data-item="{{$val->id}}"><i class="bi bi-gift-fill fs-4"></i></button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -407,24 +407,21 @@
                             <input type="text" class="form-control" id="" placeholder="" data-name="end_list_loan" disabled>
                         </div>
                     </div>
-
-
-                    <div class="table-responsive mt-3">
-                        <table class="table" id="dataTableshow">
-                            <thead>
-                                <tr>
-                                    <th class="text-center">NO</th>
-                                    <th class="text-center">TAHUN BULAN</th>
-                                    <th>NOMINAL PEMBAYARAN</th>
-                                    <th>NOMINAL TERBAYARKAN</th>
-                                    <th>NOMINAL SISA</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                            </tbody>
-                        </table>
-                    </div>
+                </div>
+                <div class="table-responsive mt-3">
+                    <table class="table" id="dataTableshow" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th class="text-center">NO</th>
+                                <th class="text-center">TAHUN BULAN</th>
+                                <th>NOMINAL PEMBAYARAN</th>
+                                <th>NOMINAL TERBAYARKAN</th>
+                                <th>NOMINAL SISA</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="modal-footer">
@@ -468,8 +465,66 @@
     {{-- JS Show Table --}}
     <script>
         $(document).on("click", "[data-name='show_list_table']", function(e) {
+            var id = $(this).attr("data-item");
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('showlistdataloanperuser') }}",
+                data: {
+                    id: id,
+                },
+                cache: false,
+                success: function(data) {
+                    console.log(data);
+
+                    $("[data-name='name_list_loan']").val(data['name_list_loan']);
+                    $("[data-name='npk_list_loan']").val(data['npk_list_loan']);
+                    $("[data-name='nominal_list_loan']").val(data['nominal_list_loan']);
+                    $("[data-name='golongan_list_loan']").val(data['golongan_list_loan']);
+                    $("[data-name='start_list_loan']").val(data['start_list_loan']);
+                    $("[data-name='end_list_loan']").val(data['end_list_loan']);
+                    // $("#html_table").html(data['dt_html']);
+
+                    var table = $('#dataTableshow').DataTable({
+                        "processing": true,
+                        "serverSide": false,
+                        "ajax": {
+                            "url": "{{route('listtableloanperuser')}}",
+                            "type": "POST",
+                            "dataSrc": "",
+                            "data": function (d) {
+                                d.id = id;
+                                return d;
+                            }
+                        },
+                        "columns": [
+                            { "data": "no" },
+                            { "data": "thnbulan" },
+                            { "data": "nominalloan" },
+                            { "data": "nominalterbayarkan" },
+                            { "data": "nominalsisa" }
+                        ]
+                    });
+
+                    $("#modal_show_list_table_karyawan").modal('show');
+                },
+                error: function(data) {
+                    Swal.fire({
+                        position: 'center',
+                        title: 'Action Not Valid!',
+                        icon: 'warning',
+                        showConfirmButton: true,
+                        // timer: 1500
+                    }).then((data) => {
+                        // location.reload();
+                    })
+                }
+            });
             
-            $("#modal_show_list_table_karyawan").modal('show');
+        });
+
+        $(document).ready(function() {
+            
         });
     </script>
     {{-- End Js Show Table --}}
@@ -929,10 +984,6 @@
 
         $(document).ready(function() {
             $('#dataTable_bulanthr').DataTable();
-        });
-
-        $(document).ready(function() {
-            $('#dataTableshow').DataTable();
         });
 
     </script>

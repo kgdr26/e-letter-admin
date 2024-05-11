@@ -804,6 +804,34 @@ class MainController extends Controller
         $arr    = autogenerateloan();
         return response($arr);
     }
+
+    function showlistdataloanperuser(Request $request){
+        $id     = $request['id'];
+        $arr    = action_showlistdataloanperuser($id);
+        return response($arr);
+    }
+
+    function listtableloanperuser(Request $request){
+        $id     = $request['id'];
+        $dt         = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk', 'b.id as id_kry')
+                    ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')
+                    ->where('trx_employe_loan.id', $id)
+                    ->where('trx_employe_loan.is_active', 1)->first();
+
+        $listdata    = json_decode($dt->list_pembayaran);
+
+        $no         = 1;
+        foreach($listdata as $key => $val){
+            $arr[$key]['no']            = $no++;
+            $arr[$key]['thnbulan']      = convertToIndonesianMonth($val->bulan);
+            $arr[$key]['nominalloan']   = number_format($val->nominal, 0, ',', '.');
+            $arr[$key]['nominalterbayarkan']    = number_format($val->terbayarkan, 0, ',', '.');
+            $arr[$key]['nominalsisa']   = number_format($val->sisa, 0, ',', '.');
+        }
+
+
+        return response($arr);
+    }
      
     function test()
     {
@@ -811,7 +839,7 @@ class MainController extends Controller
         $kategori  = 1;
         $date_start  = '2024-04-27 20:00:00';
         $date_end  = '2024-04-27 23:00:00';
-        $arr = autogenerateloan();
+        $arr = action_showlistdataloanperuser(1);
         echo '<pre>';
         print_r($arr);
         exit;

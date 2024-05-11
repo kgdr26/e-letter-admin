@@ -508,4 +508,36 @@ function autogenerateloan(){
     return response('success');
 }
 
+function action_showlistdataloanperuser($id){
+    $dt         = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk', 'b.id as id_kry')
+                ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')
+                ->where('trx_employe_loan.id', $id)
+                ->where('trx_employe_loan.is_active', 1)->first();
+
+    $dt_lsp         = json_decode($dt->list_pembayaran);
+    $dt_end_loan    = end($dt_lsp);
+
+    $no         = 1;
+    $html       = '';
+    foreach($dt_lsp as $key => $val){
+        $html .= '<tr>';
+        $html .= '<td>'.$no++.'</td>';
+        $html .= '<td>'.convertToIndonesianMonth($val->bulan).'</td>';
+        $html .= '<td>Rp ' . number_format($val->nominal, 0, ',', '.').'</td>';
+        $html .= '<td>Rp ' . number_format($val->terbayarkan, 0, ',', '.').'</td>';
+        $html .= '<td>Rp ' . number_format($val->sisa, 0, ',', '.').'</td>';
+        $html .= '</tr>';
+    }
+
+    $arr['name_list_loan']      = $dt->name;
+    $arr['npk_list_loan']       = $dt->npk;
+    $arr['nominal_list_loan']   = 'Rp ' . number_format($dt->nominal_loan, 0, ',', '.');
+    $arr['golongan_list_loan']  = $dt->golongan;
+    $arr['start_list_loan']     = convertToIndonesianMonth($dt->start_bulan);
+    $arr['end_list_loan']       = convertToIndonesianMonth($dt_end_loan->bulan);
+    $arr['dt_html']             = $html;
+    return $arr;
+}
+
+
 ?>
