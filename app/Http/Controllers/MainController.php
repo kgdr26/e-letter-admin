@@ -813,23 +813,7 @@ class MainController extends Controller
 
     function listtableloanperuser(Request $request){
         $id     = $request['id'];
-        $dt         = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk', 'b.id as id_kry')
-                    ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')
-                    ->where('trx_employe_loan.id', $id)
-                    ->where('trx_employe_loan.is_active', 1)->first();
-
-        $listdata    = json_decode($dt->list_pembayaran);
-
-        $no         = 1;
-        foreach($listdata as $key => $val){
-            $arr[$key]['no']            = $no++;
-            $arr[$key]['thnbulan']      = convertToIndonesianMonth($val->bulan);
-            $arr[$key]['nominalloan']   = number_format($val->nominal, 0, ',', '.');
-            $arr[$key]['nominalterbayarkan']    = number_format($val->terbayarkan, 0, ',', '.');
-            $arr[$key]['nominalsisa']   = number_format($val->sisa, 0, ',', '.');
-        }
-
-
+        $arr    = action_listtableloanperuser($id);
         return response($arr);
     }
      
@@ -839,7 +823,7 @@ class MainController extends Controller
         $kategori  = 1;
         $date_start  = '2024-04-27 20:00:00';
         $date_end  = '2024-04-27 23:00:00';
-        $arr = action_showlistdataloanperuser(1);
+        $arr = action_showlistdataloanperuser(2);
         echo '<pre>';
         print_r($arr);
         exit;

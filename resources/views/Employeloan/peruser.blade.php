@@ -37,16 +37,27 @@
                                 </thead>
                                 <tbody>
                                     @php
+                                        $databulan      = new DateTime();
+                                        $datatanggal    = $databulan->format('Y-m-d');
+                                        $pengecualian   = $databulan->format('Y-m-27');
+                                        if($datatanggal >= $pengecualian){
+                                            $bln    = $databulan->format('Y-m');
+                                        }else{
+                                            $databulan->modify('-1 month');
+                                            $bln    = $databulan->format('Y-m');
+                                        }
                                         $no = 1;
                                     @endphp
                                     @foreach ($arr as $key => $val)
-                                        <tr>
-                                            <td>{{ $no++ }}</td>
-                                            <td>{{ convertToIndonesianMonth($val->bulan.'-01') }}</td>
-                                            <td>{{ 'Rp ' . number_format($val->nominal, 0, ',', '.') }}</td>
-                                            <td>{{ 'Rp ' . number_format($val->terbayarkan, 0, ',', '.') }}</td>
-                                            <td>{{ 'Rp ' . number_format($val->sisa, 0, ',', '.') }}</td>
-                                        </tr>
+                                        @if($val->bulan <= $bln)
+                                            <tr>
+                                                <td>{{ $no++ }}</td>
+                                                <td>{{ convertToIndonesianMonth($val->bulan.'-01') }}</td>
+                                                <td>{{ 'Rp ' . number_format($val->nominal, 0, ',', '.') }}</td>
+                                                <td>{{ 'Rp ' . number_format($val->terbayarkan, 0, ',', '.') }}</td>
+                                                <td>{{ 'Rp ' . number_format($val->sisa, 0, ',', '.') }}</td>
+                                            </tr>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>

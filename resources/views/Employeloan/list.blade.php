@@ -221,18 +221,11 @@
                         </div>
 
                         <div class="row">
-                            <div class="mb-3 col-lg-6">
+                            <div class="mb-3 col-lg-12">
                                 <label for="" class="form-label">Start Bulan</label>
                                 <span style="color: red;">*</span>
                                 <input type="text" class="form-control" id="" placeholder=""
                                     data-name="start_bulan">
-                            </div>
-
-                            <div class="mb-3 col-lg-6">
-                                <label for="" class="form-label">Ending Bulan</label>
-                                <span style="color: red;">*</span>
-                                <input type="text" class="form-control" id="" placeholder=""
-                                    data-name="ending_bulan">
                             </div>
                         </div>
                     </div>
@@ -365,72 +358,72 @@
     </div>
     {{-- End Modal Setting Bulan THR --}}
 
-    {{-- Modal Add --}}
+    {{-- Modal Show List Data Karyawan --}}
     <div class="modal fade" id="modal_show_list_table_karyawan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">List Table Loan Per Karyawan</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card-style">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">List Table Loan Per Karyawan</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-style">
+                        <input type="hidden" data-name="id_kar" value="1">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label for="" class="form-label">NAME</label>
+                                <input type="text" class="form-control" id="" placeholder="" data-name="name_list_loan" disabled>
+                            </div>
+        
+                            <div class="col-6 mb-3">
+                                <label for="" class="form-label">NPK</label>
+                                <input type="text" class="form-control" id="" placeholder="" data-name="npk_list_loan" disabled>
+                            </div>
+        
+                            <div class="col-6 mb-3">
+                                <label for="" class="form-label">NOMINAL LOAN</label>
+                                <input type="text" class="form-control" id="" placeholder="" data-name="nominal_list_loan" disabled>
+                            </div>
 
-                    <div class="row">
-                        <div class="col-6 mb-3">
-                            <label for="" class="form-label">NAME</label>
-                            <input type="text" class="form-control" id="" placeholder="" data-name="name_list_loan" disabled>
-                        </div>
-    
-                        <div class="col-6 mb-3">
-                            <label for="" class="form-label">NPK</label>
-                            <input type="text" class="form-control" id="" placeholder="" data-name="npk_list_loan" disabled>
-                        </div>
-    
-                        <div class="col-6 mb-3">
-                            <label for="" class="form-label">NOMINAL LOAN</label>
-                            <input type="text" class="form-control" id="" placeholder="" data-name="nominal_list_loan" disabled>
-                        </div>
-
-                        <div class="col-6 mb-3">
-                            <label for="" class="form-label">GOLONGAN</label>
-                            <input type="text" class="form-control" id="" placeholder="" data-name="golongan_list_loan" disabled>
-                        </div>
-    
-                        <div class="col-6">
-                            <label for="" class="form-label">START LOAN</label>
-                            <input type="text" class="form-control" id="" placeholder="" data-name="start_list_loan" disabled>
-                        </div>
-    
-                        <div class="col-6">
-                            <label for="" class="form-label">END LOAN</label>
-                            <input type="text" class="form-control" id="" placeholder="" data-name="end_list_loan" disabled>
+                            <div class="col-6 mb-3">
+                                <label for="" class="form-label">GOLONGAN</label>
+                                <input type="text" class="form-control" id="" placeholder="" data-name="golongan_list_loan" disabled>
+                            </div>
+        
+                            <div class="col-6">
+                                <label for="" class="form-label">START LOAN</label>
+                                <input type="text" class="form-control" id="" placeholder="" data-name="start_list_loan" disabled>
+                            </div>
+        
+                            <div class="col-6">
+                                <label for="" class="form-label">END LOAN</label>
+                                <input type="text" class="form-control" id="" placeholder="" data-name="end_list_loan" disabled>
+                            </div>
                         </div>
                     </div>
+                    <div class="table-responsive mt-3">
+                        <table class="table" id="dataTableshow" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">NO</th>
+                                    <th class="text-center">TAHUN BULAN</th>
+                                    <th>NOMINAL PEMBAYARAN</th>
+                                    <th>NOMINAL TERBAYARKAN</th>
+                                    <th>NOMINAL SISA</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="table-responsive mt-3">
-                    <table class="table" id="dataTableshow" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th class="text-center">NO</th>
-                                <th class="text-center">TAHUN BULAN</th>
-                                <th>NOMINAL PEMBAYARAN</th>
-                                <th>NOMINAL TERBAYARKAN</th>
-                                <th>NOMINAL SISA</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-</div>
-{{-- End Modal ADD --}}
+    {{-- End Modal Show List Data Karyawan --}}
 
     {{-- JS Update Chart --}}
     <script>
@@ -452,10 +445,10 @@
                 global: false,
                 cache: false,
                 success: function(data) {
-                    console.log(data);
+                    // console.log(data);
                 },
                 complete: function(data) {
-                    console.log(data);
+                    // console.log(data);
                 }
             });
         }
@@ -464,8 +457,76 @@
 
     {{-- JS Show Table --}}
     <script>
+        $(document).ready(function() {
+            var table = $('#dataTableshow').DataTable({
+                "processing": true,
+                "serverSide": false,
+                "ajax": {
+                    "url": "{{route('listtableloanperuser')}}",
+                    "type": "POST",
+                    "dataSrc": "",
+                    "data": function (d) {
+                        // Ubah sumber data yang diterima dari server sesuai kebutuhan
+                        d.id = $("[data-name='id_kar']").val();
+                        // alert(d.id_machine);
+                        return d;
+                    }
+                },
+                "columns": [
+                    { "data": "no" },
+                    { "data": "thnbulan" },
+                    { "data": "nominalloan" },
+                    { "data": "nominalterbayarkan" },
+                    { "data": "nominalsisa" }
+                ]
+            });
+
+            // $(document).on("click", "[data-name='show_list_table']", function(e) {
+            $("[data-name='show_list_table']").click(function() {
+                var id = $(this).attr("data-item");
+                $("[data-name='id_kar']").val(id);
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('showlistdataloanperuser') }}",
+                    data: {
+                        id: id,
+                    },
+                    cache: false,
+                    success: function(data) {
+                        // console.log(data);
+
+                        $("[data-name='name_list_loan']").val(data['name_list_loan']);
+                        $("[data-name='npk_list_loan']").val(data['npk_list_loan']);
+                        $("[data-name='nominal_list_loan']").val(data['nominal_list_loan']);
+                        $("[data-name='golongan_list_loan']").val(data['golongan_list_loan']);
+                        $("[data-name='start_list_loan']").val(data['start_list_loan']);
+                        $("[data-name='end_list_loan']").val(data['end_list_loan']);
+                        // $("#html_table").html(data['dt_html']);
+                        table.ajax.reload(null, false);
+                        $("#modal_show_list_table_karyawan").modal('show');
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Action Not Valid!',
+                            icon: 'warning',
+                            showConfirmButton: true,
+                            // timer: 1500
+                        }).then((data) => {
+                            // location.reload();
+                        })
+                    }
+                });
+                
+            });
+        });
+
         $(document).on("click", "[data-name='show_list_table']", function(e) {
+            // table.ajax.reload(null, false);
+            table.ajax.reload(null, false);
             var id = $(this).attr("data-item");
+            $("[data-name='id_kar']").val(id);
 
             $.ajax({
                 type: "POST",
@@ -485,27 +546,6 @@
                     $("[data-name='end_list_loan']").val(data['end_list_loan']);
                     // $("#html_table").html(data['dt_html']);
 
-                    var table = $('#dataTableshow').DataTable({
-                        "processing": true,
-                        "serverSide": false,
-                        "ajax": {
-                            "url": "{{route('listtableloanperuser')}}",
-                            "type": "POST",
-                            "dataSrc": "",
-                            "data": function (d) {
-                                d.id = id;
-                                return d;
-                            }
-                        },
-                        "columns": [
-                            { "data": "no" },
-                            { "data": "thnbulan" },
-                            { "data": "nominalloan" },
-                            { "data": "nominalterbayarkan" },
-                            { "data": "nominalsisa" }
-                        ]
-                    });
-
                     $("#modal_show_list_table_karyawan").modal('show');
                 },
                 error: function(data) {
@@ -520,10 +560,6 @@
                     })
                 }
             });
-            
-        });
-
-        $(document).ready(function() {
             
         });
     </script>
@@ -708,7 +744,6 @@
             var pembayaran_perbulan = $("[data-name='pembayaran_perbulan']").val();
             var loan_perbulan = pembayaran_perbulan.replace(/[^\d]/g, '');
             var start_bulan = $("[data-name='start_bulan']").val();
-            var ending_bulan = $("[data-name='ending_bulan']").val();
             var list_pembayaran = '[]';
             var is_active = 1;
             var update_by = "{!! $idn_user->id !!}";
@@ -720,15 +755,13 @@
                 bulan_loan: bulan_loan,
                 loan_perbulan: loan_perbulan,
                 start_bulan: start_bulan,
-                ending_bulan: ending_bulan,
                 list_pembayaran: list_pembayaran,
                 golongan: golongan,
                 is_active: is_active,
                 update_by: update_by,
             };
 
-            if (id_karyawan === '' || nominal_loan === '' || bulan_loan === '' || loan_perbulan === '' ||
-                start_bulan === '' || ending_bulan === '' || list_pembayaran === '') {
+            if (id_karyawan === '' || nominal_loan === '' || bulan_loan === '' || loan_perbulan === '' || start_bulan === '' || list_pembayaran === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Form is empty!',

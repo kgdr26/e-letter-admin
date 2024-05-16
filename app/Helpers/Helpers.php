@@ -382,6 +382,16 @@ function showdataemploye($type, $bulan, $idkry){
         }
 
     }elseif($type == 'karyawan'){
+        $databulan      = new DateTime();
+        $datatanggal    = $databulan->format('Y-m-d');
+        $pengecualian   = $databulan->format('Y-m-27');
+        if($datatanggal >= $pengecualian){
+            $bln    = $databulan->format('Y-m');
+        }else{
+            $databulan->modify('-1 month');
+            $bln    = $databulan->format('Y-m');
+        }
+
         $categories     = [];
         $dibayar        = [];
         $terbayarkan    = [];
@@ -394,10 +404,12 @@ function showdataemploye($type, $bulan, $idkry){
     
         if(count($listpembayaran) !== 0){
             foreach($listpembayaran as $list => $pem){
-                $categories[$list]   = convertToIndonesianMonth($pem->bulan.'-01');
-                $dibayar[$list]      = intval($pem->nominal);
-                $terbayarkan[$list]  = intval($pem->terbayarkan);
-                $sisa[$list]         = intval($pem->sisa);
+                if($pem->bulan <= $bln){
+                    $categories[$list]   = convertToIndonesianMonth($pem->bulan.'-01');
+                    $dibayar[$list]      = intval($pem->nominal);
+                    $terbayarkan[$list]  = intval($pem->terbayarkan);
+                    $sisa[$list]         = intval($pem->sisa);
+                }
             }
         }
     }else{
@@ -509,6 +521,16 @@ function autogenerateloan(){
 }
 
 function action_showlistdataloanperuser($id){
+    $databulan      = new DateTime();
+    $datatanggal    = $databulan->format('Y-m-d');
+    $pengecualian   = $databulan->format('Y-m-27');
+    if($datatanggal >= $pengecualian){
+        $bln    = $databulan->format('Y-m');
+    }else{
+        $databulan->modify('-1 month');
+        $bln    = $databulan->format('Y-m');
+    }
+
     $dt         = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk', 'b.id as id_kry')
                 ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')
                 ->where('trx_employe_loan.id', $id)
@@ -520,13 +542,17 @@ function action_showlistdataloanperuser($id){
     $no         = 1;
     $html       = '';
     foreach($dt_lsp as $key => $val){
-        $html .= '<tr>';
-        $html .= '<td>'.$no++.'</td>';
-        $html .= '<td>'.convertToIndonesianMonth($val->bulan).'</td>';
-        $html .= '<td>Rp ' . number_format($val->nominal, 0, ',', '.').'</td>';
-        $html .= '<td>Rp ' . number_format($val->terbayarkan, 0, ',', '.').'</td>';
-        $html .= '<td>Rp ' . number_format($val->sisa, 0, ',', '.').'</td>';
-        $html .= '</tr>';
+        if($val->bulan <= $bln){
+            $html .= '<tr>';
+            $html .= '<td>'.$no++.'</td>';
+            $html .= '<td>'.convertToIndonesianMonth($val->bulan).'</td>';
+            $html .= '<td>Rp ' . number_format($val->nominal, 0, ',', '.').'</td>';
+            $html .= '<td>Rp ' . number_format($val->terbayarkan, 0, ',', '.').'</td>';
+            $html .= '<td>Rp ' . number_format($val->sisa, 0, ',', '.').'</td>';
+            $html .= '</tr>';
+        }else{
+            $html .= '';
+        }
     }
 
     $arr['name_list_loan']      = $dt->name;
@@ -538,6 +564,41 @@ function action_showlistdataloanperuser($id){
     $arr['dt_html']             = $html;
     return $arr;
 }
+
+function action_listtableloanperuser($id){
+    $databulan      = new DateTime();
+    $datatanggal    = $databulan->format('Y-m-d');
+    $pengecualian   = $databulan->format('Y-m-27');
+    if($datatanggal >= $pengecualian){
+        $bln    = $databulan->format('Y-m');
+    }else{
+        $databulan->modify('-1 month');
+        $bln    = $databulan->format('Y-m');
+    }
+    
+    $dt         = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk', 'b.id as id_kry')
+        ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')
+        ->where('trx_employe_loan.id', $id)
+        ->where('trx_employe_loan.is_active', 1)->first();
+
+    $listdata    = json_decode($dt->list_pembayaran);
+
+
+    $arr        = [];
+    $no         = 1;
+    foreach($listdata as $key => $val){
+        if($val->bulan <= $bln){
+            $arr[$key]['no']            = $no++;
+            $arr[$key]['thnbulan']      = convertToIndonesianMonth($val->bulan);
+            $arr[$key]['nominalloan']   = number_format($val->nominal, 0, ',', '.');
+            $arr[$key]['nominalterbayarkan']    = number_format($val->terbayarkan, 0, ',', '.');
+            $arr[$key]['nominalsisa']   = number_format($val->sisa, 0, ',', '.');
+        }
+    }
+
+    return $arr;
+}
+
 
 
 ?>
