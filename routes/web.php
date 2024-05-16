@@ -75,7 +75,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('detaildocument', [MainController::class, 'detaildocument'])->name('detaildocument');
     Route::get('scurity', [MainController::class, 'scurity'])->name('scurity');
 
-    Route::get('employeloan', [MainController::class, 'employeloan'])->name('employeloan');
+    Route::middleware(['auth'], 'role_id:1|8|16')->group(function () {
+        Route::get('employeloan', [MainController::class, 'employeloan'])->name('employeloan');
+    });
     Route::post('dataemploye', [MainController::class, 'dataemploye'])->name('dataemploye');
     Route::get('employeloanperuser', [MainController::class, 'employeloanperuser'])->name('employeloanperuser');
     
