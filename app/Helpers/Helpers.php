@@ -454,6 +454,7 @@ function autogenerateloan(){
     $data   =  DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk')
             ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')
             ->where('trx_employe_loan.is_active', 1)->orderBy('trx_employe_loan.id', 'desc')->get();
+            // ->where('trx_employe_loan.is_active', 1)->where('trx_employe_loan.id', 6)->orderBy('trx_employe_loan.id', 'desc')->get();
 
     $bln    = array('01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12');
 
@@ -490,15 +491,20 @@ function autogenerateloan(){
             }
 
             $v_nominal                                  = $val->loan_perbulan*$jmlck;
-            $v_terbayarkan                              += $v_nominal;
+            
             if($v_sisa == 0){
+                $v_terbayarkan                              += $v_nominal;
                 $v_sisa                                     = $val->nominal_loan-$v_terbayarkan;
+            }elseif($v_sisa <= $v_nominal){
+                $v_nominal                                  = $v_sisa;
+                $v_terbayarkan                              += $v_nominal;
+                $v_sisa                                     = 0;
             }else{
+                $v_terbayarkan                              += $v_nominal;
                 $v_sisa                                     = $v_sisa-$v_nominal;
             }
-            
 
-            if($v_sisa >= 0){
+            if($v_sisa >= 0 && $v_nominal > 0){
                 $dt[$key]['loopbulan'][$i]['bulan']         = $tahun."-".$bln[$indeks_bulan];
                 $dt[$key]['loopbulan'][$i]['jml']           = $jmlck;
                 $dt[$key]['loopbulan'][$i]['nominal']       = $v_nominal;
@@ -507,6 +513,7 @@ function autogenerateloan(){
     
                 $v_list_pembayaran .= '{"bulan": "'.$tahun.'-'.$bln[$indeks_bulan].'","jml": "'.$jmlck.'","nominal": "'.$v_nominal.'","terbayarkan": "'.$v_terbayarkan.'","sisa": "'.$v_sisa.'"},';
             }
+            
         }
         $k_list_pembayaran              = '['.substr($v_list_pembayaran, 0, -1).']';
         $dt[$key]['list_pembayaran']    = $k_list_pembayaran;
