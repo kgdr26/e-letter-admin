@@ -123,16 +123,18 @@
             var datetime = moment(date);
             var second_detail = '["' + datetime.format('YYYY-MM-DD HH:mm:ss') + '","-"]';
             var status = 4;
+            var update_by = "{!! $idn_user->id !!}";
 
             var table = "trx_assets_landing";
             var whr = "id";
             var dats = {
                 id_second: id_second,
                 second_detail: second_detail,
-                status: status
+                status: status,
+                update_by: update_by
             };
 
-            if (id === '' || id_second === '' || second_detail === '') {
+            if (id === '' || id_second === '' || second_detail === '' || update_by === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Form is empty!',
