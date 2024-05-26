@@ -104,6 +104,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('action_autogenerateloan', [MainController::class, 'action_autogenerateloan'])->name('action_autogenerateloan');
     Route::post('showlistdataloanperuser', [MainController::class, 'showlistdataloanperuser'])->name('showlistdataloanperuser');
     Route::post('listtableloanperuser', [MainController::class, 'listtableloanperuser'])->name('listtableloanperuser');
+    Route::post('actionpelunasanloan', [MainController::class, 'actionpelunasanloan'])->name('actionpelunasanloan');
+    Route::post('showdatapelunasanloan', [MainController::class, 'showdatapelunasanloan'])->name('showdatapelunasanloan');
     // Asset Lending
     Route::get('peminjamanasset', [MainController::class, 'peminjamanasset'])->name('peminjamanasset');
 

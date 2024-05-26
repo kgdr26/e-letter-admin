@@ -816,6 +816,21 @@ class MainController extends Controller
         $arr    = action_listtableloanperuser($id);
         return response($arr);
     }
+
+    function actionpelunasanloan(Request $request){
+        $id         = $request['id'];
+        $bulan      = $request['bulan'];
+        $nominal    = $request['nominal'];
+        $arr        = actionpelunasanloan($id,$bulan,$nominal);
+        return response($arr);
+    }
+
+    function showdatapelunasanloan(Request $request){
+        $id     = $request['id'];
+        $bulan  = $request['bulan'];
+        $arr    = showdatapelunasanloan($id,$bulan);
+        return response($arr);
+    }
      
     function test()
     {
@@ -823,7 +838,7 @@ class MainController extends Controller
         $kategori  = 1;
         $date_start  = '2024-04-27 20:00:00';
         $date_end  = '2024-04-27 23:00:00';
-        $arr = autogenerateloan();
+        $arr = 1;
         echo '<pre>';
         print_r($arr);
         exit;

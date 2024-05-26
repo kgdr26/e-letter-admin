@@ -83,6 +83,7 @@
                                             </td>
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary" data-name="show_list_table" data-item="{{$val->id}}"><i class="bi bi-gift-fill fs-4"></i></button>
+                                                <button type="button" class="btn btn-success" data-name="action_pelunasan_loan" data-item="{{$val->id_karyawan}},{{$val->id}},{{ 'Rp ' . number_format($val->nominal_loan, 0, ',', '.') }}"><i class="bi bi-cash-coin fs-4"></i></button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -243,7 +244,7 @@
 
     {{-- End Modal View Table --}}
 
-    {{-- Modal Add --}}
+    {{-- Modal Filter Loan --}}
     <div class="modal fade" id="modal_filter_bulan" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -268,9 +269,9 @@
             </div>
         </div>
     </div>
-    {{-- End Modal ADD --}}
+    {{-- End Modal Filter Loan --}}
 
-    {{-- Modal Add --}}
+    {{-- Modal Modal Filter Loan Per Loan --}}
     <div class="modal fade" id="modal_filter_karyawan" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -283,8 +284,7 @@
                     <div class="card-style">
                         <div class="mb-3">
                             <label for="" class="form-label">Select Karyawan</label>
-                            <select name="" id="" class="form-select select-2-select_filter_karyawan"
-                                data-name="select_filter_karyawan">
+                            <select name="" id="" class="form-select select-2-select_filter_karyawan" data-name="select_filter_karyawan">
                                 <option value="">-- Select Karyawan --</option>
                                 @foreach ($filterkaryawan as $key => $val)
                                     <option value="{{ $val->id_kry }},{{ $val->npk }} - {{ $val->name }}">
@@ -301,7 +301,7 @@
             </div>
         </div>
     </div>
-    {{-- End Modal ADD --}}
+    {{-- End Modal Filter Loan Per Loan --}}
 
     {{-- Modal Setting Bulan THR --}}
     <div class="modal fade" id="modal_setting_bulan_thr" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -316,8 +316,7 @@
                     <div class="card-style">
                         <div class="mb-3">
                             <label for="" class="form-label">Tahun Dan Bulan</label>
-                            <input type="text" class="form-control" id="" placeholder=""
-                                data-name="setting_tahun_bulan">
+                            <input type="text" class="form-control" id="" placeholder="" data-name="setting_tahun_bulan">
                         </div>
 
                         <div class="table-responsive mt-3">
@@ -424,6 +423,55 @@
         </div>
     </div>
     {{-- End Modal Show List Data Karyawan --}}
+
+    {{-- Modal Pelunasan Loan --}}
+    <div class="modal fade" id="modal_pelunasan_loan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Pelunasan Loan Karyawan</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-style">
+                        <div class="mb-3">
+                            <label for="" class="form-label">Karyawan</label>
+                            <select name="" id="" class="form-select select-2-pelunasan_karyawan" data-name="id_karyawan_pelunasan_loan" disabled>
+                                @foreach ($listkarayawan as $key => $val)
+                                    <option value="{{ $val->id }}">{{ $val->npk }} - {{ $val->name }}</option>
+                                @endforeach
+                            </select>
+                            <input type="hidden" data-name="id_pelunasan_loan">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="" class="form-label">Lunasi Mulai Bulan</label>
+                            <input type="text" class="form-control" id="" placeholder="" data-name="bulan_pelunasan">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label for="" class="form-label">NOMINAL LOAN</label>
+                                <input type="text" class="form-control" id="" placeholder="" data-name="lunas_nominal_loan" disabled>
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label for="" class="form-label">NOMINAL Yang Di Lunasi</label>
+                                <input type="text" class="form-control" id="" placeholder="" data-name="lunas_nominal" disabled>
+                                <input type="text" data-name="val_nominal">
+                                <input type="text" data-name="val_id">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-name="save_pelunasan_loan">Lunasi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Pelunasan Loan --}}
 
     {{-- JS Update Chart --}}
     <script>
@@ -536,7 +584,7 @@
                 },
                 cache: false,
                 success: function(data) {
-                    console.log(data);
+                    // console.log(data);
 
                     $("[data-name='name_list_loan']").val(data['name_list_loan']);
                     $("[data-name='npk_list_loan']").val(data['npk_list_loan']);
@@ -929,7 +977,7 @@
                 global: false,
                 cache: false,
                 success: function(data) {
-                    console.log(data);
+                    // console.log(data);
                     chart.xAxis[0].update({
                         categories: data.categories
                     });
@@ -1009,6 +1057,82 @@
     </script>
     {{-- End JS Konvert To Rupiah --}}
 
+    {{-- JS Pelunasan Loan --}}
+    <script>
+        $(document).on("click", "[data-name='action_pelunasan_loan']", function(e) {
+            var arr                 = $(this).attr("data-item");
+            var arr_id_loan         = arr.split(",");
+            var id                  = arr_id_loan[0];
+            var id_pelunasan_loan   = arr_id_loan[1];
+            var lunas_nominal_loan  = arr_id_loan[2];
+            $("[data-name='id_pelunasan_loan']").val(id_pelunasan_loan);
+            $("[data-name='lunas_nominal_loan']").val(lunas_nominal_loan);
+            $("[data-name='val_id']").val(id);
+            $("[data-name='id_karyawan_pelunasan_loan']").val(id).trigger("change");
+            $("[data-name='bulan_pelunasan']").val('');
+            $("#modal_pelunasan_loan").modal('show');
+        });
+
+        $(document).on("click", "[data-name='save_pelunasan_loan']", function(e) {
+            var id          = $("[data-name='val_id']").val();
+            var bulan       = $("[data-name='bulan_pelunasan']").val();
+            var nominal     = $("[data-name='val_nominal']").val();
+
+            // alert(id+','+bulan+','+nominal);
+
+            if(id === '' || bulan === '' || nominal === ''){
+                Swal.fire({
+                    position: 'center',
+                    title: 'Action Not Valid!',
+                    icon: 'warning',
+                    showConfirmButton: true,
+                    // timer: 1500
+                }).then((data) => {
+                    // location.reload();
+                })
+            }else{
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('actionpelunasanloan') }}",
+                    data: {
+                        id: id,
+                        bulan: bulan,
+                        nominal: nominal
+                    },
+                    cache: false,
+                    success: function(data) {
+                        $("#modal_pelunasan_loan").modal('hide');
+                        js_autogenerateloan();
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Success!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then((data) => {
+                            location.reload();
+                        })
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Action Not Valid!',
+                            icon: 'warning',
+                            showConfirmButton: true,
+                            // timer: 1500
+                        }).then((data) => {
+                            // location.reload();
+                        })
+                    }
+                });
+            }
+        });
+
+
+        
+    </script>
+    {{-- End JS Pelunasan Loan --}}
+
     {{-- JS Datatable --}}
     <script>
         $(document).ready(function() {
@@ -1041,9 +1165,16 @@
             width: '100%',
             dropdownParent: $("#modal_filter_karyawan")
         });
+
+        $(".select-2-pelunasan_karyawan").select2({
+            allowClear: false,
+            width: '100%',
+            dropdownParent: $("#modal_pelunasan_loan")
+        });
     </script>
     {{-- End Select2 --}}
 
+    {{-- Date Picker --}}
     <script>
         $('input[data-name="start_bulan"]').datepicker({
             format: "yyyy-mm",
@@ -1086,6 +1217,57 @@
             minViewMode: "years",
             autoclose: true
         });
+
+        // $('').datepicker({
+        //     format: "yyyy-mm",
+        //     viewMode: "months",
+        //     minViewMode: "months",
+        //     autoclose: true
+        // });
+
+        var currentDate = new Date();
+        var currentYear = currentDate.getFullYear();
+        var currentMonth = currentDate.getMonth();
+
+        $('input[data-name="bulan_pelunasan"]').datepicker({
+            format: "yyyy-mm",
+            startView: "months",
+            minViewMode: "months",
+            autoclose: true,
+            todayHighlight: true,
+            startDate: new Date(currentYear, currentMonth, 1) // Disable past months
+        }).on('changeDate', function(e) {
+            var date    = e.date;
+            var bulan   = moment(date).format('YYYY-MM');
+            var id      = $("[data-name='id_pelunasan_loan']").val();
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('showdatapelunasanloan') }}",
+                data: {
+                    id: id,
+                    bulan: bulan,
+                },
+                cache: false,
+                success: function(data) {
+                    // console.log(data.lunas);
+                    $("[data-name='lunas_nominal']").val(data.nominallunas);
+                    $("[data-name='val_nominal']").val(data.lunas);
+                },
+                error: function(data) {
+                    Swal.fire({
+                        position: 'center',
+                        title: 'Action Not Valid!',
+                        icon: 'warning',
+                        showConfirmButton: true,
+                        // timer: 1500
+                    }).then((data) => {
+                        // location.reload();
+                    })
+                }
+            });
+        });
     </script>
+    {{-- End Date Picker --}}
 
 @stop

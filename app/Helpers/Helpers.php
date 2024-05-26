@@ -606,6 +606,45 @@ function action_listtableloanperuser($id){
     return $arr;
 }
 
+function actionpelunasanloan($id,$bulan,$nominal){
+    $data               = collect(\DB::select("SELECT * FROM trx_employe_loan WHERE id='$id'"))->first();
+    $listpembayaran     = json_decode($data->list_pembayaran);
+    $list  = '';
+    foreach($listpembayaran as $dt => $pem){
+        if($pem->bulan <= $bulan){
+            if($pem->bulan == $bulan){
+                $list .= '{"bulan": "'.$pem->bulan.'","jml": "1","nominal": "'.$nominal.'","terbayarkan": "'.$data->nominal_loan.'","sisa": "0"},';
+            }else{
+                $list .= '{"bulan": "'.$pem->bulan.'","jml": "'.$pem->jml.'","nominal": "'.$pem->nominal.'","terbayarkan": "'.$pem->terbayarkan.'","sisa": "'.$pem->sisa.'"},';
+            }
+        }
+    }
+
+    $arr  = '['.substr($list, 0, -1).']';
+
+    DB::table('trx_employe_loan')->where('id', $id)->update(['list_pembayaran'=>$arr]);
+    // return json_decode($arr);
+    // return response('success');
+}
+
+function showdatapelunasanloan($id,$bulan){
+    $currentDate    = new DateTime($bulan);
+    $currentDate->modify('-1 month');
+    $newDate        = $currentDate->format('Y-m');
+
+    $loan               = collect(\DB::select("SELECT * FROM trx_employe_loan WHERE id='$id'"))->first();
+    $listpembayaran     = json_decode($loan->list_pembayaran);
+    $lunas              = 0;
+    foreach($listpembayaran as $list => $pem){
+        if($pem->bulan == $newDate){
+            $lunas  = $pem->sisa;
+        }
+    }
+
+    $arr['nominallunas']    = 'Rp ' . number_format($lunas, 0, ',', '.');
+    $arr['lunas']           = $lunas;
+    return $arr;
+}
 
 
 ?>
