@@ -773,10 +773,17 @@ class MainController extends Controller
         $kry_id     = collect(\DB::select("SELECT * FROM mst_karyawan WHERE npk='$npk'"))->first();
         $id_karyawan = $kry_id->id;
         $listkry    = collect(\DB::select("SELECT * FROM trx_employe_loan WHERE id_karyawan='$id_karyawan' AND is_active='1'"))->first();
-        if($listkry){
-            $arr        = json_decode($listkry->list_pembayaran);
+        // if($listkry){
+        //     $arr        = json_decode($listkry->list_pembayaran);
+        // }else{
+        //     $arr        = [];
+        // }
+
+        $listloan   = DB::table('trx_employe_loan')->where('id_karyawan', $id_karyawan)->get();
+        if(count($listloan) == 0){
+            $arr   = [];
         }else{
-            $arr        = [];
+            $arr   = DB::table('trx_employe_loan')->where('id_karyawan', $id_karyawan)->get();
         }
         
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
@@ -796,7 +803,14 @@ class MainController extends Controller
         $type     = $request['type'];
         $bulan    = $request['bulan'];
         $idkry    = $request['idkry'];
-        $arr    = showdataemploye($type, $bulan, $idkry);
+        $idloan   = $request['idloan'];
+        $arr    = showdataemploye($type, $bulan, $idkry, $idloan);
+        return response($arr);
+    }
+
+    function dataemployeperuser(Request $request){
+        $id     = $request['id'];
+        $arr    = showdataloanperuser($id);
         return response($arr);
     }
 
@@ -838,7 +852,7 @@ class MainController extends Controller
         $kategori  = 1;
         $date_start  = '2024-04-27 20:00:00';
         $date_end  = '2024-04-27 23:00:00';
-        $arr = 1;
+        $arr = actionpelunasanloan('2','2024-05','21250000');
         echo '<pre>';
         print_r($arr);
         exit;

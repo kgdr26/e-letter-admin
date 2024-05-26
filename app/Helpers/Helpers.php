@@ -450,6 +450,47 @@ function showdataemploye($type, $bulan, $idkry){
     return $arr;
 }
 
+function showdataloanperuser($id){
+    $databulan      = new DateTime();
+    $datatanggal    = $databulan->format('Y-m-d');
+    $pengecualian   = $databulan->format('Y-m-27');
+    if($datatanggal >= $pengecualian){
+        $bln    = $databulan->format('Y-m');
+    }else{
+        $databulan->modify('-1 month');
+        $bln    = $databulan->format('Y-m');
+    }
+
+    $categories     = [];
+    $dibayar        = [];
+    $terbayarkan    = [];
+    $sisa           = [];
+    $tes            = [];
+    $noarr          = 0;
+
+    $kry    = collect(\DB::select("SELECT * FROM trx_employe_loan WHERE id='$id'"))->first();
+    $listpembayaran     = json_decode($kry->list_pembayaran);
+
+    if(count($listpembayaran) !== 0){
+        foreach($listpembayaran as $list => $pem){
+            if($pem->bulan <= $bln){
+                $categories[$list]   = convertToIndonesianMonth($pem->bulan.'-01');
+                $dibayar[$list]      = intval($pem->nominal);
+                $terbayarkan[$list]  = intval($pem->terbayarkan);
+                $sisa[$list]         = intval($pem->sisa);
+            }
+        }
+    }
+
+    $arr['categories']      = $categories;
+    $arr['dibayar']         = $dibayar;
+    $arr['terbayarkan']     = $terbayarkan;
+    $arr['sisa']            = $sisa;
+
+
+    return $arr;
+}
+
 function autogenerateloan(){
     $data   =  DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk')
             ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')
@@ -540,8 +581,8 @@ function action_showlistdataloanperuser($id){
 
     $dt         = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk', 'b.id as id_kry')
                 ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')
-                ->where('trx_employe_loan.id', $id)
-                ->where('trx_employe_loan.is_active', 1)->first();
+                ->where('trx_employe_loan.id', $id)->first();
+                // ->where('trx_employe_loan.is_active', 1)->first();
 
     $dt_lsp         = json_decode($dt->list_pembayaran);
     $dt_end_loan    = end($dt_lsp);
@@ -585,8 +626,8 @@ function action_listtableloanperuser($id){
     
     $dt         = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk', 'b.id as id_kry')
         ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')
-        ->where('trx_employe_loan.id', $id)
-        ->where('trx_employe_loan.is_active', 1)->first();
+        ->where('trx_employe_loan.id', $id)->first();
+        // ->where('trx_employe_loan.is_active', 1)->first();
 
     $listdata    = json_decode($dt->list_pembayaran);
 
@@ -621,10 +662,17 @@ function actionpelunasanloan($id,$bulan,$nominal){
     }
 
     $arr  = '['.substr($list, 0, -1).']';
+    $currentDate    = new DateTime();
+    $newDate        = $currentDate->format('Y-m');
+    if($bulan == $newDate){
+        $status = 2;
+    }else{
+        $status = 1;
+    }
 
-    DB::table('trx_employe_loan')->where('id', $id)->update(['list_pembayaran'=>$arr]);
+    DB::table('trx_employe_loan')->where('id', $id)->update(['list_pembayaran'=>$arr,'is_active'=>$status]);
     // return json_decode($arr);
-    // return response('success');
+    return response('success');
 }
 
 function showdatapelunasanloan($id,$bulan){

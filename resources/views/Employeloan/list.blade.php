@@ -458,8 +458,8 @@
                             <div class="col-6 mb-3">
                                 <label for="" class="form-label">NOMINAL Yang Di Lunasi</label>
                                 <input type="text" class="form-control" id="" placeholder="" data-name="lunas_nominal" disabled>
-                                <input type="text" data-name="val_nominal">
-                                <input type="text" data-name="val_id">
+                                <input type="hidden" data-name="val_nominal">
+                                <input type="hidden" data-name="val_id">
                             </div>
                         </div>
                     </div>
@@ -1067,7 +1067,7 @@
             var lunas_nominal_loan  = arr_id_loan[2];
             $("[data-name='id_pelunasan_loan']").val(id_pelunasan_loan);
             $("[data-name='lunas_nominal_loan']").val(lunas_nominal_loan);
-            $("[data-name='val_id']").val(id);
+            $("[data-name='val_id']").val(id_pelunasan_loan);
             $("[data-name='id_karyawan_pelunasan_loan']").val(id).trigger("change");
             $("[data-name='bulan_pelunasan']").val('');
             $("#modal_pelunasan_loan").modal('show');
