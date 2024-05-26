@@ -845,6 +845,60 @@ class MainController extends Controller
         $arr    = showdatapelunasanloan($id,$bulan);
         return response($arr);
     }
+
+    public function exportallloan(){
+        // Load the template file
+        $templatePath = public_path() . '/template/tmp_loan.xlsx';
+        $spreadsheet = IOFactory::load($templatePath);
+
+        // Get the active sheet
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Example data
+        // $data = [
+        //     ['John Doe', 'john@example.com', 28],
+        //     ['Jane Doe', 'jane@example.com', 32],
+        //     ['Alice Smith', 'alice@example.com', 24],
+        // ];
+
+        $arr        = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk')
+                        ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')
+                        ->where('trx_employe_loan.is_active', 1)
+                        ->orderBy('trx_employe_loan.id', 'desc')->get();
+
+        // Assuming your template has headers in the first row
+        $startRow = 2; // Data starts from the second row
+        $no       = 1;
+        foreach ($arr as $index => $val) {
+            $sheet->setCellValue('A' . ($startRow + $index), $no++);
+            $sheet->setCellValue('B' . ($startRow + $index), $val->name);
+            $sheet->setCellValue('C' . ($startRow + $index), $val->npk);
+            $sheet->setCellValue('D' . ($startRow + $index), $val->golongan);
+            $sheet->setCellValue('E' . ($startRow + $index), 'Rp ' . number_format($val->nominal_loan, 0, ',', '.'));
+            $sheet->setCellValue('F' . ($startRow + $index), $val->bulan_loan.' Bulan');
+            $sheet->setCellValue('G' . ($startRow + $index), 'Rp ' . number_format($val->loan_perbulan, 0, ',', '.'));
+        }
+
+        // Create a file name
+        $fileName = 'Rekap_Loan.xlsx';
+
+        // Create a StreamedResponse to output the Excel file to the browser
+        $response = new StreamedResponse(function() use ($spreadsheet, $fileName) {
+            $writer = new Xlsx($spreadsheet);
+            $writer->save('php://output');
+        });
+
+        // Set the headers for the response
+        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $fileName . '"');
+        $response->headers->set('Cache-Control', 'max-age=0');
+        $response->headers->set('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT');
+        $response->headers->set('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT');
+        $response->headers->set('Cache-Control', 'cache, must-revalidate');
+        $response->headers->set('Pragma', 'public');
+
+        return $response;
+    }
      
     function test()
     {

@@ -36,8 +36,8 @@
                         <div class="d-flex justify-content-between">
                             <span>Employe Loan</span>
                             <div>
-                                <button type="button" class="btn btn-success" data-name="add_setting_bulan_thr">Setting
-                                    Bulan THR</button>
+                                <a href="{{route('exportallloan')}}" class="btn btn-info" data-name=""><i class="bi bi-file-earmark-spreadsheet"></i> Export To Excel</a>
+                                <button type="button" class="btn btn-success" data-name="add_setting_bulan_thr">Setting Bulan THR</button>
                                 <button type="button" class="btn btn-success" data-name="add">ADD Employe Loan</button>
                             </div>
                         </div>
