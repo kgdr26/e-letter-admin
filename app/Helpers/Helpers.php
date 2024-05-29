@@ -694,5 +694,29 @@ function showdatapelunasanloan($id,$bulan){
     return $arr;
 }
 
+function testhelper(){
+    $bln = '2024-05';
+    $whrin  = [1,2];
+    $dt        = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name', 'b.npk', 'c.no_assets', 'c.name AS nameass', 'c.merk')
+    ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+    ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
+    ->whereIn('c.kategori', $whrin)
+    ->where('trx_assets_landing.date_start', 'LIKE', '%' . $bln . '%')
+    ->orderBy('trx_assets_landing.id', 'desc')->get();
+    $arr    = [];
+    foreach($dt as $key => $val){
+        $arr[$key]['employe'] = $val->name;
+        $arr[$key]['npk'] = $val->npk;
+        $arr[$key]['start'] = $val->date_start;
+        $arr[$key]['due'] = $val->date_end;
+        $arr[$key]['name_assets'] = $val->nameass.' ('.$val->merk.')';
+        $arr[$key]['nopolicy'] = $val->no_assets;
+        $arr[$key]['necessity'] = $val->necessity;
+        $arr[$key]['status'] = $val->status;
+    }
+
+    return $arr;
+}
+
 
 ?>

@@ -40,6 +40,10 @@
                     </ul> --}}
 
                     <div class="tab-content pt-2 mt-3">
+                        <div class="d-flex justify-content-end w-100">
+                            <button type="button" class="btn btn-info text-white" data-name="export"><i class="bi bi-file-earmark-spreadsheet"></i> Export To Excel</button>
+                        </div>
+
                         <div class="tab-pane fade show active">
                             <div class="table-responsive mt-3">
                                 <table class="table" id="dataTable">
@@ -195,6 +199,41 @@
     </div>
     {{-- End Modal Noted Cancel --}}
 
+    {{-- Modal Export Excel --}}
+    <div class="modal fade" id="modal_export" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Export To Excel</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-style">
+                        <div class="mb-3">
+                            <label for="" class="form-label">Select Kategori</label>
+                            <select name="" id="" class="form-select select-2" data-name="kategori">
+                                <option value="">-- Select Kategori --</option>
+                                <option value="1">Kendaraan</option>
+                                <option value="2">Room</option>
+                                <option value="1,2">All</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="" class="form-label">Start Bulan</label>
+                            <input type="text" class="form-control" id="" placeholder="" data-name="select_bulan">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-name="save_export">Export</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Export Excel --}}
+
     {{-- JS Show Detail Timeline --}}
     <script>
         $(document).on("click", "[data-name='detailtimeline']", function(e) {
@@ -295,5 +334,67 @@
         });
     </script>
     {{-- End JS Datatable --}}
+
+    {{-- JS Export Excel --}}
+    <script>
+        $(document).on("click", "[data-name='export']", function(e) {
+            $("[data-name='kategori']").val('').trigger("change");
+            $("[data-name='select_bulan']").val('');
+            $("#modal_export").modal('show');
+        });
+
+        $(document).on("click", "[data-name='save_export']", function(e) {
+            var kategori        = $("[data-name='kategori']").val();
+            var select_bulan    = $("[data-name='select_bulan']").val();
+
+            if(kategori === '' || select_bulan === ''){
+                Swal.fire({
+                    position: 'center',
+                    title: 'Action Not Valid!',
+                    icon: 'warning',
+                    showConfirmButton: true,
+                    // timer: 1500
+                }).then((data) => {
+                    // location.reload();
+                })
+            }else{
+                var urlTemplate     = '{{ route("exportassetslanding",["kategori"=>"kategoriid","select_bulan"=>"selectbulanid"])}}';
+                var replacements    = [
+                                        { pattern: 'selectbulanid', replacement: select_bulan },
+                                        { pattern: 'kategoriid', replacement: kategori}
+                                    ];
+                // var url         = urlTemplate.replace('kategoriid', kategori);
+                replacements.forEach(function(replacement) {
+                    url = urlTemplate.replace(replacement.pattern, replacement.replacement);
+                });
+                window.location.href = url;
+
+                $("#modal_export").modal('hide');
+            }
+        });
+    </script>
+    {{-- End JS Export Excel --}}
+
+    {{-- Date Picker --}}
+    <script>
+        $('input[data-name="select_bulan"]').datepicker({
+            format: "yyyy-mm",
+            viewMode: "months",
+            minViewMode: "months",
+            autoclose: true
+        });
+    
+    </script>
+    {{-- End Date Picker --}}
+
+    {{-- Select2 --}}
+    <script>
+        $(".select-2").select2({
+            allowClear: false,
+            width: '100%',
+            dropdownParent: $("#modal_export")
+        });
+    </script>
+    {{-- End Select2 --}}
 
 @stop
