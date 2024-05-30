@@ -162,7 +162,8 @@
     {{-- JS Update Chart --}}
     <script>
         $(document).ready(function() {
-            setTimeout(updatechart('2'));
+            var id = "{!! $idadaloan !!}";
+            setTimeout(updatechart(id));
         });
     </script>
     {{-- End JS Update Chart --}}

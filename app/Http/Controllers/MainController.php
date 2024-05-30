@@ -465,7 +465,8 @@ class MainController extends Controller
         $idn_user   = idn_user(auth::user()->id);
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
-        $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
+        $whrrole    = collect(\DB::select("SELECT * FROM mst_role WHERE id='$idn_user->role_id'"))->first();
+        $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'b.role_id', 'c.name as ast_name', 'c.no_assets as ast_no')
             ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
             ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
             ->where('trx_assets_landing.status', 1)->get();
@@ -475,7 +476,8 @@ class MainController extends Controller
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role,
-            'asset' => $asset
+            'asset' => $asset,
+            'whrrole' => $whrrole
         );
 
         return view('Peminjaman.dephed')->with($data);
@@ -782,8 +784,12 @@ class MainController extends Controller
         $listloan   = DB::table('trx_employe_loan')->where('id_karyawan', $id_karyawan)->get();
         if(count($listloan) == 0){
             $arr   = [];
+            $idadaloan = null;
         }else{
             $arr   = DB::table('trx_employe_loan')->where('id_karyawan', $id_karyawan)->get();
+            foreach($arr as $key => $val){
+                $idadaloan = $val->id;
+            }
         }
         
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
@@ -794,6 +800,7 @@ class MainController extends Controller
             'idkaryawan' => $id_karyawan,
             'namekaryawan' => $kry_id->name,
             'role'  => $role,
+            'idadaloan' => $idadaloan
         );
 
         return view('Employeloan.peruser')->with($data);

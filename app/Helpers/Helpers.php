@@ -695,24 +695,27 @@ function showdatapelunasanloan($id,$bulan){
 }
 
 function testhelper(){
-    $bln = '2024-05';
-    $whrin  = [1,2];
-    $dt        = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name', 'b.npk', 'c.no_assets', 'c.name AS nameass', 'c.merk')
+    $bln        = '2024-05';
+    $whrin      = [1,2];
+    $whrrole    = collect(\DB::select("SELECT * FROM mst_role WHERE id='7'"))->first();
+    $roleinarr  = explode(",",$whrrole->whr_show_assets);
+    $dt         = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'b.role_id', 'c.name as ast_name', 'c.no_assets as ast_no')
     ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
     ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
-    ->whereIn('c.kategori', $whrin)
-    ->where('trx_assets_landing.date_start', 'LIKE', '%' . $bln . '%')
-    ->orderBy('trx_assets_landing.id', 'desc')->get();
+    ->where('trx_assets_landing.status', 1)->get();
     $arr    = [];
     foreach($dt as $key => $val){
-        $arr[$key]['employe'] = $val->name;
-        $arr[$key]['npk'] = $val->npk;
-        $arr[$key]['start'] = $val->date_start;
-        $arr[$key]['due'] = $val->date_end;
-        $arr[$key]['name_assets'] = $val->nameass.' ('.$val->merk.')';
-        $arr[$key]['nopolicy'] = $val->no_assets;
-        $arr[$key]['necessity'] = $val->necessity;
-        $arr[$key]['status'] = $val->status;
+        if(in_array($val->role_id, $roleinarr)){
+            $arr[$key]['employe'] = $val->usr_name;
+            $arr[$key]['npk'] = $val->date_start;
+            $arr[$key]['start'] = $val->date_start;
+            $arr[$key]['due'] = $val->date_end;
+            $arr[$key]['name_assets'] = $val->ast_name.' ('.$val->ast_no.')';
+            $arr[$key]['nopolicy'] = $val->ast_no;
+            $arr[$key]['necessity'] = $val->necessity;
+            $arr[$key]['id_role_create'] = $val->role_id;
+            $arr[$key]['dt'] = $roleinarr;
+        }
     }
 
     return $arr;

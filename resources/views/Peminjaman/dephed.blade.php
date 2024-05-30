@@ -56,27 +56,30 @@
                                     </thead>
                                     <tbody>
                                         @php
-                                            $no = 1;
+                                            $no         = 1;
+                                            $roleinarr  = explode(",",$whrrole->whr_show_assets);
                                         @endphp
                                         @foreach ($asset as $key => $value)
-                                            <tr>
-                                                <td>{{ $no++ }}</td>
-                                                <td>{{ $value->usr_name }}</td>
-                                                <td>{{ $value->date_start }}</td>
-                                                <td>{{ $value->date_end }}</td>
-                                                <td>{{ $value->ast_name }} - {{ $value->ast_no }}</td>
-                                                <td>{{ $value->necessity }}</td>
-                                                <td class="text-center">
-                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                        data-name="canceled" data-item="{{ $value->id }}">
-                                                        Rejected
-                                                    </button>
-                                                    <button type="button" class="btn btn-info btn-sm" data-name="approve"
-                                                        data-item="{{ $value->id }}">
-                                                        Approve Dephead
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            @if(in_array($value->role_id, $roleinarr))
+                                                <tr>
+                                                    <td>{{ $no++ }}</td>
+                                                    <td>{{ $value->usr_name }}</td>
+                                                    <td>{{ $value->date_start }}</td>
+                                                    <td>{{ $value->date_end }}</td>
+                                                    <td>{{ $value->ast_name }} - {{ $value->ast_no }}</td>
+                                                    <td>{{ $value->necessity }}</td>
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-danger btn-sm"
+                                                            data-name="canceled" data-item="{{ $value->id }}">
+                                                            Rejected
+                                                        </button>
+                                                        <button type="button" class="btn btn-info btn-sm" data-name="approve"
+                                                            data-item="{{ $value->id }}">
+                                                            Approve Dephead
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endif
                                         @endforeach
                                     </tbody>
                                 </table>
