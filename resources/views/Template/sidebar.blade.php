@@ -155,6 +155,14 @@
             </li>
         @endif
 
+        <li class="nav-heading">E-Ticket Request IT</li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('ticket_request') }}">
+                <i class="bi bi-person-circle"></i>
+                <span>Ticket Request</span>
+            </a>
+        </li>
+
         <hr>
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('logout') }}">

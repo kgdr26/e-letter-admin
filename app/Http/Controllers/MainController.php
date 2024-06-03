@@ -974,6 +974,23 @@ class MainController extends Controller
 
         return $response;
     }
+
+    // E-Ticket
+    function ticket_request(){
+        $idn_user   = idn_user(auth::user()->id);
+        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $data = array(
+            'title' => 'E-Ticket Request IT',
+            'arr'   => $arr,
+            'idn_user' => $idn_user,
+            'role'  => $role
+        );
+
+        return view('Ticket.list')->with($data);
+    }
+    
+    // End E-Ticket
      
     function test()
     {

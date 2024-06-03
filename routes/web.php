@@ -81,7 +81,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('dataemploye', [MainController::class, 'dataemploye'])->name('dataemploye');
     Route::get('employeloanperuser', [MainController::class, 'employeloanperuser'])->name('employeloanperuser');
     Route::get('exportallloan', [MainController::class, 'exportallloan'])->name('exportallloan');
-    Route::get('exportassetslanding', [MainController::class, 'exportassetslanding'])->name('exportassetslanding');    
+    Route::get('exportassetslanding', [MainController::class, 'exportassetslanding'])->name('exportassetslanding');
+
+    // Ticket
+    Route::get('ticket_request', [MainController::class, 'ticket_request'])->name('ticket_request');
+    // End Ticket
 
     //Action
     Route::get('assetscall', [MainController::class, 'assetscall'])->name('assetscall');
