@@ -28,12 +28,49 @@
                                         <th>DUE DATE</th>
                                         <th>STATUS</th>
                                         <th>PIC</th>
-                                        <th>REMARK</th>
                                         <th class="text-center">ACTION</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+                                    @php
+                                        $no = 1;
+                                    @endphp
+                                    @foreach($arr as $key => $val)
+                                        <tr>
+                                            <td>{{$no++}}</td>
+                                            <td>{{$val->id_ticket}}</td>
+                                            <td>{{$val->summary}}</td>
+                                            <td>{{$val->description}}</td>
+                                            <td>
+                                                {{\Carbon\Carbon::parse($val->date_create)->isoFormat('dddd, DD MMM YYYY HH:mm:ss')}}
+                                            </td>
+                                            <td>
+                                                {{\Carbon\Carbon::parse($val->last_update)->isoFormat('dddd, DD MMM YYYY HH:mm:ss')}}
+                                            </td>
+                                            <td>
+                                                @if($val->due_date == null)
+                                                    -
+                                                @else
+                                                    {{\Carbon\Carbon::parse($val->due_date)->isoFormat('dddd, DD MMM YYYY HH:mm:ss')}}
+                                                @endif
+                                            </td>
+                                            <td>{{$val->sts_name}}</td>
+                                            <td>{{$val->usr_name}}</td>
+                                            <td class="text-center text-nowrap">
+                                                <button type="button" class="btn btn-info btn-sm" data-name="edit" data-item="{{$val->id}}">Edit</button>
+                                                <button type="button" class="btn btn-primary btn-sm" data-name="show" data-item="{{$val->id}}">Show</button>
+                                                @if($val->status == 1)
+                                                    <button type="button" class="btn btn-success btn-sm" data-name="updatestep" data-item="{{$val->id}}" data-status="2"><i class="bi bi-check2-circle"></i></button>
+                                                @elseif($val->status == 2)
+                                                    <button type="button" class="btn btn-success btn-sm" data-name="updatestep" data-item="{{$val->id}}" data-status="3"><i class="bi bi-check2-circle"></i></button>
+                                                @elseif($val->status == 3)
+                                                    <button type="button" class="btn btn-success btn-sm" data-name="updatestep" data-item="{{$val->id}}" data-status="4"><i class="bi bi-check2-circle"></i></button>
+                                                @elseif($val->status == 4)
+                                                    <button type="button" class="btn btn-success btn-sm" data-name="updatestep" data-item="{{$val->id}}" data-status="5"><i class="bi bi-check2-circle"></i></button>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -45,7 +82,7 @@
 
     {{-- Modal Add --}}
     <div class="modal fade" id="modal_add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Add Request</h1>
@@ -53,41 +90,41 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-8">
+                        <div class="col-12">
                             <div class="card-style">
                                 <div class="mb-3">
                                     <label for="" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="" placeholder="Name" data-name="" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Name" value="{{$idn_user->name}}" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">NPK</label>
-                                    <input type="text" class="form-control" id="" placeholder="NPK" data-name="" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="NPK" value="{{$idn_user->npk}}" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Phone</label>
-                                    <input type="text" class="form-control" id="" placeholder="Phone" data-name="" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Phone" value="{{$idn_user->no_tlp}}" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Email</label>
-                                    <input type="text" class="form-control" id="" placeholder="Email" data-name="" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Email" value="{{$idn_user->email}}" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Departement</label>
-                                    <input type="text" class="form-control" id="" placeholder="Departement" data-name="">
+                                    <input type="text" class="form-control" id="" placeholder="Departement" data-name="departement">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Title Request</label>
-                                    <input type="text" class="form-control" id="" placeholder="Title Request" data-name="">
+                                    <input type="text" class="form-control" id="" placeholder="Title Request" data-name="summary">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Description Of Request</label>
-                                    <textarea name="" class="form-control" id="" cols="30" rows="5"></textarea>
+                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="description"></textarea>
                                 </div>
                                 
                             </div>
@@ -103,47 +140,207 @@
     </div>
     {{-- End Modal ADD --}}
 
+    {{-- Modal Edit --}}
+    <div class="modal fade" id="modal_edit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Request</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-style">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="" placeholder="Name" value="{{$idn_user->name}}" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">NPK</label>
+                                    <input type="text" class="form-control" id="" placeholder="NPK" value="{{$idn_user->npk}}" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Phone</label>
+                                    <input type="text" class="form-control" id="" placeholder="Phone" value="{{$idn_user->no_tlp}}" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Email</label>
+                                    <input type="text" class="form-control" id="" placeholder="Email" value="{{$idn_user->email}}" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Departement</label>
+                                    <input type="text" class="form-control" id="" placeholder="Departement" data-name="edit_departement">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Title Request</label>
+                                    <input type="text" class="form-control" id="" placeholder="Title Request" data-name="edit_summary">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Description Of Request</label>
+                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="edit_description"></textarea>
+                                    <input type="hidden" name="" id="" data-name="edit_id">
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-name="save_edit">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Edit --}}
+
+    {{-- Modal Edit --}}
+    <div class="modal fade" id="modal_update" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="judulmodal">Update Status</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-style">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">User Create</label>
+                                    <input type="text" class="form-control" id="" placeholder="Name" data-name="upd_usr" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Phone</label>
+                                    <input type="text" class="form-control" id="" placeholder="Phone" data-name="upd_no_tlp" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Email</label>
+                                    <input type="text" class="form-control" id="" placeholder="Email" data-name="upd_email" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Departement</label>
+                                    <input type="text" class="form-control" id="" placeholder="Departement" data-name="upd_departement" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Title Request</label>
+                                    <input type="text" class="form-control" id="" placeholder="Title Request" data-name="upd_summary" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Description Of Request</label>
+                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="upd_description" disabled></textarea>
+                                    <input type="hidden" name="" id="" data-name="upd_id">
+                                    <input type="hidden" name="" id="" data-name="upd_step">
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Due Date</label>
+                                    <input type="text" class="form-control" id="" placeholder="Due Date" data-name="due_date">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-name="reject_update">Reject</button>
+                    <button type="button" class="btn btn-primary" data-name="save_update" id="textbtn">-</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Edit --}}
+
+    {{-- Modal Edit --}}
+    <div class="modal fade" id="modal_show" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Show Data Request Ticket</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-style">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">User Create</label>
+                                    <input type="text" class="form-control" id="" placeholder="Name" data-name="show_usr" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Phone</label>
+                                    <input type="text" class="form-control" id="" placeholder="Phone" data-name="show_no_tlp" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Email</label>
+                                    <input type="text" class="form-control" id="" placeholder="Email" data-name="show_email" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Status</label>
+                                    <input type="text" class="form-control" id="" placeholder="Departement" data-name="show_status" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Departement</label>
+                                    <input type="text" class="form-control" id="" placeholder="Departement" data-name="show_departement" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Title Request</label>
+                                    <input type="text" class="form-control" id="" placeholder="Title Request" data-name="show_summary" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Description Of Request</label>
+                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="show_description" disabled></textarea>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Due Date</label>
+                                    <input type="text" class="form-control" id="" placeholder="Due Date" data-name="show_due_date" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Edit --}}
 
     {{-- JS Add Data --}}
     <script>
         $(document).on("click", "[data-name='add']", function(e) {
-            $("[data-name='name']").val('');
+            $("[data-name='departement']").val('');
+            $("[data-name='summary']").val('');
+            $("[data-name='description']").val('');
             $("#modal_add").modal('show');
         });
 
         $(document).on("click", "[data-name='save_add']", function(e) {
-            var name = $("[data-name='name']").val();
-            var npk = $("[data-name='npk']").val();
-            var no_tlp = $("[data-name='no_tlp']").val();
-            var email = $("[data-name='email']").val();
-            var username = $("[data-name='username']").val();
-            var password = $("[data-name='password']").val();
-            var role_id = $("[data-name='role_id']").val();
-            var foto = $("[data-name='foto']").val();
-            var is_active = 1;
-            var update_by = "{!! $idn_user->id !!}";
-            var table = "users";
-            if (foto === '') {
-                var foto = 'default.jpg';
-            } else {
-                var foto = $("[data-name='foto']").val();
-            }
+            var departement     = $("[data-name='departement']").val();
+            var summary         = $("[data-name='summary']").val();
+            var description     = $("[data-name='description']").val();
 
-            var data = {
-                name: name,
-                npk: npk,
-                no_tlp: no_tlp,
-                email: email,
-                username: username,
-                password: password,
-                role_id: role_id,
-                foto: foto,
-                is_active: is_active,
-                update_by: update_by
-            };
-
-            if (name === '' || no_tlp === '' || email === '' || username === '' || password === '' || role_id ===
-                '') {
+            if (departement === '' || summary === '' || description === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Form is empty!',
@@ -154,10 +351,11 @@
             } else {
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('actionadd') }}",
+                    url: "{{ route('addticketrequest') }}",
                     data: {
-                        table: table,
-                        data: data
+                        departement: departement,
+                        summary: summary,
+                        description: description
                     },
                     cache: false,
                     success: function(data) {
@@ -185,37 +383,6 @@
                     }
                 });
             }
-
-        });
-
-        $("#add_foto").on("change", function(e) {
-            var ext = $("#add_foto").val().split('.').pop().toLowerCase();
-            // console.log(ext)
-            if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Format image failed!'
-                })
-            } else {
-                var uploadedFile = URL.createObjectURL(e.target.files[0]);
-                $('#img_add').attr('src', uploadedFile);
-                var photo = e.target.files[0];
-                var formData = new FormData();
-                formData.append('add_foto', photo);
-                $.ajax({
-                    url: "{{ route('upload_profile') }}",
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(res) {
-                        console.log(res);
-                        $('#add_name_foto').val(res);
-                    }
-                })
-
-            }
         });
     </script>
     {{-- End JS Add Data --}}
@@ -224,7 +391,7 @@
     <script>
         $(document).on("click", "[data-name='edit']", function(e) {
             var id = $(this).attr("data-item");
-            var table = 'users';
+            var table = 'trx_ticket_request';
             var field = 'id';
 
             $.ajax({
@@ -239,16 +406,9 @@
                 success: function(data) {
                     // console.log(data['data']);
                     $("[data-name='edit_id']").val(data['data'].id);
-                    $("[data-name='edit_name']").val(data['data'].name);
-                    $("[data-name='edit_npk']").val(data['data'].npk);
-                    $("[data-name='edit_no_tlp']").val(data['data'].no_tlp);
-                    $("[data-name='edit_email']").val(data['data'].email);
-                    $("[data-name='edit_username']").val(data['data'].username);
-                    $("[data-name='edit_password']").val(data['data'].pass);
-                    $("[data-name='edit_role_id']").val(data['data'].role_id).trigger("change");
-                    $("[data-name='edit_foto']").val(data['data'].foto);
-                    var show_foto = "{{ asset('profile') }}/" + data['data'].foto;
-                    $('#img_edit').attr('src', show_foto);
+                    $("[data-name='edit_departement']").val(data['data'].departement);
+                    $("[data-name='edit_summary']").val(data['data'].summary);
+                    $("[data-name='edit_description']").val(data['data'].description);
                     $("#modal_edit").modal('show');
                 },
                 error: function(data) {
@@ -263,40 +423,16 @@
                     })
                 }
             });
-
         });
 
         $(document).on("click", "[data-name='save_edit']", function(e) {
-            var name = $("[data-name='edit_name']").val();
-            var npk = $("[data-name='edit_npk']").val();
-            var no_tlp = $("[data-name='edit_no_tlp']").val();
-            var email = $("[data-name='edit_email']").val();
-            var username = $("[data-name='edit_username']").val();
-            var password = $("[data-name='edit_password']").val();
-            var role_id = $("[data-name='edit_role_id']").val();
-            var foto = $("[data-name='edit_foto']").val();
-            if (foto === '') {
-                var foto = 'default.jpg';
-            } else {
-                var foto = $("[data-name='edit_foto']").val();
-            }
+            var id          = $("[data-name='edit_id']").val();
+            var departement = $("[data-name='edit_departement']").val();
+            var summary     = $("[data-name='edit_summary']").val();
+            var description = $("[data-name='edit_description']").val();
+            var step        = 0;
 
-            var table = "users";
-            var whr = "id";
-            var id = $("[data-name='edit_id']").val();
-            var dats = {
-                name: name,
-                npk: npk,
-                no_tlp: no_tlp,
-                email: email,
-                username: username,
-                password: password,
-                role_id: role_id,
-                foto: foto
-            };
-
-            if (name === '' || no_tlp === '' || email === '' || username === '' || password === '' || role_id ===
-                '') {
+            if (id === '' || departement === '' || summary === '' || description === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Form is empty!',
@@ -307,12 +443,123 @@
             } else {
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('actionedit') }}",
+                    url: "{{ route('editticketrequest') }}",
                     data: {
                         id: id,
-                        whr: whr,
-                        table: table,
-                        dats: dats
+                        departement: departement,
+                        summary: summary,
+                        description: description,
+                        step: step
+                    },
+                    cache: false,
+                    success: function(data) {
+                        // console.log(data);
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Success!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then((data) => {
+                            location.reload();
+                        })
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Action Not Valid!',
+                            icon: 'warning',
+                            showConfirmButton: true,
+                            // timer: 1500
+                        }).then((data) => {
+                            // location.reload();
+                        })
+                    }
+                });
+            }
+        });
+    </script>
+    {{-- End JS Edit Data --}}
+
+    {{-- JS Update Status --}}
+    <script>
+        $(document).on("click", "[data-name='updatestep']", function(e) {
+            var id      = $(this).attr("data-item");
+            var step    = $(this).attr("data-status");
+
+            $.ajax({
+                type: "POST",
+                url: "{{ route('showdataticket') }}",
+                data: {
+                    id: id,
+                },
+                cache: false,
+                success: function(data) {
+                    // console.log(data);
+                    $("[data-name='upd_id']").val(data.id);
+                    $("[data-name='upd_usr']").val(data.usr_npk+' - '+data.usr_name);
+                    $("[data-name='upd_no_tlp']").val(data.usr_tlp);
+                    $("[data-name='upd_email']").val(data.usr_email);
+                    $("[data-name='upd_departement']").val(data.departement);
+                    $("[data-name='upd_summary']").val(data.summary);
+                    $("[data-name='upd_description']").val(data.description);
+                    $("[data-name='upd_step']").val(step);
+                    $("[data-name='due_date']").val(data.due_date);
+
+                    if(data.status === 1){
+                        $("#judulmodal").text('APPRIVE DEPHEAD');
+                        $("#textbtn").text('APPRIVE DEPHEAD');
+                    }else if(data.status === 2){
+                        $("#judulmodal").text('ON PROGRESS BY IT');
+                        $("#textbtn").text('ON PROGRESS BY IT');
+                    }else if(data.status === 3){
+                        $("#judulmodal").text('RESOLVED BY IT');
+                        $("#textbtn").text('RESOLVED BY IT');
+                    }else if(data.status === 4){
+                        $("#judulmodal").text('CLOSED BY IT');
+                        $("#textbtn").text('CLOSED BY IT');
+                    }else{
+                        $("#judulmodal").text('');
+                        $("#textbtn").text('');
+                    }
+
+                    $("#modal_update").modal('show');
+                },
+                error: function(data) {
+                    Swal.fire({
+                        position: 'center',
+                        title: 'Action Not Valid!',
+                        icon: 'warning',
+                        showConfirmButton: true,
+                        // timer: 1500
+                    }).then((data) => {
+                        // location.reload();
+                    })
+                }
+            });
+        });
+
+        $(document).on("click", "[data-name='save_update']", function(e) {
+            var id          = $("[data-name='upd_id']").val();
+            var step        = $("[data-name='upd_step']").val();
+            var due_date    = $("[data-name='due_date']").val();
+
+            if (id === '' || step === '' || due_date === '') {
+                Swal.fire({
+                    position: 'center',
+                    title: 'Form is empty!',
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('editticketrequest') }}",
+                    data: {
+                        id: id,
+                        step: step,
+                        due_date: due_date
                     },
                     cache: false,
                     success: function(data) {
@@ -342,93 +589,98 @@
             }
         });
 
-        $("#edit_foto").on("change", function(e) {
-            var ext = $("#edit_foto").val().split('.').pop().toLowerCase();
-            // console.log(ext)
-            if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+        $(document).on("click", "[data-name='reject_update']", function(e) {
+            var id          = $("[data-name='upd_id']").val();
+            var step        = 6;
+            var due_date    = $("[data-name='due_date']").val();
+
+            if (id === '' || step === '') {
                 Swal.fire({
+                    position: 'center',
+                    title: 'Form is empty!',
                     icon: 'error',
-                    title: 'Oops...',
-                    text: 'Format image failed!'
+                    showConfirmButton: false,
+                    timer: 1000
                 })
             } else {
-                var uploadedFile = URL.createObjectURL(e.target.files[0]);
-                $('#img_edit').attr('src', uploadedFile);
-                var photo = e.target.files[0];
-                var formData = new FormData();
-                formData.append('add_foto', photo);
                 $.ajax({
-                    url: "{{ route('upload_profile') }}",
-                    type: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(res) {
-                        console.log(res);
-                        $('#edit_name_foto').val(res);
+                    type: "POST",
+                    url: "{{ route('editticketrequest') }}",
+                    data: {
+                        id: id,
+                        step: step,
+                        due_date: due_date
+                    },
+                    cache: false,
+                    success: function(data) {
+                        // console.log(data);
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Success!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then((data) => {
+                            location.reload();
+                        })
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Action Not Valid!',
+                            icon: 'warning',
+                            showConfirmButton: true,
+                            // timer: 1500
+                        }).then((data) => {
+                            // location.reload();
+                        })
                     }
-                })
-
+                });
             }
         });
     </script>
-    {{-- End JS Edit Data --}}
+    {{-- End Update Status --}}
 
-    {{-- JS Delete Data --}}
+    {{-- JS Show Data --}}
     <script>
-        $(document).on("click", "[data-name='delete']", function(e) {
-            var id = $(this).attr("data-item");
-            var table = 'users';
-            var whr = 'id';
+        $(document).on("click", "[data-name='show']", function(e) {
+            var id      = $(this).attr("data-item");
 
-            Swal.fire({
-                title: 'Anda yakin?',
-                text: 'Aksi ini tidak dapat diulang!',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, hapus data!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: "POST",
-                        url: "{{ route('actiondelete') }}",
-                        data: {
-                            id: id,
-                            whr: whr,
-                            table: table
-                        },
-                        cache: false,
-                        success: function(data) {
-                            Swal.fire({
-                                position: 'center',
-                                title: 'Success!',
-                                icon: 'success',
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then((data) => {
-                                location.reload();
-                            })
-                        },
-                        error: function(data) {
-                            Swal.fire({
-                                position: 'center',
-                                title: 'Action Not Valid!',
-                                icon: 'warning',
-                                showConfirmButton: true,
-                                // timer: 1500
-                            }).then((data) => {
-                                // location.reload();
-                            })
-                        }
-                    });
+            $.ajax({
+                type: "POST",
+                url: "{{ route('showdataticket') }}",
+                data: {
+                    id: id,
+                },
+                cache: false,
+                success: function(data) {
+                    // console.log(data);
+                    $("[data-name='show_usr']").val(data.usr_npk+' - '+data.usr_name);
+                    $("[data-name='show_no_tlp']").val(data.usr_tlp);
+                    $("[data-name='show_email']").val(data.usr_email);
+                    $("[data-name='show_status']").val(data.sts_name);
+                    $("[data-name='show_departement']").val(data.departement);
+                    $("[data-name='show_summary']").val(data.summary);
+                    $("[data-name='show_description']").val(data.description);
+                    $("[data-name='show_due_date']").val(data.description);
+
+                    $("#modal_show").modal('show');
+                },
+                error: function(data) {
+                    Swal.fire({
+                        position: 'center',
+                        title: 'Action Not Valid!',
+                        icon: 'warning',
+                        showConfirmButton: true,
+                        // timer: 1500
+                    }).then((data) => {
+                        // location.reload();
+                    })
                 }
-            })
+            });
         });
     </script>
-    {{-- End JS Delete Data --}}
+    {{-- End JS Show Dat --}}
 
     {{-- JS Datatable --}}
     <script>
@@ -453,5 +705,15 @@
         });
     </script>
     {{-- End Select2 --}}
+
+    {{-- JS Date Picker --}}
+    <script>
+        $('input[data-name="due_date"]').datetimepicker({
+            format: 'Y-m-d H:i:s',
+            step: 15,
+            autoclose: true
+        });
+    </script>
+    {{-- End JS Date Picker --}}
 
 @stop

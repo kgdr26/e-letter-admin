@@ -101,7 +101,7 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-12 mb-3"
+                                        <div class="col-12 mb-3">
                                             <label for="" class="form-label">Necessity</label>
                                             <textarea name="" id="" cols="30" rows="5" class="form-control" data-name="necessity"></textarea>
                                         </div>

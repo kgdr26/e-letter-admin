@@ -978,7 +978,10 @@ class MainController extends Controller
     // E-Ticket
     function ticket_request(){
         $idn_user   = idn_user(auth::user()->id);
-        $arr        = DB::select("SELECT * FROM users where is_active=1");
+        $arr        = DB::table('trx_ticket_request')->select('trx_ticket_request.*', 'b.name AS sts_name', 'c.name AS usr_name')
+                    ->leftJoin('mst_status_ticket AS b', 'b.id', '=', 'trx_ticket_request.status')
+                    ->leftJoin('users AS c', 'c.id', '=', 'trx_ticket_request.user_create')
+                    ->orderBy('trx_ticket_request.id', 'desc')->get();
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
             'title' => 'E-Ticket Request IT',
@@ -988,6 +991,64 @@ class MainController extends Controller
         );
 
         return view('Ticket.list')->with($data);
+    }
+
+    function addticketrequest(Request $request){
+        $departement    = $request['departement'];
+        $summary        = $request['summary'];
+        $description    = $request['description'];
+
+        $ticket         = DB::table('trx_ticket_request')->get();
+        $jml            = count($ticket)+1;
+        $id_ticket      = 'ADS'.sprintf("%05d", $jml);
+        $data   = array(
+            'id_ticket'     => $id_ticket,
+            'departement'   => $departement,
+            'summary'       => $summary,
+            'description'   => $description,
+            'user_create'   => auth::user()->id,
+            'date_create'   => date('Y-m-d H:i:s'),
+            'status'        => 1,
+            'is_active'     => 1,
+            'update_by'     => auth::user()->id
+
+        );
+
+        // $data       = $request['data'];
+        DB::table('trx_ticket_request')->insert([$data]);
+        return response('success');
+    }
+
+    function editticketrequest(Request $request){
+        $id         = $request['id'];
+        $update_by  = auth::user()->id;
+
+        if($request['step'] == 0){
+            $data   = array(
+                'departement'   => $request['departement'], 
+                'summary'       => $request['summary'], 
+                'description'   => $request['description'],
+                'update_by'     => $update_by
+            );
+            DB::table('trx_ticket_request')->where('id', $id)->update($data);
+        }else{
+            $data   = array(
+                'status'        => $request['step'],
+                'due_date'      => $request['due_date'],
+                'update_by'     => $update_by
+            );
+            DB::table('trx_ticket_request')->where('id', $id)->update($data);
+        }
+        return response('success');
+    }
+
+    function showdataticket(Request $request){
+        $id     = $request['id'];
+        $data    = DB::table('trx_ticket_request')->select('trx_ticket_request.*', 'b.name AS sts_name', 'c.npk AS usr_npk', 'c.no_tlp AS usr_tlp', 'c.email AS usr_eemail', 'c.name AS usr_name')
+                    ->leftJoin('mst_status_ticket AS b', 'b.id', '=', 'trx_ticket_request.status')
+                    ->leftJoin('users AS c', 'c.id', '=', 'trx_ticket_request.user_create')
+                    ->where('trx_ticket_request.id', $id)->first();
+        return response()->json($data);
     }
     
     // End E-Ticket

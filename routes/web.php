@@ -85,6 +85,9 @@ Route::middleware(['auth'])->group(function () {
 
     // Ticket
     Route::get('ticket_request', [MainController::class, 'ticket_request'])->name('ticket_request');
+    Route::post('addticketrequest', [MainController::class, 'addticketrequest'])->name('addticketrequest');
+    Route::post('editticketrequest', [MainController::class, 'editticketrequest'])->name('editticketrequest');
+    Route::post('showdataticket', [MainController::class, 'showdataticket'])->name('showdataticket');
     // End Ticket
 
     //Action
