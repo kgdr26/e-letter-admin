@@ -126,7 +126,7 @@
                                     <label for="" class="form-label">Description Of Request</label>
                                     <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="description"></textarea>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -187,7 +187,7 @@
                                     <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="edit_description"></textarea>
                                     <input type="hidden" name="" id="" data-name="edit_id">
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -201,7 +201,7 @@
     </div>
     {{-- End Modal Edit --}}
 
-    {{-- Modal Edit --}}
+    {{-- Modal Update --}}
     <div class="modal fade" id="modal_update" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -244,10 +244,15 @@
                                     <input type="hidden" name="" id="" data-name="upd_id">
                                     <input type="hidden" name="" id="" data-name="upd_step">
                                 </div>
-                                
+
                                 <div class="mb-3">
                                     <label for="" class="form-label">Due Date</label>
                                     <input type="text" class="form-control" id="" placeholder="Due Date" data-name="due_date">
+                                </div>
+
+                                <div class="mb-3" id="shownote" style="display: none">
+                                    <label for="" class="form-label">Noted</label>
+                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="note"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -261,9 +266,9 @@
             </div>
         </div>
     </div>
-    {{-- End Modal Edit --}}
+    {{-- End Modal Update --}}
 
-    {{-- Modal Edit --}}
+    {{-- Modal Show --}}
     <div class="modal fade" id="modal_show" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -309,10 +314,15 @@
                                     <label for="" class="form-label">Description Of Request</label>
                                     <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="show_description" disabled></textarea>
                                 </div>
-                                
+
                                 <div class="mb-3">
                                     <label for="" class="form-label">Due Date</label>
                                     <input type="text" class="form-control" id="" placeholder="Due Date" data-name="show_due_date" disabled>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Noted</label>
+                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="show_note" disabled></textarea>
                                 </div>
                             </div>
                         </div>
@@ -324,7 +334,7 @@
             </div>
         </div>
     </div>
-    {{-- End Modal Edit --}}
+    {{-- End Modal Show --}}
 
     {{-- JS Add Data --}}
     <script>
@@ -505,22 +515,28 @@
                     $("[data-name='upd_description']").val(data.description);
                     $("[data-name='upd_step']").val(step);
                     $("[data-name='due_date']").val(data.due_date);
+                    $("[data-name='note']").val(data.note);
 
                     if(data.status === 1){
                         $("#judulmodal").text('APPRIVE DEPHEAD');
                         $("#textbtn").text('APPRIVE DEPHEAD');
+                        $("#shownote").hide();
                     }else if(data.status === 2){
                         $("#judulmodal").text('ON PROGRESS BY IT');
                         $("#textbtn").text('ON PROGRESS BY IT');
+                        $("#shownote").hide();
                     }else if(data.status === 3){
                         $("#judulmodal").text('RESOLVED BY IT');
                         $("#textbtn").text('RESOLVED BY IT');
+                        $("#shownote").hide();
                     }else if(data.status === 4){
                         $("#judulmodal").text('CLOSED BY IT');
                         $("#textbtn").text('CLOSED BY IT');
+                        $("#shownote").show();
                     }else{
                         $("#judulmodal").text('');
                         $("#textbtn").text('');
+                        $("#shownote").hide();
                     }
 
                     $("#modal_update").modal('show');
@@ -543,6 +559,7 @@
             var id          = $("[data-name='upd_id']").val();
             var step        = $("[data-name='upd_step']").val();
             var due_date    = $("[data-name='due_date']").val();
+            var note        = $("[data-name='note']").val();
 
             if (id === '' || step === '' || due_date === '') {
                 Swal.fire({
@@ -559,7 +576,8 @@
                     data: {
                         id: id,
                         step: step,
-                        due_date: due_date
+                        due_date: due_date,
+                        note: note
                     },
                     cache: false,
                     success: function(data) {
@@ -593,6 +611,7 @@
             var id          = $("[data-name='upd_id']").val();
             var step        = 6;
             var due_date    = $("[data-name='due_date']").val();
+            var note        = '-';
 
             if (id === '' || step === '') {
                 Swal.fire({
@@ -609,7 +628,8 @@
                     data: {
                         id: id,
                         step: step,
-                        due_date: due_date
+                        due_date: due_date,
+                        note: note
                     },
                     cache: false,
                     success: function(data) {
@@ -663,6 +683,7 @@
                     $("[data-name='show_summary']").val(data.summary);
                     $("[data-name='show_description']").val(data.description);
                     $("[data-name='show_due_date']").val(data.description);
+                    $("[data-name='show_note']").val(data.note);
 
                     $("#modal_show").modal('show');
                 },

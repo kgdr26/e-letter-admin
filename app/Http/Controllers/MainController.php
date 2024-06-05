@@ -67,7 +67,7 @@ class MainController extends Controller
                 ->where('trx_surat.is_active', 1)
                 ->orderBy('trx_surat.letter_admin', 'asc')->get();
 
-        
+
         $whrlist                = $whrrole->whr_input_surat;
         $role                   = DB::select("SELECT * FROM mst_role WHERE id IN ($whrlist)");
         $data = array(
@@ -791,7 +791,7 @@ class MainController extends Controller
                 $idadaloan = $val->id;
             }
         }
-        
+
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
             'title' => 'Employe Loan',
@@ -1025,14 +1025,15 @@ class MainController extends Controller
 
         if($request['step'] == 0){
             $data   = array(
-                'departement'   => $request['departement'], 
-                'summary'       => $request['summary'], 
+                'departement'   => $request['departement'],
+                'summary'       => $request['summary'],
                 'description'   => $request['description'],
                 'update_by'     => $update_by
             );
             DB::table('trx_ticket_request')->where('id', $id)->update($data);
         }else{
             $data   = array(
+                'note'          => $request['note'],
                 'status'        => $request['step'],
                 'due_date'      => $request['due_date'],
                 'update_by'     => $update_by
@@ -1050,9 +1051,9 @@ class MainController extends Controller
                     ->where('trx_ticket_request.id', $id)->first();
         return response()->json($data);
     }
-    
+
     // End E-Ticket
-     
+
     function test()
     {
         $reqbooking  = '["2024-04-27"]';
