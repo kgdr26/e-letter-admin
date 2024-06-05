@@ -59,7 +59,14 @@
                                             <td class="text-center text-nowrap">
                                                 <button type="button" class="btn btn-info btn-sm" data-name="edit" data-item="{{$val->id}}">Edit</button>
                                                 <button type="button" class="btn btn-primary btn-sm" data-name="show" data-item="{{$val->id}}">Show</button>
-                                                @if($val->status == 1)
+                                                @php
+                                                    $whrin  = explode(",",$wherein->whr_show_ticket);
+                                                @endphp
+                                                @if (in_array($val->status, $whrin))
+                                                    <button type="button" class="btn btn-success btn-sm" data-name="updatestep" data-item="{{$val->id}}" data-status="{{$val->status + 1}}"><i class="bi bi-check2-circle"></i></button>
+                                                @endif
+
+                                                {{-- @if($val->status == 1)
                                                     <button type="button" class="btn btn-success btn-sm" data-name="updatestep" data-item="{{$val->id}}" data-status="2"><i class="bi bi-check2-circle"></i></button>
                                                 @elseif($val->status == 2)
                                                     <button type="button" class="btn btn-success btn-sm" data-name="updatestep" data-item="{{$val->id}}" data-status="3"><i class="bi bi-check2-circle"></i></button>
@@ -67,7 +74,7 @@
                                                     <button type="button" class="btn btn-success btn-sm" data-name="updatestep" data-item="{{$val->id}}" data-status="4"><i class="bi bi-check2-circle"></i></button>
                                                 @elseif($val->status == 4)
                                                     <button type="button" class="btn btn-success btn-sm" data-name="updatestep" data-item="{{$val->id}}" data-status="5"><i class="bi bi-check2-circle"></i></button>
-                                                @endif
+                                                @endif --}}
                                             </td>
                                         </tr>
                                     @endforeach

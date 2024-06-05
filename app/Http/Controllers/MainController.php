@@ -978,6 +978,7 @@ class MainController extends Controller
     // E-Ticket
     function ticket_request(){
         $idn_user   = idn_user(auth::user()->id);
+        $wherein    = collect(\DB::select("SELECT * FROM mst_role WHERE id='$idn_user->role_id'"))->first();
         $arr        = DB::table('trx_ticket_request')->select('trx_ticket_request.*', 'b.name AS sts_name', 'c.name AS usr_name')
                     ->leftJoin('mst_status_ticket AS b', 'b.id', '=', 'trx_ticket_request.status')
                     ->leftJoin('users AS c', 'c.id', '=', 'trx_ticket_request.user_create')
@@ -987,7 +988,8 @@ class MainController extends Controller
             'title' => 'E-Ticket Request IT',
             'arr'   => $arr,
             'idn_user' => $idn_user,
-            'role'  => $role
+            'role'  => $role,
+            'wherein' => $wherein
         );
 
         return view('Ticket.list')->with($data);
