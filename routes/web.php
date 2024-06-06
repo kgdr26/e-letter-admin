@@ -88,6 +88,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('addticketrequest', [MainController::class, 'addticketrequest'])->name('addticketrequest');
     Route::post('editticketrequest', [MainController::class, 'editticketrequest'])->name('editticketrequest');
     Route::post('showdataticket', [MainController::class, 'showdataticket'])->name('showdataticket');
+    Route::get('exportrequestticket', [MainController::class, 'exportrequestticket'])->name('exportrequestticket');
+
     // End Ticket
 
     //Action
@@ -114,7 +116,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('actionpelunasanloan', [MainController::class, 'actionpelunasanloan'])->name('actionpelunasanloan');
     Route::post('showdatapelunasanloan', [MainController::class, 'showdatapelunasanloan'])->name('showdatapelunasanloan');
     Route::post('dataemployeperuser', [MainController::class, 'dataemployeperuser'])->name('dataemployeperuser');
-    
+
     // Asset Lending
     Route::get('peminjamanasset', [MainController::class, 'peminjamanasset'])->name('peminjamanasset');
 
