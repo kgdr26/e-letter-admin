@@ -979,9 +979,10 @@ class MainController extends Controller
     function ticket_request(){
         $idn_user   = idn_user(auth::user()->id);
         $wherein    = collect(\DB::select("SELECT * FROM mst_role WHERE id='$idn_user->role_id'"))->first();
-        $arr        = DB::table('trx_ticket_request')->select('trx_ticket_request.*', 'b.name AS sts_name', 'c.name AS usr_name')
+        $arr        = DB::table('trx_ticket_request')->select('trx_ticket_request.*', 'b.name AS sts_name', 'c.name AS usr_name', 'd.name AS pic_name')
                     ->leftJoin('mst_status_ticket AS b', 'b.id', '=', 'trx_ticket_request.status')
                     ->leftJoin('users AS c', 'c.id', '=', 'trx_ticket_request.user_create')
+                    ->leftJoin('users AS d', 'd.id', '=', 'trx_ticket_request.update_by')
                     ->orderBy('trx_ticket_request.id', 'desc')->get();
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
@@ -1002,7 +1003,7 @@ class MainController extends Controller
 
         $ticket         = DB::table('trx_ticket_request')->get();
         $jml            = count($ticket)+1;
-        $id_ticket      = 'ADS'.sprintf("%05d", $jml);
+        $id_ticket      = 'ADS'.date('Ymd').sprintf("%05d", $jml);
         $data   = array(
             'id_ticket'     => $id_ticket,
             'departement'   => $departement,

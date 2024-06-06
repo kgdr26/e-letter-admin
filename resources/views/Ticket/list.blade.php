@@ -21,17 +21,19 @@
                                     <tr>
                                         <th>NO</th>
                                         <th>ID TICKET</th>
-                                        <th>SUMMARY</th>
+                                        <th>USER.REQ</th>
+                                        <th>DATE ON CREATE</th>
+                                        <th>TITLE REQUEST</th>
                                         <th>DESCRIPTION</th>
-                                        <th>CREAT ON</th>
-                                        <th>MODIFIET ON</th>
                                         <th>DUE DATE</th>
+                                        <th>MODIFIET ON</th>
                                         <th>STATUS</th>
+                                        <th>REMARK</th>
                                         <th>PIC</th>
                                         <th class="text-center">ACTION</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="text-midle">
                                     @php
                                         $no = 1;
                                     @endphp
@@ -39,26 +41,79 @@
                                         <tr>
                                             <td>{{$no++}}</td>
                                             <td>{{$val->id_ticket}}</td>
+                                            <td>{{$val->usr_name}}</td>
+                                            <td>
+                                                {{\Carbon\Carbon::parse($val->date_create)->isoFormat('DD MMM YYYY HH:mm:ss')}}
+                                            </td>
                                             <td>{{$val->summary}}</td>
                                             <td>{{$val->description}}</td>
-                                            <td>
-                                                {{\Carbon\Carbon::parse($val->date_create)->isoFormat('dddd, DD MMM YYYY HH:mm:ss')}}
-                                            </td>
-                                            <td>
-                                                {{\Carbon\Carbon::parse($val->last_update)->isoFormat('dddd, DD MMM YYYY HH:mm:ss')}}
-                                            </td>
                                             <td>
                                                 @if($val->due_date == null)
                                                     -
                                                 @else
-                                                    {{\Carbon\Carbon::parse($val->due_date)->isoFormat('dddd, DD MMM YYYY HH:mm:ss')}}
+                                                    {{\Carbon\Carbon::parse($val->due_date)->isoFormat('DD MMM YYYY HH:mm:ss')}}
                                                 @endif
                                             </td>
-                                            <td>{{$val->sts_name}}</td>
-                                            <td>{{$val->usr_name}}</td>
+                                            <td>
+                                                {{\Carbon\Carbon::parse($val->last_update)->isoFormat('DD MMM YYYY HH:mm:ss')}}
+                                            </td>
+                                            <td class="text-center">
+                                                @if ($val->status == 1)
+                                                    @php
+                                                        $class_st   = 'info';
+                                                        $persen     = '100';
+                                                    @endphp
+                                                @elseif ($val->status == 2)
+                                                    @php
+                                                        $class_st   = 'warning';
+                                                        $persen     = '100';
+                                                    @endphp
+                                                @elseif ($val->status == 3)
+                                                    @php
+                                                        $class_st   = 'success';
+                                                        $persen     = '50';
+                                                    @endphp
+                                                @elseif ($val->status == 4)
+                                                    @php
+                                                        $class_st   = 'success';
+                                                        $persen     = '80';
+                                                    @endphp
+                                                @elseif ($val->status == 5)
+                                                    @php
+                                                        $class_st   = 'success';
+                                                        $persen     = '100';
+                                                    @endphp
+                                                @elseif ($val->status == 6)
+                                                    @php
+                                                        $class_st   = 'danger';
+                                                        $persen     = '100';
+                                                    @endphp
+                                                @else
+                                                    @php
+                                                        $class_st   = 'info';
+                                                        $persen     = '100';
+                                                    @endphp
+                                                @endif
+                                                <figure class="figure-progress-bar">
+                                                    <figcaption class="{{$class_st}}" style="font-size: 0.7rem">{{$val->sts_name}}</figcaption>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-{{$class_st}} progress-bar-striped active" style="width: {{$persen}}%;"></div>
+                                                    </div>
+                                                </figure>
+                                            </td>
+                                            <td>{{$val->note}}</td>
+                                            <td>
+                                                @if ($val->status >= 3)
+                                                    {{$val->pic_name}}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
                                             <td class="text-center text-nowrap">
-                                                <button type="button" class="btn btn-info btn-sm" data-name="edit" data-item="{{$val->id}}">Edit</button>
-                                                <button type="button" class="btn btn-primary btn-sm" data-name="show" data-item="{{$val->id}}">Show</button>
+                                                @if ($val->status == 1)
+                                                    <button type="button" class="btn btn-info btn-sm" data-name="edit" data-item="{{$val->id}}"><i class="bi bi-pencil-square"></i></button>
+                                                @endif
+                                                <button type="button" class="btn btn-primary btn-sm" data-name="show" data-item="{{$val->id}}"><i class="bi bi-eye-fill"></i></button>
                                                 @php
                                                     $whrin  = explode(",",$wherein->whr_show_ticket);
                                                 @endphp
@@ -252,7 +307,7 @@
                                     <input type="hidden" name="" id="" data-name="upd_step">
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="mb-3" id="duedate" style="display: none">
                                     <label for="" class="form-label">Due Date</label>
                                     <input type="text" class="form-control" id="" placeholder="Due Date" data-name="due_date">
                                 </div>
@@ -528,22 +583,27 @@
                         $("#judulmodal").text('APPRIVE DEPHEAD');
                         $("#textbtn").text('APPRIVE DEPHEAD');
                         $("#shownote").hide();
+                        $("#duedate").hide();
                     }else if(data.status === 2){
                         $("#judulmodal").text('ON PROGRESS BY IT');
                         $("#textbtn").text('ON PROGRESS BY IT');
                         $("#shownote").hide();
+                        $("#duedate").show();
                     }else if(data.status === 3){
                         $("#judulmodal").text('RESOLVED BY IT');
                         $("#textbtn").text('RESOLVED BY IT');
                         $("#shownote").hide();
+                        $("#duedate").hide();
                     }else if(data.status === 4){
                         $("#judulmodal").text('CLOSED BY IT');
                         $("#textbtn").text('CLOSED BY IT');
                         $("#shownote").show();
+                        $("#duedate").hide();
                     }else{
                         $("#judulmodal").text('');
                         $("#textbtn").text('');
                         $("#shownote").hide();
+                        $("#duedate").hide();
                     }
 
                     $("#modal_update").modal('show');
@@ -568,7 +628,7 @@
             var due_date    = $("[data-name='due_date']").val();
             var note        = $("[data-name='note']").val();
 
-            if (id === '' || step === '' || due_date === '') {
+            if (id === '' || step === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Form is empty!',
@@ -689,7 +749,7 @@
                     $("[data-name='show_departement']").val(data.departement);
                     $("[data-name='show_summary']").val(data.summary);
                     $("[data-name='show_description']").val(data.description);
-                    $("[data-name='show_due_date']").val(data.description);
+                    $("[data-name='show_due_date']").val(data.due_date);
                     $("[data-name='show_note']").val(data.note);
 
                     $("#modal_show").modal('show');
