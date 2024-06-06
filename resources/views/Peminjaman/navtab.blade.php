@@ -22,6 +22,7 @@
             '23',
             '24',
             '25',
+            '26',
         ];
     @endphp
     @if (in_array($idn_user->role_id, $role_data))
@@ -55,6 +56,7 @@
             '22',
             '23',
             '25',
+            '26',
         ];
     @endphp
     @if (in_array($idn_user->role_id, $role_data))
@@ -68,7 +70,7 @@
     @endif
 
     @php
-        $role_data = ['1', '7', '8', '9', '10'];
+        $role_data = ['1', '7', '8', '9', '10', '26', '16'];
     @endphp
     @if (in_array($idn_user->role_id, $role_data))
         @php
@@ -141,6 +143,7 @@
             '23',
             '24',
             '25',
+            '26',
         ];
     @endphp
     @if (in_array($idn_user->role_id, $role_data))

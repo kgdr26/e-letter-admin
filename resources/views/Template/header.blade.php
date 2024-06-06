@@ -16,12 +16,41 @@
     </div>
 
     <nav class="header-nav ms-auto">
+        <div class="nav-profile d-flex align-items-center pe-0 me-3 dropdown">
+            <a href="#" class="d-flex align-items-center" id="profileDropdown" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <img src="{{ asset('profile/' . $idn_user->foto) }}" alt="Profile" class="rounded-circle">
+                <span class="d-none d-md-block ps-2">{{ $idn_user->name }}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end mt-4" aria-labelledby="profileDropdown">
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
+                        style="color: rgb(15, 0, 97)" data-bs-target="#modal_edit_profile" data-name="profile_show"
+                        data-item="{{ $idn_user->id }}">
+                        <i class="bi bi-arrow-right-square-fill
+                        me-2"></i>
+                        Edit Profile
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" style="color: rgb(136, 0, 0)"
+                        href="{{ route('logout') }}">
+                        <i class="bi bi-arrow-right-square-fill me-2"></i>
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    {{-- <nav class="header-nav ms-auto">
         <a class="nav-profile d-flex align-items-center pe-0 me-3" href="#" data-name="profile_show"
             data-item="{{ $idn_user->id }}">
             <img src="{{ asset('profile/' . $idn_user->foto) }}" alt="Profile" class="rounded-circle">
             <span class="d-none d-md-block ps-2">{{ $idn_user->name }}</span>
         </a>
-    </nav>
+    </nav> --}}
 
 </header>
 
@@ -60,10 +89,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="" class="form-label">Role</label>
-                                <select data-name="profile_edit_role_id" class="form-select select-2-edit" readonly>
+                                <select data-name="profile_edit_role_id" class="form-select select-2-edit" readonly
+                                    disabled>
                                     <option value="">-- Select Role --</option>
-                                    @foreach ($role as $key => $value)
-                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                    @foreach ($role as $key => $idn_user)
+                                        <option value="{{ $idn_user->id }}">{{ $idn_user->name }}</option>
                                     @endforeach
                                 </select>
                             </div>

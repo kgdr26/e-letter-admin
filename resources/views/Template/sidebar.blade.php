@@ -22,6 +22,7 @@
                 '22',
                 '23',
                 '25',
+                '26',
             ];
         @endphp
         @if (in_array($idn_user->role_id, $role_data_side))
@@ -53,6 +54,7 @@
                 '22',
                 '23',
                 '25',
+                '26',
             ];
         @endphp
         @if (in_array($idn_user->role_id, $role_data_side))
@@ -98,6 +100,7 @@
                 '23',
                 '24',
                 '25',
+                '26',
             ];
         @endphp
         @if (in_array($idn_user->role_id, $role_data_side))
@@ -163,13 +166,13 @@
             </a>
         </li>
 
-        <hr>
+        {{-- <hr>
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('logout') }}">
                 <i class="bi bi-box-arrow-in-right"></i>
                 <span>Logout</span>
             </a>
-        </li>
+        </li> --}}
     </ul>
 
 </aside>
