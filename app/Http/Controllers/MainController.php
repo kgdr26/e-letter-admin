@@ -1003,7 +1003,7 @@ class MainController extends Controller
 
         $ticket         = DB::table('trx_ticket_request')->get();
         $jml            = count($ticket)+1;
-        $id_ticket      = 'ADS'.date('Ymd').sprintf("%05d", $jml);
+        $id_ticket      = 'ADS.'.date('Ymd').'.'.sprintf("%05d", $jml);
         $data   = array(
             'id_ticket'     => $id_ticket,
             'departement'   => $departement,
