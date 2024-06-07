@@ -8,7 +8,7 @@
             <br>
             {{-- <small>Digital Administration System</small> --}}
         </a>
-        <i class="bi bi-list toggle-sidebar-btn"></i>
+        <i class="bi bi-list toggle-sidebar-btn" style="font-size: 24px; cursor: pointer;"></i>
     </div>
 
     <div class="search-bar">

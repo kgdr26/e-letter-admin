@@ -7,10 +7,15 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
-                            <span>List Ticket</span>
+                            <button type="button" class="btn btn-success" data-name="add">
+                                Create
+                            </button>
+                            {{-- <button type="button" class="btn btn-success" data-name="add">Request Ticket</button> --}}
                             <div>
-                                <button type="button" class="btn btn-success" data-name="add">Request Ticket</button>
-                                <button type="button" class="btn btn-info" data-name="export">Export To Excel</button>
+                                <button type="button" class="btn btn-primary" data-name="export">
+                                    Export
+                                </button>
+                                {{-- <button type="button" class="btn btn-info" data-name="export">Export To Excel</button> --}}
                             </div>
                         </div>
                     </div>
@@ -19,17 +24,17 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th>NO</th>
-                                        <th>ID TICKET</th>
-                                        <th>USER.REQ</th>
-                                        <th>DATE ON CREATE</th>
-                                        <th>TITLE REQUEST</th>
-                                        <th>DESCRIPTION</th>
-                                        <th>DUE DATE</th>
-                                        <th>MODIFIET ON</th>
-                                        <th>STATUS</th>
-                                        <th>REMARK</th>
-                                        <th>PIC</th>
+                                        <th class="text-center">NO</th>
+                                        <th class="text-center">ID TICKET</th>
+                                        <th class="text-center">USER.REQ</th>
+                                        <th class="text-center">CREATE ON</th>
+                                        <th class="text-center">TITLE REQUEST</th>
+                                        <th class="text-center">DESCRIPTION</th>
+                                        <th class="text-center">DUE DATE</th>
+                                        <th class="text-center">MODIFIET ON</th>
+                                        <th class="text-center">STATUS</th>
+                                        <th class="text-center">REMARK</th>
+                                        <th class="text-center">PIC</th>
                                         <th class="text-center">ACTION</th>
                                     </tr>
                                 </thead>
@@ -37,91 +42,99 @@
                                     @php
                                         $no = 1;
                                     @endphp
-                                    @foreach($arr as $key => $val)
+                                    @foreach ($arr as $key => $val)
                                         <tr>
-                                            <td>{{$no++}}</td>
-                                            <td>{{$val->id_ticket}}</td>
-                                            <td>{{$val->usr_name}}</td>
+                                            <td>{{ $no++ }}</td>
+                                            <td>{{ $val->id_ticket }}</td>
+                                            <td>{{ $val->usr_name }}</td>
                                             <td>
-                                                {{\Carbon\Carbon::parse($val->date_create)->isoFormat('DD MMM YYYY HH:mm:ss')}}
+                                                {{ \Carbon\Carbon::parse($val->date_create)->isoFormat('DD MMM YYYY HH:mm:ss') }}
                                             </td>
-                                            <td>{{$val->summary}}</td>
-                                            <td>{{$val->description}}</td>
+                                            <td>{{ $val->summary }}</td>
+                                            <td>{{ $val->description }}</td>
                                             <td>
-                                                @if($val->due_date == null)
+                                                @if ($val->due_date == null)
                                                     -
                                                 @else
-                                                    {{\Carbon\Carbon::parse($val->due_date)->isoFormat('DD MMM YYYY HH:mm:ss')}}
+                                                    {{ \Carbon\Carbon::parse($val->due_date)->isoFormat('DD MMM YYYY HH:mm:ss') }}
                                                 @endif
                                             </td>
                                             <td>
-                                                {{\Carbon\Carbon::parse($val->last_update)->isoFormat('DD MMM YYYY HH:mm:ss')}}
+                                                {{ \Carbon\Carbon::parse($val->last_update)->isoFormat('DD MMM YYYY HH:mm:ss') }}
                                             </td>
                                             <td class="text-center">
                                                 @if ($val->status == 1)
                                                     @php
-                                                        $class_st   = 'info';
-                                                        $persen     = '100';
+                                                        $class_st = 'info';
+                                                        $persen = '100';
                                                     @endphp
                                                 @elseif ($val->status == 2)
                                                     @php
-                                                        $class_st   = 'warning';
-                                                        $persen     = '100';
+                                                        $class_st = 'warning';
+                                                        $persen = '100';
                                                     @endphp
                                                 @elseif ($val->status == 3)
                                                     @php
-                                                        $class_st   = 'success';
-                                                        $persen     = '50';
+                                                        $class_st = 'success';
+                                                        $persen = '50';
                                                     @endphp
                                                 @elseif ($val->status == 4)
                                                     @php
-                                                        $class_st   = 'success';
-                                                        $persen     = '80';
+                                                        $class_st = 'success';
+                                                        $persen = '80';
                                                     @endphp
                                                 @elseif ($val->status == 5)
                                                     @php
-                                                        $class_st   = 'success';
-                                                        $persen     = '100';
+                                                        $class_st = 'success';
+                                                        $persen = '100';
                                                     @endphp
                                                 @elseif ($val->status == 6)
                                                     @php
-                                                        $class_st   = 'danger';
-                                                        $persen     = '100';
+                                                        $class_st = 'danger';
+                                                        $persen = '100';
                                                     @endphp
                                                 @else
                                                     @php
-                                                        $class_st   = 'info';
-                                                        $persen     = '100';
+                                                        $class_st = 'info';
+                                                        $persen = '100';
                                                     @endphp
                                                 @endif
                                                 <figure class="figure-progress-bar">
-                                                    <figcaption class="{{$class_st}}" style="font-size: 0.7rem">{{$val->sts_name}}</figcaption>
+                                                    <figcaption class="{{ $class_st }}" style="font-size: 0.7rem">
+                                                        {{ $val->sts_name }}</figcaption>
                                                     <div class="progress">
-                                                        <div class="progress-bar progress-bar-{{$class_st}} progress-bar-striped active" style="width: {{$persen}}%;"></div>
+                                                        <div class="progress-bar progress-bar-{{ $class_st }} progress-bar-striped active"
+                                                            style="width: {{ $persen }}%;"></div>
                                                     </div>
                                                 </figure>
                                             </td>
-                                            <td>{{$val->note}}</td>
+                                            <td>{{ $val->note }}</td>
                                             <td>
                                                 @if ($val->status >= 3)
-                                                    {{$val->pic_name}}
+                                                    {{ $val->pic_name }}
                                                 @else
                                                     -
                                                 @endif
                                             </td>
                                             <td class="text-center text-nowrap">
                                                 @if ($val->status == 1)
-                                                    <button type="button" class="btn btn-info btn-sm" data-name="edit" data-item="{{$val->id}}"><i class="bi bi-pencil-square"></i></button>
+                                                    <button type="button" class="btn btn-info btn-sm" data-name="edit"
+                                                        data-item="{{ $val->id }}"><i
+                                                            class="bi bi-pencil-square"></i></button>
                                                 @endif
-                                                <button type="button" class="btn btn-primary btn-sm" data-name="show" data-item="{{$val->id}}"><i class="bi bi-eye-fill"></i></button>
+                                                <button type="button" class="btn btn-primary btn-sm" data-name="show"
+                                                    data-item="{{ $val->id }}"><i class="bi bi-eye-fill"></i></button>
                                                 @php
-                                                    $whrin  = explode(",",$wherein->whr_show_ticket);
+                                                    $whrin = explode(',', $wherein->whr_show_ticket);
                                                 @endphp
                                                 @if (in_array($val->status, $whrin))
-                                                    <button type="button" class="btn btn-success btn-sm" data-name="updatestep" data-item="{{$val->id}}" data-status="{{$val->status + 1}}"><i class="bi bi-check2-circle"></i></button>
+                                                    <button type="button" class="btn btn-success btn-sm"
+                                                        data-name="updatestep" data-item="{{ $val->id }}"
+                                                        data-status="{{ $val->status + 1 }}"><i
+                                                            class="bi bi-check2-circle"></i></button>
                                                 @endif
 
-                                                {{-- @if($val->status == 1)
+                                                {{-- @if ($val->status == 1)
                                                     <button type="button" class="btn btn-success btn-sm" data-name="updatestep" data-item="{{$val->id}}" data-status="2"><i class="bi bi-check2-circle"></i></button>
                                                 @elseif($val->status == 2)
                                                     <button type="button" class="btn btn-success btn-sm" data-name="updatestep" data-item="{{$val->id}}" data-status="3"><i class="bi bi-check2-circle"></i></button>
@@ -156,37 +169,44 @@
                             <div class="card-style">
                                 <div class="mb-3">
                                     <label for="" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="" placeholder="Name" value="{{$idn_user->name}}" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Name"
+                                        value="{{ $idn_user->name }}" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">NPK</label>
-                                    <input type="text" class="form-control" id="" placeholder="NPK" value="{{$idn_user->npk}}" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="NPK"
+                                        value="{{ $idn_user->npk }}" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Phone</label>
-                                    <input type="text" class="form-control" id="" placeholder="Phone" value="{{$idn_user->no_tlp}}" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Phone"
+                                        value="{{ $idn_user->no_tlp }}" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Email</label>
-                                    <input type="text" class="form-control" id="" placeholder="Email" value="{{$idn_user->email}}" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Email"
+                                        value="{{ $idn_user->email }}" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Departement</label>
-                                    <input type="text" class="form-control" id="" placeholder="Departement" data-name="departement">
+                                    <input type="text" class="form-control" id="" placeholder="Departement"
+                                        data-name="departement">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Title Request</label>
-                                    <input type="text" class="form-control" id="" placeholder="Title Request" data-name="summary">
+                                    <input type="text" class="form-control" id=""
+                                        placeholder="Title Request" data-name="summary">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Description Of Request</label>
-                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="description"></textarea>
+                                    <textarea name="" class="form-control" id="" cols="30" rows="5"
+                                        data-name="description"></textarea>
                                 </div>
 
                             </div>
@@ -216,37 +236,44 @@
                             <div class="card-style">
                                 <div class="mb-3">
                                     <label for="" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="" placeholder="Name" value="{{$idn_user->name}}" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Name"
+                                        value="{{ $idn_user->name }}" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">NPK</label>
-                                    <input type="text" class="form-control" id="" placeholder="NPK" value="{{$idn_user->npk}}" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="NPK"
+                                        value="{{ $idn_user->npk }}" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Phone</label>
-                                    <input type="text" class="form-control" id="" placeholder="Phone" value="{{$idn_user->no_tlp}}" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Phone"
+                                        value="{{ $idn_user->no_tlp }}" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Email</label>
-                                    <input type="text" class="form-control" id="" placeholder="Email" value="{{$idn_user->email}}" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Email"
+                                        value="{{ $idn_user->email }}" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Departement</label>
-                                    <input type="text" class="form-control" id="" placeholder="Departement" data-name="edit_departement">
+                                    <input type="text" class="form-control" id="" placeholder="Departement"
+                                        data-name="edit_departement">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Title Request</label>
-                                    <input type="text" class="form-control" id="" placeholder="Title Request" data-name="edit_summary">
+                                    <input type="text" class="form-control" id=""
+                                        placeholder="Title Request" data-name="edit_summary">
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Description Of Request</label>
-                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="edit_description"></textarea>
+                                    <textarea name="" class="form-control" id="" cols="30" rows="5"
+                                        data-name="edit_description"></textarea>
                                     <input type="hidden" name="" id="" data-name="edit_id">
                                 </div>
 
@@ -277,39 +304,46 @@
                             <div class="card-style">
                                 <div class="mb-3">
                                     <label for="" class="form-label">User Create</label>
-                                    <input type="text" class="form-control" id="" placeholder="Name" data-name="upd_usr" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Name"
+                                        data-name="upd_usr" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Phone</label>
-                                    <input type="text" class="form-control" id="" placeholder="Phone" data-name="upd_no_tlp" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Phone"
+                                        data-name="upd_no_tlp" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Email</label>
-                                    <input type="text" class="form-control" id="" placeholder="Email" data-name="upd_email" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Email"
+                                        data-name="upd_email" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Departement</label>
-                                    <input type="text" class="form-control" id="" placeholder="Departement" data-name="upd_departement" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Departement"
+                                        data-name="upd_departement" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Title Request</label>
-                                    <input type="text" class="form-control" id="" placeholder="Title Request" data-name="upd_summary" disabled>
+                                    <input type="text" class="form-control" id=""
+                                        placeholder="Title Request" data-name="upd_summary" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Description Of Request</label>
-                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="upd_description" disabled></textarea>
+                                    <textarea name="" class="form-control" id="" cols="30" rows="5"
+                                        data-name="upd_description" disabled></textarea>
                                     <input type="hidden" name="" id="" data-name="upd_id">
                                     <input type="hidden" name="" id="" data-name="upd_step">
                                 </div>
 
                                 <div class="mb-3" id="duedate" style="display: none">
                                     <label for="" class="form-label">Due Date</label>
-                                    <input type="text" class="form-control" id="" placeholder="Due Date" data-name="due_date">
+                                    <input type="text" class="form-control" id="" placeholder="Due Date"
+                                        data-name="due_date">
                                 </div>
 
                                 <div class="mb-3" id="shownote" style="display: none">
@@ -344,47 +378,56 @@
                             <div class="card-style">
                                 <div class="mb-3">
                                     <label for="" class="form-label">User Create</label>
-                                    <input type="text" class="form-control" id="" placeholder="Name" data-name="show_usr" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Name"
+                                        data-name="show_usr" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Phone</label>
-                                    <input type="text" class="form-control" id="" placeholder="Phone" data-name="show_no_tlp" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Phone"
+                                        data-name="show_no_tlp" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Email</label>
-                                    <input type="text" class="form-control" id="" placeholder="Email" data-name="show_email" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Email"
+                                        data-name="show_email" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Status</label>
-                                    <input type="text" class="form-control" id="" placeholder="Departement" data-name="show_status" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Departement"
+                                        data-name="show_status" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Departement</label>
-                                    <input type="text" class="form-control" id="" placeholder="Departement" data-name="show_departement" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Departement"
+                                        data-name="show_departement" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Title Request</label>
-                                    <input type="text" class="form-control" id="" placeholder="Title Request" data-name="show_summary" disabled>
+                                    <input type="text" class="form-control" id=""
+                                        placeholder="Title Request" data-name="show_summary" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Description Of Request</label>
-                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="show_description" disabled></textarea>
+                                    <textarea name="" class="form-control" id="" cols="30" rows="5"
+                                        data-name="show_description" disabled></textarea>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Due Date</label>
-                                    <input type="text" class="form-control" id="" placeholder="Due Date" data-name="show_due_date" disabled>
+                                    <input type="text" class="form-control" id="" placeholder="Due Date"
+                                        data-name="show_due_date" disabled>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Noted</label>
-                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="show_note" disabled></textarea>
+                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="show_note"
+                                        disabled></textarea>
                                 </div>
                             </div>
                         </div>
@@ -403,14 +446,15 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Export To Excel</h5>
+                    <h5 class="modal-title">Export</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="card-style">
                         <div class="mb-3">
                             <label for="" class="form-label">Start Bulan</label>
-                            <input type="text" class="form-control" id="" placeholder="" data-name="select_bulan">
+                            <input type="text" class="form-control" id="" placeholder=""
+                                data-name="select_bulan">
                         </div>
                     </div>
                 </div>
@@ -433,9 +477,9 @@
         });
 
         $(document).on("click", "[data-name='save_add']", function(e) {
-            var departement     = $("[data-name='departement']").val();
-            var summary         = $("[data-name='summary']").val();
-            var description     = $("[data-name='description']").val();
+            var departement = $("[data-name='departement']").val();
+            var summary = $("[data-name='summary']").val();
+            var description = $("[data-name='description']").val();
 
             if (departement === '' || summary === '' || description === '') {
                 Swal.fire({
@@ -523,11 +567,11 @@
         });
 
         $(document).on("click", "[data-name='save_edit']", function(e) {
-            var id          = $("[data-name='edit_id']").val();
+            var id = $("[data-name='edit_id']").val();
             var departement = $("[data-name='edit_departement']").val();
-            var summary     = $("[data-name='edit_summary']").val();
+            var summary = $("[data-name='edit_summary']").val();
             var description = $("[data-name='edit_description']").val();
-            var step        = 0;
+            var step = 0;
 
             if (id === '' || departement === '' || summary === '' || description === '') {
                 Swal.fire({
@@ -581,8 +625,8 @@
     {{-- JS Update Status --}}
     <script>
         $(document).on("click", "[data-name='updatestep']", function(e) {
-            var id      = $(this).attr("data-item");
-            var step    = $(this).attr("data-status");
+            var id = $(this).attr("data-item");
+            var step = $(this).attr("data-status");
 
             $.ajax({
                 type: "POST",
@@ -594,7 +638,7 @@
                 success: function(data) {
                     // console.log(data);
                     $("[data-name='upd_id']").val(data.id);
-                    $("[data-name='upd_usr']").val(data.usr_npk+' - '+data.usr_name);
+                    $("[data-name='upd_usr']").val(data.usr_npk + ' - ' + data.usr_name);
                     $("[data-name='upd_no_tlp']").val(data.usr_tlp);
                     $("[data-name='upd_email']").val(data.usr_email);
                     $("[data-name='upd_departement']").val(data.departement);
@@ -604,27 +648,27 @@
                     $("[data-name='due_date']").val(data.due_date);
                     $("[data-name='note']").val(data.note);
 
-                    if(data.status === 1){
+                    if (data.status === 1) {
                         $("#judulmodal").text('APPRIVE DEPHEAD');
                         $("#textbtn").text('APPRIVE DEPHEAD');
                         $("#shownote").hide();
                         $("#duedate").hide();
-                    }else if(data.status === 2){
+                    } else if (data.status === 2) {
                         $("#judulmodal").text('ON PROGRESS BY IT');
                         $("#textbtn").text('ON PROGRESS BY IT');
                         $("#shownote").hide();
                         $("#duedate").show();
-                    }else if(data.status === 3){
+                    } else if (data.status === 3) {
                         $("#judulmodal").text('RESOLVED BY IT');
                         $("#textbtn").text('RESOLVED BY IT');
                         $("#shownote").hide();
                         $("#duedate").hide();
-                    }else if(data.status === 4){
+                    } else if (data.status === 4) {
                         $("#judulmodal").text('CLOSED BY IT');
                         $("#textbtn").text('CLOSED BY IT');
                         $("#shownote").show();
                         $("#duedate").hide();
-                    }else{
+                    } else {
                         $("#judulmodal").text('');
                         $("#textbtn").text('');
                         $("#shownote").hide();
@@ -648,10 +692,10 @@
         });
 
         $(document).on("click", "[data-name='save_update']", function(e) {
-            var id          = $("[data-name='upd_id']").val();
-            var step        = $("[data-name='upd_step']").val();
-            var due_date    = $("[data-name='due_date']").val();
-            var note        = $("[data-name='note']").val();
+            var id = $("[data-name='upd_id']").val();
+            var step = $("[data-name='upd_step']").val();
+            var due_date = $("[data-name='due_date']").val();
+            var note = $("[data-name='note']").val();
 
             if (id === '' || step === '') {
                 Swal.fire({
@@ -700,10 +744,10 @@
         });
 
         $(document).on("click", "[data-name='reject_update']", function(e) {
-            var id          = $("[data-name='upd_id']").val();
-            var step        = 6;
-            var due_date    = $("[data-name='due_date']").val();
-            var note        = '-';
+            var id = $("[data-name='upd_id']").val();
+            var step = 6;
+            var due_date = $("[data-name='due_date']").val();
+            var note = '-';
 
             if (id === '' || step === '') {
                 Swal.fire({
@@ -756,7 +800,7 @@
     {{-- JS Show Data --}}
     <script>
         $(document).on("click", "[data-name='show']", function(e) {
-            var id      = $(this).attr("data-item");
+            var id = $(this).attr("data-item");
 
             $.ajax({
                 type: "POST",
@@ -767,7 +811,7 @@
                 cache: false,
                 success: function(data) {
                     // console.log(data);
-                    $("[data-name='show_usr']").val(data.usr_npk+' - '+data.usr_name);
+                    $("[data-name='show_usr']").val(data.usr_npk + ' - ' + data.usr_name);
                     $("[data-name='show_no_tlp']").val(data.usr_tlp);
                     $("[data-name='show_email']").val(data.usr_email);
                     $("[data-name='show_status']").val(data.sts_name);
@@ -804,9 +848,9 @@
         });
 
         $(document).on("click", "[data-name='save_export']", function(e) {
-            var select_bulan    = $("[data-name='select_bulan']").val();
+            var select_bulan = $("[data-name='select_bulan']").val();
 
-            if(select_bulan === ''){
+            if (select_bulan === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Action Not Valid!',
@@ -816,11 +860,12 @@
                 }).then((data) => {
                     // location.reload();
                 })
-            }else{
-                var urlTemplate     = '{{ route("exportrequestticket",["select_bulan"=>"selectbulanid"])}}';
-                var replacements    = [
-                                        { pattern: 'selectbulanid', replacement: select_bulan }
-                                    ];
+            } else {
+                var urlTemplate = '{{ route('exportrequestticket', ['select_bulan' => 'selectbulanid']) }}';
+                var replacements = [{
+                    pattern: 'selectbulanid',
+                    replacement: select_bulan
+                }];
                 // var url         = urlTemplate.replace('kategoriid', kategori);
                 replacements.forEach(function(replacement) {
                     url = urlTemplate.replace(replacement.pattern, replacement.replacement);
@@ -875,7 +920,6 @@
             minViewMode: "months",
             autoclose: true
         });
-
     </script>
     {{-- End Date Picker --}}
 
