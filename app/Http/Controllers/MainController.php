@@ -1010,7 +1010,6 @@ class MainController extends Controller
             'summary'       => $summary,
             'description'   => $description,
             'user_create'   => auth::user()->id,
-            'date_create'   => date('Y-m-d H:i:s'),
             'status'        => 1,
             'is_active'     => 1,
             'update_by'     => auth::user()->id

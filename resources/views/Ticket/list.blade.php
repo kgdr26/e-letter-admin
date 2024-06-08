@@ -193,8 +193,13 @@
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Departement</label>
-                                    <input type="text" class="form-control" id="" placeholder="Departement"
-                                        data-name="departement">
+                                    <select class="form-control select-2-add" id="departement" data-name="departement">
+                                        <option value="">Pilih Departemen</option>
+                                        <option value="DEPT. SALES">DEPT. SALES</option>
+                                        <option value="DEPT. FIN ACC HRGA IT">DEPT. FIN ACC HRGA IT</option>
+                                        <option value="DEPT. SUPPLY CHAIN">DEPT. SUPPLY CHAIN</option>
+                                        <option value="DEPT. PRODUCTIONS HT">DEPT. PRODUCTIONS HT</option>
+                                    </select>
                                 </div>
 
                                 <div class="mb-3">
@@ -260,8 +265,19 @@
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Departement</label>
+                                    <select class="form-control select-2-edit" id="" data-name="edit_departement">
+                                        <option value="">Pilih Departemen</option>
+                                        <option value="DEPT. SALES">DEPT. SALES</option>
+                                        <option value="DEPT. FIN ACC HRGA IT">DEPT. FIN ACC HRGA IT</option>
+                                        <option value="DEPT. SUPPLY CHAIN">DEPT. SUPPLY CHAIN</option>
+                                        <option value="DEPT. PRODUCTIONS HT">DEPT. PRODUCTIONS HT</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Departement</label>
                                     <input type="text" class="form-control" id="" placeholder="Departement"
-                                        data-name="edit_departement">
+                                        data-name="">
                                 </div>
 
                                 <div class="mb-3">
@@ -547,7 +563,7 @@
                 success: function(data) {
                     // console.log(data['data']);
                     $("[data-name='edit_id']").val(data['data'].id);
-                    $("[data-name='edit_departement']").val(data['data'].departement);
+                    $("[data-name='edit_departement']").val(data['data'].departement).trigger("change");
                     $("[data-name='edit_summary']").val(data['data'].summary);
                     $("[data-name='edit_description']").val(data['data'].description);
                     $("#modal_edit").modal('show');
