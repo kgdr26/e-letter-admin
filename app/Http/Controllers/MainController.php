@@ -1000,6 +1000,7 @@ class MainController extends Controller
         $departement    = $request['departement'];
         $summary        = $request['summary'];
         $description    = $request['description'];
+        $file_name      = $request['file_name'];
 
         $ticket         = DB::table('trx_ticket_request')->get();
         $jml            = count($ticket)+1;
@@ -1009,6 +1010,7 @@ class MainController extends Controller
             'departement'   => $departement,
             'summary'       => $summary,
             'description'   => $description,
+            'file_name'     => $file_name,
             'user_create'   => auth::user()->id,
             'status'        => 1,
             'is_active'     => 1,
@@ -1030,6 +1032,7 @@ class MainController extends Controller
                 'departement'   => $request['departement'],
                 'summary'       => $request['summary'],
                 'description'   => $request['description'],
+                'file_name'     => $request['file_name'],
                 'update_by'     => $update_by
             );
             DB::table('trx_ticket_request')->where('id', $id)->update($data);

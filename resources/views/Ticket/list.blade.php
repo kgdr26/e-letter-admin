@@ -30,6 +30,7 @@
                                         <th class="text-center">CREATE ON</th>
                                         <th class="text-center">TITLE REQUEST</th>
                                         <th class="text-center">DESCRIPTION</th>
+                                        <th class="text-center">File</th>
                                         <th class="text-center">DUE DATE</th>
                                         <th class="text-center">MODIFIET ON</th>
                                         <th class="text-center">STATUS</th>
@@ -52,6 +53,11 @@
                                             </td>
                                             <td>{{ $val->summary }}</td>
                                             <td>{{ $val->description }}</td>
+                                            <td>
+                                                <button type="button" class="btn btn-info btn-sm" data-name="show_file_button" data-item="{{ $val->file_name }}">
+                                                    <i class="bi bi-filetype-pdf"></i>{{$val->file_name}}
+                                                </button>
+                                            </td>
                                             <td>
                                                 @if ($val->due_date == null)
                                                     -
@@ -214,6 +220,13 @@
                                         data-name="description"></textarea>
                                 </div>
 
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Upload File</label>
+                                    <input type="file" class="form-control" id="add_file" placeholder=""data-name="file_name">
+                                    <input type="hidden" id="file_name" data-name="name_file">
+                                    <input type="hidden" data-name="ukuran">
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -291,6 +304,13 @@
                                     <textarea name="" class="form-control" id="" cols="30" rows="5"
                                         data-name="edit_description"></textarea>
                                     <input type="hidden" name="" id="" data-name="edit_id">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Upload File</label>
+                                    <input type="file" class="form-control" id="edit_file" placeholder="" data-name="edit_file_name">
+                                    <input type="hidden" id="edit_file_name" data-name="edit_name_file">
+                                    <input type="hidden" data-name="edit_ukuran">
                                 </div>
 
                             </div>
@@ -483,12 +503,34 @@
     </div>
     {{-- End Modal Export Excel --}}
 
+    {{-- Modal Show --}}
+    <div class="modal fade" id="modal_show_file" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Show File</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <embed id="show_file" type="application/pdf" src=""
+                        style="width: 100%;height: 80vh;"></embed>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Show --}}
+
     {{-- JS Add Data --}}
     <script>
         $(document).on("click", "[data-name='add']", function(e) {
             $("[data-name='departement']").val('');
             $("[data-name='summary']").val('');
             $("[data-name='description']").val('');
+            $("[data-name='name_file']").val('');
+
             $("#modal_add").modal('show');
         });
 
@@ -496,6 +538,7 @@
             var departement = $("[data-name='departement']").val();
             var summary = $("[data-name='summary']").val();
             var description = $("[data-name='description']").val();
+            var file_name   = $("[data-name='name_file']").val();
 
             if (departement === '' || summary === '' || description === '') {
                 Swal.fire({
@@ -512,7 +555,8 @@
                     data: {
                         departement: departement,
                         summary: summary,
-                        description: description
+                        description: description,
+                        file_name: file_name
                     },
                     cache: false,
                     success: function(data) {
@@ -541,6 +585,72 @@
                 });
             }
         });
+
+        $(document).ready(function() {
+            // Handle change event of file input
+            $("[data-name='file_name']").change(function(e) {
+                // Get the files
+
+
+                var ext = $("#add_file").val().split('.').pop().toLowerCase();
+                // console.log(e.target.files[0])
+                if ($.inArray(ext, ['pdf']) == -1) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Format image failed!'
+                    })
+                } else {
+                    var uploadedFile = URL.createObjectURL(e.target.files[0]);
+                    var photo = e.target.files[0];
+                    var formData = new FormData();
+                    formData.append('add_file', photo);
+                    $.ajax({
+                        url: "{{ route('upload_surat') }}",
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(res) {
+                            console.log(res);
+
+                            var files = e.target.files[0];
+
+                            // console.log(files);
+
+                            // Clear previous file information
+                            $('#fileInfo').html('');
+
+                            // Loop through the files and display information
+                            var html = '';
+
+                            var fileName = files.name;
+                            var fileSize = files.size;
+                            var fileSizeKB = fileSize / 1024;
+
+                            html += '<div class="col-12 mb-3">';
+                            html += '<div class="card-preview-file">';
+                            html +=
+                                '<button class="btn btn-remove" type="button" data-item="remove_file">';
+                            html += '<i class="bi bi-x-lg"></i>';
+                            html += '</button>';
+                            html += '<div class="card-info-file">';
+                            html += '<p>' + fileName + '</p>';
+                            html += '<p>' + fileSizeKB.toFixed(2) + ' KB</p>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            // Display file information
+
+                            $('#file_name').val(fileName);
+                            $("[data-name='ukuran']").val(fileSizeKB.toFixed(2));
+                            $('#fileInfo').append(html);
+                        }
+                    })
+
+                }
+            });
+        });
     </script>
     {{-- End JS Add Data --}}
 
@@ -566,6 +676,8 @@
                     $("[data-name='edit_departement']").val(data['data'].departement).trigger("change");
                     $("[data-name='edit_summary']").val(data['data'].summary);
                     $("[data-name='edit_description']").val(data['data'].description);
+                    $("[data-name='edit_name_file']").val(data['data'].file_name);
+
                     $("#modal_edit").modal('show');
                 },
                 error: function(data) {
@@ -587,6 +699,7 @@
             var departement = $("[data-name='edit_departement']").val();
             var summary = $("[data-name='edit_summary']").val();
             var description = $("[data-name='edit_description']").val();
+            var file_name = $("[data-name='edit_name_file']").val();
             var step = 0;
 
             if (id === '' || departement === '' || summary === '' || description === '') {
@@ -606,6 +719,7 @@
                         departement: departement,
                         summary: summary,
                         description: description,
+                        file_name: file_name,
                         step: step
                     },
                     cache: false,
@@ -634,6 +748,72 @@
                     }
                 });
             }
+        });
+
+        $(document).ready(function() {
+            // Handle change event of file input
+            $("[data-name='edit_file_name']").change(function(e) {
+                // Get the files
+
+
+                var ext = $("#edit_file").val().split('.').pop().toLowerCase();
+                // console.log(e.target.files[0])
+                if ($.inArray(ext, ['pdf']) == -1) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Format image failed!'
+                    })
+                } else {
+                    var uploadedFile = URL.createObjectURL(e.target.files[0]);
+                    var photo = e.target.files[0];
+                    var formData = new FormData();
+                    formData.append('add_file', photo);
+                    $.ajax({
+                        url: "{{ route('upload_surat') }}",
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(res) {
+                            console.log(res);
+
+                            var files = e.target.files[0];
+
+                            // console.log(files);
+
+                            // Clear previous file information
+                            $('#fileInfoedit').html('');
+
+                            // Loop through the files and display information
+                            var html = '';
+
+                            var fileName = files.name;
+                            var fileSize = files.size;
+                            var fileSizeKB = fileSize / 1024;
+
+                            html += '<div class="col-12 mb-3">';
+                            html += '<div class="card-preview-file">';
+                            html +=
+                                '<button class="btn btn-remove" type="button" data-item="remove_file">';
+                            html += '<i class="bi bi-x-lg"></i>';
+                            html += '</button>';
+                            html += '<div class="card-info-file">';
+                            html += '<p>' + fileName + '</p>';
+                            html += '<p>' + fileSizeKB.toFixed(2) + ' KB</p>';
+                            html += '</div>';
+                            html += '</div>';
+                            html += '</div>';
+                            // Display file information
+
+                            $('#edit_file_name').val(fileName);
+                            $("[data-name='edit_ukuran']").val(fileSizeKB.toFixed(2));
+                            $('#fileInfoedit').append(html);
+                        }
+                    })
+
+                }
+            });
         });
     </script>
     {{-- End JS Edit Data --}}
@@ -893,6 +1073,18 @@
         });
     </script>
     {{-- End JS Export Data --}}
+
+    {{-- JS Show file --}}
+    <script>
+        $(document).on("click", "[data-name='show_file_button']", function(e) {
+            var file_name = $(this).attr("data-item");
+            var to_dept = $(this).attr("data-item");
+            var file = "{{ asset('assets/file') }}/" + file_name;
+            $('#show_file').attr('src', file);
+            $("#modal_show_file").modal('show');
+        });
+    </script>
+    {{-- End JS Show File  --}}
 
     {{-- JS Datatable --}}
     <script>
