@@ -61,11 +61,11 @@ class MainController extends Controller
         // }
 
         $arr        = DB::table('trx_surat')->select('trx_surat.*', 'b.name as usr_name', 'c.name as usr_role', 'd.name as usr_to_dept')
-                ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
-                ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
-                ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
-                ->where('trx_surat.is_active', 1)
-                ->orderBy('trx_surat.letter_admin', 'asc')->get();
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
+            ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
+            ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
+            ->where('trx_surat.is_active', 1)
+            ->orderBy('trx_surat.letter_admin', 'asc')->get();
 
 
         $whrlist                = $whrrole->whr_input_surat;
@@ -549,8 +549,8 @@ class MainController extends Controller
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $asset      = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'c.name as ast_name', 'c.no_assets as ast_no')
-                    ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
-                    ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->orderBy('trx_assets_landing.id', 'desc')->get();
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+            ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->orderBy('trx_assets_landing.id', 'desc')->get();
         $data = array(
             'title' => 'Show Lending Assets',
             'arr'   => $arr,
@@ -731,9 +731,9 @@ class MainController extends Controller
     {
         $id         = $request['id'];
         $listdata    = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name as usr_name', 'b.npk', 'c.name as ast_name', 'c.no_assets as ast_no', 'd.name as updt_name')
-                    ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
-                    ->leftJoin('users AS d', 'd.id', '=', 'trx_assets_landing.update_by')
-                    ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->where('trx_assets_landing.id', $id)->first();
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+            ->leftJoin('users AS d', 'd.id', '=', 'trx_assets_landing.update_by')
+            ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')->where('trx_assets_landing.id', $id)->first();
         // $detailtimeline = detailtimeline($id);
 
         $arr['listdata']    = $listdata;
@@ -746,13 +746,13 @@ class MainController extends Controller
     {
         $idn_user   = idn_user(auth::user()->id);
         $arr        = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk')
-                    ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')->where('trx_employe_loan.is_active', 1)->orderBy('trx_employe_loan.id', 'desc')->get();
+            ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')->where('trx_employe_loan.is_active', 1)->orderBy('trx_employe_loan.id', 'desc')->get();
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $listkarayawan  = DB::select("SELECT * FROM mst_karyawan where is_active=1");
         $filterkaryawan = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk', 'b.id as id_kry')
-                        ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')->where('trx_employe_loan.is_active', 1)->orderBy('trx_employe_loan.id', 'desc')->get();
+            ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')->where('trx_employe_loan.is_active', 1)->orderBy('trx_employe_loan.id', 'desc')->get();
         $listbulanthr   = DB::table('trx_setting_bulan_thr')->select('trx_setting_bulan_thr.*', 'b.name')
-                        ->leftJoin('users AS b', 'b.id', '=', 'trx_setting_bulan_thr.update_by')->where('trx_setting_bulan_thr.is_active', 1)->orderBy('trx_setting_bulan_thr.id', 'desc')->get();
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_setting_bulan_thr.update_by')->where('trx_setting_bulan_thr.is_active', 1)->orderBy('trx_setting_bulan_thr.id', 'desc')->get();
         $data = array(
             'title' => 'Employe Loan',
             'arr'   => $arr,
@@ -782,12 +782,12 @@ class MainController extends Controller
         // }
 
         $listloan   = DB::table('trx_employe_loan')->where('id_karyawan', $id_karyawan)->get();
-        if(count($listloan) == 0){
+        if (count($listloan) == 0) {
             $arr   = [];
             $idadaloan = null;
-        }else{
+        } else {
             $arr   = DB::table('trx_employe_loan')->where('id_karyawan', $id_karyawan)->get();
-            foreach($arr as $key => $val){
+            foreach ($arr as $key => $val) {
                 $idadaloan = $val->id;
             }
         }
@@ -806,7 +806,8 @@ class MainController extends Controller
         return view('Employeloan.peruser')->with($data);
     }
 
-    function dataemploye(Request $request){
+    function dataemploye(Request $request)
+    {
         $type     = $request['type'];
         $bulan    = $request['bulan'];
         $idkry    = $request['idkry'];
@@ -815,45 +816,52 @@ class MainController extends Controller
         return response($arr);
     }
 
-    function dataemployeperuser(Request $request){
+    function dataemployeperuser(Request $request)
+    {
         $id     = $request['id'];
         $arr    = showdataloanperuser($id);
         return response($arr);
     }
 
-    function action_autogenerateloan(Request $request){
+    function action_autogenerateloan(Request $request)
+    {
         $arr    = autogenerateloan();
         return response($arr);
     }
 
-    function showlistdataloanperuser(Request $request){
+    function showlistdataloanperuser(Request $request)
+    {
         $id     = $request['id'];
         $arr    = action_showlistdataloanperuser($id);
         return response($arr);
     }
 
-    function listtableloanperuser(Request $request){
+    function listtableloanperuser(Request $request)
+    {
         $id     = $request['id'];
         $arr    = action_listtableloanperuser($id);
         return response($arr);
     }
 
-    function actionpelunasanloan(Request $request){
+    function actionpelunasanloan(Request $request)
+    {
         $id         = $request['id'];
         $bulan      = $request['bulan'];
         $nominal    = $request['nominal'];
-        $arr        = actionpelunasanloan($id,$bulan,$nominal);
+        $arr        = actionpelunasanloan($id, $bulan, $nominal);
         return response($arr);
     }
 
-    function showdatapelunasanloan(Request $request){
+    function showdatapelunasanloan(Request $request)
+    {
         $id     = $request['id'];
         $bulan  = $request['bulan'];
-        $arr    = showdatapelunasanloan($id,$bulan);
+        $arr    = showdatapelunasanloan($id, $bulan);
         return response($arr);
     }
 
-    function exportallloan(){
+    function exportallloan()
+    {
         // Load the template file
         $templatePath = public_path() . '/template/tmp_loan.xlsx';
         $spreadsheet = IOFactory::load($templatePath);
@@ -869,9 +877,9 @@ class MainController extends Controller
         // ];
 
         $arr        = DB::table('trx_employe_loan')->select('trx_employe_loan.*', 'b.name', 'b.npk')
-                        ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')
-                        ->where('trx_employe_loan.is_active', 1)
-                        ->orderBy('trx_employe_loan.id', 'desc')->get();
+            ->leftJoin('mst_karyawan AS b', 'b.id', '=', 'trx_employe_loan.id_karyawan')
+            ->where('trx_employe_loan.is_active', 1)
+            ->orderBy('trx_employe_loan.id', 'desc')->get();
 
         // Assuming your template has headers in the first row
         $startRow = 2; // Data starts from the second row
@@ -882,7 +890,7 @@ class MainController extends Controller
             $sheet->setCellValue('C' . ($startRow + $index), $val->npk);
             $sheet->setCellValue('D' . ($startRow + $index), $val->golongan);
             $sheet->setCellValue('E' . ($startRow + $index), 'Rp ' . number_format($val->nominal_loan, 0, ',', '.'));
-            $sheet->setCellValue('F' . ($startRow + $index), $val->bulan_loan.' Bulan');
+            $sheet->setCellValue('F' . ($startRow + $index), $val->bulan_loan . ' Bulan');
             $sheet->setCellValue('G' . ($startRow + $index), 'Rp ' . number_format($val->loan_perbulan, 0, ',', '.'));
         }
 
@@ -890,7 +898,7 @@ class MainController extends Controller
         $fileName = 'Rekap_Loan.xlsx';
 
         // Create a StreamedResponse to output the Excel file to the browser
-        $response = new StreamedResponse(function() use ($spreadsheet, $fileName) {
+        $response = new StreamedResponse(function () use ($spreadsheet, $fileName) {
             $writer = new Xlsx($spreadsheet);
             $writer->save('php://output');
         });
@@ -907,7 +915,8 @@ class MainController extends Controller
         return $response;
     }
 
-    function exportassetslanding(Request $request){
+    function exportassetslanding(Request $request)
+    {
         // Load the template file
         $templatePath = public_path() . '/template/tmp_assets_landing.xlsx';
         $spreadsheet = IOFactory::load($templatePath);
@@ -918,11 +927,11 @@ class MainController extends Controller
         $bln    = $request['select_bulan'];
         $whrin  = $request['kategori'];
         $arr    = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name', 'b.npk', 'c.no_assets', 'c.name AS nameass', 'c.merk')
-                ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
-                ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
-                ->whereIn('c.kategori', [$whrin])
-                ->where('trx_assets_landing.date_start', 'LIKE', '%' . $bln . '%')
-                ->orderBy('trx_assets_landing.id', 'desc')->get();
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
+            ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
+            ->whereIn('c.kategori', [$whrin])
+            ->where('trx_assets_landing.date_start', 'LIKE', '%' . $bln . '%')
+            ->orderBy('trx_assets_landing.id', 'desc')->get();
 
         // Assuming your template has headers in the first row
         $startRow = 2; // Data starts from the second row
@@ -933,22 +942,22 @@ class MainController extends Controller
             $sheet->setCellValue('C' . ($startRow + $index), $val->npk);
             $sheet->setCellValue('D' . ($startRow + $index), $val->date_start);
             $sheet->setCellValue('E' . ($startRow + $index), $val->date_end);
-            $sheet->setCellValue('F' . ($startRow + $index), $val->nameass.' ('.$val->merk.')');
+            $sheet->setCellValue('F' . ($startRow + $index), $val->nameass . ' (' . $val->merk . ')');
             $sheet->setCellValue('G' . ($startRow + $index), $val->no_assets);
             $sheet->setCellValue('H' . ($startRow + $index), $val->necessity);
-            if($val->status == 1){
+            if ($val->status == 1) {
                 $sts    = 'Create Form';
-            }elseif($val->status == 2){
+            } elseif ($val->status == 2) {
                 $sts    = 'Approve Dephed';
-            }elseif($val->status == 3){
+            } elseif ($val->status == 3) {
                 $sts    = 'Approve HRGA';
-            }elseif($val->status == 4){
+            } elseif ($val->status == 4) {
                 $sts    = 'Validate';
-            }elseif($val->status == 5){
+            } elseif ($val->status == 5) {
                 $sts    = 'Returned';
-            }elseif($val->status == 6){
+            } elseif ($val->status == 6) {
                 $sts    = 'Rejected';
-            }else{
+            } else {
                 $sts    = 'Approved';
             }
             $sheet->setCellValue('I' . ($startRow + $index), $sts);
@@ -958,7 +967,7 @@ class MainController extends Controller
         $fileName = 'Rekap_Assets_landing.xlsx';
 
         // Create a StreamedResponse to output the Excel file to the browser
-        $response = new StreamedResponse(function() use ($spreadsheet, $fileName) {
+        $response = new StreamedResponse(function () use ($spreadsheet, $fileName) {
             $writer = new Xlsx($spreadsheet);
             $writer->save('php://output');
         });
@@ -976,14 +985,15 @@ class MainController extends Controller
     }
 
     // E-Ticket
-    function ticket_request(){
+    function ticket_request()
+    {
         $idn_user   = idn_user(auth::user()->id);
         $wherein    = collect(\DB::select("SELECT * FROM mst_role WHERE id='$idn_user->role_id'"))->first();
         $arr        = DB::table('trx_ticket_request')->select('trx_ticket_request.*', 'b.name AS sts_name', 'c.name AS usr_name', 'd.name AS pic_name')
-                    ->leftJoin('mst_status_ticket AS b', 'b.id', '=', 'trx_ticket_request.status')
-                    ->leftJoin('users AS c', 'c.id', '=', 'trx_ticket_request.user_create')
-                    ->leftJoin('users AS d', 'd.id', '=', 'trx_ticket_request.update_by')
-                    ->orderBy('trx_ticket_request.id', 'desc')->get();
+            ->leftJoin('mst_status_ticket AS b', 'b.id', '=', 'trx_ticket_request.status')
+            ->leftJoin('users AS c', 'c.id', '=', 'trx_ticket_request.user_create')
+            ->leftJoin('users AS d', 'd.id', '=', 'trx_ticket_request.update_by')
+            ->orderBy('trx_ticket_request.id', 'desc')->get();
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
             'title' => 'E-Ticket Request IT',
@@ -996,15 +1006,16 @@ class MainController extends Controller
         return view('Ticket.list')->with($data);
     }
 
-    function addticketrequest(Request $request){
+    function addticketrequest(Request $request)
+    {
         $departement    = $request['departement'];
         $summary        = $request['summary'];
         $description    = $request['description'];
         $file_name      = $request['file_name'];
 
         $ticket         = DB::table('trx_ticket_request')->get();
-        $jml            = count($ticket)+1;
-        $id_ticket      = 'ADS.'.date('Ymd').'.'.sprintf("%05d", $jml);
+        $jml            = count($ticket) + 1;
+        $id_ticket      = 'ADS.' . date('ymd') . '.' . sprintf("%04d", $jml);
         $data   = array(
             'id_ticket'     => $id_ticket,
             'departement'   => $departement,
@@ -1015,7 +1026,6 @@ class MainController extends Controller
             'status'        => 1,
             'is_active'     => 1,
             'update_by'     => auth::user()->id
-
         );
 
         // $data       = $request['data'];
@@ -1023,11 +1033,12 @@ class MainController extends Controller
         return response('success');
     }
 
-    function editticketrequest(Request $request){
+    function editticketrequest(Request $request)
+    {
         $id         = $request['id'];
         $update_by  = auth::user()->id;
 
-        if($request['step'] == 0){
+        if ($request['step'] == 0) {
             $data   = array(
                 'departement'   => $request['departement'],
                 'summary'       => $request['summary'],
@@ -1036,7 +1047,7 @@ class MainController extends Controller
                 'update_by'     => $update_by
             );
             DB::table('trx_ticket_request')->where('id', $id)->update($data);
-        }else{
+        } else {
             $data   = array(
                 'note'          => $request['note'],
                 'status'        => $request['step'],
@@ -1048,16 +1059,18 @@ class MainController extends Controller
         return response('success');
     }
 
-    function showdataticket(Request $request){
+    function showdataticket(Request $request)
+    {
         $id     = $request['id'];
         $data    = DB::table('trx_ticket_request')->select('trx_ticket_request.*', 'b.name AS sts_name', 'c.npk AS usr_npk', 'c.no_tlp AS usr_tlp', 'c.email AS usr_eemail', 'c.name AS usr_name')
-                    ->leftJoin('mst_status_ticket AS b', 'b.id', '=', 'trx_ticket_request.status')
-                    ->leftJoin('users AS c', 'c.id', '=', 'trx_ticket_request.user_create')
-                    ->where('trx_ticket_request.id', $id)->first();
+            ->leftJoin('mst_status_ticket AS b', 'b.id', '=', 'trx_ticket_request.status')
+            ->leftJoin('users AS c', 'c.id', '=', 'trx_ticket_request.user_create')
+            ->where('trx_ticket_request.id', $id)->first();
         return response()->json($data);
     }
 
-    function exportrequestticket(Request $request){
+    function exportrequestticket(Request $request)
+    {
         // Load the template file
         $templatePath = public_path() . '/template/tmp_request_ticket.xlsx';
         $spreadsheet = IOFactory::load($templatePath);
@@ -1068,11 +1081,11 @@ class MainController extends Controller
         $bln    = $request['select_bulan'];
         $whrin  = $request['kategori'];
         $arr    = DB::table('trx_ticket_request')->select('trx_ticket_request.*', 'b.name AS sts_name', 'c.name AS usr_name', 'd.name AS pic_name')
-                ->leftJoin('mst_status_ticket AS b', 'b.id', '=', 'trx_ticket_request.status')
-                ->leftJoin('users AS c', 'c.id', '=', 'trx_ticket_request.user_create')
-                ->leftJoin('users AS d', 'd.id', '=', 'trx_ticket_request.update_by')
-                ->where('trx_ticket_request.date_create', 'LIKE', '%' . $bln . '%')
-                ->orderBy('trx_ticket_request.id', 'desc')->get();
+            ->leftJoin('mst_status_ticket AS b', 'b.id', '=', 'trx_ticket_request.status')
+            ->leftJoin('users AS c', 'c.id', '=', 'trx_ticket_request.user_create')
+            ->leftJoin('users AS d', 'd.id', '=', 'trx_ticket_request.update_by')
+            ->where('trx_ticket_request.date_create', 'LIKE', '%' . $bln . '%')
+            ->orderBy('trx_ticket_request.id', 'desc')->get();
 
         // Assuming your template has headers in the first row
         $startRow = 2; // Data starts from the second row
@@ -1095,7 +1108,7 @@ class MainController extends Controller
         $fileName = 'Rekap_Request_Ticket.xlsx';
 
         // Create a StreamedResponse to output the Excel file to the browser
-        $response = new StreamedResponse(function() use ($spreadsheet, $fileName) {
+        $response = new StreamedResponse(function () use ($spreadsheet, $fileName) {
             $writer = new Xlsx($spreadsheet);
             $writer->save('php://output');
         });

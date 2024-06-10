@@ -24,19 +24,19 @@
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">NO</th>
-                                        <th class="text-center">ID TICKET</th>
-                                        <th class="text-center">USER.REQ</th>
-                                        <th class="text-center">CREATE ON</th>
-                                        <th class="text-center">TITLE REQUEST</th>
-                                        <th class="text-center">DESCRIPTION</th>
-                                        <th class="text-center">File</th>
-                                        <th class="text-center">DUE DATE</th>
-                                        <th class="text-center">MODIFIET ON</th>
-                                        <th class="text-center">STATUS</th>
-                                        <th class="text-center">REMARK</th>
-                                        <th class="text-center">PIC</th>
-                                        <th class="text-center">ACTION</th>
+                                        <th class="text-center small">NO</th>
+                                        <th class="text-center small">ID TICKET</th>
+                                        <th class="text-center small">USER.REQ</th>
+                                        <th class="text-center small">CREATE ON</th>
+                                        <th class="text-center small">TITLE REQUEST</th>
+                                        <th class="text-center small">DESCRIPTION</th>
+                                        <th class="text-center small">ATTACHMENT</th>
+                                        <th class="text-center small">DUE DATE</th>
+                                        <th class="text-center small">MODIFIET ON</th>
+                                        <th class="text-center small">STATUS</th>
+                                        <th class="text-center small">REMARK</th>
+                                        <th class="text-center small">PIC</th>
+                                        <th class="text-center small">ACTION</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-midle">
@@ -46,19 +46,20 @@
                                     @foreach ($arr as $key => $val)
                                         <tr>
                                             <td>{{ $no++ }}</td>
-                                            <td>{{ $val->id_ticket }}</td>
-                                            <td>{{ $val->usr_name }}</td>
-                                            <td>
+                                            <td class="small">{{ $val->id_ticket }}</td>
+                                            <td class="small">{{ $val->usr_name }}</td>
+                                            <td class="small">
                                                 {{ \Carbon\Carbon::parse($val->date_create)->isoFormat('DD MMM YYYY HH:mm:ss') }}
                                             </td>
-                                            <td>{{ $val->summary }}</td>
-                                            <td>{{ $val->description }}</td>
-                                            <td>
-                                                <button type="button" class="btn btn-info btn-sm" data-name="show_file_button" data-item="{{ $val->file_name }}">
-                                                    <i class="bi bi-filetype-pdf"></i>{{$val->file_name}}
+                                            <td class="small">{{ $val->summary }}</td>
+                                            <td class="small">{{ $val->description }}</td>
+                                            <td class="text-center small">
+                                                <button type="button" class="btn btn-info btn-sm"
+                                                    data-name="show_file_button" data-item="{{ $val->file_name }}">
+                                                    <i class="bi bi-filetype-pdf"></i>
                                                 </button>
                                             </td>
-                                            <td>
+                                            <td class="small">
                                                 @if ($val->due_date == null)
                                                     -
                                                 @else
@@ -68,7 +69,7 @@
                                             <td>
                                                 {{ \Carbon\Carbon::parse($val->last_update)->isoFormat('DD MMM YYYY HH:mm:ss') }}
                                             </td>
-                                            <td class="text-center">
+                                            <td class="text-center small">
                                                 @if ($val->status == 1)
                                                     @php
                                                         $class_st = 'info';
@@ -114,15 +115,15 @@
                                                     </div>
                                                 </figure>
                                             </td>
-                                            <td>{{ $val->note }}</td>
-                                            <td>
+                                            <td class="small">{{ $val->note }}</td>
+                                            <td class="small">
                                                 @if ($val->status >= 3)
                                                     {{ $val->pic_name }}
                                                 @else
                                                     -
                                                 @endif
                                             </td>
-                                            <td class="text-center text-nowrap">
+                                            <td class="text-center text-nowrap small">
                                                 @if ($val->status == 1)
                                                     <button type="button" class="btn btn-info btn-sm" data-name="edit"
                                                         data-item="{{ $val->id }}"><i
@@ -222,7 +223,8 @@
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Upload File</label>
-                                    <input type="file" class="form-control" id="add_file" placeholder=""data-name="file_name">
+                                    <input type="file" class="form-control" id="add_file"
+                                        placeholder=""data-name="file_name">
                                     <input type="hidden" id="file_name" data-name="name_file">
                                     <input type="hidden" data-name="ukuran">
                                 </div>
@@ -278,7 +280,8 @@
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Departement</label>
-                                    <select class="form-control select-2-edit" id="" data-name="edit_departement">
+                                    <select class="form-control select-2-edit" id=""
+                                        data-name="edit_departement">
                                         <option value="">Pilih Departemen</option>
                                         <option value="DEPT. SALES">DEPT. SALES</option>
                                         <option value="DEPT. FIN ACC HRGA IT">DEPT. FIN ACC HRGA IT</option>
@@ -308,7 +311,8 @@
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Upload File</label>
-                                    <input type="file" class="form-control" id="edit_file" placeholder="" data-name="edit_file_name">
+                                    <input type="file" class="form-control" id="edit_file" placeholder=""
+                                        data-name="edit_file_name">
                                     <input type="hidden" id="edit_file_name" data-name="edit_name_file">
                                     <input type="hidden" data-name="edit_ukuran">
                                 </div>
@@ -377,7 +381,7 @@
                                 </div>
 
                                 <div class="mb-3" id="duedate" style="display: none">
-                                    <label for="" class="form-label">Due Date</label>
+                                    <label for="" class="form-label">Star O</label>
                                     <input type="text" class="form-control" id="" placeholder="Due Date"
                                         data-name="due_date">
                                 </div>
@@ -538,7 +542,7 @@
             var departement = $("[data-name='departement']").val();
             var summary = $("[data-name='summary']").val();
             var description = $("[data-name='description']").val();
-            var file_name   = $("[data-name='name_file']").val();
+            var file_name = $("[data-name='name_file']").val();
 
             if (departement === '' || summary === '' || description === '') {
                 Swal.fire({

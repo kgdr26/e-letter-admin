@@ -41,7 +41,8 @@
 
                     <div class="tab-content pt-2 mt-3">
                         <div class="d-flex justify-content-end w-100">
-                            <button type="button" class="btn btn-info text-white" data-name="export"><i class="bi bi-file-earmark-spreadsheet"></i> Export To Excel</button>
+                            <button type="button" class="btn btn-info text-white" data-name="export"><i
+                                    class="bi bi-file-earmark-spreadsheet"></i> Export To Excel</button>
                         </div>
 
                         <div class="tab-pane fade show active">
@@ -67,8 +68,12 @@
                                             <tr>
                                                 <td>{{ $no++ }}</td>
                                                 <td>{{ $value->usr_name }}</td>
-                                                <td>{{ $value->date_start }}</td>
-                                                <td>{{ $value->date_end }}</td>
+                                                <td>
+                                                    {{ \Carbon\Carbon::parse($value->date_start)->isoFormat('DD MMMM YYYY HH:mm:ss') }}
+                                                </td>
+                                                <td>
+                                                    {{ \Carbon\Carbon::parse($value->date_end)->isoFormat('DD MMMM YYYY HH:mm:ss') }}
+                                                </td>
                                                 <td>{{ $value->ast_name }} - {{ $value->ast_no }}</td>
                                                 <td>{{ $value->necessity }}</td>
                                                 <td class="text-center">
@@ -103,7 +108,8 @@
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
-                                                    <button type="button" class="btn btn-info btn-sm" data-name="detailtimeline" data-item="{{ $value->id }}">
+                                                    <button type="button" class="btn btn-info btn-sm"
+                                                        data-name="detailtimeline" data-item="{{ $value->id }}">
                                                         Detail Timeline
                                                     </button>
                                                 </td>
@@ -130,7 +136,7 @@
                 <div class="modal-body">
                     <div class="tab-pane fade profile-overview active show mb-3" id="profile-overview" role="tabpanel">
                         <h5 class="card-title">Asset Lending Details</h5>
-      
+
                         <div class="row">
                             <div class="col-lg-3 col-md-4 label ">Name Employee</div>
                             <div class="col-lg-9 col-md-8" data-name="detail_name">-</div>
@@ -221,7 +227,8 @@
 
                         <div class="mb-3">
                             <label for="" class="form-label">Start Bulan</label>
-                            <input type="text" class="form-control" id="" placeholder="" data-name="select_bulan">
+                            <input type="text" class="form-control" id="" placeholder=""
+                                data-name="select_bulan">
                         </div>
                     </div>
                 </div>
@@ -262,52 +269,64 @@
                     var detailsecond = data.listdata.second_detail;
                     var detaildirector = data.listdata.director_detail;
 
-                    if(detaildirector !== null){
-                        $("[data-name='detail_remark']").text($.parseJSON(data.listdata.director_detail)[1]);
-                    }else if(detailsecond !== null){
-                        $("[data-name='detail_remark']").text($.parseJSON(data.listdata.second_detail)[1]);
-                    }else if(detailfirst !== null){
-                        $("[data-name='detail_remark']").text($.parseJSON(data.listdata.first_detail)[1]);
-                    }else if(detaildephed !== null){
-                        $("[data-name='detail_remark']").text($.parseJSON(data.listdata.dephed_detail)[1]);
-                    }else{
+                    if (detaildirector !== null) {
+                        $("[data-name='detail_remark']").text($.parseJSON(data.listdata
+                            .director_detail)[1]);
+                    } else if (detailsecond !== null) {
+                        $("[data-name='detail_remark']").text($.parseJSON(data.listdata.second_detail)[
+                            1]);
+                    } else if (detailfirst !== null) {
+                        $("[data-name='detail_remark']").text($.parseJSON(data.listdata.first_detail)[
+                            1]);
+                    } else if (detaildephed !== null) {
+                        $("[data-name='detail_remark']").text($.parseJSON(data.listdata.dephed_detail)[
+                            1]);
+                    } else {
                         $("[data-name='detail_remark']").text('-');
                     }
 
-                    if(data.listdata.status === 1){
-                        var detailstatus = '<button type="button" class="btn btn-secondary btn-sm" disabled>Create</button>';
-                        var statusname  = "Create";
-                    }else if(data.listdata.status === 2){
-                        var detailstatus = '<button type="button" class="btn btn-info btn-sm" disabled>Approve Dephed</button>';
-                        var statusname  = "Approve Dephed";
-                    }else if(data.listdata.status === 3){
-                        var detailstatus = '<button type="button" class="btn btn-success btn-sm" disabled>Approve HRGA</button>';
-                        var statusname  = "Approve HRGA";
-                    }else if(data.listdata.status === 4){
-                        var detailstatus = '<button type="button" class="btn btn-warning btn-sm" disabled>Security Validate</button>';
-                        var statusname  = "Security Validate";
-                    }else if(data.listdata.status === 5){
-                        var detailstatus = '<button type="button" class="btn btn-danger btn-sm" disabled>Returned</button>';
-                        var statusname  = "Returned";
-                    }else if(data.listdata.status === 6){
-                        var detailstatus = '<button type="button" class="btn btn-danger btn-sm" disabled>Canceled</button>';
-                        var statusname  = "Canceled";
-                    }else{
+                    if (data.listdata.status === 1) {
+                        var detailstatus =
+                            '<button type="button" class="btn btn-secondary btn-sm" disabled>Create</button>';
+                        var statusname = "Create";
+                    } else if (data.listdata.status === 2) {
+                        var detailstatus =
+                            '<button type="button" class="btn btn-info btn-sm" disabled>Approve Dephed</button>';
+                        var statusname = "Approve Dephed";
+                    } else if (data.listdata.status === 3) {
+                        var detailstatus =
+                            '<button type="button" class="btn btn-success btn-sm" disabled>Approve HRGA</button>';
+                        var statusname = "Approve HRGA";
+                    } else if (data.listdata.status === 4) {
+                        var detailstatus =
+                            '<button type="button" class="btn btn-warning btn-sm" disabled>Security Validate</button>';
+                        var statusname = "Security Validate";
+                    } else if (data.listdata.status === 5) {
+                        var detailstatus =
+                            '<button type="button" class="btn btn-danger btn-sm" disabled>Returned</button>';
+                        var statusname = "Returned";
+                    } else if (data.listdata.status === 6) {
+                        var detailstatus =
+                            '<button type="button" class="btn btn-danger btn-sm" disabled>Canceled</button>';
+                        var statusname = "Canceled";
+                    } else {
                         var detailstatus = '-';
-                        var statusname  = "-";
+                        var statusname = "-";
                     }
 
                     $("[data-name='detail_name']").text(data.listdata.usr_name);
                     $("[data-name='detail_npk']").text(data.listdata.npk);
                     $("[data-name='detail_start']").text(data.listdata.date_start);
                     $("[data-name='detail_end']").text(data.listdata.date_end);
-                    $("[data-name='detail_assets']").text(data.listdata.ast_name+" - "+data.listdata.ast_no);
+                    $("[data-name='detail_assets']").text(data.listdata.ast_name + " - " + data.listdata
+                        .ast_no);
                     $("[data-name='detail_necee']").text(data.listdata.necessity);
-                    $("[data-name='detail_currenttime']").text("Telah di "+statusname+" oleh "+data.listdata.updt_name+" - "+data.listdata.last_update);
+                    $("[data-name='detail_currenttime']").text("Telah di " + statusname + " oleh " +
+                        data.listdata.updt_name + " - " + data.listdata.last_update);
 
                     $("[data-name='detail_status']").html(detailstatus);
                     // $("[data-name='datatimeline']").html(data.timeline);
-                    
+
                     $("#modal_timeline").modal('show');
                 },
                 error: function(data) {
@@ -322,7 +341,7 @@
                     })
                 }
             });
-            
+
         });
     </script>
     {{-- End JS Show Detail Timeline --}}
@@ -344,10 +363,10 @@
         });
 
         $(document).on("click", "[data-name='save_export']", function(e) {
-            var kategori        = $("[data-name='kategori']").val();
-            var select_bulan    = $("[data-name='select_bulan']").val();
+            var kategori = $("[data-name='kategori']").val();
+            var select_bulan = $("[data-name='select_bulan']").val();
 
-            if(kategori === '' || select_bulan === ''){
+            if (kategori === '' || select_bulan === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Action Not Valid!',
@@ -357,12 +376,18 @@
                 }).then((data) => {
                     // location.reload();
                 })
-            }else{
-                var urlTemplate     = '{{ route("exportassetslanding",["kategori"=>"kategoriid","select_bulan"=>"selectbulanid"])}}';
-                var replacements    = [
-                                        { pattern: 'selectbulanid', replacement: select_bulan },
-                                        { pattern: 'kategoriid', replacement: kategori}
-                                    ];
+            } else {
+                var urlTemplate =
+                    '{{ route('exportassetslanding', ['kategori' => 'kategoriid', 'select_bulan' => 'selectbulanid']) }}';
+                var replacements = [{
+                        pattern: 'selectbulanid',
+                        replacement: select_bulan
+                    },
+                    {
+                        pattern: 'kategoriid',
+                        replacement: kategori
+                    }
+                ];
                 // var url         = urlTemplate.replace('kategoriid', kategori);
                 replacements.forEach(function(replacement) {
                     url = urlTemplate.replace(replacement.pattern, replacement.replacement);
@@ -383,7 +408,6 @@
             minViewMode: "months",
             autoclose: true
         });
-    
     </script>
     {{-- End Date Picker --}}
 
