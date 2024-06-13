@@ -62,8 +62,12 @@
                                             <tr>
                                                 <td>{{ $no++ }}</td>
                                                 <td>{{ $value->usr_name }}</td>
-                                                <td>{{ $value->date_start }}</td>
-                                                <td>{{ $value->date_end }}</td>
+                                                <td>
+                                                    {{ \Carbon\Carbon::parse($value->date_start)->isoFormat('DD MMMM YYYY HH:mm:ss') }}
+                                                </td>
+                                                <td>
+                                                    {{ \Carbon\Carbon::parse($value->date_end)->isoFormat('DD MMMM YYYY HH:mm:ss') }}
+                                                </td>
                                                 <td>{{ $value->ast_name }} - {{ $value->ast_no }}</td>
                                                 <td>{{ $value->necessity }}</td>
                                                 <td>
