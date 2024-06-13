@@ -454,8 +454,12 @@
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Departement</label>
-                                    <input type="text" class="form-control" id="" placeholder="Departement"
-                                        data-name="show_departement" disabled>
+                                    <select class="form-control select-2-edit" id="" data-name="show_departement" disabled>
+                                        <option value="">Pilih Departemen</option>
+                                        @foreach ($dep as $key => $val)
+                                            <option value="{{$val->id}}">{{$val->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <div class="mb-3">
@@ -1055,7 +1059,7 @@
                     $("[data-name='show_no_tlp']").val(data.usr_tlp);
                     $("[data-name='show_email']").val(data.usr_email);
                     $("[data-name='show_status']").val(data.sts_name);
-                    $("[data-name='show_departement']").val(data.departement);
+                    $("[data-name='show_departement']").val(data.departement).trigger("change");;
                     $("[data-name='show_summary']").val(data.summary);
                     $("[data-name='show_description']").val(data.description);
                     $("[data-name='show_due_date']").val(data.due_date);
