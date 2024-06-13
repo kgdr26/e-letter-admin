@@ -130,7 +130,7 @@
                 <div class="modal-body">
                     <div class="tab-pane fade profile-overview active show mb-3" id="profile-overview" role="tabpanel">
                         <h5 class="card-title">Asset Lending Details</h5>
-      
+
                         <div class="row">
                             <div class="col-lg-3 col-md-4 label ">Name Employee</div>
                             <div class="col-lg-9 col-md-8" data-name="detail_name">-</div>
@@ -307,7 +307,7 @@
 
                     $("[data-name='detail_status']").html(detailstatus);
                     // $("[data-name='datatimeline']").html(data.timeline);
-                    
+
                     $("#modal_timeline").modal('show');
                 },
                 error: function(data) {
@@ -322,7 +322,7 @@
                     })
                 }
             });
-            
+
         });
     </script>
     {{-- End JS Show Detail Timeline --}}
@@ -383,7 +383,7 @@
             minViewMode: "months",
             autoclose: true
         });
-    
+
     </script>
     {{-- End Date Picker --}}
 

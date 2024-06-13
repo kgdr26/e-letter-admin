@@ -81,20 +81,25 @@
                                                     @endphp
                                                 @elseif ($val->status == 3)
                                                     @php
-                                                        $class_st = 'success';
-                                                        $persen = '50';
+                                                        $class_st = 'warning';
+                                                        $persen = '100';
                                                     @endphp
                                                 @elseif ($val->status == 4)
                                                     @php
                                                         $class_st = 'success';
-                                                        $persen = '80';
+                                                        $persen = '50';
                                                     @endphp
                                                 @elseif ($val->status == 5)
                                                     @php
                                                         $class_st = 'success';
-                                                        $persen = '100';
+                                                        $persen = '80';
                                                     @endphp
                                                 @elseif ($val->status == 6)
+                                                    @php
+                                                        $class_st = 'success';
+                                                        $persen = '100';
+                                                    @endphp
+                                                @elseif ($val->status == 7)
                                                     @php
                                                         $class_st = 'danger';
                                                         $persen = '100';
@@ -201,10 +206,9 @@
                                     <label for="" class="form-label">Departement</label>
                                     <select class="form-control select-2-add" id="departement" data-name="departement">
                                         <option value="">Pilih Departemen</option>
-                                        <option value="DEPT. SALES">DEPT. SALES</option>
-                                        <option value="DEPT. FIN ACC HRGA IT">DEPT. FIN ACC HRGA IT</option>
-                                        <option value="DEPT. SUPPLY CHAIN">DEPT. SUPPLY CHAIN</option>
-                                        <option value="DEPT. PRODUCTIONS HT">DEPT. PRODUCTIONS HT</option>
+                                        @foreach ($dep as $key => $val)
+                                            <option value="{{$val->id}}">{{$val->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
 
@@ -280,10 +284,9 @@
                                     <label for="" class="form-label">Departement</label>
                                     <select class="form-control select-2-edit" id="" data-name="edit_departement">
                                         <option value="">Pilih Departemen</option>
-                                        <option value="DEPT. SALES">DEPT. SALES</option>
-                                        <option value="DEPT. FIN ACC HRGA IT">DEPT. FIN ACC HRGA IT</option>
-                                        <option value="DEPT. SUPPLY CHAIN">DEPT. SUPPLY CHAIN</option>
-                                        <option value="DEPT. PRODUCTIONS HT">DEPT. PRODUCTIONS HT</option>
+                                        @foreach ($dep as $key => $val)
+                                            <option value="{{$val->id}}">{{$val->name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
 
@@ -358,8 +361,12 @@
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Departement</label>
-                                    <input type="text" class="form-control" id="" placeholder="Departement"
-                                        data-name="upd_departement" disabled>
+                                    <select class="form-control select-2-edit" id="" data-name="upd_departement" disabled>
+                                        <option value="">Pilih Departemen</option>
+                                        @foreach ($dep as $key => $val)
+                                            <option value="{{$val->id}}">{{$val->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                                 <div class="mb-3">
@@ -373,18 +380,16 @@
                                     <textarea name="" class="form-control" id="" cols="30" rows="5"
                                         data-name="upd_description" disabled></textarea>
                                     <input type="hidden" name="" id="" data-name="upd_id">
-                                    <input type="hidden" name="" id="" data-name="upd_step">
                                 </div>
 
                                 <div class="mb-3" id="duedate" style="display: none">
                                     <label for="" class="form-label">Due Date</label>
-                                    <input type="text" class="form-control" id="" placeholder="Due Date"
-                                        data-name="due_date">
+                                    <input type="text" class="form-control" id="" placeholder="Due Date" data-name="due_date">
                                 </div>
 
                                 <div class="mb-3" id="shownote" style="display: none">
                                     <label for="" class="form-label">Noted</label>
-                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="note"></textarea>
+                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="note" disabled></textarea>
                                 </div>
                             </div>
                         </div>
@@ -393,7 +398,14 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-danger" data-name="reject_update">Reject</button>
-                    <button type="button" class="btn btn-primary" data-name="save_update" id="textbtn">-</button>
+                    <div id="thp1">
+                        <button type="button" class="btn btn-primary" data-name="save_update" data-item="4">Taket A Ticket</button>
+                        <button type="button" class="btn btn-warning" data-name="save_update" data-item="2">Request Approve</button>
+                    </div>
+                    <button type="button" class="btn btn-primary" data-name="save_update" id="thp2" data-item="3">Approve</button>
+                    <button type="button" class="btn btn-primary" data-name="save_update" id="thp3" data-item="4">Approve</button>
+                    <button type="button" class="btn btn-primary" data-name="save_update" id="thp4" data-item="5">Approve</button>
+                    <button type="button" class="btn btn-primary" data-name="save_update" id="thp5" data-item="6">Approve</button>
                 </div>
             </div>
         </div>
@@ -837,7 +849,7 @@
                     $("[data-name='upd_usr']").val(data.usr_npk + ' - ' + data.usr_name);
                     $("[data-name='upd_no_tlp']").val(data.usr_tlp);
                     $("[data-name='upd_email']").val(data.usr_email);
-                    $("[data-name='upd_departement']").val(data.departement);
+                    $("[data-name='upd_departement']").val(data.departement).trigger("change");
                     $("[data-name='upd_summary']").val(data.summary);
                     $("[data-name='upd_description']").val(data.description);
                     $("[data-name='upd_step']").val(step);
@@ -845,30 +857,58 @@
                     $("[data-name='note']").val(data.note);
 
                     if (data.status === 1) {
-                        $("#judulmodal").text('APPRIVE DEPHEAD');
-                        $("#textbtn").text('APPRIVE DEPHEAD');
-                        $("#shownote").hide();
-                        $("#duedate").hide();
-                    } else if (data.status === 2) {
-                        $("#judulmodal").text('ON PROGRESS BY IT');
-                        $("#textbtn").text('ON PROGRESS BY IT');
-                        $("#shownote").hide();
-                        $("#duedate").show();
-                    } else if (data.status === 3) {
-                        $("#judulmodal").text('RESOLVED BY IT');
-                        $("#textbtn").text('RESOLVED BY IT');
-                        $("#shownote").hide();
-                        $("#duedate").hide();
-                    } else if (data.status === 4) {
-                        $("#judulmodal").text('CLOSED BY IT');
-                        $("#textbtn").text('CLOSED BY IT');
                         $("#shownote").show();
+                        $("[data-name='note']").prop('disabled', false);
                         $("#duedate").hide();
+                        $("#thp1").show();
+                        $("#thp2").hide();
+                        $("#thp3").hide();
+                        $("#thp4").hide();
+                        $("#thp5").hide();
+                    } else if (data.status === 2) {
+                        $("#shownote").show();
+                        $("[data-name='note']").prop('disabled', true);
+                        $("#duedate").hide();
+                        $("#thp1").hide();
+                        $("#thp2").show();
+                        $("#thp3").hide();
+                        $("#thp4").hide();
+                        $("#thp5").hide();
+                    } else if (data.status === 3) {
+                        $("#shownote").show();
+                        $("[data-name='note']").prop('disabled', true);
+                        $("#duedate").hide();
+                        $("#thp1").hide();
+                        $("#thp2").hide();
+                        $("#thp3").show();
+                        $("#thp4").hide();
+                        $("#thp5").hide();
+                    } else if (data.status === 4) {
+                        $("#shownote").show();
+                        $("[data-name='note']").prop('disabled', false);
+                        $("#duedate").show();
+                        $("#thp1").hide();
+                        $("#thp2").hide();
+                        $("#thp3").hide();
+                        $("#thp4").show();
+                        $("#thp5").hide();
+                    } else if (data.status === 5) {
+                        $("#shownote").show();
+                        $("[data-name='note']").prop('disabled', false);
+                        $("#duedate").hide();
+                        $("#thp1").hide();
+                        $("#thp2").hide();
+                        $("#thp3").hide();
+                        $("#thp4").hide();
+                        $("#thp5").show();
                     } else {
-                        $("#judulmodal").text('');
-                        $("#textbtn").text('');
                         $("#shownote").hide();
                         $("#duedate").hide();
+                        $("#thp1").hide();
+                        $("#thp2").hide();
+                        $("#thp3").hide();
+                        $("#thp4").hide();
+                        $("#thp5").hide();
                     }
 
                     $("#modal_update").modal('show');
@@ -889,7 +929,7 @@
 
         $(document).on("click", "[data-name='save_update']", function(e) {
             var id = $("[data-name='upd_id']").val();
-            var step = $("[data-name='upd_step']").val();
+            var step = $(this).attr("data-item");
             var due_date = $("[data-name='due_date']").val();
             var note = $("[data-name='note']").val();
 
@@ -941,7 +981,7 @@
 
         $(document).on("click", "[data-name='reject_update']", function(e) {
             var id = $("[data-name='upd_id']").val();
-            var step = 6;
+            var step = 7;
             var due_date = $("[data-name='due_date']").val();
             var note = '-';
 

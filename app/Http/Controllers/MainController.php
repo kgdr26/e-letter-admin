@@ -979,18 +979,24 @@ class MainController extends Controller
     function ticket_request(){
         $idn_user   = idn_user(auth::user()->id);
         $wherein    = collect(\DB::select("SELECT * FROM mst_role WHERE id='$idn_user->role_id'"))->first();
+        $datawhrdept    = collect(\DB::select("SELECT * FROM mst_departement WHERE role_dh='$idn_user->role_id'"))->first();
+
         $arr        = DB::table('trx_ticket_request')->select('trx_ticket_request.*', 'b.name AS sts_name', 'c.name AS usr_name', 'd.name AS pic_name')
                     ->leftJoin('mst_status_ticket AS b', 'b.id', '=', 'trx_ticket_request.status')
                     ->leftJoin('users AS c', 'c.id', '=', 'trx_ticket_request.user_create')
                     ->leftJoin('users AS d', 'd.id', '=', 'trx_ticket_request.update_by')
                     ->orderBy('trx_ticket_request.id', 'desc')->get();
+
+
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $dep        = DB::select("SELECT * FROM mst_departement where is_active=1");
         $data = array(
             'title' => 'E-Ticket Request IT',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role,
-            'wherein' => $wherein
+            'wherein' => $wherein,
+            'dep'   => $dep
         );
 
         return view('Ticket.list')->with($data);
