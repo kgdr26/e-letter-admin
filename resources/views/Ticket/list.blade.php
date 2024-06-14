@@ -70,6 +70,7 @@
                                                 {{ \Carbon\Carbon::parse($val->last_update)->isoFormat('DD MMM YYYY HH:mm:ss') }}
                                             </td>
                                             <td class="text-center small">
+                                                {{-- stautus --}}
                                                 @if ($val->status == 1)
                                                     @php
                                                         $class_st = 'info';
