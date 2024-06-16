@@ -123,7 +123,8 @@ class MainController extends Controller
 
         // $data       = $request['data'];
         DB::table($table)->insert([$data]);
-        return response('success');
+        $arr['kode_letter'] = $tletter_admin;
+        return response($arr);
     }
 
     function actioneditform(Request $request): object

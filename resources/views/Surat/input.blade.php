@@ -121,7 +121,7 @@
                         <div class="mb-3">
                             <label for="" class="form-label">Date</label>
                             <input type="text" class="form-control" id="" placeholder=""
-                                data-name="date_release">
+                                data-name="date_release" value="{{date('Y-m-d')}}">
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Noted/Remark</label>
@@ -231,7 +231,7 @@
     {{-- JS Add Data --}}
     <script>
         $(document).on("click", "[data-name='add']", function(e) {
-            $("[data-name='date_release']").val('');
+            // $("[data-name='date_release']").val('');
             $("[data-name='notes']").val('');
             $("[data-name='to_dept']").val('');
             $("#modal_add").modal('show');
@@ -272,12 +272,13 @@
                     cache: false,
                     success: function(data) {
                         // console.log(data);
+                        $("#modal_add").modal('hide');
                         Swal.fire({
                             position: 'center',
-                            title: 'Success!',
+                            title: data.kode_letter,
                             icon: 'success',
-                            showConfirmButton: false,
-                            timer: 1500
+                            showConfirmButton: true,
+                            // timer: 1500
                         }).then((data) => {
                             location.reload();
                         })
