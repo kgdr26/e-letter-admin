@@ -131,7 +131,7 @@
                             <label for="" class="form-label">Dept. Purpose</label>
                             <select name="" id="" class="form-select select-2-add" data-name="to_dept">
                                 <option value="">-- Select Dept --</option>
-                                @foreach ($role as $kr => $vr)
+                                @foreach ($roleinput as $kr => $vr)
                                     <option value="{{ $vr->id }}">{{ $vr->name }}</option>
                                 @endforeach
                             </select>
@@ -173,7 +173,7 @@
                             {{-- <input type="text" class="form-control" id="" data-name="edit_to_dept"> --}}
                             <select name="" id="" class="form-select select-2-edit" data-name="edit_to_dept">
                                 <option value="">-- Select Dept --</option>
-                                @foreach ($role as $kr => $vr)
+                                @foreach ($roleinput as $kr => $vr)
                                     <option value="{{ $vr->id }}">{{ $vr->name }}</option>
                                 @endforeach
                             </select>

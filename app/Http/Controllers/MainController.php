@@ -69,12 +69,14 @@ class MainController extends Controller
 
 
         $whrlist                = $whrrole->whr_input_surat;
-        $role                   = DB::select("SELECT * FROM mst_role WHERE id IN ($whrlist)");
+        $roleinput              = DB::select("SELECT * FROM mst_role WHERE id IN ($whrlist)");
+        $role                   = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
             'title' => 'Adm. Letter',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role,
+            'roleinput' => $roleinput,
             'whrshow'   => $whrshow
         );
 
