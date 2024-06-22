@@ -41,8 +41,7 @@
 
                     <div class="tab-content pt-2 mt-3">
                         <div class="d-flex justify-content-end w-100">
-                            <button type="button" class="btn btn-info text-white" data-name="export"><i
-                                    class="bi bi-file-earmark-spreadsheet"></i> Export To Excel</button>
+                            <button type="button" class="btn btn-info text-white" data-name="export"><i class="bi bi-file-earmark-spreadsheet"></i> Export To Excel</button>
                         </div>
 
                         <div class="tab-pane fade show active">
@@ -227,8 +226,12 @@
 
                         <div class="mb-3">
                             <label for="" class="form-label">Start Bulan</label>
-                            <input type="text" class="form-control" id="" placeholder=""
-                                data-name="select_bulan">
+                            <input type="text" class="form-control" id="" placeholder="" data-name="start_select_bulan">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="" class="form-label">End Bulan</label>
+                            <input type="text" class="form-control" id="" placeholder="" data-name="end_select_bulan">
                         </div>
                     </div>
                 </div>
@@ -358,15 +361,18 @@
     <script>
         $(document).on("click", "[data-name='export']", function(e) {
             $("[data-name='kategori']").val('').trigger("change");
-            $("[data-name='select_bulan']").val('');
+            $("[data-name='start_select_bulan']").val('');
+            $("[data-name='end_select_bulan']").val('');
             $("#modal_export").modal('show');
         });
 
         $(document).on("click", "[data-name='save_export']", function(e) {
             var kategori = $("[data-name='kategori']").val();
-            var select_bulan = $("[data-name='select_bulan']").val();
+            var start   = $("[data-name='start_select_bulan']").val();
+            var end     = $("[data-name='end_select_bulan']").val();
+            var select_bulan = kategori+'/'+start+'/'+end;
 
-            if (kategori === '' || select_bulan === '') {
+            if (select_bulan === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Action Not Valid!',
@@ -377,21 +383,20 @@
                     // location.reload();
                 })
             } else {
-                var urlTemplate =
-                    '{{ route('exportassetslanding', ['kategori' => 'kategoriid', 'select_bulan' => 'selectbulanid']) }}';
-                var replacements = [{
-                        pattern: 'selectbulanid',
-                        replacement: select_bulan
-                    },
-                    {
-                        pattern: 'kategoriid',
-                        replacement: kategori
-                    }
-                ];
-                // var url         = urlTemplate.replace('kategoriid', kategori);
-                replacements.forEach(function(replacement) {
-                    url = urlTemplate.replace(replacement.pattern, replacement.replacement);
-                });
+                var urlTemplate = '{{ route('exportassetslanding', ['select_bulan' => 'selectbulanid']) }}';
+                // var replacements = [{
+                //         pattern: 'selectbulanid',
+                //         replacement: select_bulan
+                //     },
+                //     {
+                //         pattern: 'kategoriid',
+                //         replacement: kategori
+                //     }
+                // ];
+                var url         = urlTemplate.replace('selectbulanid', select_bulan);
+                // replacements.forEach(function(replacement) {
+                //     url = urlTemplate.replace(replacement.pattern, replacement.replacement);
+                // });
                 window.location.href = url;
 
                 $("#modal_export").modal('hide');
@@ -402,7 +407,14 @@
 
     {{-- Date Picker --}}
     <script>
-        $('input[data-name="select_bulan"]').datepicker({
+        $('input[data-name="start_select_bulan"]').datepicker({
+            format: "yyyy-mm",
+            viewMode: "months",
+            minViewMode: "months",
+            autoclose: true
+        });
+
+        $('input[data-name="end_select_bulan"]').datepicker({
             format: "yyyy-mm",
             viewMode: "months",
             minViewMode: "months",

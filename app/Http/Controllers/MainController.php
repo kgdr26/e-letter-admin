@@ -928,12 +928,18 @@ class MainController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         $bln    = $request['select_bulan'];
-        $whrin  = $request['kategori'];
+        // $whrin  = $request['kategori'];
+        $dataarr    = explode("/", $bln);
+        $whrin      = $dataarr[0];
+        $startDate  = $dataarr[1].'-01';
+        $endDate    = $dataarr[2].'-01';
+
         $arr    = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name', 'b.npk', 'c.no_assets', 'c.name AS nameass', 'c.merk')
             ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
             ->leftJoin('mst_asset AS c', 'c.id', '=', 'trx_assets_landing.data_asset')
             ->whereIn('c.kategori', [$whrin])
-            ->where('trx_assets_landing.date_start', 'LIKE', '%' . $bln . '%')
+            ->whereBetween(DB::raw('DATE(trx_assets_landing.date_start)'), [$startDate, $endDate])
+            // ->where('trx_assets_landing.date_start', 'LIKE', '%' . $bln . '%')
             ->orderBy('trx_assets_landing.id', 'desc')->get();
 
         // Assuming your template has headers in the first row
@@ -1135,6 +1141,62 @@ class MainController extends Controller
     }
 
     // End E-Ticket
+
+    // Report E-Letter
+    function exportsuratadmin(Request $request){
+        // Load the template file
+        $templatePath = public_path() . '/template/tmp_letter_admin.xlsx';
+        $spreadsheet = IOFactory::load($templatePath);
+
+        // Get the active sheet
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $date_release    = $request['select_bulan'];
+        $arr    = DB::table('trx_surat')->select('trx_surat.*', 'b.name as usr_name', 'c.name as usr_role', 'd.name as usr_to_dept')
+                    ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
+                    ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
+                    ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
+                    ->where('trx_surat.is_active', 1)
+                    ->where('trx_surat.date_release', $date_release)
+                    ->orderBy('trx_surat.letter_admin', 'asc')->get();
+
+        // Assuming your template has headers in the first row
+        $startRow = 2; // Data starts from the second row
+        $no       = 1;
+        foreach ($arr as $index => $val) {
+            $sheet->setCellValue('A' . ($startRow + $index), $no++);
+            $sheet->setCellValue('B' . ($startRow + $index), $val->letter_admin);
+            $sheet->setCellValue('C' . ($startRow + $index), $val->notes);
+            $sheet->setCellValue('D' . ($startRow + $index), $val->usr_role);
+            $sheet->setCellValue('E' . ($startRow + $index), \Carbon\Carbon::parse($val->date_release)->isoFormat('dddd, DD MMM YYYY'));
+            $sheet->setCellValue('F' . ($startRow + $index), $val->usr_name);
+            $sheet->setCellValue('G' . ($startRow + $index), $val->usr_to_dept);
+            $sheet->setCellValue('H' . ($startRow + $index), \Carbon\Carbon::parse($val->last_update)->isoFormat('dddd, DD MMM YYYY HH:mm:ss'));
+            $sheet->setCellValue('I' . ($startRow + $index), $val->name_file);
+        }
+
+        // Create a file name
+        $fileName = 'Report_Surat_admin.xlsx';
+
+        // Create a StreamedResponse to output the Excel file to the browser
+        $response = new StreamedResponse(function () use ($spreadsheet, $fileName) {
+            $writer = new Xlsx($spreadsheet);
+            $writer->save('php://output');
+        });
+
+        // Set the headers for the response
+        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $fileName . '"');
+        $response->headers->set('Cache-Control', 'max-age=0');
+        $response->headers->set('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT');
+        $response->headers->set('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT');
+        $response->headers->set('Cache-Control', 'cache, must-revalidate');
+        $response->headers->set('Pragma', 'public');
+
+        return $response;
+    }
+
+    // End Report E-Letter
 
     function test()
     {

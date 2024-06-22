@@ -14,7 +14,10 @@
                         <div class="d-flex justify-content-between">
                             <span>List Form</span>
 
-                            <button type="button" class="btn btn-success" data-name="add">Create</button>
+                            <div>
+                                <button type="button" class="btn btn-info" data-name="export"><i class="bi bi-file-earmark-spreadsheet"></i>Export</button>
+                                <button type="button" class="btn btn-success" data-name="add">Create</button>
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -227,6 +230,71 @@
         </div>
     </div>
     {{-- End Upload File --}}
+
+    {{-- Modal Export Excel --}}
+    <div class="modal fade" id="modal_export" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Export To Excel</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-style">
+                        <div class="mb-3">
+                            <label for="" class="form-label">Date</label>
+                            <input type="text" class="form-control" id="" placeholder="" data-name="date_expore">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-name="save_export">Export</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Export Excel --}}
+
+    {{-- JS Export Excel --}}
+    <script>
+        $(document).on("click", "[data-name='export']", function(e) {
+            $("[data-name='date_expore']").val('');
+            $("#modal_export").modal('show');
+        });
+
+        $(document).on("click", "[data-name='save_export']", function(e) {
+            var select_bulan = $("[data-name='date_expore']").val();
+
+            if (select_bulan === '') {
+                Swal.fire({
+                    position: 'center',
+                    title: 'Action Not Valid!',
+                    icon: 'warning',
+                    showConfirmButton: true,
+                    // timer: 1500
+                }).then((data) => {
+                    // location.reload();
+                })
+            } else {
+                var urlTemplate =
+                    '{{ route('exportsuratadmin', ['select_bulan' => 'selectbulanid']) }}';
+                var replacements = [{
+                        pattern: 'selectbulanid',
+                        replacement: select_bulan
+                    }
+                ];
+                // var url         = urlTemplate.replace('kategoriid', kategori);
+                replacements.forEach(function(replacement) {
+                    url = urlTemplate.replace(replacement.pattern, replacement.replacement);
+                });
+                window.location.href = url;
+
+                $("#modal_export").modal('hide');
+            }
+        });
+    </script>
+    {{-- End JS Export Excel --}}
 
     {{-- JS Add Data --}}
     <script>
@@ -612,13 +680,15 @@
             autoclose: true
         });
 
-        // $('input[data-name="edit_date_release"]').datepicker({
-        //     format: "yyyy-mm-dd",
-        //     viewMode: "days",
-        //     minViewMode: "days",
-        //     autoclose: true
-        // });
+        $('input[data-name="date_expore"]').datepicker({
+            format: "yyyy-mm-dd",
+            viewMode: "days",
+            minViewMode: "days",
+            autoclose: true
+        });
     </script>
+
+
 
     {{-- Select2 --}}
     <script>
