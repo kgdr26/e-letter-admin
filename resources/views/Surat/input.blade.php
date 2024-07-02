@@ -242,8 +242,13 @@
                 <div class="modal-body">
                     <div class="card-style">
                         <div class="mb-3">
-                            <label for="" class="form-label">Date</label>
-                            <input type="text" class="form-control" id="" placeholder="" data-name="date_expore">
+                            <label for="" class="form-label">Start Date</label>
+                            <input type="text" class="form-control" id="" placeholder="" data-name="start_date_expore">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="" class="form-label">End Date</label>
+                            <input type="text" class="form-control" id="" placeholder="" data-name="end_date_expore">
                         </div>
                     </div>
                 </div>
@@ -259,14 +264,17 @@
     {{-- JS Export Excel --}}
     <script>
         $(document).on("click", "[data-name='export']", function(e) {
-            $("[data-name='date_expore']").val('');
+            $("[data-name='start_date_expore']").val('');
+            $("[data-name='end_date_expore']").val('');
             $("#modal_export").modal('show');
         });
 
         $(document).on("click", "[data-name='save_export']", function(e) {
-            var select_bulan = $("[data-name='date_expore']").val();
+            var start   = $("[data-name='start_date_expore']").val();
+            var end     = $("[data-name='end_date_expore']").val();
+            var select_bulan    = start+'/'+end;
 
-            if (select_bulan === '') {
+            if (start === '' || end === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Action Not Valid!',
@@ -680,7 +688,14 @@
             autoclose: true
         });
 
-        $('input[data-name="date_expore"]').datepicker({
+        $('input[data-name="start_date_expore"]').datepicker({
+            format: "yyyy-mm-dd",
+            viewMode: "days",
+            minViewMode: "days",
+            autoclose: true
+        });
+
+        $('input[data-name="end_date_expore"]').datepicker({
             format: "yyyy-mm-dd",
             viewMode: "days",
             minViewMode: "days",
