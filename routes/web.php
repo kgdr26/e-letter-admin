@@ -125,6 +125,30 @@ Route::middleware(['auth'])->group(function () {
 
     // Assets
 
-    // Asset Lending
+    // Cash In Advance
+    Route::get('listcia', [MainController::class, 'listcia'])->name('listcia');
+    Route::get('looplistcia', [MainController::class, 'looplistcia'])->name('looplistcia');
+
+    Route::get('inputcia', [MainController::class, 'inputcia'])->name('inputcia');
+    Route::get('listinputcia', [MainController::class, 'listinputcia'])->name('listinputcia');
+    Route::post('inpinputcia', [MainController::class, 'inpinputcia'])->name('inpinputcia');
+    Route::post('showdatainputcia', [MainController::class, 'showdatainputcia'])->name('showdatainputcia');
+
+    Route::get('listciadephead', [MainController::class, 'listciadephead'])->name('listciadephead');
+    Route::get('looplistciadephead', [MainController::class, 'looplistciadephead'])->name('looplistciadephead');
+    Route::post('approvedepheadcia', [MainController::class, 'approvedepheadcia'])->name('approvedepheadcia');
+
+    Route::get('listciafinance', [MainController::class, 'listciafinance'])->name('listciafinance');
+    Route::get('looplistciafinance', [MainController::class, 'looplistciafinance'])->name('looplistciafinance');
+    Route::post('approvefinancecia', [MainController::class, 'approvefinancecia'])->name('approvefinancecia');
+
+    Route::get('listciacashier', [MainController::class, 'listciacashier'])->name('listciacashier');
+    Route::get('looplistciacashier', [MainController::class, 'looplistciacashier'])->name('looplistciacashier');
+    Route::post('submitciaambilchasir', [MainController::class, 'submitciaambilchasir'])->name('submitciaambilchasir');
+
+
+
+
+    // End Cash In Advance
 
 });

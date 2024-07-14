@@ -1293,7 +1293,7 @@ h6 {
 }
 
 .input-type-file [type="file"] {
-  height: 0;  
+  height: 0;
   width: 0;
   overflow: hidden;
 }
@@ -1756,4 +1756,12 @@ table.dataTable .text-midle tr td {
       hsla(0, 0%, 100%, 0.15) 75%,
       transparent 0,
       transparent);
+}
+
+td.text-center{
+    text-align: center !important;
+}
+
+td.text-midle{
+    vertical-align: middle;
 }

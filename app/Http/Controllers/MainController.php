@@ -1203,6 +1203,362 @@ class MainController extends Controller
 
     // End Report E-Letter
 
+    // Cash In Advance
+    function inputcia(){
+        $idn_user   = idn_user(auth::user()->id);
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $data = array(
+            'title' => 'Cash In Advance',
+            'idn_user' => $idn_user,
+            'role'  => $role
+        );
+
+        return view('CashInAdvance.input')->with($data);
+    }
+
+    function listinputcia(){
+        $id_user    = auth::user()->id;
+        $dat        = DB::table('trx_cia')->where('is_active', 1)->where('id_user', $id_user)->get();
+        $arr        = [];
+
+        foreach($dat as $key => $val){
+            $arr[$key]['id']  = $val->id;
+            $arr[$key]['no_cia']  = $val->no_cia;
+            $arr[$key]['create_on']  = $val->date_create;
+            $arr[$key]['necessity']  = $val->necessity;
+            $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
+            $arr[$key]['unit']  = $val->unit;
+            if($val->status == 1){
+                $text_status    = 'CREATE';
+            }elseif($val->status == 2){
+                $na        = DB::table('users')->where('id', $val->id_dephead)->first();
+                $text_status    = 'APPROVE DEPHEAD <br> by <br>'.$na->name;
+            }elseif($val->status == 3){
+                $na        = DB::table('users')->where('id', $val->id_finance)->first();
+                $text_status    = 'APPROVE FINANCE <br> by <br>'.$na->name;
+            }elseif($val->status == 4){
+                $text_status    = 'PENDING PAID <br> by <br> CHASIER';
+            }elseif($val->status == 5){
+                $na        = DB::table('users')->where('id', $val->id_chasier)->first();
+                $text_status    = 'PAID CHASIER<br> by <br>'.$na->name;
+            }else{
+                $text_status    = 'Delete';
+            }
+            $arr[$key]['status']  = $text_status;
+            $arr[$key]['modified']  = $val->last_update;
+            $arr[$key]['amount_actual']  = "Rp " . number_format($val->amount_actual, 0, ',', '.');
+            $arr[$key]['selisih']  = "Rp " . number_format($val->selisih, 0, ',', '.');
+            $arr[$key]['remark']  = $val->remark;
+            if($val->status == 2){
+                $arr[$key]['action']  = '<button disabled type="button" class="btn btn-outline-info btn-sm" data-name="edit" data-item="'.$val->id.'"><i class="bi bi-pencil-square"></i></button>
+                <button disabled type="button" class="btn btn-outline-danger btn-sm" data-name="delete" data-item="'.$val->id.'"><i class="bi bi-trash-fill"></i></button>';
+            }elseif($val->status == 3){
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-info btn-sm" data-name="print_to_casier" data-item="'.$val->id.'"><i class="bi bi-printer-fill"></i></button>';
+            }elseif($val->status == 4){
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-info btn-sm" data-name="show_app_chasier" data-item="'.$val->id.'"><i class="bi bi-printer-fill"></i></button>';
+            }elseif($val->status == 5){
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-info btn-sm" data-name="show_app_chasier" data-item="'.$val->id.'"><i class="bi bi-printer-fill"></i></button>';
+            }elseif($val->status == 1){
+                $arr[$key]['action']  = '<button disabled type="button" class="btn btn-outline-info btn-sm" data-name="edit" data-item="'.$val->id.'"><i class="bi bi-pencil-square"></i></button>
+                <button disabled type="button" class="btn btn-outline-danger btn-sm" data-name="delete" data-item="'.$val->id.'"><i class="bi bi-trash-fill"></i></button>';
+            }else{
+                $arr[$key]['action']  = '';
+            }
+
+        }
+
+        return response($arr);
+    }
+
+    function inpinputcia(Request $request): object{
+        $id_user    = auth::user()->id;
+        $dat        = DB::table('trx_cia')->where('is_active', 1)->where('id_user', $id_user)->get();
+        $jml        = count($dat)+1;
+        $no_cia     = 'CIA.'.date('Y-m').'.'.sprintf("%04d", $jml);
+
+        $data   = array(
+            'id_user'   => $id_user,
+            'no_cia'    => $no_cia,
+            'date_create'  => $request['date_create'],
+            'necessity'  => $request['necessity'],
+            'amount'  => $request['amount'],
+            'unit'  => $request['unit'],
+            'status'  => 1,
+            'is_active' => 1,
+            'update_by' => $id_user
+        );
+
+        DB::table('trx_cia')->insert([$data]);
+        return response('success');
+    }
+
+    function showdatainputcia(Request $request): object{
+        $id         = $request['id'];
+        $arr        = DB::table('trx_cia')->select('trx_cia.*', 'a.name as name_user', 'b.name as name_dephead', 'c.name as name_finance')
+                    ->leftJoin('users AS a', 'a.id', '=', 'trx_cia.id_user')
+                    ->leftJoin('users AS b', 'b.id', '=', 'trx_cia.id_dephead')
+                    ->leftJoin('users AS c', 'c.id', '=', 'trx_cia.id_finance')
+                    ->where('trx_cia.id', $id)->first();
+
+        return response()->json($arr);
+    }
+
+    function listciadephead(){
+        $idn_user   = idn_user(auth::user()->id);
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $data = array(
+            'title' => 'Cash In Advance',
+            'idn_user' => $idn_user,
+            'role'  => $role
+        );
+
+        return view('CashInAdvance.dephead')->with($data);
+    }
+
+    function looplistciadephead(){
+        $dat        = DB::table('trx_cia')->where('status', 1)->get();
+        $arr        = [];
+
+        foreach($dat as $key => $val){
+            $arr[$key]['id']  = $val->id;
+            $arr[$key]['no_cia']  = $val->no_cia;
+            $requested        = DB::table('users')->where('id', $val->id_user)->first();
+            $arr[$key]['requested']  = $requested->name;
+            $arr[$key]['create_on']  = $val->date_create;
+            $arr[$key]['necessity']  = $val->necessity;
+            $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
+            $arr[$key]['unit']  = $val->unit;
+            if($val->status == 1){
+                $na        = DB::table('users')->where('id', $val->id_user)->first();
+                $text_status    = 'CREATE <br> By <br>'.$na->name;
+            }elseif($val->status == 2){
+                $na        = DB::table('users')->where('id', $val->id_dephead)->first();
+                $text_status    = 'APPROVE DEPHEAD <br> By <br>'.$na->name;
+            }elseif($val->status == 3){
+                $na        = DB::table('users')->where('id', $val->id_finance)->first();
+                $text_status    = 'APPROVE FINANCE <br> By <br>'.$na->name;
+            }else{
+                $text_status    = 'Delete';
+            }
+            $arr[$key]['status']  = $text_status;
+            $arr[$key]['modified']  = $val->last_update;
+            $arr[$key]['amount_actual']  = "Rp " . number_format($val->amount_actual, 0, ',', '.');
+            $arr[$key]['selisih']  = "Rp " . number_format($val->selisih, 0, ',', '.');
+            $arr[$key]['remark']  = $val->remark;
+            $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="approve" data-item="'.$val->id.'"><i class="bi bi-check2-all"></i></button>
+            <button type="button" class="btn btn-outline-danger btn-sm" data-name="reject" data-item="'.$val->id.'"><i class="bi bi-x-circle"></i></button>';
+        }
+
+        return response($arr);
+    }
+
+    function approvedepheadcia(Request $request): object{
+        $id_user    = auth::user()->id;
+        $id         = $request['id'];
+
+        $data   = array(
+            'id_dephead' => $id_user,
+            'status'  => 2,
+            'update_by' => $id_user
+        );
+
+        DB::table('trx_cia')->where('id', $id)->update($data);
+        return response('success');
+    }
+
+    function listciafinance(){
+        $idn_user   = idn_user(auth::user()->id);
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $data = array(
+            'title' => 'Cash In Advance',
+            'idn_user' => $idn_user,
+            'role'  => $role
+        );
+
+        return view('CashInAdvance.finance')->with($data);
+    }
+
+    function looplistciafinance(){
+        $dat        = DB::table('trx_cia')->where('status', 2)->get();
+        $arr        = [];
+
+        foreach($dat as $key => $val){
+            $arr[$key]['id']  = $val->id;
+            $arr[$key]['no_cia']  = $val->no_cia;
+            $requested        = DB::table('users')->where('id', $val->id_user)->first();
+            $arr[$key]['requested']  = $requested->name;
+            $arr[$key]['create_on']  = $val->date_create;
+            $arr[$key]['necessity']  = $val->necessity;
+            $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
+            $arr[$key]['unit']  = $val->unit;
+            if($val->status == 1){
+                $na        = DB::table('users')->where('id', $val->id_user)->first();
+                $text_status    = 'CREATE <br> By <br>'.$na->name;
+            }elseif($val->status == 2){
+                $na        = DB::table('users')->where('id', $val->id_dephead)->first();
+                $text_status    = 'APPROVE DEPHEAD <br> By <br>'.$na->name;
+            }elseif($val->status == 3){
+                $na        = DB::table('users')->where('id', $val->id_finance)->first();
+                $text_status    = 'APPROVE FINANCE <br> By <br>'.$na->name;
+            }else{
+                $text_status    = 'Delete';
+            }
+            $arr[$key]['status']  = $text_status;
+            $arr[$key]['modified']  = $val->last_update;
+            $arr[$key]['amount_actual']  = "Rp " . number_format($val->amount_actual, 0, ',', '.');
+            $arr[$key]['selisih']  = "Rp " . number_format($val->selisih, 0, ',', '.');
+            $arr[$key]['remark']  = $val->remark;
+            $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="approve" data-item="'.$val->id.'"><i class="bi bi-check2-all"></i></button>
+            <button type="button" class="btn btn-outline-danger btn-sm" data-name="reject" data-item="'.$val->id.'"><i class="bi bi-x-circle"></i></button>';
+        }
+
+        return response($arr);
+    }
+
+    function approvefinancecia(Request $request): object{
+        $id_user    = auth::user()->id;
+        $id         = $request['id'];
+
+        $data   = array(
+            'id_finance' => $id_user,
+            'status'  => 3,
+            'update_by' => $id_user
+        );
+
+        DB::table('trx_cia')->where('id', $id)->update($data);
+        return response('success');
+    }
+
+    function listciacashier(){
+        $idn_user   = idn_user(auth::user()->id);
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $data = array(
+            'title' => 'Cash In Advance',
+            'idn_user' => $idn_user,
+            'role'  => $role
+        );
+
+        return view('CashInAdvance.cashier')->with($data);
+    }
+
+    function looplistciacashier(){
+        $dat        = DB::table('trx_cia')->whereIn('status', [3,4,5])->get();
+        $arr        = [];
+
+        foreach($dat as $key => $val){
+            $arr[$key]['id']  = $val->id;
+            $arr[$key]['no_cia']  = $val->no_cia;
+            $requested        = DB::table('users')->where('id', $val->id_user)->first();
+            $arr[$key]['requested']  = $requested->name;
+            $arr[$key]['create_on']  = $val->date_create;
+            $arr[$key]['necessity']  = $val->necessity;
+            $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
+            $arr[$key]['unit']  = $val->unit;
+            if($val->status == 1){
+                $text_status    = 'CREATE';
+            }elseif($val->status == 2){
+                $na        = DB::table('users')->where('id', $val->id_dephead)->first();
+                $text_status    = 'APPROVE DEPHEAD <br> by <br>'.$na->name;
+            }elseif($val->status == 3){
+                $na        = DB::table('users')->where('id', $val->id_finance)->first();
+                $text_status    = 'APPROVE FINANCE <br> by <br>'.$na->name;
+            }elseif($val->status == 4){
+                $text_status    = 'PENDING PAID <br> by <br> CHASIER';
+            }elseif($val->status == 5){
+                $na        = DB::table('users')->where('id', $val->id_chasier)->first();
+                $text_status    = 'PAID CHASIER<br> by <br>'.$na->name;
+            }else{
+                $text_status    = 'Delete';
+            }
+            $arr[$key]['status']  = $text_status;
+            $arr[$key]['modified']  = $val->last_update;
+            $arr[$key]['amount_actual']  = "Rp " . number_format($val->amount_actual, 0, ',', '.');
+            $arr[$key]['selisih']  = "Rp " . number_format($val->selisih, 0, ',', '.');
+            $arr[$key]['remark']  = $val->remark;
+            if($val->status == 4){
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="upload_bukti_tf" data-item="'.$val->id.'"><i class="bi bi-cash-coin"></i></button>';
+            }elseif($val->status == 5){
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="settlement" data-item="'.$val->id.'"><i class="bi bi-cash-coin"></i></button>';
+            }else{
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="approve" data-item="'.$val->id.'"><i class="bi bi-cash-coin"></i></button>';
+            }
+        }
+
+        return response($arr);
+    }
+
+    function submitciaambilchasir(Request $request): object{
+        $id_user    = auth::user()->id;
+        $id         = $request['id_cia'];
+
+        if($request['metode'] == '1'){
+            $status = 5;
+        }else{
+            $status = 4;
+        }
+
+        $data   = array(
+            'metode' => $request['metode'],
+            'no_rek' => $request['no_rek'],
+            'bank' => $request['bank'],
+            'atas_nama' => $request['atas_nama'],
+            'status'  => $status,
+            'id_chasier' => $id_user,
+            'update_by' => $id_user
+        );
+
+        DB::table('trx_cia')->where('id', $id)->update($data);
+        return response('success');
+    }
+
+    function listcia(){
+        $idn_user   = idn_user(auth::user()->id);
+        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
+        $data = array(
+            'title' => 'Cash In Advance',
+            'idn_user' => $idn_user,
+            'role'  => $role
+        );
+
+        return view('CashInAdvance.list')->with($data);
+    }
+
+    function looplistcia(){
+        $dat        = DB::table('trx_cia')->where('is_active', 1)->get();
+        $arr        = [];
+
+        foreach($dat as $key => $val){
+            $arr[$key]['id']  = $val->id;
+            $arr[$key]['no_cia']  = $val->no_cia;
+            $requested        = DB::table('users')->where('id', $val->id_user)->first();
+            $arr[$key]['requested']  = $requested->name;
+            $arr[$key]['create_on']  = $val->date_create;
+            $arr[$key]['necessity']  = $val->necessity;
+            $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
+            $arr[$key]['unit']  = $val->unit;
+            if($val->status == 1){
+                $na        = DB::table('users')->where('id', $val->id_user)->first();
+                $text_status    = 'CREATE <br> By <br>'.$na->name;
+            }elseif($val->status == 2){
+                $na        = DB::table('users')->where('id', $val->id_dephead)->first();
+                $text_status    = 'APPROVE DEPHEAD <br> By <br>'.$na->name;
+            }elseif($val->status == 3){
+                $na        = DB::table('users')->where('id', $val->id_finance)->first();
+                $text_status    = 'APPROVE FINANCE <br> By <br>'.$na->name;
+            }else{
+                $text_status    = 'Delete';
+            }
+            $arr[$key]['status']  = $text_status;
+            $arr[$key]['modified']  = $val->last_update;
+            $arr[$key]['amount_actual']  = "Rp " . number_format($val->amount_actual, 0, ',', '.');
+            $arr[$key]['selisih']  = "Rp " . number_format($val->selisih, 0, ',', '.');
+            $arr[$key]['remark']  = $val->remark;
+        }
+
+        return response($arr);
+    }
+    // End Cash In Avance
+
     function test()
     {
         $reqbooking  = '["2024-04-27"]';

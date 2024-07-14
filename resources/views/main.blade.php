@@ -45,6 +45,7 @@
     <script type="text/javascript" src="{{ asset('assets/daterangepicker/datepicker.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/daterangepicker/bootstrap-datepicker.js') }}"></script>
     <link href="{{ asset('assets/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+    <script src="{{asset('assets/js/html2canvas.min.js')}}"></script>
     <script src="{{ asset('assets/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/js/index.global.min.js') }}"></script>
@@ -60,18 +61,11 @@
 
     <script>
         $(document).ready(function() {
-            var url = window.location.href;
-            var urlsplit = url.split('/');
-            var urlget = urlsplit[3];
             $(document).ajaxStart(function() {
-                if (urlget.includes("controlprosess") != true) {
-                    $(".preload-wrapper").css("display", "block");
-                }
+                $(".preload-wrapper").css("display", "block");
             });
             $(document).ajaxComplete(function() {
-                if (urlget.includes("controlprosess") != true) {
-                    $(".preload-wrapper").css("display", "none");
-                }
+                $(".preload-wrapper").css("display", "none");
             });
         });
     </script>
