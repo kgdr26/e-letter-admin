@@ -1668,8 +1668,8 @@ table.dataTable .text-midle tr td {
 .progress {
   overflow: hidden;
   margin-top: 2em;
-  height: 10px;
-  border-radius: 4px;
+  height: 12px;
+  border-radius: 0rem;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   margin: 0rem;
 }
@@ -1681,12 +1681,12 @@ table.dataTable .text-midle tr td {
 
 .progress-bar-striped,
 .progress-striped .progress-bar {
-  background-image: linear-gradient(45deg,
+  background-image: linear-gradient(90deg,
       hsla(0, 0%, 95%, 0.8) 25%,
       transparent 0,
-      transparent 50%,
+      transparent 25%,
       hsla(0, 0%, 95%, 0.8) 0,
-      hsla(0, 0%, 95%, 0.8) 75%,
+      hsla(0, 0%, 95%, 0.8) 50%,
       transparent 0,
       transparent);
   background-size: 40px 40px;
@@ -1703,12 +1703,12 @@ table.dataTable .text-midle tr td {
 }
 
 .progress-striped .progress-bar-success {
-  background-image: linear-gradient(45deg,
+  background-image: linear-gradient(90deg,
       hsla(0, 0%, 100%, 0.15) 25%,
       transparent 0,
-      transparent 50%,
+      transparent 25%,
       hsla(0, 0%, 100%, 0.15) 0,
-      hsla(0, 0%, 100%, 0.15) 75%,
+      hsla(0, 0%, 100%, 0.15) 50%,
       transparent 0,
       transparent);
 }
@@ -1718,12 +1718,12 @@ table.dataTable .text-midle tr td {
 }
 
 .progress-striped .progress-bar-info {
-  background-image: linear-gradient(45deg,
+  background-image: linear-gradient(90deg,
       hsla(0, 0%, 95%, 0.8) 25%,
       transparent 0,
-      transparent 50%,
+      transparent 25%,
       hsla(0, 0%, 95%, 0.8) 0,
-      hsla(0, 0%, 95%, 0.8) 75%,
+      hsla(0, 0%, 95%, 0.8) 50%,
       transparent 0,
       transparent);
 }
@@ -1733,12 +1733,12 @@ table.dataTable .text-midle tr td {
 }
 
 .progress-striped .progress-bar-warning {
-  background-image: linear-gradient(45deg,
+  background-image: linear-gradient(90deg,
       hsla(0, 0%, 100%, 0.15) 25%,
       transparent 0,
-      transparent 50%,
+      transparent 25%,
       hsla(0, 0%, 100%, 0.15) 0,
-      hsla(0, 0%, 100%, 0.15) 75%,
+      hsla(0, 0%, 100%, 0.15) 50%,
       transparent 0,
       transparent);
 }
@@ -1748,15 +1748,30 @@ table.dataTable .text-midle tr td {
 }
 
 .progress-striped .progress-bar-danger {
-  background-image: linear-gradient(45deg,
+  background-image: linear-gradient(90deg,
       hsla(0, 0%, 100%, 0.15) 25%,
       transparent 0,
-      transparent 50%,
+      transparent 25%,
       hsla(0, 0%, 100%, 0.15) 0,
-      hsla(0, 0%, 100%, 0.15) 75%,
+      hsla(0, 0%, 100%, 0.15) 50%,
       transparent 0,
       transparent);
 }
+
+.progress-bar-secondary {
+    background-color: #758694;
+  }
+
+  .progress-striped .progress-bar-secondary {
+    background-image: linear-gradient(90deg,
+        hsla(0, 0%, 100%, 0.15) 25%,
+        transparent 0,
+        transparent 25%,
+        hsla(0, 0%, 100%, 0.15) 0,
+        hsla(0, 0%, 100%, 0.15) 50%,
+        transparent 0,
+        transparent);
+  }
 
 td.text-center{
     text-align: center !important;

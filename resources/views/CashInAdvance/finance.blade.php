@@ -23,7 +23,6 @@
                                         <th>Necessity</th>
                                         <th>Ammount</th>
                                         <th>Unit</th>
-                                        <th>Status</th>
                                         <th>Modified</th>
                                         <th>Ammount Actual</th>
                                         <th>Selisih</th>
@@ -80,7 +79,6 @@
                     { "data":"necessity"},
                     { "data":"amount"},
                     { "data":"unit"},
-                    { "data":"status"},
                     { "data":"modified"},
                     { "data":"amount_actual"},
                     { "data":"selisih"},

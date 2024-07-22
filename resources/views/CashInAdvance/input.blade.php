@@ -226,6 +226,66 @@
     </div>
     {{-- End Modal Show App Chasier --}}
 
+    {{-- Modal App Chasier --}}
+    <div class="modal fade" id="show_cek_cia" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Pending Oustandaing</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="datashowchasier">
+                    <div class="card-style">
+                        <table class="table" id="listcekcia">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>No</th>
+                                    <th>No CIA</th>
+                                    <th>Creat On</th>
+                                    <th>Necessity</th>
+                                    <th>Ammount</th>
+                                    <th>Unit</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="showlistcia">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-name="next_urgent">Next Urgent</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Show App Chasier --}}
+
+    {{-- Modal App Chasier --}}
+    <div class="modal fade" id="modal_remark" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Next Urgent</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="datashowchasier">
+                    <div class="card-style">
+                       <label for="" class="label">Remark</label>
+                       <textarea name="" id="" cols="30" rows="10" class="form-control" data-name="remark"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-name="save_remark">Save Remark</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Show App Chasier --}}
+
     {{-- JS Datatable --}}
     <script>
         $(document).ready(function() {
@@ -319,12 +379,112 @@
             } else {
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('inpinputcia') }}",
+                    url: "{{ route('cekdatacia') }}",
                     data: {
                         date_create:date_create,
                         necessity:necessity,
                         amount:amount,
                         unit:unit
+                    },
+                    cache: false,
+                    success: function(data) {
+                        // console.log(data);
+
+                        if(data.cek === 0){
+                            inputcia(date_create,necessity,amount,unit)
+                        }else{
+                            $('#showlistcia').html(data.html);
+                            $('#show_cek_cia').modal('show');
+                        }
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Action Not Valid!',
+                            icon: 'warning',
+                            showConfirmButton: true,
+                            // timer: 1500
+                        }).then((data) => {
+                            // location.reload();
+                        })
+                    }
+                });
+            }
+        });
+
+        function inputcia(date_create,necessity,amount,unit){
+            var remark = '';
+            $.ajax({
+                type: "POST",
+                url: "{{ route('inpinputcia') }}",
+                data: {
+                    date_create:date_create,
+                    necessity:necessity,
+                    amount:amount,
+                    unit:unit,
+                    remark:remark
+                },
+                cache: false,
+                success: function(data) {
+                    // console.log(data);
+                    Swal.fire({
+                        position: 'center',
+                        title: 'Success!',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then((data) => {
+                        $("[data-name='date_create']").val('');
+                        $("[data-name='necessity']").val('');
+                        $("[data-name='amount']").val('');
+                        $("[data-name='unit']").val('');
+                    })
+                },
+                error: function(data) {
+                    Swal.fire({
+                        position: 'center',
+                        title: 'Action Not Valid!',
+                        icon: 'warning',
+                        showConfirmButton: true,
+                        // timer: 1500
+                    }).then((data) => {
+                        // location.reload();
+                    })
+                }
+            });
+        }
+
+        $(document).on("click", "[data-name='next_urgent']", function(e) {
+            $("[data-name='remark']").val('');
+            $('#modal_remark').modal('show');
+        });
+
+        $(document).on("click", "[data-name='save_remark']", function(e) {
+            var remark = $("[data-name='remark']").val();
+            var date_create     = $("[data-name='date_create']").val();
+            var necessity       = $("[data-name='necessity']").val();
+            var amount_asli     = $("[data-name='amount']").val();
+            var amount          = amount_asli.replace(/[^0-9]/g, '');
+            var unit            = $("[data-name='unit']").val();
+
+            if(remark === ''){
+                Swal.fire({
+                    position: 'center',
+                    title: 'Form is empty!',
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+            }else{
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('inpinputcia') }}",
+                    data: {
+                        date_create:date_create,
+                        necessity:necessity,
+                        amount:amount,
+                        unit:unit,
+                        remark:remark
                     },
                     cache: false,
                     success: function(data) {
@@ -340,6 +500,8 @@
                             $("[data-name='necessity']").val('');
                             $("[data-name='amount']").val('');
                             $("[data-name='unit']").val('');
+                            $('#modal_remark').modal('hide');
+                            $('#show_cek_cia').modal('hide');
                         })
                     },
                     error: function(data) {
@@ -355,7 +517,6 @@
                     }
                 });
             }
-
         });
     </script>
     {{-- End JS Create Data --}}
@@ -482,6 +643,20 @@
             minViewMode: "days",
             autoclose: true
         });
+
+
     </script>
+
+    {{-- JS Datatable --}}
+    <script>
+        $(document).ready(function() {
+            $('#listcekcia').DataTable({
+                responsive: true,
+                autoWidth: false
+            });
+        });
+    </script>
+    {{-- End JS Datatable --}}
+
 
 @stop

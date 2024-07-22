@@ -143,7 +143,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Cetak To Casier</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Settelment</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="datashowchasier">
@@ -183,6 +183,24 @@
                                     <td>Unit</td>
                                     <td>:</td>
                                     <td id="app_unit">-</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Norek</td>
+                                    <td>:</td>
+                                    <td id="">-</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Bank</td>
+                                    <td>:</td>
+                                    <td id="">-</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Atas Nama</td>
+                                    <td>:</td>
+                                    <td id="">-</td>
                                 </tr>
                             </tbody>
                         </table>

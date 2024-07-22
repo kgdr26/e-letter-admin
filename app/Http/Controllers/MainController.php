@@ -1228,21 +1228,64 @@ class MainController extends Controller
             $arr[$key]['necessity']  = $val->necessity;
             $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
             $arr[$key]['unit']  = $val->unit;
+            $text_status    = '';
             if($val->status == 1){
-                $text_status    = 'CREATE';
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }elseif($val->status == 2){
-                $na        = DB::table('users')->where('id', $val->id_dephead)->first();
-                $text_status    = 'APPROVE DEPHEAD <br> by <br>'.$na->name;
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Dephead</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 25%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }elseif($val->status == 3){
-                $na        = DB::table('users')->where('id', $val->id_finance)->first();
-                $text_status    = 'APPROVE FINANCE <br> by <br>'.$na->name;
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Finance</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 50%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }elseif($val->status == 4){
-                $text_status    = 'PENDING PAID <br> by <br> CHASIER';
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }elseif($val->status == 5){
-                $na        = DB::table('users')->where('id', $val->id_chasier)->first();
-                $text_status    = 'PAID CHASIER<br> by <br>'.$na->name;
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Paid</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 75%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }elseif($val->status == 6){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Settlement</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }elseif($val->status == 7){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="danger" style="font-size: 0.7rem">Oustandaing</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }else{
-                $text_status    = 'Delete';
+                // $text_status    = 'Delete';
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Draft</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }
             $arr[$key]['status']  = $text_status;
             $arr[$key]['modified']  = $val->last_update;
@@ -1270,6 +1313,91 @@ class MainController extends Controller
         return response($arr);
     }
 
+    function cekdatacia(Request $request): object{
+        $id_user    = auth::user()->id;
+        $dat        = DB::table('trx_cia')->where('is_active', 1)->where('id_user', $id_user)->get();
+        $cek        = 0;
+        // $arr        = [];
+        $html       = '';
+        $no         = 1;
+        foreach($dat as $key => $val){
+            $html .= '<tr><td>'.$no++.'</td>';
+            $html .= '<td>'.$val->no_cia.'</td>';
+            $html .= '<td>'.$val->date_create.'</td>';
+            $html .= '<td>'.$val->necessity.'</td>';
+            $html .= '<td>Rp '. number_format($val->amount, 0, ',', '.').'</td>';
+            $html .= '<td>'.$val->unit.'</td>';
+            $text_status    = '';
+            if($val->status == 1){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }elseif($val->status == 2){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Dephead</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 25%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }elseif($val->status == 3){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Finance</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 50%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }elseif($val->status == 4){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }elseif($val->status == 5){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Paid</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 75%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }elseif($val->status == 6){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Settlement</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }elseif($val->status == 7){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="danger" style="font-size: 0.7rem">Oustandaing</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }else{
+                // $text_status    = 'Delete';
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Draft</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }
+            $html .= '<td class="text-center">'.$text_status.'</td></tr>';
+
+            if($val->status < 7){
+                $cek += 1;
+            }
+        }
+
+        $arr['cek'] = $cek;
+        $arr['html'] = $html;
+        return response($arr);
+    }
+
     function inpinputcia(Request $request): object{
         $id_user    = auth::user()->id;
         $dat        = DB::table('trx_cia')->where('is_active', 1)->where('id_user', $id_user)->get();
@@ -1283,6 +1411,7 @@ class MainController extends Controller
             'necessity'  => $request['necessity'],
             'amount'  => $request['amount'],
             'unit'  => $request['unit'],
+            'remark' => $request['remark'],
             'status'  => 1,
             'is_active' => 1,
             'update_by' => $id_user
@@ -1442,7 +1571,7 @@ class MainController extends Controller
     }
 
     function looplistciacashier(){
-        $dat        = DB::table('trx_cia')->whereIn('status', [3,4,5])->get();
+        $dat        = DB::table('trx_cia')->whereIn('status', [3,5])->get();
         $arr        = [];
 
         foreach($dat as $key => $val){
@@ -1454,21 +1583,64 @@ class MainController extends Controller
             $arr[$key]['necessity']  = $val->necessity;
             $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
             $arr[$key]['unit']  = $val->unit;
+            $text_status    = '';
             if($val->status == 1){
-                $text_status    = 'CREATE';
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }elseif($val->status == 2){
-                $na        = DB::table('users')->where('id', $val->id_dephead)->first();
-                $text_status    = 'APPROVE DEPHEAD <br> by <br>'.$na->name;
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Dephead</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 25%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }elseif($val->status == 3){
-                $na        = DB::table('users')->where('id', $val->id_finance)->first();
-                $text_status    = 'APPROVE FINANCE <br> by <br>'.$na->name;
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Finance</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 50%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }elseif($val->status == 4){
-                $text_status    = 'PENDING PAID <br> by <br> CHASIER';
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }elseif($val->status == 5){
-                $na        = DB::table('users')->where('id', $val->id_chasier)->first();
-                $text_status    = 'PAID CHASIER<br> by <br>'.$na->name;
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Paid</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 75%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }elseif($val->status == 6){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Settlement</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }elseif($val->status == 7){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="danger" style="font-size: 0.7rem">Oustandaing</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }else{
-                $text_status    = 'Delete';
+                // $text_status    = 'Delete';
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Draft</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }
             $arr[$key]['status']  = $text_status;
             $arr[$key]['modified']  = $val->last_update;
@@ -1491,18 +1663,18 @@ class MainController extends Controller
         $id_user    = auth::user()->id;
         $id         = $request['id_cia'];
 
-        if($request['metode'] == '1'){
-            $status = 5;
-        }else{
-            $status = 4;
-        }
+        // if($request['metode'] == '1'){
+        //     $status = 5;
+        // }else{
+        //     $status = 4;
+        // }
 
         $data   = array(
             'metode' => $request['metode'],
             'no_rek' => $request['no_rek'],
             'bank' => $request['bank'],
             'atas_nama' => $request['atas_nama'],
-            'status'  => $status,
+            'status'  => 5,
             'id_chasier' => $id_user,
             'update_by' => $id_user
         );
@@ -1536,18 +1708,66 @@ class MainController extends Controller
             $arr[$key]['necessity']  = $val->necessity;
             $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
             $arr[$key]['unit']  = $val->unit;
+            $text_status    = '';
             if($val->status == 1){
-                $na        = DB::table('users')->where('id', $val->id_user)->first();
-                $text_status    = 'CREATE <br> By <br>'.$na->name;
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }elseif($val->status == 2){
-                $na        = DB::table('users')->where('id', $val->id_dephead)->first();
-                $text_status    = 'APPROVE DEPHEAD <br> By <br>'.$na->name;
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Dephead</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 25%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }elseif($val->status == 3){
-                $na        = DB::table('users')->where('id', $val->id_finance)->first();
-                $text_status    = 'APPROVE FINANCE <br> By <br>'.$na->name;
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Finance</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 50%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }elseif($val->status == 4){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }elseif($val->status == 5){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Paid</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 75%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }elseif($val->status == 6){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Settlement</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }elseif($val->status == 7){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="danger" style="font-size: 0.7rem">Oustandaing</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }else{
-                $text_status    = 'Delete';
+                // $text_status    = 'Delete';
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Draft</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }
+            $arr[$key]['status']  = $text_status;
             $arr[$key]['status']  = $text_status;
             $arr[$key]['modified']  = $val->last_update;
             $arr[$key]['amount_actual']  = "Rp " . number_format($val->amount_actual, 0, ',', '.');

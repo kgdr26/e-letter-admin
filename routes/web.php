@@ -145,6 +145,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('listciacashier', [MainController::class, 'listciacashier'])->name('listciacashier');
     Route::get('looplistciacashier', [MainController::class, 'looplistciacashier'])->name('looplistciacashier');
     Route::post('submitciaambilchasir', [MainController::class, 'submitciaambilchasir'])->name('submitciaambilchasir');
+    Route::post('cekdatacia', [MainController::class, 'cekdatacia'])->name('cekdatacia');
 
 
 
