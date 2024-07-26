@@ -214,7 +214,7 @@
                             </tr>
                         </table>
 
-
+                        <input type="hidden" data-name="name_file_dwnld_casier_2">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -606,6 +606,8 @@
             //     downloadLink.click();
             //     document.body.removeChild(downloadLink);
             // });
+            var name_file_dwnld_casier_2 = $("[data-name='name_file_dwnld_casier_2']").val();
+            var namefile = name_file_dwnld_casier_2.replace(/\./g, '-');
             var elementToCapture = document.getElementById("datashowchasier2");
             // var namefilecapture = $(this).attr("data-item");
             html2canvas(elementToCapture).then(function(canvas) {
@@ -613,7 +615,7 @@
                 var doc = new jsPDF();
                 var date = new Date();
                 doc.addImage(imageDataUrl, 'PNG', 10, 10, 190, 0); // Adjust width and height as needed
-                doc.save("CIA-"+moment(date).format('DD-MMMM-YYYY')+".pdf");
+                doc.save(namefile+".pdf");
             });
         });
 
@@ -649,6 +651,8 @@
                             var show_foto = "{{ asset('assets/img/transfer.png') }}";
                         }
                     }
+
+                    $("[data-name='name_file_dwnld_casier_2']").val(data.no_cia);
 
                     $('#imgae_status').attr('src', show_foto);
                     $('#modal_show_app_chasier').modal('show');
