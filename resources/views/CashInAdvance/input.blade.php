@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="mt-3">
+                        <div class="table-responsive mt-3">
                             <table class="table" id="dataTable">
                                 <thead>
                                     <tr class="text-center">
@@ -88,7 +88,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Cetak To Casier</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" id="datashowchasier">
+                <div class="modal-body" id="datashowchasier1">
                     <div class="card-style">
                         <h2>PT. ASTRA DAIDO STEEL INDONESIA</h2>
                         <table class="table table-borderless">
@@ -146,7 +146,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-name="download_to_casier"><i class="bi bi-cloud-arrow-down-fill"></i> Doownload</button>
+                    <button type="button" class="btn btn-primary" data-name="download_to_casier_1"><i class="bi bi-cloud-arrow-down-fill"></i> Doownload</button>
                 </div>
             </div>
         </div>
@@ -161,7 +161,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Cetak To Casier</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" id="datashowchasier">
+                <div class="modal-body" id="datashowchasier2">
                     <div class="card-style">
                         <h2>PT. ASTRA DAIDO STEEL INDONESIA</h2>
                         <table class="table table-borderless">
@@ -219,7 +219,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-name="download_to_casier"><i class="bi bi-cloud-arrow-down-fill"></i> Doownload</button>
+                    <button type="button" class="btn btn-primary" data-name="download_to_casier_2"><i class="bi bi-cloud-arrow-down-fill"></i> Doownload</button>
                 </div>
             </div>
         </div>
@@ -569,18 +569,51 @@
             });
         });
 
-        $(document).on("click", "[data-name='download_to_casier']", function (e) {
-            var elementToCapture    = document.getElementById("datashowchasier");
-            var namefilecapture     = $(this).attr("data-item");
+        $(document).on("click", "[data-name='download_to_casier_1']", function (e) {
+            // var elementToCapture    = document.getElementById("datashowchasier");
+            // var namefilecapture     = $(this).attr("data-item");
+            // html2canvas(elementToCapture).then(function(canvas) {
+            //     var imageDataUrl = canvas.toDataURL("image/png");
+            //     var downloadLink = document.createElement("a");
+            //     downloadLink.href = imageDataUrl;
+            //     date    = new Date();
+            //     downloadLink.download = "CIA-"+moment(date).format('DD-MMMM-YYYY')+".png";
+            //     document.body.appendChild(downloadLink);
+            //     downloadLink.click();
+            //     document.body.removeChild(downloadLink);
+            // });
+            var elementToCapture = document.getElementById("datashowchasier1");
+            // var namefilecapture = $(this).attr("data-item");
             html2canvas(elementToCapture).then(function(canvas) {
                 var imageDataUrl = canvas.toDataURL("image/png");
-                var downloadLink = document.createElement("a");
-                downloadLink.href = imageDataUrl;
-                date    = new Date();
-                downloadLink.download = "CIA-"+moment(date).format('DD-MMMM-YYYY')+".png";
-                document.body.appendChild(downloadLink);
-                downloadLink.click();
-                document.body.removeChild(downloadLink);
+                var doc = new jsPDF();
+                var date = new Date();
+                doc.addImage(imageDataUrl, 'PNG', 10, 10, 190, 0); // Adjust width and height as needed
+                doc.save("CIA-"+moment(date).format('DD-MMMM-YYYY')+".pdf");
+            });
+        });
+
+        $(document).on("click", "[data-name='download_to_casier_2']", function (e) {
+            // var elementToCapture    = document.getElementById("datashowchasier");
+            // var namefilecapture     = $(this).attr("data-item");
+            // html2canvas(elementToCapture).then(function(canvas) {
+            //     var imageDataUrl = canvas.toDataURL("image/png");
+            //     var downloadLink = document.createElement("a");
+            //     downloadLink.href = imageDataUrl;
+            //     date    = new Date();
+            //     downloadLink.download = "CIA-"+moment(date).format('DD-MMMM-YYYY')+".png";
+            //     document.body.appendChild(downloadLink);
+            //     downloadLink.click();
+            //     document.body.removeChild(downloadLink);
+            // });
+            var elementToCapture = document.getElementById("datashowchasier2");
+            // var namefilecapture = $(this).attr("data-item");
+            html2canvas(elementToCapture).then(function(canvas) {
+                var imageDataUrl = canvas.toDataURL("image/png");
+                var doc = new jsPDF();
+                var date = new Date();
+                doc.addImage(imageDataUrl, 'PNG', 10, 10, 190, 0); // Adjust width and height as needed
+                doc.save("CIA-"+moment(date).format('DD-MMMM-YYYY')+".pdf");
             });
         });
 

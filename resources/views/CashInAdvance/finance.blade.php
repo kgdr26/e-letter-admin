@@ -41,6 +41,30 @@
         </div>
     </section>
 
+    {{-- Modal rEJECT --}}
+    <div class="modal fade" id="modal_remark" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Remark</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="datashowchasier">
+                    <div class="card-style">
+                        <label for="" class="label">Remark</label>
+                        <textarea name="" id="" cols="30" rows="10" class="form-control" data-name="remark"></textarea>
+                        <input type="hidden" data-name="id_reject">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-name="save_reject">Save Reject</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Show rEJECT --}}
+
     {{-- JS Datatable --}}
     <script>
         $(document).ready(function() {
@@ -138,5 +162,69 @@
         });
     </script>
     {{-- End JS Approve --}}
+
+    {{-- JS Reject --}}
+    <script>
+        $(document).on("click", "[data-name='reject']", function(e) {
+            var id = $(this).attr("data-item");
+            var remark = $(this).attr("data-note");
+
+            $("[data-name='id_reject']").val(id);
+            $("[data-name='remark']").val(remark);
+
+            $('#modal_remark').modal('show');
+        });
+
+        $(document).on("click", "[data-name='save_reject']", function(e) {
+            var id = $("[data-name='id_reject']").val();
+            var remark = $("[data-name='remark']").val();
+
+            if(id === ''){
+                Swal.fire({
+                    position: 'center',
+                    title: 'Action Not Valid!',
+                    icon: 'warning',
+                    showConfirmButton: true,
+                    // timer: 1500
+                }).then((data) => {
+                    // location.reload();
+                })
+            }else{
+                $.ajax({
+                    type: "POST",
+                    url: "{{route('rejectcia')}}",
+                    data: {
+                        id:id,
+                        remark:remark
+                    },
+                    cache: false,
+                    success: function(data) {
+                        // console.log(data);
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Success!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then((data) => {
+                            $('#modal_remark').modal('hide');
+                        })
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Action Not Valid!',
+                            icon: 'warning',
+                            showConfirmButton: true,
+                            // timer: 1500
+                        }).then((data) => {
+                            // location.reload();
+                        })
+                    }
+                });
+            }
+        });
+    </script>
+    {{-- End JS Reject --}}
 
 @stop

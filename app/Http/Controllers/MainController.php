@@ -1278,6 +1278,13 @@ class MainController extends Controller
                 $text_status    .= '<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
+            }elseif($val->status == 0){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="danger" style="font-size: 0.7rem">Reject</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }else{
                 // $text_status    = 'Delete';
                 $text_status    .= '<figure class="figure-progress-bar">';
@@ -1315,7 +1322,7 @@ class MainController extends Controller
 
     function cekdatacia(Request $request): object{
         $id_user    = auth::user()->id;
-        $dat        = DB::table('trx_cia')->where('is_active', 1)->where('id_user', $id_user)->get();
+        $dat        = DB::table('trx_cia')->where('status', '>', 0)->where('is_active', 1)->where('id_user', $id_user)->get();
         $cek        = 0;
         // $arr        = [];
         $html       = '';
@@ -1373,6 +1380,13 @@ class MainController extends Controller
             }elseif($val->status == 7){
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="danger" style="font-size: 0.7rem">Oustandaing</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
+            }elseif($val->status == 0){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="danger" style="font-size: 0.7rem">Reject</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
@@ -1475,7 +1489,7 @@ class MainController extends Controller
             $arr[$key]['selisih']  = "Rp " . number_format($val->selisih, 0, ',', '.');
             $arr[$key]['remark']  = $val->remark;
             $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="approve" data-item="'.$val->id.'"><i class="bi bi-check2-all"></i></button>
-            <button type="button" class="btn btn-outline-danger btn-sm" data-name="reject" data-item="'.$val->id.'"><i class="bi bi-x-circle"></i></button>';
+            <button type="button" class="btn btn-outline-danger btn-sm" data-name="reject" data-item="'.$val->id.'" data-note="'.$val->remark.'"><i class="bi bi-x-circle"></i></button>';
         }
 
         return response($arr);
@@ -1538,7 +1552,7 @@ class MainController extends Controller
             $arr[$key]['selisih']  = "Rp " . number_format($val->selisih, 0, ',', '.');
             $arr[$key]['remark']  = $val->remark;
             $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="approve" data-item="'.$val->id.'"><i class="bi bi-check2-all"></i></button>
-            <button type="button" class="btn btn-outline-danger btn-sm" data-name="reject" data-item="'.$val->id.'"><i class="bi bi-x-circle"></i></button>';
+            <button type="button" class="btn btn-outline-danger btn-sm" data-name="reject" data-item="'.$val->id.'" data-note="'.$val->remark.'"><i class="bi bi-x-circle"></i></button>';
         }
 
         return response($arr);
@@ -1777,6 +1791,21 @@ class MainController extends Controller
 
         return response($arr);
     }
+
+    function rejectcia(Request $request): object{
+        $id     = $request['id'];
+        $remark = $request['remark'];
+
+        $data   = array(
+            'remark' => $remark,
+            'status'  => 0,
+            'update_by' => auth::user()->id
+        );
+
+        DB::table('trx_cia')->where('id', $id)->update($data);
+        return response('success');
+    }
+
     // End Cash In Avance
 
     function test()
