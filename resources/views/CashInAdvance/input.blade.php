@@ -1,5 +1,12 @@
 @extends('main')
 @section('content')
+<style>
+    hr {
+        border: none; /* Menghapus border default */
+        border-top: 2px dashed black; /* Mengatur border atas menjadi garis putus-putus dengan warna hitam */
+        margin: 20px 0; /* Margin atas dan bawah untuk memberi ruang */
+    }
+</style>
     <section class="section dashboard">
         <div class="row d-flex align-items-stretch">
             <div class="col-3">
@@ -162,7 +169,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="datashowchasier2">
-                    <div class="card-style">
+                    <div class="card-style mt-3">
                         <h2>PT. ASTRA DAIDO STEEL INDONESIA</h2>
                         <table class="table table-borderless">
                             <tbody>
@@ -214,8 +221,65 @@
                             </tr>
                         </table>
 
-                        <input type="hidden" data-name="name_file_dwnld_casier_2">
+
                     </div>
+                    <hr>
+                    <div class="card-style">
+                        <h2>PT. ASTRA DAIDO STEEL INDONESIA</h2>
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>NO CIA</td>
+                                    <td>:</td>
+                                    <td id="down_app_no_cia">-</td>
+                                    <td class="text-midle text-center" rowspan="6">
+                                        <img src="" style="width: 10rem" id="down_imgae_status">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Date Create</td>
+                                    <td>:</td>
+                                    <td id="down_app_date_create">-</td>
+                                </tr>
+                                <tr>
+                                    <td>Requester</td>
+                                    <td>:</td>
+                                    <td id="down_app_name_user">-</td>
+                                </tr>
+                                <tr>
+                                    <td>Necessity</td>
+                                    <td>:</td>
+                                    <td id="down_app_necessity">-</td>
+                                </tr>
+                                <tr>
+                                    <td>Amount</td>
+                                    <td>:</td>
+                                    <td id="down_app_amount">-</td>
+                                </tr>
+                                <tr>
+                                    <td>Unit</td>
+                                    <td>:</td>
+                                    <td id="down_app_unit">-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td class="text-center">Approve By Finance</td>
+                                <td class="text-center">Approve By Dephead</td>
+                                <td class="text-center">Recivied</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">(<span id="down_app_name_finance"></span>)</td>
+                                <td class="text-center">(<span id="down_app_name_dephead"></span>)</td>
+                                <td class="text-center">(<span id="down_app_name_userapr"></span>)</td>
+                            </tr>
+                        </table>
+
+
+                    </div>
+
+                    <input type="hidden" data-name="name_file_dwnld_casier_2">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
@@ -553,6 +617,7 @@
                     $('#amount').text(converttorupiah(data.amount));
                     var show_foto = "{{ asset('assets/img/draft.png') }}";
                     $('#img_status').attr('src', show_foto);
+
                     $('#modal_to_casier').modal('show');
                 },
                 error: function(data) {
@@ -642,6 +707,16 @@
                     $('#app_unit').text(data.unit);
                     $('#app_amount').text(converttorupiah(data.amount));
 
+                    $('#down_app_no_cia').text(data.no_cia);
+                    $('#down_app_name_dephead').text(data.name_dephead);
+                    $('#down_app_name_finance').text(data.name_finance);
+                    $('#down_app_name_user').text(data.name_user);
+                    $('#down_app_name_userapr').text(data.name_user);
+                    $('#down_app_date_create').text(data.date_create);
+                    $('#down_app_necessity').text(data.necessity);
+                    $('#down_app_unit').text(data.unit);
+                    $('#down_app_amount').text(converttorupiah(data.amount));
+
                     if(data.status === 4){
                         var show_foto = "{{ asset('assets/img/draft.png') }}";
                     }else{
@@ -655,6 +730,7 @@
                     $("[data-name='name_file_dwnld_casier_2']").val(data.no_cia);
 
                     $('#imgae_status').attr('src', show_foto);
+                    $('#down_imgae_status').attr('src', show_foto);
                     $('#modal_show_app_chasier').modal('show');
                 },
                 error: function(data) {
