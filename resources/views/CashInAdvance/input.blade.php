@@ -1,32 +1,38 @@
 @extends('main')
 @section('content')
-<style>
-    hr {
-        border: none; /* Menghapus border default */
-        border-top: 2px dashed black; /* Mengatur border atas menjadi garis putus-putus dengan warna hitam */
-        margin: 20px 0; /* Margin atas dan bawah untuk memberi ruang */
-    }
-</style>
+    <style>
+        hr {
+            border: none;
+            /* Menghapus border default */
+            border-top: 2px dashed black;
+            /* Mengatur border atas menjadi garis putus-putus dengan warna hitam */
+            margin: 20px 0;
+            /* Margin atas dan bawah untuk memberi ruang */
+        }
+    </style>
     <section class="section dashboard">
         <div class="row d-flex align-items-stretch">
             <div class="col-3">
                 <div class="card h-100">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
-                            <span>Input Cash In Advance</span>
+                            <span>Form Cash In Advance</span>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="" class="form-label">Date</label>
                             <div class="input-group">
-                                <span class="input-group-text" id=""><i class="bi bi-calendar-week-fill"></i></span>
-                                <input type="text" class="form-control" data-name="date_create" value="{{date('Y-m-d')}}">
+                                <span class="input-group-text" id=""><i
+                                        class="bi bi-calendar-week-fill"></i></span>
+                                <input type="text" class="form-control" data-name="date_create"
+                                    value="{{ date('Y-m-d') }}">
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Requester</label>
-                            <input type="text" class="form-control" data-name="" value="{{$idn_user->npk}} - {{$idn_user->name}}" disabled>
+                            <input type="text" class="form-control" data-name=""
+                                value="{{ $idn_user->npk }} - {{ $idn_user->name }}" disabled>
                         </div>
                         <div class="mb-3">
                             <label for="" class="form-label">Necessity</label>
@@ -62,14 +68,14 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th>No</th>
-                                        <th>No CIA</th>
-                                        <th>Creat On</th>
+                                        <th>Type</th>
+                                        <th>Create On</th>
                                         <th>Necessity</th>
-                                        <th>Ammount</th>
+                                        <th>Amount</th>
                                         <th>Unit</th>
                                         <th>Status</th>
                                         <th>Modified</th>
-                                        <th>Ammount Actual</th>
+                                        <th>Amount Actual</th>
                                         <th>Selisih</th>
                                         <th>Remark</th>
                                         <th class="text-center">Action</th>
@@ -92,7 +98,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Cetak To Casier</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Print View</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="datashowchasier1">
@@ -101,7 +107,7 @@
                         <table class="table table-borderless">
                             <tbody>
                                 <tr>
-                                    <td>NO CIA</td>
+                                    <td>Type</td>
                                     <td>:</td>
                                     <td id="no_cia">-</td>
                                     <td class="text-midle text-center" rowspan="6">
@@ -139,7 +145,7 @@
                             <tr>
                                 <td class="text-center">Approve By Finance</td>
                                 <td class="text-center">Approve By Dephead</td>
-                                <td class="text-center">Recivied</td>
+                                <td class="text-center">Requester</td>
                             </tr>
                             <tr>
                                 <td class="text-center">(<span id="name_finance"></span>)</td>
@@ -153,7 +159,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-name="download_to_casier_1"><i class="bi bi-cloud-arrow-down-fill"></i> Doownload</button>
+                    <button type="button" class="btn btn-primary" data-name="download_to_casier_1"><i
+                            class="bi bi-cloud-arrow-down-fill"></i> Download</button>
                 </div>
             </div>
         </div>
@@ -161,7 +168,8 @@
     {{-- End Modal Print To Casier --}}
 
     {{-- Modal App Chasier --}}
-    <div class="modal fade" id="modal_show_app_chasier" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal_show_app_chasier" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -174,7 +182,7 @@
                         <table class="table table-borderless">
                             <tbody>
                                 <tr>
-                                    <td>NO CIA</td>
+                                    <td>Type</td>
                                     <td>:</td>
                                     <td id="app_no_cia">-</td>
                                     <td class="text-midle text-center" rowspan="6">
@@ -212,7 +220,7 @@
                             <tr>
                                 <td class="text-center">Approve By Finance</td>
                                 <td class="text-center">Approve By Dephead</td>
-                                <td class="text-center">Recivied</td>
+                                <td class="text-center">Requester</td>
                             </tr>
                             <tr>
                                 <td class="text-center">(<span id="app_name_finance"></span>)</td>
@@ -229,7 +237,7 @@
                         <table class="table table-borderless">
                             <tbody>
                                 <tr>
-                                    <td>NO CIA</td>
+                                    <td>Type</td>
                                     <td>:</td>
                                     <td id="down_app_no_cia">-</td>
                                     <td class="text-midle text-center" rowspan="6">
@@ -267,7 +275,7 @@
                             <tr>
                                 <td class="text-center">Approve By Finance</td>
                                 <td class="text-center">Approve By Dephead</td>
-                                <td class="text-center">Recivied</td>
+                                <td class="text-center">Requester</td>
                             </tr>
                             <tr>
                                 <td class="text-center">(<span id="down_app_name_finance"></span>)</td>
@@ -283,7 +291,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-name="download_to_casier_2"><i class="bi bi-cloud-arrow-down-fill"></i> Doownload</button>
+                    <button type="button" class="btn btn-primary" data-name="download_to_casier_2"><i
+                            class="bi bi-cloud-arrow-down-fill"></i> Doownload</button>
                 </div>
             </div>
         </div>
@@ -304,10 +313,10 @@
                             <thead>
                                 <tr class="text-center">
                                     <th>No</th>
-                                    <th>No CIA</th>
-                                    <th>Creat On</th>
+                                    <th>Type</th>
+                                    <th>Create On</th>
                                     <th>Necessity</th>
-                                    <th>Ammount</th>
+                                    <th>Amount</th>
                                     <th>Unit</th>
                                     <th>Status</th>
                                 </tr>
@@ -320,7 +329,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-name="next_urgent">Next Urgent</button>
+                    <button type="button" class="btn btn-primary" data-name="next_urgent">Process Urgent</button>
                 </div>
             </div>
         </div>
@@ -332,13 +341,13 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Next Urgent</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Process Urgent</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="datashowchasier">
                     <div class="card-style">
-                       <label for="" class="label">Remark</label>
-                       <textarea name="" id="" cols="30" rows="10" class="form-control" data-name="remark"></textarea>
+                        <label for="" class="label">Remark</label>
+                        <textarea name="" id="" cols="30" rows="10" class="form-control" data-name="remark"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -370,39 +379,58 @@
                 "processing": false,
                 "serverSide": false,
                 "ajax": {
-                    "url": "{{route('listinputcia')}}",
+                    "url": "{{ route('listinputcia') }}",
                     "type": "GET",
                     "dataSrc": ""
                 },
-                "columns": [
-                    {
-                    "data": null,
-                    "render": function (data, type, row, meta) {
+                "columns": [{
+                        "data": null,
+                        "render": function(data, type, row, meta) {
                             // Menggunakan meta.row untuk mendapatkan nomor urut
                             return meta.row + 1;
                         }
                     },
-                    { "data":"no_cia"},
-                    { "data":"create_on"},
-                    { "data":"necessity"},
-                    { "data":"amount"},
-                    { "data":"unit"},
-                    { "data":"status"},
-                    { "data":"modified"},
-                    { "data":"amount_actual"},
-                    { "data":"selisih"},
-                    { "data":"remark"},
-                    { "data":"action"}
-                ],
-                "columnDefs": [
                     {
-                        "targets": [0,6,11],
-                        "className": "text-center"
-                    },{
-                        "targets": [1,4,8,9],
-                        "className": "text-nowrap"
+                        "data": "no_cia"
+                    },
+                    {
+                        "data": "create_on"
+                    },
+                    {
+                        "data": "necessity"
+                    },
+                    {
+                        "data": "amount"
+                    },
+                    {
+                        "data": "unit"
+                    },
+                    {
+                        "data": "status"
+                    },
+                    {
+                        "data": "modified"
+                    },
+                    {
+                        "data": "amount_actual"
+                    },
+                    {
+                        "data": "selisih"
+                    },
+                    {
+                        "data": "remark"
+                    },
+                    {
+                        "data": "action"
                     }
-                ]
+                ],
+                "columnDefs": [{
+                    "targets": [0, 6, 11],
+                    "className": "text-center"
+                }, {
+                    "targets": [1, 4, 8, 9],
+                    "className": "text-nowrap"
+                }]
             });
         });
     </script>
@@ -422,15 +450,15 @@
                 rupiah += separator + ribuan.join('.');
             }
             rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-            $(this).val('Rp. '+rupiah);
+            $(this).val('Rp. ' + rupiah);
         });
 
         $(document).on("click", "[data-name='save_data']", function(e) {
-            var date_create     = $("[data-name='date_create']").val();
-            var necessity       = $("[data-name='necessity']").val();
-            var amount_asli     = $("[data-name='amount']").val();
-            var amount          = amount_asli.replace(/[^0-9]/g, '');
-            var unit            = $("[data-name='unit']").val();
+            var date_create = $("[data-name='date_create']").val();
+            var necessity = $("[data-name='necessity']").val();
+            var amount_asli = $("[data-name='amount']").val();
+            var amount = amount_asli.replace(/[^0-9]/g, '');
+            var unit = $("[data-name='unit']").val();
 
             if (date_create === '' || necessity === '' || amount === '' || unit === '') {
                 Swal.fire({
@@ -445,18 +473,18 @@
                     type: "POST",
                     url: "{{ route('cekdatacia') }}",
                     data: {
-                        date_create:date_create,
-                        necessity:necessity,
-                        amount:amount,
-                        unit:unit
+                        date_create: date_create,
+                        necessity: necessity,
+                        amount: amount,
+                        unit: unit
                     },
                     cache: false,
                     success: function(data) {
                         // console.log(data);
 
-                        if(data.cek === 0){
-                            inputcia(date_create,necessity,amount,unit)
-                        }else{
+                        if (data.cek === 0) {
+                            inputcia(date_create, necessity, amount, unit)
+                        } else {
                             $('#showlistcia').html(data.html);
                             $('#show_cek_cia').modal('show');
                         }
@@ -476,17 +504,17 @@
             }
         });
 
-        function inputcia(date_create,necessity,amount,unit){
+        function inputcia(date_create, necessity, amount, unit) {
             var remark = '';
             $.ajax({
                 type: "POST",
                 url: "{{ route('inpinputcia') }}",
                 data: {
-                    date_create:date_create,
-                    necessity:necessity,
-                    amount:amount,
-                    unit:unit,
-                    remark:remark
+                    date_create: date_create,
+                    necessity: necessity,
+                    amount: amount,
+                    unit: unit,
+                    remark: remark
                 },
                 cache: false,
                 success: function(data) {
@@ -525,13 +553,13 @@
 
         $(document).on("click", "[data-name='save_remark']", function(e) {
             var remark = $("[data-name='remark']").val();
-            var date_create     = $("[data-name='date_create']").val();
-            var necessity       = $("[data-name='necessity']").val();
-            var amount_asli     = $("[data-name='amount']").val();
-            var amount          = amount_asli.replace(/[^0-9]/g, '');
-            var unit            = $("[data-name='unit']").val();
+            var date_create = $("[data-name='date_create']").val();
+            var necessity = $("[data-name='necessity']").val();
+            var amount_asli = $("[data-name='amount']").val();
+            var amount = amount_asli.replace(/[^0-9]/g, '');
+            var unit = $("[data-name='unit']").val();
 
-            if(remark === ''){
+            if (remark === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Form is empty!',
@@ -539,16 +567,16 @@
                     showConfirmButton: false,
                     timer: 1000
                 })
-            }else{
+            } else {
                 $.ajax({
                     type: "POST",
                     url: "{{ route('inpinputcia') }}",
                     data: {
-                        date_create:date_create,
-                        necessity:necessity,
-                        amount:amount,
-                        unit:unit,
-                        remark:remark
+                        date_create: date_create,
+                        necessity: necessity,
+                        amount: amount,
+                        unit: unit,
+                        remark: remark
                     },
                     cache: false,
                     success: function(data) {
@@ -587,7 +615,7 @@
 
     {{-- JS Print CIA --}}
     <script>
-        function converttorupiah(val){
+        function converttorupiah(val) {
             let roundedNumber = Math.round(val * 100) / 100;
             let rupiah = roundedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             return "Rp. " + rupiah;
@@ -600,7 +628,7 @@
                 type: "POST",
                 url: "{{ route('showdatainputcia') }}",
                 data: {
-                    id:id
+                    id: id
                 },
                 cache: false,
                 success: function(data) {
@@ -634,7 +662,7 @@
             });
         });
 
-        $(document).on("click", "[data-name='download_to_casier_1']", function (e) {
+        $(document).on("click", "[data-name='download_to_casier_1']", function(e) {
             // var elementToCapture    = document.getElementById("datashowchasier");
             // var namefilecapture     = $(this).attr("data-item");
             // html2canvas(elementToCapture).then(function(canvas) {
@@ -654,11 +682,11 @@
                 var doc = new jsPDF();
                 var date = new Date();
                 doc.addImage(imageDataUrl, 'PNG', 10, 10, 190, 0); // Adjust width and height as needed
-                doc.save("CIA-"+moment(date).format('DD-MMMM-YYYY')+".pdf");
+                doc.save("CIA-" + moment(date).format('DD-MMMM-YYYY') + ".pdf");
             });
         });
 
-        $(document).on("click", "[data-name='download_to_casier_2']", function (e) {
+        $(document).on("click", "[data-name='download_to_casier_2']", function(e) {
             // var elementToCapture    = document.getElementById("datashowchasier");
             // var namefilecapture     = $(this).attr("data-item");
             // html2canvas(elementToCapture).then(function(canvas) {
@@ -680,7 +708,7 @@
                 var doc = new jsPDF();
                 var date = new Date();
                 doc.addImage(imageDataUrl, 'PNG', 10, 10, 190, 0); // Adjust width and height as needed
-                doc.save(namefile+".pdf");
+                doc.save(namefile + ".pdf");
             });
         });
 
@@ -691,7 +719,7 @@
                 type: "POST",
                 url: "{{ route('showdatainputcia') }}",
                 data: {
-                    id:id
+                    id: id
                 },
                 cache: false,
                 success: function(data) {
@@ -717,12 +745,12 @@
                     $('#down_app_unit').text(data.unit);
                     $('#down_app_amount').text(converttorupiah(data.amount));
 
-                    if(data.status === 4){
+                    if (data.status === 4) {
                         var show_foto = "{{ asset('assets/img/draft.png') }}";
-                    }else{
-                        if(data.metode === 1){
+                    } else {
+                        if (data.metode === 1) {
                             var show_foto = "{{ asset('assets/img/cash.png') }}";
-                        }else{
+                        } else {
                             var show_foto = "{{ asset('assets/img/transfer.png') }}";
                         }
                     }
@@ -756,8 +784,6 @@
             minViewMode: "days",
             autoclose: true
         });
-
-
     </script>
 
     {{-- JS Datatable --}}

@@ -166,7 +166,7 @@
             </a>
         </li>
 
-        <li class="nav-heading">Cash In Advance</li>
+        <li class="nav-heading">Finance</li>
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#delivery-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-cash-coin"></i><span>Cash In Advance</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -174,27 +174,39 @@
             <ul id="delivery-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="{{ route('inputcia') }}">
-                        <i class="bi bi-circle"></i><span>Input CIA</span>
+                        <i class="bi bi-file-earmark-text-fill fs-6"></i><span>Form CIA</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('listciadephead')}}">
-                        <i class="bi bi-circle"></i><span>Approve CIA DEPHEAD</span>
+                    <a href="{{ route('listciadephead') }}">
+                        <i class="bi bi-reddit fs-6"></i><span>To Approved</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('listciafinance')}}">
-                        <i class="bi bi-circle"></i><span>Approve CIA FINANCE</span>
+                    <a href="{{ route('listciafinance') }}">
+                        <i class="bi bi-reddit fs-6"></i><span>Second Approved</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('listciacashier')}}">
-                        <i class="bi bi-circle"></i><span>CASHIER CIA</span>
+                    <a href="{{ route('listciacashier') }}">
+                        <i class="bi bi-reddit fs-6"></i><span>Cashier Approved</span>
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('listcia') }}">
-                        <i class="bi bi-circle"></i><span>LIST CIA</span>
+                        <i class="bi bi-flower2 fs-6"></i><span>Overview CIA</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" data-bs-target="#materai-nav" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-piggy-bank"></i><span>Stok Materai</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="materai-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="{{ route('inputcia') }}">
+                        <i class="bi bi-file-earmark-text-fill fs-6"></i><span>Form Materai</span>
                     </a>
                 </li>
             </ul>

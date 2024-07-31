@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
-                            <span>Approve Dephead Cash In Advance</span>
+                            <span>Dephead Cash In Advance</span>
 
                         </div>
                     </div>
@@ -17,14 +17,14 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th>No</th>
-                                        <th>No CIA</th>
+                                        <th>Type</th>
                                         <th>Requested</th>
-                                        <th>Creat On</th>
+                                        <th>Create On</th>
                                         <th>Necessity</th>
-                                        <th>Ammount</th>
+                                        <th>Amount</th>
                                         <th>Unit</th>
                                         <th>Modified</th>
-                                        <th>Ammount Actual</th>
+                                        <th>Amount Actual</th>
                                         <th>Selisih</th>
                                         <th>Remark</th>
                                         <th>Action</th>
@@ -85,39 +85,58 @@
                 "processing": false,
                 "serverSide": false,
                 "ajax": {
-                    "url": "{{route('looplistciadephead')}}",
+                    "url": "{{ route('looplistciadephead') }}",
                     "type": "GET",
                     "dataSrc": ""
                 },
-                "columns": [
-                    {
-                    "data": null,
-                    "render": function (data, type, row, meta) {
-                        // Menggunakan meta.row untuk mendapatkan nomor urut
-                        return meta.row + 1;
-                    }
+                "columns": [{
+                        "data": null,
+                        "render": function(data, type, row, meta) {
+                            // Menggunakan meta.row untuk mendapatkan nomor urut
+                            return meta.row + 1;
+                        }
                     },
-                    { "data":"no_cia"},
-                    { "data":"requested"},
-                    { "data":"create_on"},
-                    { "data":"necessity"},
-                    { "data":"amount"},
-                    { "data":"unit"},
-                    { "data":"modified"},
-                    { "data":"amount_actual"},
-                    { "data":"selisih"},
-                    { "data":"remark"},
-                    { "data":"action"}
-                ],
-                "columnDefs": [
                     {
-                        "targets": [0,7],
-                        "className": "text-center"
-                    },{
-                        "targets": [1,4,8,9],
-                        "className": "text-nowrap"
+                        "data": "no_cia"
+                    },
+                    {
+                        "data": "requested"
+                    },
+                    {
+                        "data": "create_on"
+                    },
+                    {
+                        "data": "necessity"
+                    },
+                    {
+                        "data": "amount"
+                    },
+                    {
+                        "data": "unit"
+                    },
+                    {
+                        "data": "modified"
+                    },
+                    {
+                        "data": "amount_actual"
+                    },
+                    {
+                        "data": "selisih"
+                    },
+                    {
+                        "data": "remark"
+                    },
+                    {
+                        "data": "action"
                     }
-                ]
+                ],
+                "columnDefs": [{
+                    "targets": [0, 7],
+                    "className": "text-center"
+                }, {
+                    "targets": [1, 4, 8, 9],
+                    "className": "text-nowrap"
+                }]
             });
         });
     </script>
@@ -132,7 +151,7 @@
                 type: "POST",
                 url: "{{ route('approvedepheadcia') }}",
                 data: {
-                    id:id
+                    id: id
                 },
                 cache: false,
                 success: function(data) {
@@ -179,7 +198,7 @@
             var id = $("[data-name='id_reject']").val();
             var remark = $("[data-name='remark']").val();
 
-            if(id === ''){
+            if (id === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Action Not Valid!',
@@ -189,13 +208,13 @@
                 }).then((data) => {
                     // location.reload();
                 })
-            }else{
+            } else {
                 $.ajax({
                     type: "POST",
-                    url: "{{route('rejectcia')}}",
+                    url: "{{ route('rejectcia') }}",
                     data: {
-                        id:id,
-                        remark:remark
+                        id: id,
+                        remark: remark
                     },
                     cache: false,
                     success: function(data) {

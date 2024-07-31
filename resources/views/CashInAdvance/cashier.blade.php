@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
-                            <span>List Cashier Cash In Advance</span>
+                            <span>Cashier Cash In Advance</span>
 
                         </div>
                     </div>
@@ -17,15 +17,15 @@
                                 <thead>
                                     <tr class="text-center">
                                         <th>No</th>
-                                        <th>No CIA</th>
+                                        <th>Type</th>
                                         <th>Requested</th>
-                                        <th>Creat On</th>
+                                        <th>Create On</th>
                                         <th>Necessity</th>
-                                        <th>Ammount</th>
+                                        <th>Amount</th>
                                         <th>Unit</th>
                                         <th>Status</th>
                                         <th>Modified</th>
-                                        <th>Ammount Actual</th>
+                                        <th>Amount Actual</th>
                                         <th>Selisih</th>
                                         <th>Remark</th>
                                         <th>Action</th>
@@ -47,7 +47,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Cetak To Casier</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Print To Casier</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="datashowchasier">
@@ -56,7 +56,7 @@
                         <table class="table table-borderless">
                             <tbody>
                                 <tr>
-                                    <td>NO CIA</td>
+                                    <td>Type</td>
                                     <td>:</td>
                                     <td id="no_cia">-</td>
                                 </tr>
@@ -110,7 +110,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="" class="form-label">Atas Nama</label>
+                                <label for="" class="form-label">On Name</label>
                                 <input type="text" class="form-control" data-name="atas_nama">
                             </div>
                         </div>
@@ -119,7 +119,7 @@
                             <tr>
                                 <td class="text-center">Approve By Finance</td>
                                 <td class="text-center">Approve By Dephead</td>
-                                <td class="text-center">Recivied</td>
+                                <td class="text-center">Requester</td>
                             </tr>
                             <tr>
                                 <td class="text-center">(<span id="name_finance"></span>)</td>
@@ -152,7 +152,7 @@
                         <table class="table table-borderless">
                             <tbody>
                                 <tr>
-                                    <td>NO CIA</td>
+                                    <td>Type</td>
                                     <td>:</td>
                                     <td id="app_no_cia">-</td>
                                     <td class="text-midle text-center" rowspan="6">
@@ -198,7 +198,7 @@
                                 </tr>
 
                                 <tr>
-                                    <td>Atas Nama</td>
+                                    <td>On Name</td>
                                     <td>:</td>
                                     <td id="">-</td>
                                 </tr>
@@ -208,7 +208,7 @@
                             <tr>
                                 <td class="text-center">Approve By Finance</td>
                                 <td class="text-center">Approve By Dephead</td>
-                                <td class="text-center">Recivied</td>
+                                <td class="text-center">Requester</td>
                             </tr>
                             <tr>
                                 <td class="text-center">(<span id="app_name_finance"></span>)</td>
@@ -222,7 +222,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-name="download_to_casier"><i class="bi bi-cloud-arrow-down-fill"></i> Doownload</button>
+                    <button type="button" class="btn btn-primary" data-name="download_to_casier"><i
+                            class="bi bi-cloud-arrow-down-fill"></i> Doownload</button>
                 </div>
             </div>
         </div>
@@ -249,40 +250,61 @@
                 "processing": false,
                 "serverSide": false,
                 "ajax": {
-                    "url": "{{route('looplistciacashier')}}",
+                    "url": "{{ route('looplistciacashier') }}",
                     "type": "GET",
                     "dataSrc": ""
                 },
-                "columns": [
-                    {
-                    "data": null,
-                    "render": function (data, type, row, meta) {
-                        // Menggunakan meta.row untuk mendapatkan nomor urut
-                        return meta.row + 1;
-                    }
+                "columns": [{
+                        "data": null,
+                        "render": function(data, type, row, meta) {
+                            // Menggunakan meta.row untuk mendapatkan nomor urut
+                            return meta.row + 1;
+                        }
                     },
-                    { "data":"no_cia"},
-                    { "data":"requested"},
-                    { "data":"create_on"},
-                    { "data":"necessity"},
-                    { "data":"amount"},
-                    { "data":"unit"},
-                    { "data":"status"},
-                    { "data":"modified"},
-                    { "data":"amount_actual"},
-                    { "data":"selisih"},
-                    { "data":"remark"},
-                    { "data":"action"}
-                ],
-                "columnDefs": [
                     {
-                        "targets": [0,7],
-                        "className": "text-center"
-                    },{
-                        "targets": [1,4,8,9],
-                        "className": "text-nowrap"
+                        "data": "no_cia"
+                    },
+                    {
+                        "data": "requested"
+                    },
+                    {
+                        "data": "create_on"
+                    },
+                    {
+                        "data": "necessity"
+                    },
+                    {
+                        "data": "amount"
+                    },
+                    {
+                        "data": "unit"
+                    },
+                    {
+                        "data": "status"
+                    },
+                    {
+                        "data": "modified"
+                    },
+                    {
+                        "data": "amount_actual"
+                    },
+                    {
+                        "data": "selisih"
+                    },
+                    {
+                        "data": "remark"
+                    },
+                    {
+                        "data": "action"
                     }
-                ]
+                ],
+                "columnDefs": [{
+                    "targets": [0, 7],
+                    "className": "text-center"
+                }, {
+                    "targets": [1, 4, 8, 9],
+                    "className": "text-nowrap"
+                }]
             });
         });
     </script>
@@ -290,7 +312,7 @@
 
     {{-- JS Approve --}}
     <script>
-        function converttorupiah(val){
+        function converttorupiah(val) {
             let roundedNumber = Math.round(val * 100) / 100;
             let rupiah = roundedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             return "Rp. " + rupiah;
@@ -303,7 +325,7 @@
                 type: "POST",
                 url: "{{ route('showdatainputcia') }}",
                 data: {
-                    id:id
+                    id: id
                 },
                 cache: false,
                 success: function(data) {
@@ -341,12 +363,12 @@
             });
         });
 
-        $(document).on("change", "[data-name='metode']", function (e) {
+        $(document).on("change", "[data-name='metode']", function(e) {
             var metode = $('[data-name="metode"]').val();
 
-            if(metode == 2){
+            if (metode == 2) {
                 $('#mtf').show();
-            }else{
+            } else {
                 $('#mtf').hide();
             }
         });
@@ -356,9 +378,9 @@
             var no_rek = $('[data-name="no_rek"]').val();
             var bank = $('[data-name="bank"]').val();
             var atas_nama = $('[data-name="atas_nama"]').val();
-            var id_cia  = $('[data-name="id_cia"]').val();
+            var id_cia = $('[data-name="id_cia"]').val();
 
-            if(metode === '' || id_cia === ''){
+            if (metode === '' || id_cia === '') {
                 Swal.fire({
                     position: 'center',
                     title: 'Form is empty!',
@@ -366,17 +388,17 @@
                     showConfirmButton: false,
                     timer: 1000
                 })
-            }else{
-                if(metode === '1'){
+            } else {
+                if (metode === '1') {
                     $.ajax({
                         type: "POST",
                         url: "{{ route('submitciaambilchasir') }}",
                         data: {
-                            id_cia:id_cia,
-                            metode:metode,
-                            no_rek:no_rek,
-                            bank:bank,
-                            atas_nama:atas_nama
+                            id_cia: id_cia,
+                            metode: metode,
+                            no_rek: no_rek,
+                            bank: bank,
+                            atas_nama: atas_nama
                         },
                         cache: false,
                         success: function(data) {
@@ -403,8 +425,8 @@
                             })
                         }
                     });
-                }else{
-                    if(no_rek === '' || bank === '' || atas_nama === ''){
+                } else {
+                    if (no_rek === '' || bank === '' || atas_nama === '') {
                         Swal.fire({
                             position: 'center',
                             title: 'Form is empty!',
@@ -412,16 +434,16 @@
                             showConfirmButton: false,
                             timer: 1000
                         })
-                    }else{
+                    } else {
                         $.ajax({
                             type: "POST",
                             url: "{{ route('submitciaambilchasir') }}",
                             data: {
-                                id_cia:id_cia,
-                                metode:metode,
-                                no_rek:no_rek,
-                                bank:bank,
-                                atas_nama:atas_nama
+                                id_cia: id_cia,
+                                metode: metode,
+                                no_rek: no_rek,
+                                bank: bank,
+                                atas_nama: atas_nama
                             },
                             cache: false,
                             success: function(data) {
@@ -461,7 +483,7 @@
                 type: "POST",
                 url: "{{ route('showdatainputcia') }}",
                 data: {
-                    id:id
+                    id: id
                 },
                 cache: false,
                 success: function(data) {
@@ -477,12 +499,12 @@
                     $('#app_unit').text(data.unit);
                     $('#app_amount').text(converttorupiah(data.amount));
 
-                    if(data.status === 4){
+                    if (data.status === 4) {
                         var show_foto = "{{ asset('assets/img/draft.png') }}";
-                    }else{
-                        if(data.metode === 1){
+                    } else {
+                        if (data.metode === 1) {
                             var show_foto = "{{ asset('assets/img/cash.png') }}";
-                        }else{
+                        } else {
                             var show_foto = "{{ asset('assets/img/transfer.png') }}";
                         }
                     }
