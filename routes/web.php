@@ -149,6 +149,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('rejectcia', [MainController::class, 'rejectcia'])->name('rejectcia');
 
+    Route::post('addamountactual', [MainController::class, 'addamountactual'])->name('addamountactual');
+
 
     // End Cash In Advance
 

@@ -50,7 +50,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalLabel">Print To Casier</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" id="datashowchasier">
+                <div class="modal-body" id="">
                     <div class="card-style">
                         <h2>PT. ASTRA DAIDO STEEL INDONESIA</h2>
                         <table class="table table-borderless">
@@ -184,23 +184,15 @@
                                     <td>:</td>
                                     <td id="app_unit">-</td>
                                 </tr>
-
                                 <tr>
-                                    <td>Norek</td>
+                                    <td>Amount Actual</td>
                                     <td>:</td>
-                                    <td id="">-</td>
+                                    <td id="app_amount_actual">-</td>
                                 </tr>
-
                                 <tr>
-                                    <td>Bank</td>
+                                    <td>Selisih</td>
                                     <td>:</td>
-                                    <td id="">-</td>
-                                </tr>
-
-                                <tr>
-                                    <td>On Name</td>
-                                    <td>:</td>
-                                    <td id="">-</td>
+                                    <td id="app_selisih">-</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -216,14 +208,39 @@
                                 <td class="text-center">(<span id="app_name_userapr"></span>)</td>
                             </tr>
                         </table>
-
-
+                        <input type="hidden" data-name="name_file_dwnld_casier">
+                        <input type="hidden" data-name="id_cia_settelment">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-name="download_to_casier"><i
-                            class="bi bi-cloud-arrow-down-fill"></i> Doownload</button>
+                    <input type="hidden" data-name="id_actual_cia">
+                    <button type="button" class="btn btn-info" data-name="add_ammount_actual">Amount Actual</button>
+                    <button type="button" class="btn btn-primary" data-name="download_to_casier"><i class="bi bi-cloud-arrow-down-fill"></i> Doownload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- End Modal Setlement --}}
+
+    {{-- Modal Setlement --}}
+    <div class="modal fade" id="modal_amount_actual" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Input Amount Actual</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" data-name="id_actual_cia_input_amount">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Amount Actual</label>
+                        <input type="text" class="form-control" data-name="amount_actual">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-name="save_amount_actual">Save</button>
                 </div>
             </div>
         </div>
@@ -498,6 +515,9 @@
                     $('#app_necessity').text(data.necessity);
                     $('#app_unit').text(data.unit);
                     $('#app_amount').text(converttorupiah(data.amount));
+                    $('#app_amount_actual').text(converttorupiah(data.amount_actual));
+                    $('#app_selisih').text(converttorupiah(data.selisih));
+
 
                     if (data.status === 4) {
                         var show_foto = "{{ asset('assets/img/draft.png') }}";
@@ -508,8 +528,9 @@
                             var show_foto = "{{ asset('assets/img/transfer.png') }}";
                         }
                     }
-
+                    $("[data-name='name_file_dwnld_casier']").val(data.no_cia);
                     $('#imgae_status').attr('src', show_foto);
+                    $("[data-name='id_actual_cia']").val(data.id);
                     $('#modal_setlement').modal('show');
                 },
                 error: function(data) {
@@ -527,6 +548,103 @@
         });
     </script>
     {{-- End JS Approve --}}
+
+
+    {{-- JS Add Amount Actual --}}
+    <script>
+        $(document).on("click", "[data-name='add_ammount_actual']", function(e) {
+            var id = $("[data-name='id_actual_cia']").val();
+            $("[data-name='id_actual_cia_input_amount']").val(id);
+            $("[data-name='amount_actual']").val('');
+
+            $('#modal_amount_actual').modal('show');
+        });
+
+        $("[data-name='amount_actual']").on('keyup', function() {
+            var inputVal = $(this).val();
+            var numberString = inputVal.replace(/[^,\d]/g, '').toString();
+            var split = numberString.split(',');
+            var sisa = split[0].length % 3;
+            var rupiah = split[0].substr(0, sisa);
+            var ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+            if (ribuan) {
+                var separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            $(this).val('Rp. ' + rupiah);
+        });
+
+        $(document).on("click", "[data-name='save_amount_actual']", function(e) {
+            var id                  = $("[data-name='id_actual_cia_input_amount']").val();
+            var amount_actual_asli  = $("[data-name='amount_actual']").val();
+            var amount_actual = amount_actual_asli.replace(/[^0-9]/g, '');
+
+            if (amount_actual === '' || id === '') {
+                Swal.fire({
+                    position: 'center',
+                    title: 'Form is empty!',
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('addamountactual') }}",
+                    data: {
+                        id: id,
+                        amount_actual: amount_actual
+                    },
+                    cache: false,
+                    success: function(data) {
+                        // console.log(data);
+                        $('#modal_setlement').modal('hide');
+                        $('#modal_amount_actual').modal('hide');
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Success!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then((data) => {
+
+                        })
+                    },
+                    error: function(data) {
+                        Swal.fire({
+                            position: 'center',
+                            title: 'Action Not Valid!',
+                            icon: 'warning',
+                            showConfirmButton: true,
+                            // timer: 1500
+                        }).then((data) => {
+                            // location.reload();
+                        })
+                    }
+                });
+            }
+
+        });
+    </script>
+    {{-- End JS Add Amount Actual --}}
+
+    {{-- Download --}}
+    <script>
+        $(document).on("click", "[data-name='download_to_casier']", function(e) {
+            var name_file_dwnld_casier = $("[data-name='name_file_dwnld_casier']").val();
+            var namefile = name_file_dwnld_casier.replace(/\./g, '-');
+            var elementToCapture = document.getElementById("datashowchasier");
+            // var namefilecapture = $(this).attr("data-item");
+            html2canvas(elementToCapture).then(function(canvas) {
+                var imageDataUrl = canvas.toDataURL("image/png");
+                var doc = new jsPDF();
+                var date = new Date();
+                doc.addImage(imageDataUrl, 'PNG', 10, 10, 190, 0); // Adjust width and height as needed
+                doc.save(namefile + ".pdf");
+            });
+        });
+    </script>
 
     {{-- Select2 --}}
     <script>

@@ -1806,6 +1806,26 @@ class MainController extends Controller
         return response('success');
     }
 
+    function addamountactual(Request $request): object{
+        $id             = $request['id'];
+        $amount_actual  = $request['amount_actual'];
+
+        $dt             = DB::table('trx_cia')->where('id', $id)->first();
+        $selisih        = intval($dt->amount)-intval($amount_actual);
+
+        $data   = array(
+            'amount_actual' => $amount_actual,
+            'selisih' => $selisih,
+            'status' => 6,
+            'update_by' => auth::user()->id
+        );
+
+        DB::table('trx_cia')->where('id', $id)->update($data);
+        return response('success');
+    }
+
+
+
     // End Cash In Avance
 
     function test()
