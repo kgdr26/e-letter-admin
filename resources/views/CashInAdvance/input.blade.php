@@ -12,6 +12,7 @@
     </style>
     <section class="section dashboard">
         <div class="row d-flex align-items-stretch">
+            @include('CashInAdvance.navtab')
             <div class="col-3">
                 <div class="card h-100">
                     <div class="card-header">
