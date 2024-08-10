@@ -100,17 +100,17 @@
 
                         <div id="mtf" style="display: none">
                             <div class="mb-3">
-                                <label for="" class="form-label">No Rekening</label>
-                                <input type="text" class="form-control" data-name="no_rek">
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="" class="form-label">Bank</label>
+                                <label for="" class="form-label">Recipient Bank</label>
                                 <input type="text" class="form-control" data-name="bank">
                             </div>
 
                             <div class="mb-3">
-                                <label for="" class="form-label">On Name</label>
+                                <label for="" class="form-label">Account Number</label>
+                                <input type="text" class="form-control" data-name="no_rek">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="" class="form-label">Account Name</label>
                                 <input type="text" class="form-control" data-name="atas_nama">
                             </div>
                         </div>
@@ -216,7 +216,8 @@
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     <input type="hidden" data-name="id_actual_cia">
                     <button type="button" class="btn btn-info" data-name="add_ammount_actual">Amount Actual</button>
-                    <button type="button" class="btn btn-primary" data-name="download_to_casier"><i class="bi bi-cloud-arrow-down-fill"></i> Doownload</button>
+                    <button type="button" class="btn btn-primary" data-name="download_to_casier"><i
+                            class="bi bi-cloud-arrow-down-fill"></i> Doownload</button>
                 </div>
             </div>
         </div>
@@ -224,7 +225,8 @@
     {{-- End Modal Setlement --}}
 
     {{-- Modal Setlement --}}
-    <div class="modal fade" id="modal_amount_actual" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modal_amount_actual" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -576,8 +578,8 @@
         });
 
         $(document).on("click", "[data-name='save_amount_actual']", function(e) {
-            var id                  = $("[data-name='id_actual_cia_input_amount']").val();
-            var amount_actual_asli  = $("[data-name='amount_actual']").val();
+            var id = $("[data-name='id_actual_cia_input_amount']").val();
+            var amount_actual_asli = $("[data-name='amount_actual']").val();
             var amount_actual = amount_actual_asli.replace(/[^0-9]/g, '');
 
             if (amount_actual === '' || id === '') {
