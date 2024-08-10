@@ -141,6 +141,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('listciafinance', [MainController::class, 'listciafinance'])->name('listciafinance');
     Route::get('looplistciafinance', [MainController::class, 'looplistciafinance'])->name('looplistciafinance');
     Route::post('approvefinancecia', [MainController::class, 'approvefinancecia'])->name('approvefinancecia');
+    Route::post('submitselisih', [MainController::class, 'submitselisih'])->name('submitselisih');
+    Route::post('submitclosecia', [MainController::class, 'submitclosecia'])->name('submitclosecia');
 
     Route::get('listciacashier', [MainController::class, 'listciacashier'])->name('listciacashier');
     Route::get('looplistciacashier', [MainController::class, 'looplistciacashier'])->name('looplistciacashier');

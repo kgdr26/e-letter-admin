@@ -1278,6 +1278,13 @@ class MainController extends Controller
                 $text_status    .= '<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
+            }elseif($val->status == 8){
+                $text_status    .= '<figure class="figure-progress-bar">';
+                $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Finish</figcaption>';
+                $text_status    .= '<div class="progress">';
+                $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 100%;"></div>';
+                $text_status    .= '</div>';
+                $text_status    .= '</figure>';
             }elseif($val->status == 0){
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="danger" style="font-size: 0.7rem">Reject</figcaption>';
@@ -1402,7 +1409,7 @@ class MainController extends Controller
             }
             $html .= '<td class="text-center">'.$text_status.'</td></tr>';
 
-            if($val->status < 7){
+            if($val->status < 8){
                 $cek += 1;
             }
         }
@@ -1522,37 +1529,97 @@ class MainController extends Controller
     }
 
     function looplistciafinance(){
-        $dat        = DB::table('trx_cia')->where('status', 2)->get();
+        $dat        = DB::table('trx_cia')->whereIn('status', [2,6,7])->get();
         $arr        = [];
 
         foreach($dat as $key => $val){
-            $arr[$key]['id']  = $val->id;
-            $arr[$key]['no_cia']  = $val->no_cia;
-            $requested        = DB::table('users')->where('id', $val->id_user)->first();
-            $arr[$key]['requested']  = $requested->name;
-            $arr[$key]['create_on']  = $val->date_create;
-            $arr[$key]['necessity']  = $val->necessity;
-            $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
-            $arr[$key]['unit']  = $val->unit;
-            if($val->status == 1){
-                $na        = DB::table('users')->where('id', $val->id_user)->first();
-                $text_status    = 'CREATE <br> By <br>'.$na->name;
-            }elseif($val->status == 2){
-                $na        = DB::table('users')->where('id', $val->id_dephead)->first();
-                $text_status    = 'APPROVE DEPHEAD <br> By <br>'.$na->name;
-            }elseif($val->status == 3){
-                $na        = DB::table('users')->where('id', $val->id_finance)->first();
-                $text_status    = 'APPROVE FINANCE <br> By <br>'.$na->name;
+
+            if($val->status == 2){
+                $arr[$key]['id']  = $val->id;
+                $arr[$key]['no_cia']  = $val->no_cia;
+                $requested        = DB::table('users')->where('id', $val->id_user)->first();
+                $arr[$key]['requested']  = $requested->name;
+                $arr[$key]['create_on']  = $val->date_create;
+                $arr[$key]['necessity']  = $val->necessity;
+                $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
+                $arr[$key]['unit']  = $val->unit;
+                if($val->status == 1){
+                    $na        = DB::table('users')->where('id', $val->id_user)->first();
+                    $text_status    = 'CREATE <br> By <br>'.$na->name;
+                }elseif($val->status == 2){
+                    $na        = DB::table('users')->where('id', $val->id_dephead)->first();
+                    $text_status    = 'APPROVE DEPHEAD <br> By <br>'.$na->name;
+                }elseif($val->status == 3){
+                    $na        = DB::table('users')->where('id', $val->id_finance)->first();
+                    $text_status    = 'APPROVE FINANCE <br> By <br>'.$na->name;
+                }else{
+                    $text_status    = 'Delete';
+                }
+                $arr[$key]['status']  = $text_status;
+                $arr[$key]['modified']  = $val->last_update;
+                $arr[$key]['amount_actual']  = "Rp " . number_format($val->amount_actual, 0, ',', '.');
+                $arr[$key]['selisih']  = "Rp " . number_format($val->selisih, 0, ',', '.');
+                $arr[$key]['remark']  = $val->remark;
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="approve" data-item="'.$val->id.'"><i class="bi bi-check2-all"></i></button>
+                <button type="button" class="btn btn-outline-danger btn-sm" data-name="reject" data-item="'.$val->id.'" data-note="'.$val->remark.'"><i class="bi bi-x-circle"></i></button>';
+            }elseif($val->status == 6 && $val->selisih !== 0){
+                $arr[$key]['id']  = $val->id;
+                $arr[$key]['no_cia']  = $val->no_cia;
+                $requested        = DB::table('users')->where('id', $val->id_user)->first();
+                $arr[$key]['requested']  = $requested->name;
+                $arr[$key]['create_on']  = $val->date_create;
+                $arr[$key]['necessity']  = $val->necessity;
+                $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
+                $arr[$key]['unit']  = $val->unit;
+                if($val->status == 1){
+                    $na        = DB::table('users')->where('id', $val->id_user)->first();
+                    $text_status    = 'CREATE <br> By <br>'.$na->name;
+                }elseif($val->status == 2){
+                    $na        = DB::table('users')->where('id', $val->id_dephead)->first();
+                    $text_status    = 'APPROVE DEPHEAD <br> By <br>'.$na->name;
+                }elseif($val->status == 3){
+                    $na        = DB::table('users')->where('id', $val->id_finance)->first();
+                    $text_status    = 'APPROVE FINANCE <br> By <br>'.$na->name;
+                }else{
+                    $text_status    = 'Delete';
+                }
+                $arr[$key]['status']  = $text_status;
+                $arr[$key]['modified']  = $val->last_update;
+                $arr[$key]['amount_actual']  = "Rp " . number_format($val->amount_actual, 0, ',', '.');
+                $arr[$key]['selisih']  = "Rp " . number_format($val->selisih, 0, ',', '.');
+                $arr[$key]['remark']  = $val->remark;
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="slisih_action" data-item="'.$val->id.'"><i class="bi bi-pencil-square"></i></button>';
+            }elseif($val->status == 7){
+                $arr[$key]['id']  = $val->id;
+                $arr[$key]['no_cia']  = $val->no_cia;
+                $requested        = DB::table('users')->where('id', $val->id_user)->first();
+                $arr[$key]['requested']  = $requested->name;
+                $arr[$key]['create_on']  = $val->date_create;
+                $arr[$key]['necessity']  = $val->necessity;
+                $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
+                $arr[$key]['unit']  = $val->unit;
+                if($val->status == 1){
+                    $na        = DB::table('users')->where('id', $val->id_user)->first();
+                    $text_status    = 'CREATE <br> By <br>'.$na->name;
+                }elseif($val->status == 2){
+                    $na        = DB::table('users')->where('id', $val->id_dephead)->first();
+                    $text_status    = 'APPROVE DEPHEAD <br> By <br>'.$na->name;
+                }elseif($val->status == 3){
+                    $na        = DB::table('users')->where('id', $val->id_finance)->first();
+                    $text_status    = 'APPROVE FINANCE <br> By <br>'.$na->name;
+                }else{
+                    $text_status    = 'Delete';
+                }
+                $arr[$key]['status']  = $text_status;
+                $arr[$key]['modified']  = $val->last_update;
+                $arr[$key]['amount_actual']  = "Rp " . number_format($val->amount_actual, 0, ',', '.');
+                $arr[$key]['selisih']  = "Rp " . number_format($val->selisih, 0, ',', '.');
+                $arr[$key]['remark']  = $val->remark;
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="closecia" data-item="'.$val->id.'"><i class="bi bi-check2-square"></i></button>';
             }else{
-                $text_status    = 'Delete';
+
             }
-            $arr[$key]['status']  = $text_status;
-            $arr[$key]['modified']  = $val->last_update;
-            $arr[$key]['amount_actual']  = "Rp " . number_format($val->amount_actual, 0, ',', '.');
-            $arr[$key]['selisih']  = "Rp " . number_format($val->selisih, 0, ',', '.');
-            $arr[$key]['remark']  = $val->remark;
-            $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="approve" data-item="'.$val->id.'"><i class="bi bi-check2-all"></i></button>
-            <button type="button" class="btn btn-outline-danger btn-sm" data-name="reject" data-item="'.$val->id.'" data-note="'.$val->remark.'"><i class="bi bi-x-circle"></i></button>';
+
         }
 
         return response($arr);
@@ -1824,6 +1891,31 @@ class MainController extends Controller
         return response('success');
     }
 
+    function submitselisih(Request $request): object{
+        $id                 = $request['id'];
+        $methode_selisih    = $request['methode_selisih'];
+
+        $data   = array(
+            'status' => 7,
+            'methode_selisih' => $methode_selisih,
+            'update_by' => auth::user()->id
+        );
+
+        DB::table('trx_cia')->where('id', $id)->update($data);
+        return response('success');
+    }
+
+    function submitclosecia(Request $request): object{
+        $id                 = $request['id'];
+
+        $data   = array(
+            'status' => 8,
+            'update_by' => auth::user()->id
+        );
+
+        DB::table('trx_cia')->where('id', $id)->update($data);
+        return response('success');
+    }
 
 
     // End Cash In Avance
