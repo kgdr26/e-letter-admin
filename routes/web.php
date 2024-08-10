@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MateraiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -153,5 +154,13 @@ Route::middleware(['auth'])->group(function () {
 
 
     // End Cash In Advance
+    // Start Materai
+    Route::get('stock/create', [MateraiController::class, 'createStock'])->name('stock.create');
+    Route::post('stock', [MateraiController::class, 'storeStock'])->name('stock.store');
 
+    Route::get('transaction/create', [MateraiController::class, 'createTransaction'])->name('transaction.create');
+    Route::post('transaction', [MateraiController::class, 'storeTransaction'])->name('transaction.store');
+
+    Route::get('transaction/history', [MateraiController::class, 'history'])->name('transaction.history');
+    // 
 });
