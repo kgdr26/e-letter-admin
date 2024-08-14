@@ -370,6 +370,48 @@ CREATE TABLE `trx_chceksheet_asset` (
 
 /*Data for the table `trx_chceksheet_asset` */
 
+/*Table structure for table `trx_cia` */
+
+DROP TABLE IF EXISTS `trx_cia`;
+
+CREATE TABLE `trx_cia` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `no_cia` varchar(255) DEFAULT NULL,
+  `id_user` int(11) DEFAULT NULL,
+  `date_create` date DEFAULT NULL,
+  `necessity` text DEFAULT NULL,
+  `unit` varchar(255) DEFAULT NULL,
+  `amount` int(11) DEFAULT NULL,
+  `amount_actual` int(11) DEFAULT NULL,
+  `selisih` int(11) DEFAULT NULL,
+  `remark` text DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `id_dephead` int(11) DEFAULT NULL,
+  `id_finance` int(11) DEFAULT NULL,
+  `id_chasier` int(11) DEFAULT NULL,
+  `metode` int(11) DEFAULT NULL,
+  `bank` varchar(255) DEFAULT NULL,
+  `atas_nama` varchar(255) DEFAULT NULL,
+  `no_rek` varchar(255) DEFAULT NULL,
+  `bukti_tf_ambil` varchar(255) DEFAULT NULL,
+  `bukti_tf_terima` varchar(255) DEFAULT NULL,
+  `struk` varchar(255) DEFAULT NULL,
+  `methode_selisih` int(11) DEFAULT NULL,
+  `bank_selisih` varchar(255) DEFAULT NULL,
+  `atas_nama_selisih` varchar(255) DEFAULT NULL,
+  `norek_selisih` varchar(255) DEFAULT NULL,
+  `update_by` int(11) DEFAULT NULL,
+  `is_active` int(11) DEFAULT NULL,
+  `last_update` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+/*Data for the table `trx_cia` */
+
+insert  into `trx_cia`(`id`,`no_cia`,`id_user`,`date_create`,`necessity`,`unit`,`amount`,`amount_actual`,`selisih`,`remark`,`status`,`id_dephead`,`id_finance`,`id_chasier`,`metode`,`bank`,`atas_nama`,`no_rek`,`bukti_tf_ambil`,`bukti_tf_terima`,`struk`,`methode_selisih`,`bank_selisih`,`atas_nama_selisih`,`norek_selisih`,`update_by`,`is_active`,`last_update`) values 
+(1,'CIA.2024-08.0001',1,'2024-08-10','Tes input','1 Paket',1000000,500000,500000,NULL,8,1,1,1,1,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,1,1,'2024-08-11 00:07:00'),
+(2,'CIA.2024-08.0002',1,'2024-08-10','Tes 2','1 Paket',10000000,10000000,0,'Tes 2',6,1,1,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,'2024-08-10 21:54:20');
+
 /*Table structure for table `trx_employe_loan` */
 
 DROP TABLE IF EXISTS `trx_employe_loan`;
@@ -486,7 +528,7 @@ CREATE TABLE `trx_surat` (
   `is_active` int(11) DEFAULT NULL,
   `last_update` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 /*Data for the table `trx_surat` */
 
@@ -568,7 +610,12 @@ insert  into `trx_surat`(`id`,`letter_admin`,`notes`,`date_release`,`employe`,`t
 (75,'004/ADDMKT/IV/2024','Peminjaman kendaraan mobil, untuk ke PT. Chiyoda pick up barang\nDriver Bp. Norman','2024-04-26',41,6,17,NULL,41,1,'2024-05-12 21:15:17'),
 (76,'005/ADFIN/IV/2024','Konfirmasi Penggunaan Jasa Aktuaris Untuk Perhitungan Kewajiban Diestimasi Tahun 2024','2024-04-30',41,4,20,'005ADFINIV2024 - KONFIRMASI PENGGUNAAN JASA AKTUARIS 2024 (ADASI).pdf',41,1,'2024-05-12 20:58:59'),
 (77,'006/ADFIN/V/2024','Surat Permohonan Pengembalian Dana atas Double Transfer - Kopkar AI','2024-05-02',4,4,11,NULL,4,1,'2024-05-02 03:39:39'),
-(78,'007/ADFIN/V/2024','Testew','2024-05-14',28,4,11,NULL,28,1,'2024-05-14 09:59:21');
+(78,'007/ADFIN/V/2024','Testew','2024-05-14',28,4,11,NULL,28,1,'2024-05-14 09:59:21'),
+(79,'010/ADADM/VI/2024','hgfhgch','2024-06-12',1,3,1,NULL,1,1,'2024-06-16 20:19:57'),
+(80,'011/ADADM/VI/2024','gnfjhvj','2024-06-21',1,3,1,NULL,1,1,'2024-06-16 20:20:43'),
+(81,'012/ADADM/VI/2024','ghfhg','2024-06-13',1,3,1,NULL,1,1,'2024-06-16 20:21:47'),
+(82,'008/ADFIN/VI/2024','hhkjhkij','2024-06-12',1,4,1,NULL,1,1,'2024-06-16 20:22:33'),
+(83,'013/ADADM/VI/2024','Test','2024-06-22',1,3,1,NULL,1,1,'2024-06-22 21:22:45');
 
 /*Table structure for table `trx_ticket_request` */
 
