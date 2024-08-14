@@ -47,13 +47,39 @@
                                             <label for="" class="form-label">Amount</label>
                                             <input type="text" class="form-control" data-name="amount">
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="" class="form-label">Unit</label>
-                                            <input type="text" class="form-control" data-name="unit">
+                                        <div class="class row col-12">
+                                            <div class="col-6">
+                                                <div class="mb-3">
+                                                    <label for="" class="form-label">Qty</label>
+                                                    <input type="text" class="form-control" data-name="#">
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                {{-- <div class="mb-3">
+                                                    <label class="col-form-label">Unit</label>
+                                                    <select class="form-select" data-name="unit"
+                                                        aria-label="Default select example">
+                                                        <option selected>Select</option>
+                                                        <option value="Pcs">Pcs</option>
+                                                        <option value="Box">Box</option>
+                                                        <option value="Pack">Pack</option>
+                                                    </select>
+                                                </div> --}}
+                                                <div class="mb-3">
+                                                    <label for="" class="form-label">Unit</label>
+                                                    <select class="form-select" data-name="unit"
+                                                        aria-label="Default select example">
+                                                        <option selected>Select Unit</option>
+                                                        <option value="Pcs">Pcs</option>
+                                                        <option value="Box">Box</option>
+                                                        <option value="Pack">Pack</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
-
                                         <div class="d-flex justify-content-end">
-                                            <button type="button" class="btn btn-primary me-3" data-name="save_data">Submit</button>
+                                            <button type="button" class="btn btn-primary me-3"
+                                                data-name="save_data">Submit</button>
                                             <button type="reset" class="btn btn-secondary">Reset</button>
                                         </div>
                                     </div>

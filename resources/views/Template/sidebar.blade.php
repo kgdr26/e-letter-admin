@@ -212,20 +212,13 @@
             <ul id="materai-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="{{ route('stock.create') }}">
-                        <i class="bi bi-file-earmark-text-fill fs-6"></i><span>Form Materai</span>
+                        <i class="bi bi-file-earmark-text-fill fs-6"></i><span>Overview</span>
                     </a>
                 </li>
             </ul>
             <ul id="materai-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="{{ route('transaction.create') }}">
-                        <i class="bi bi-file-earmark-text-fill fs-6"></i><span>Form Materai</span>
-                    </a>
-                </li>
-            </ul>
-            <ul id="materai-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-                <li>
-                    <a href="{{ route('transaction.history') }}">
                         <i class="bi bi-file-earmark-text-fill fs-6"></i><span>Form Materai</span>
                     </a>
                 </li>

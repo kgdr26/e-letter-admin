@@ -23,123 +23,189 @@ use DB;
 class MateraiController extends Controller
 {
 
-    // Menampilkan form input stok material
     public function createStock()
     {
         $idn_user   = idn_user(auth::user()->id);
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
-            'title' => 'Form Stock Materai || Finance',
+            'title' => 'Users',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role
         );
-        $transactions = DB::table('transactions')->get();
-        return view('Materai.createStock', compact('transactions'))->with($data);
+
+        $materais = DB::table('trx_materais')->get();
+        $totalStock = DB::table('trx_materais')->sum('stock');
+        $transactions = DB::table('trx_transactions')->orderBy('created_at', 'desc')->get();
+
+        return view('Materai.createStock', compact('materais', 'totalStock', 'transactions'))->with($data);
+
+        // $transactions = DB::table('trx_transactions')->orderBy('created_at', 'desc')->get();
+        // $currentStock = DB::table('trx_materais')->value('stock') ?? 0;
+
+        // return view('Materai.createStock', compact('transactions', 'currentStock'))->with($data);
+
+        // $transactions = DB::table('trx_materais')->get();
+        // return view('Materai.createStock', compact('transactions'))->with($data);
     }
 
-    // Menyimpan data stok material
     public function storeStock(Request $request)
     {
-        $idn_user   = idn_user(auth::user()->id);
-        $arr        = DB::select("SELECT * FROM users where is_active=1");
-        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
-        $data = array(
-            'title' => 'Form Stock Materai || Finance',
-            'arr'   => $arr,
-            'idn_user' => $idn_user,
-            'role'  => $role
-        );
         $request->validate([
+            'name' => 'required|string|max:255',
             'stock' => 'required|integer|min:1',
         ]);
+        // DB::table('trx_materais')->update([
+        //     'stock' => DB::raw('stock + ' . $request->stock)
+        // ]);
 
-        DB::table('materais')->insert([
-            'name' => 'Materai', // Nama bisa disesuaikan
+        // DB::table('trx_materais')->updateOrInsert(
+        //     ['id' => 1],
+        //     ['stock' => DB::raw('stock + ' . $request->stock)]
+        // );
+
+        // DB::table('trx_transactions')->insert([
+        //     'materai_id' => 1,
+        //     'keterangan' => 'Penambahan Stok',
+        //     'quantity' => $request->stock,
+        //     'employee' => Auth::user()->name,
+        //     'status' => 'Tambah Stok',
+        //     'created_at' => now(),
+        //     'updated_at' => now()
+        // ]);
+
+        DB::table('trx_materais')->insert([
+            'name' => $request->name,
             'stock' => $request->stock,
             'created_at' => now(),
-            'updated_at' => now(),
+            'updated_at' => now()
         ]);
-
-        return redirect()->route('stock.create')->with(
-            'success',
-            'Stok berhasil ditambahkan.'
-        );
+        return redirect()->route('materaicreate')->with('success', 'Stok materai berhasil ditambahkan.');
     }
 
-    // Menampilkan form untuk pengambilan atau pengembalian materai
     public function createTransaction()
     {
         $idn_user   = idn_user(auth::user()->id);
         $arr        = DB::select("SELECT * FROM users where is_active=1");
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
-            'title' => 'Form Stock Materai || Finance',
+            'title' => 'Users',
             'arr'   => $arr,
             'idn_user' => $idn_user,
             'role'  => $role
         );
-        $materai = DB::table('materais')->first(); // Ambil data stok materai
-        return view('Materai.createTransaction', compact('materai'))->with($data);
+
+
+        $currentStock = DB::table('trx_materais')->value('stock') ?? 0;
+        return view('Materai.createTransaction', compact('currentStock'))->with($data);
+        // $materai = DB::table('trx_materais')->first();
+
+        // if (!$materai) {
+        //     $stock = 0;
+        // } else {
+        //     $stock = $materai->stock;
+        // }
+        // dd($stock);
+        // return view('Materai.createTransaction', compact('stock'))->with($data);
+
     }
 
-    // Menyimpan transaksi pengambilan atau pengembalian
     public function storeTransaction(Request $request)
     {
-        $idn_user   = idn_user(auth::user()->id);
-        $arr        = DB::select("SELECT * FROM users where is_active=1");
-        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
-        $data = array(
-            'title' => 'Form Stock Materai || Finance',
-            'arr'   => $arr,
-            'idn_user' => $idn_user,
-            'role'  => $role
-        );
+        // $request->validate([
+        //     'keterangan' => 'required|string|max:255',
+        //     'quantity' => 'required|integer',
+        //     'employee' => 'required|string|max:255',
+        //     'status' => 'required|string|max:255',
+        // ]);
+
+        // if ($request->status == 'Ambil Materai') {
+        //     DB::table('trx_materais')->decrement('stock', $request->quantity);
+        // } else if ($request->status == 'Kembalikan Materai') {
+        //     DB::table('trx_materais')->increment('stock', $request->quantity);
+        // }
+
+        // // Simpan transaksi ke tabel trx_transactions
+        // DB::table('trx_transactions')->insert([
+        //     'materai_id' => 1,
+        //     'keterangan' => $request->keterangan,
+        //     'quantity' => $request->quantity,
+        //     'employee' => $request->employee,
+        //     'status' => $request->status,
+        //     'created_at' => now(),
+        //     'updated_at' => now()
+        // ]);
+
+        // kedua
+        // $request->validate([
+        //     'keterangan' => 'required|string|max:255',
+        //     'quantity' => 'required|integer|min:1',
+        //     'employee' => 'required|string|max:255',
+        //     'status' => 'required|in:Ambil Materai,Kembalikan Materai',
+        // ]);
+
+        // $currentStock = DB::table('trx_materais')->value('stock') ?? 0;
+
+        // if ($request->status == 'Ambil Materai' && $currentStock < $request->quantity) {
+        //     return redirect()->back()->with('error', 'Stok materai tidak mencukupi.');
+        // }
+
+        // DB::transaction(function () use ($request) {
+        //     if ($request->status == 'Ambil Materai') {
+        //         DB::table('trx_materais')->decrement('stock', $request->quantity);
+        //     } else {
+        //         DB::table('trx_materais')->increment('stock', $request->quantity);
+        //     }
+
+        //     DB::table('trx_transactions')->insert([
+        //         'materai_id' => 1,
+        //         'keterangan' => $request->keterangan,
+        //         'quantity' => $request->quantity,
+        //         'employee' => $request->employee,
+        //         'status' => $request->status,
+        //         'created_at' => now(),
+        //         'updated_at' => now()
+        //     ]);
+        // });
+        // end kedua
+
         $request->validate([
-            'type' => 'required|in:in,out',
+            'materai_id' => 'required|exists:trx_materais,id',
+            'keterangan' => 'required|string|max:255',
             'quantity' => 'required|integer|min:1',
+            'employee' => 'required|string|max:255',
+            'status' => 'required|in:Ambil Materai,Kembalikan Materai',
         ]);
 
-        // Ambil stok materai terkini
-        $materai = DB::table('materais')->first();
+        $materai = DB::table('trx_materais')->where('id', $request->materai_id)->first();
 
-        if ($request->type === 'out' && $materai->stock < $request->quantity) {
-            return redirect()->back()->with('error', 'Stok tidak mencukupi.');
+        if ($request->status == 'Ambil Materai' && $materai->stock < $request->quantity) {
+            return redirect()->back()->with('error', 'Stok materai tidak mencukupi.');
         }
 
-        // Simpan transaksi
-        DB::table('transactions')->insert([
-            'materai_id' => $materai->id,
-            'type' => $request->type,
-            'quantity' => $request->quantity,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        DB::transaction(function () use ($request, $materai) {
+            if ($request->status == 'Ambil Materai') {
+                DB::table('trx_materais')
+                    ->where('id', $request->materai_id)
+                    ->decrement('stock', $request->quantity);
+            } else {
+                DB::table('trx_materais')
+                    ->where('id', $request->materai_id)
+                    ->increment('stock', $request->quantity);
+            }
 
-        // Update stok
-        if ($request->type === 'out') {
-            DB::table('materais')->where('id', $materai->id)->decrement('stock', $request->quantity);
-        } else {
-            DB::table('materais')->where('id', $materai->id)->increment('stock', $request->quantity);
-        }
+            DB::table('trx_transactions')->insert([
+                'materai_id' => $request->materai_id,
+                'keterangan' => $request->keterangan,
+                'quantity' => $request->quantity,
+                'employee' => $request->employee,
+                'status' => $request->status,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
+        });
 
-        return redirect()->route('transaction.create')->with('success', 'Transaksi berhasil dicatat.');
-    }
-
-    // Menampilkan riwayat transaksi
-    public function history()
-    {
-        $idn_user   = idn_user(auth::user()->id);
-        $arr        = DB::select("SELECT * FROM users where is_active=1");
-        $role       = DB::select("SELECT * FROM mst_role where is_active=1");
-        $data = array(
-            'title' => 'Form Stock Materai || Finance',
-            'arr'   => $arr,
-            'idn_user' => $idn_user,
-            'role'  => $role
-        );
-        $transactions = DB::table('transactions')->get();
-        return view('Materai.history', compact('transactions'))->with($data);
+        return redirect()->route('materaicreate')->with('success', 'Transaksi berhasil disimpan.');
     }
 }
