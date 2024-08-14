@@ -51,24 +51,13 @@
                                             <div class="col-6">
                                                 <div class="mb-3">
                                                     <label for="" class="form-label">Qty</label>
-                                                    <input type="text" class="form-control" data-name="#">
+                                                    <input type="text" class="form-control" data-name="qty">
                                                 </div>
                                             </div>
                                             <div class="col-6">
-                                                {{-- <div class="mb-3">
-                                                    <label class="col-form-label">Unit</label>
-                                                    <select class="form-select" data-name="unit"
-                                                        aria-label="Default select example">
-                                                        <option selected>Select</option>
-                                                        <option value="Pcs">Pcs</option>
-                                                        <option value="Box">Box</option>
-                                                        <option value="Pack">Pack</option>
-                                                    </select>
-                                                </div> --}}
                                                 <div class="mb-3">
                                                     <label for="" class="form-label">Unit</label>
-                                                    <select class="form-select" data-name="unit"
-                                                        aria-label="Default select example">
+                                                    <select class="form-select" data-name="unit">
                                                         <option selected>Select Unit</option>
                                                         <option value="Pcs">Pcs</option>
                                                         <option value="Box">Box</option>
@@ -137,7 +126,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="datashowchasier1">
-                    <div class="card-style">
+                    <div class="card-style mb-3">
                         <h2>PT. ASTRA DAIDO STEEL INDONESIA</h2>
                         <table class="table table-borderless">
                             <tbody>
@@ -186,6 +175,60 @@
                                 <td class="text-center">(<span id="name_finance"></span>)</td>
                                 <td class="text-center">(<span id="name_dephead"></span>)</td>
                                 <td class="text-center">(<span id="name_userapr"></span>)</td>
+                            </tr>
+                        </table>
+
+
+                    </div>
+                    <div class="card-style mt-3">
+                        <h2>PT. ASTRA DAIDO STEEL INDONESIA</h2>
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>Type</td>
+                                    <td>:</td>
+                                    <td id="2_no_cia">-</td>
+                                    <td class="text-midle text-center" rowspan="6">
+                                        <img src="" style="width: 10rem" id="2_img_status">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Date Create</td>
+                                    <td>:</td>
+                                    <td id="2_date_create">-</td>
+                                </tr>
+                                <tr>
+                                    <td>Requester</td>
+                                    <td>:</td>
+                                    <td id="2_name_user">-</td>
+                                </tr>
+                                <tr>
+                                    <td>Necessity</td>
+                                    <td>:</td>
+                                    <td id="2_necessity">-</td>
+                                </tr>
+                                <tr>
+                                    <td>Amount</td>
+                                    <td>:</td>
+                                    <td id="2_amount">-</td>
+                                </tr>
+                                <tr>
+                                    <td>Unit</td>
+                                    <td>:</td>
+                                    <td id="2_unit">-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td class="text-center">Approve By Finance</td>
+                                <td class="text-center">Approve By Dephead</td>
+                                <td class="text-center">Requester</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">(<span id="2_name_finance"></span>)</td>
+                                <td class="text-center">(<span id="2_name_dephead"></span>)</td>
+                                <td class="text-center">(<span id="2_name_userapr"></span>)</td>
                             </tr>
                         </table>
 
@@ -493,7 +536,11 @@
             var necessity = $("[data-name='necessity']").val();
             var amount_asli = $("[data-name='amount']").val();
             var amount = amount_asli.replace(/[^0-9]/g, '');
-            var unit = $("[data-name='unit']").val();
+            var qty = $("[data-name='qty']").val();
+            var unit_inp = $("[data-name='unit']").val();
+            var unit = qty+' '+unit_inp;
+
+            // alert(unit);
 
             if (date_create === '' || necessity === '' || amount === '' || unit === '') {
                 Swal.fire({
@@ -516,7 +563,6 @@
                     cache: false,
                     success: function(data) {
                         // console.log(data);
-
                         if (data.cek === 0) {
                             inputcia(date_create, necessity, amount, unit)
                         } else {
@@ -565,6 +611,7 @@
                         $("[data-name='necessity']").val('');
                         $("[data-name='amount']").val('');
                         $("[data-name='unit']").val('');
+                        $("[data-name='qty']").val('');
                     })
                 },
                 error: function(data) {
@@ -592,7 +639,9 @@
             var necessity = $("[data-name='necessity']").val();
             var amount_asli = $("[data-name='amount']").val();
             var amount = amount_asli.replace(/[^0-9]/g, '');
-            var unit = $("[data-name='unit']").val();
+            var qty = $("[data-name='qty']").val();
+            var unit_inp = $("[data-name='unit']").val();
+            var unit = qty+' '+unit_inp;
 
             if (remark === '') {
                 Swal.fire({
@@ -680,6 +729,17 @@
                     $('#amount').text(converttorupiah(data.amount));
                     var show_foto = "{{ asset('assets/img/draft.png') }}";
                     $('#img_status').attr('src', show_foto);
+
+                    $('#2_no_cia').text(data.no_cia);
+                    $('#2_name_dephead').text(data.name_dephead);
+                    $('#2_name_finance').text(data.name_finance);
+                    $('#2_name_user').text(data.name_user);
+                    $('#2_name_userapr').text(data.name_user);
+                    $('#2_date_create').text(data.date_create);
+                    $('#2_necessity').text(data.necessity);
+                    $('#2_unit').text(data.unit);
+                    $('#2_amount').text(converttorupiah(data.amount));
+                    $('#2_img_status').attr('src', show_foto);
 
                     $('#modal_to_casier').modal('show');
                 },

@@ -109,17 +109,17 @@
                         <div id="mtf" style="display: none">
                             <div class="mb-3">
                                 <label for="" class="form-label">Recipient Bank</label>
-                                <input type="text" class="form-control" data-name="bank">
+                                <input type="text" class="form-control" data-name="bank" readonly value="{{$idn_user->nama_bank}}">
                             </div>
 
                             <div class="mb-3">
                                 <label for="" class="form-label">Account Number</label>
-                                <input type="text" class="form-control" data-name="no_rek">
+                                <input type="text" class="form-control" data-name="no_rek" readonly value="{{$idn_user->no_rek}}">
                             </div>
 
                             <div class="mb-3">
                                 <label for="" class="form-label">Account Name</label>
-                                <input type="text" class="form-control" data-name="atas_nama">
+                                <input type="text" class="form-control" data-name="atas_nama" readonly value="{{$idn_user->name}}">
                             </div>
                         </div>
 
@@ -369,9 +369,6 @@
                     $('#amount').text(converttorupiah(data.amount));
 
                     $("[data-name='metode']").val('').trigger("change");
-                    $("[data-name='no_rek']").val('');
-                    $("[data-name='bank']").val('');
-                    $("[data-name='atas_nama']").val('');
                     $('[data-name="id_cia"]').val(data.id);
 
                     $('#modal_to_casier').modal('show');
