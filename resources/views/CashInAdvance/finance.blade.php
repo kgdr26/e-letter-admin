@@ -1,39 +1,47 @@
 @extends('main')
 @section('content')
     <section class="section dashboard">
-        <div class="row align-items-top">
+        <div class="card">
+            <div class="card-body mt-3">
+                @include('CashInAdvance.navtab')
+                <div class="tab-content pt-2 mt-3">
+                    <div class="tab-pane fade show active">
+                        <div class="row align-items-top">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Finance Cash In Advance</span>
 
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between">
-                            <span>Finance Cash In Advance</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mt-3">
+                                            <table class="table" id="dataTable">
+                                                <thead>
+                                                    <tr class="text-center">
+                                                        <th>No</th>
+                                                        <th>Type</th>
+                                                        <th>Requested</th>
+                                                        <th>Create On</th>
+                                                        <th>Necessity</th>
+                                                        <th>Amount</th>
+                                                        <th>Unit</th>
+                                                        <th>Modified</th>
+                                                        <th>Amount Actual</th>
+                                                        <th>Selisih</th>
+                                                        <th>Remark</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="mt-3">
-                            <table class="table" id="dataTable">
-                                <thead>
-                                    <tr class="text-center">
-                                        <th>No</th>
-                                        <th>Type</th>
-                                        <th>Requested</th>
-                                        <th>Create On</th>
-                                        <th>Necessity</th>
-                                        <th>Amount</th>
-                                        <th>Unit</th>
-                                        <th>Modified</th>
-                                        <th>Amount Actual</th>
-                                        <th>Selisih</th>
-                                        <th>Remark</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

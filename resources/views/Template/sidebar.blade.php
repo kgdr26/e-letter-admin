@@ -168,6 +168,12 @@
 
         <li class="nav-heading">Finance</li>
         <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('inputcia') }}">
+                <i class="bi bi-cash-coin"></i>
+                <span>Cash In Advance</span>
+            </a>
+        </li>
+        {{-- <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#delivery-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-cash-coin"></i><span>Cash In Advance</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
@@ -198,7 +204,7 @@
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> --}}
         <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#materai-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-piggy-bank"></i><span>Stok Materai</span><i class="bi bi-chevron-down ms-auto"></i>

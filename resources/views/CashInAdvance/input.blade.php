@@ -11,86 +11,94 @@
         }
     </style>
     <section class="section dashboard">
-        <div class="row d-flex align-items-stretch">
-            @include('CashInAdvance.navtab')
-            <div class="col-3">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between">
-                            <span>Form Cash In Advance</span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label for="" class="form-label">Date</label>
-                            <div class="input-group">
-                                <span class="input-group-text" id=""><i
-                                        class="bi bi-calendar-week-fill"></i></span>
-                                <input type="text" class="form-control" data-name="date_create"
-                                    value="{{ date('Y-m-d') }}">
+        <div class="card">
+            <div class="card-body mt-3">
+                @include('CashInAdvance.navtab')
+                <div class="tab-content pt-2 mt-3">
+                    <div class="tab-pane fade show active">
+                        <div class="row d-flex align-items-stretch">
+                            <div class="col-3">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between">
+                                            <span>Form Cash In Advance</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Date</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text" id=""><i
+                                                        class="bi bi-calendar-week-fill"></i></span>
+                                                <input type="text" class="form-control" data-name="date_create"
+                                                    value="{{ date('Y-m-d') }}">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Requester</label>
+                                            <input type="text" class="form-control" data-name=""
+                                                value="{{ $idn_user->npk }} - {{ $idn_user->name }}" disabled>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Necessity</label>
+                                            <textarea class="form-control" data-name="necessity"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Amount</label>
+                                            <input type="text" class="form-control" data-name="amount">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Unit</label>
+                                            <input type="text" class="form-control" data-name="unit">
+                                        </div>
+
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn btn-primary me-3" data-name="save_data">Submit</button>
+                                            <button type="reset" class="btn btn-secondary">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Requester</label>
-                            <input type="text" class="form-control" data-name=""
-                                value="{{ $idn_user->npk }} - {{ $idn_user->name }}" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Necessity</label>
-                            <textarea class="form-control" data-name="necessity"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Amount</label>
-                            <input type="text" class="form-control" data-name="amount">
-                        </div>
-                        <div class="mb-3">
-                            <label for="" class="form-label">Unit</label>
-                            <input type="text" class="form-control" data-name="unit">
-                        </div>
 
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary me-3" data-name="save_data">Submit</button>
-                            <button type="reset" class="btn btn-secondary">Reset</button>
+                            <div class="col-9">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between">
+                                            <span>List Cash In Advance</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive mt-3">
+                                            <table class="table" id="dataTable">
+                                                <thead>
+                                                    <tr class="text-center">
+                                                        <th>No</th>
+                                                        <th>Type</th>
+                                                        <th>Create On</th>
+                                                        <th>Necessity</th>
+                                                        <th>Amount</th>
+                                                        <th>Unit</th>
+                                                        <th>Status</th>
+                                                        <th>Modified</th>
+                                                        <th>Amount Actual</th>
+                                                        <th>Selisih</th>
+                                                        <th>Remark</th>
+                                                        <th class="text-center">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-9">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between">
-                            <span>List Cash In Advance</span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive mt-3">
-                            <table class="table" id="dataTable">
-                                <thead>
-                                    <tr class="text-center">
-                                        <th>No</th>
-                                        <th>Type</th>
-                                        <th>Create On</th>
-                                        <th>Necessity</th>
-                                        <th>Amount</th>
-                                        <th>Unit</th>
-                                        <th>Status</th>
-                                        <th>Modified</th>
-                                        <th>Amount Actual</th>
-                                        <th>Selisih</th>
-                                        <th>Remark</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </section>
 
