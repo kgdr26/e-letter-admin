@@ -404,13 +404,21 @@ CREATE TABLE `trx_cia` (
   `is_active` int(11) DEFAULT NULL,
   `last_update` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 /*Data for the table `trx_cia` */
 
 insert  into `trx_cia`(`id`,`no_cia`,`id_user`,`date_create`,`necessity`,`unit`,`amount`,`amount_actual`,`selisih`,`remark`,`status`,`id_dephead`,`id_finance`,`id_chasier`,`metode`,`bank`,`atas_nama`,`no_rek`,`bukti_tf_ambil`,`bukti_tf_terima`,`struk`,`methode_selisih`,`bank_selisih`,`atas_nama_selisih`,`norek_selisih`,`update_by`,`is_active`,`last_update`) values 
 (1,'CIA.2024-08.0001',1,'2024-08-10','Tes input','1 Paket',1000000,500000,500000,NULL,8,1,1,1,1,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,1,1,'2024-08-11 00:07:00'),
-(2,'CIA.2024-08.0002',1,'2024-08-10','Tes 2','1 Paket',10000000,10000000,0,'Tes 2',6,1,1,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,'2024-08-10 21:54:20');
+(2,'CIA.2024-08.0002',1,'2024-08-10','Tes 2','1 Paket',10000000,10000000,0,'Tes 2',8,1,1,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,'2024-08-14 21:11:03'),
+(3,'CIA.2024-08.0003',1,'2024-08-14','ityjfyuy','1 paket',50000,50000,0,'fjfdhgjgfhjg',8,1,1,1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,'2024-08-14 21:14:55'),
+(4,'CIA.2024-08.0004',1,'2024-08-14','sadsa','yryer',6000,NULL,NULL,NULL,5,1,1,1,2,'BANK_TEST','MEDI KRISNANTO','5681175068',NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,'2024-08-15 01:57:26'),
+(5,'CIA.2024-08.0005',1,'2024-08-14','sadsd','dsf',5999,NULL,NULL,'dsfsdfsdfds',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,'2024-08-14 21:23:32'),
+(6,'CIA.2024-08.0006',1,'2024-08-14','sdafsdfds','Box',600000,NULL,NULL,'fgdfdf',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,'2024-08-14 22:23:36'),
+(7,'CIA.2024-08.0007',1,'2024-08-14','sdfsdaf','Box',5000,NULL,NULL,'sdfsdf',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,'2024-08-14 22:25:17'),
+(8,'CIA.2024-08.0008',1,'2024-08-14','sadfasfsd','Box',50000,NULL,NULL,'adwdqwededew',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,'2024-08-14 22:28:02'),
+(9,'CIA.2024-08.0009',1,'2024-08-14','asdasdsa','Pack',5000,NULL,NULL,'sdasdasdsd',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,'2024-08-14 22:31:57'),
+(10,'CIA.2024-08.0010',1,'2024-08-14','aszcdSADAS','1 Box',50000,NULL,NULL,'SDFASFSAD',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,1,'2024-08-14 22:32:52');
 
 /*Table structure for table `trx_employe_loan` */
 
@@ -661,6 +669,8 @@ CREATE TABLE `users` (
   `name` varchar(255) DEFAULT NULL,
   `npk` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
+  `nama_bank` varchar(255) DEFAULT NULL,
+  `no_rek` varchar(255) DEFAULT NULL,
   `no_tlp` varchar(255) DEFAULT NULL,
   `foto` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
@@ -672,48 +682,48 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`username`,`password`,`pass`,`role_id`,`name`,`npk`,`email`,`no_tlp`,`foto`,`status`,`is_active`,`update_by`,`last_update`) values 
-(1,'SUPERADMIN','$2y$12$5FULY9NX47FE4BJ5EiM2GetVcQJIob15mDYipce08CE9wzrb8anOG','Super123',1,'MEDI KRISNANTO','5661','-','0','74648.jpg',1,1,1,'2024-05-14 08:37:55'),
-(2,'JESSICA','$2y$12$Dui/.Vpid.HkFSZxWGl0mOZuDS7k7ckM/OdyFzW/lreb1iEFxkmia','adasi',16,'JESSICA PAUNE','5584','astra-daido.co.id','0','default.jpg',0,1,1,'2024-05-12 17:39:57'),
-(3,'MEDI','$2y$12$0cV0/5Fy7gCIxK1T5iZ8penMy.0HPoFzdIeRbdhdI/Ez7yP.W2Y86','Super123',1,'MEDI KRISNANTO','1131','astra-daido.co.id','0','10569.png',1,0,1,'2024-05-14 08:38:16'),
-(4,'RICHARDUS','$2y$12$39nAmxHJlPYiOOMd6cy28e6EsKZAodJxLiHNVozPRxsmYn5DWc6YO','123',11,'RICHARDUS','5660','astra-daido.co.id','0','default.jpg',0,1,1,'2024-05-12 17:21:11'),
-(5,'DINAR','$2y$12$eq0ue0QZIKTXxsCdvrN/DeNUGt6cDU/Ph1UbgocVwFg00z9dtKiIe','123',22,'MUHAMMAD DINAR FARISI','5648','astra-daido.co.id','0','default.jpg',0,1,1,'2024-05-12 17:21:13'),
-(6,'DIREKTUR','$2y$12$oK14uvPa/h6r.DGdcfYoo.ru3ux1uRmOLbuPCZSZAuBVkrqE9WoY2','123',5,'DIREKTUR','1111','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-13 21:17:24'),
-(7,'ULFA','$2y$12$ZxET1etoPSi8Hf1cAe3Ppuew40oaO.qKxsaQL8qbZPr50bd.Mc.wq','123',21,'SITI ULFA ULFA','5657','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:13'),
-(8,'HARDI','$2y$12$8Iv.ebZ6lR4a23N8UPVNMeZqaOsGWtZKxEe/N71WfSJ8mmz1ypZLS','123',7,'HARDI SAPUTRA','5424','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-13 21:17:08'),
-(9,'RIDHO','$2y$12$4dsjDbznrM4C.v.Z8LYEr.owJKCNZiOTea6rm6GsbVj3tyoSfzF3W','123',14,'RIDHO','5633','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:15'),
-(10,'ILHAM','$2y$12$WJO8XID7MR.QpGsGxWguZOQi58VQiWcdieG4OeAX9lUd9GLT7iVaa','123',17,'ILHAM CHOLID','5530\r\n','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:15'),
-(11,'HERY','$2y$12$XRS169m9.BMyc8hyJIPwAuALg7.q5LQknguVwN70bKMfPBD6ccOSO','123',17,'HERY','5591','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:15'),
-(12,'HERLIANA','$2y$12$fU12mzv.AtcVjNBWKb42OuyBjtOmmASF5lqciz3xx4vq3nOd/BeMa','123',17,'HERLIANA','5428','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:16'),
-(13,'CLAUDIA','$2y$12$inI0yf5V/pEthJQ5MBS6MO5tmP.QUYyeQ3e2rkre/3ha/43YRYWJG','123',17,'FRISILIA CLAUDIA HUTAMA','5506','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:16'),
-(14,'PUTRI','$2y$12$sHbYwkOhVI2Ufzxp20lMr.7P9ilb3u5OEkvq4NO5s5pyVu/6OSYIC','123',17,'PUTRI ANINDIA','5597','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:18'),
-(15,'ERIK','$2y$12$QbgUKDag20vZCcVgWiPXiO9QnSwfjzqqGXw51LrGcX9xIqSWK2Ue.','123',17,'ERIK KHARISMA PUTRA','5653','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:17'),
-(16,'HEXAPA','$2y$12$N/h/fuCxGpELA8Y8WwcOf.n9/MnnnOMvdOiJWzzZRL7/PhDrbb/di','123',17,'HEXAPA DARMADI','5658\r\n','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:17'),
-(17,'DANIA','$2y$12$o9G42PAdffdqdbnCifirG.AO.S.oxjWA3i.670n8UelkD/EDtFko2','123',17,'DANIA ISMAWATI','5607','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:19'),
-(18,'JUN','$2y$12$a.GvVwcUG4lXoIX00N4WheAibdM2OScg8RtBf6tN4MgTeK8Sge8Gi','123',17,'JUN JOHAMIN PD','5471','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:46'),
-(19,'WULYO','$2y$12$WdhI8y7DUllXO3PLmCTEyu6HwmDzb3dTJUzrL166ujdQmeawnnzbq','123',17,'WULYO EKO PRASETYO','5459','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:20'),
-(20,'SENDI','$2y$12$q5zNNafpuzwdqreQ/X6e9uAsH860kLql6X0R4BJ6xsaL1Cid6Xyy6','123',17,'SENDY PRABOWO','5596','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:20'),
-(21,'WELEM','$2y$12$KijH2iRzIlFBDlNcK8uWm.icZ2H0Hpy.yVMz0lq2223JNP.FIuO0O','123',17,'YAN WELEM MANGINSELA','5650','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:22'),
-(22,'TOTOK','$2y$12$bZcNA6KorE4jcKRUfKyM3uRVbobOBCAkO5Cw1GdPtGW1/I2vFnILe','123',17,'ANDIK TOTOK SISWOYO','5456','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:21'),
-(23,'DWI','$2y$12$OivzGDWlENcws2UJuxZuC.gMAaRzYjgV/WrLYh/lUzbaC5EaS07sm','123',17,'DWI KUNTORO','5644','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:22'),
-(24,'RISFAN','$2y$12$hWMOiZTNsD.sxs7bwfMs5u4zyOBd/PDhu4HZ/esK3U1nxkkTUHYZu','123',17,'RISFAN FAISAL','5387','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:23'),
-(25,'HARRY','$2y$12$YdqaKjbanQv8riUfKu432useuIwHKwBjWyYnkQ/tLKtqgPP4n4cue','123',17,'HARRY SUPRIYADI','5410','astra-daido.co.id','0','35088.jpg',NULL,1,1,'2024-05-12 17:21:23'),
-(26,'LINA','$2y$12$OJ8kwvfypGKCrdrC8LEfkO3JZJjiTUu1E6XDUEySb7z6GbVIKDN7a','123',17,'LINA','3333','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-13 21:17:35'),
-(27,'CAHYO','$2y$12$M1yQPhrRS7E5e4aSmmlIKeViHL6EuZt/DREi9Xy1VlwlUBioyrk1q','123',8,'MARTINUS CAHYO RAHASTO','5635','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-14 08:29:05'),
-(28,'ADHI','$2y$12$aSkI8F4B/ROuHA1oWrHFGOWhR/eM2Pu3bZv1xHhR9OkIz58KkBGqK','123',11,'ADHI PRASETIYO','5519','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-14 08:26:28'),
-(29,'SARAH','$2y$12$GrPySfDuTb5Say4UhP.oj.3J16D7qTd8QOik/3EBsQwhy3Xl9tJN.','123',17,'SARAH','1243','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-13 21:18:18'),
-(30,'SONY','$2y$12$qUTwwKPvi2vWiCbuvUr8nOF/OrupY4oupLMMjjppsbE4Ltwu0NBHq','123',17,'SONY STIAWAN','5391\r\n','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:25'),
-(31,'DIMAS','$2y$12$vGb7M6CNt22Mk/ulV3Wc7.B.UwrUWxqh5BpLrxRCvmNqUuGW8kvV6','123',17,'DIMAS ADITYA PRIANDANA','5655','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:26'),
-(32,'GUNAWAN','$2y$12$mLX4HWsusgUMeHqT30PPHOuOCl4pGTTZ0BvXwsyvTEAHjkT399W4e','Gunawan',23,'GUNAWAN','5421','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:26'),
-(33,'SECURITY','$2y$12$zkcdxrn0QovsMZxQ1.1Jve77DMcZ28EF1XiHkG5nXjHWpg4vUiZIe','Security',24,'SECURITY DS8','4444','security.sigap@astra-daido.co.id','0','32970.png',NULL,1,1,'2024-05-13 21:17:38'),
-(34,'RANGGA','$2y$12$rLwaGvod6kJVYLOEesb7w.ajVEdYU/9vWgG9lIJsXwq95Q/DEDAgu','Rangga',14,'RANGGA FADILLAH','5605','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:27'),
-(35,'FAAIZ','$2y$12$2sYKViEce6HF0y0YO.IAc.piQTXFsLEzos2vQr2/x6UwdSx8yvQqq','Faiz',15,'ABDUR RAHMAN AL FAAIZ','5520','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:27'),
-(36,'RAGIL','$2y$12$BBUQ/uIFH.QNxXdWumsjR.mw2jJQb/MtPJHZzhrEwfgbEiH3ovEqO','Rafil',19,'RAGIL ISHA RAHMANTO','5639','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:27'),
-(37,'MUGI','$2y$12$oWWnt1b6Ws1.hv.7Q1PFJOphISkC4ERS0dA4osi8lP9yrmaprS7tG','Mugi',12,'MUGI PRAMONO','5649','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:28'),
-(38,'KOMANG','$2y$12$8gZr572ff1evLNAx4T8Mh.MKTBvf/qQfmwE9z2yFJS/7/VBp9EZhu','Komang',12,'KOMANG HANDIKA','1234','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-13 21:17:47'),
-(39,'VITRI','$2y$12$ykkrJUpqC/FeiBkFUfSgkOmu0jAmMXFIJvVGnFXG1VQu.hyYMKbVG','Vitri',9,'VITRI HANDAYANI','5632','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:28'),
-(40,'YUNASIS','$2y$12$n6Nns78VzepRfBnTlHciWe5k0Ftbu74./bMhog09W3l1ovBB3mvZG','Yunasis',17,'YUNASIS','5375','astra-daido.co.id','0','default.jpg',NULL,1,1,'2024-05-12 17:21:29'),
-(41,'GILANG','$2y$12$q8MYiCIv9g5wKkB..nIqh.Gwe5EgmCvgbRBFlbwTIQgk94urBbDZi','Gilang',20,'GILANG','4321','-','0','default.jpg',NULL,1,1,'2024-05-13 21:17:50');
+insert  into `users`(`id`,`username`,`password`,`pass`,`role_id`,`name`,`npk`,`email`,`nama_bank`,`no_rek`,`no_tlp`,`foto`,`status`,`is_active`,`update_by`,`last_update`) values 
+(1,'SUPERADMIN','$2y$12$edQhKA7QdBohpnL.e./hwe0agxU/EVpODoC94rDJKs.','1',1,'MEDI KRISNANTO','5661','-','BANK_TEST','5681175068','0','74648.jpg',1,1,1,'2024-08-14 21:44:05'),
+(2,'JESSICA','$2y$12$Dui/.Vpid.HkFSZxWGl0mOZuDS7k7ckM/OdyFzW/lre','adasi',16,'JESSICA PAUNE','5584','astra-daido.co.id','BCA','670076768','0','default.jpg',0,1,1,'2024-05-12 17:39:57'),
+(3,'MEDI','$2y$12$0cV0/5Fy7gCIxK1T5iZ8penMy.0HPoFzdIeRbdhdI/E','Super123',1,'MEDI KRISNANTO','1131','astra-daido.co.id','BCA','1-1-1-1-1','0','10569.png',1,0,1,'2024-05-14 08:38:16'),
+(4,'RICHARDUS','$2y$12$39nAmxHJlPYiOOMd6cy28e6EsKZAodJxLiHNVozPRxs','123',11,'RICHARDUS','5660','astra-daido.co.id','BCA','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-12 17:21:11'),
+(5,'DINAR','$2y$12$eq0ue0QZIKTXxsCdvrN/DeNUGt6cDU/Ph1UbgocVwFg','123',22,'MUHAMMAD DINAR FARISI','5648','astra-daido.co.id','BCA','9917424095','0','default.jpg',0,1,1,'2024-05-12 17:21:13'),
+(6,'DIREKTUR','$2y$12$oK14uvPa/h6r.DGdcfYoo.ru3ux1uRmOLbuPCZSZAuB','123',5,'DIREKTUR','1111','astra-daido.co.id','BCA','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-13 21:17:24'),
+(7,'ULFA','$2y$12$ZxET1etoPSi8Hf1cAe3Ppuew40oaO.qKxsaQL8qbZPr','123',21,'SITI ULFA ULFA','5657','astra-daido.co.id','BCA','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-12 17:21:13'),
+(8,'HARDI','$2y$12$8Iv.ebZ6lR4a23N8UPVNMeZqaOsGWtZKxEe/N71WfSJ','123',7,'HARDI SAPUTRA','5424','astra-daido.co.id','BCA','1084728678','0','default.jpg',0,1,1,'2024-05-13 21:17:08'),
+(9,'RIDHO','$2y$12$4dsjDbznrM4C.v.Z8LYEr.owJKCNZiOTea6rm6GsbVj','123',14,'RIDHO','5633','astra-daido.co.id','BCA','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-12 17:21:15'),
+(10,'ILHAM','$2y$12$WJO8XID7MR.QpGsGxWguZOQi58VQiWcdieG4OeAX9lU','123',17,'ILHAM CHOLID','5530','astra-daido.co.id','BCA','4109806191','0','default.jpg',0,1,1,'2024-05-12 17:21:15'),
+(11,'HERY','$2y$12$XRS169m9.BMyc8hyJIPwAuALg7.q5LQknguVwN70bKM','123',17,'HERY','5591','astra-daido.co.id','BCA','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-12 17:21:15'),
+(12,'HERLIANA','$2y$12$fU12mzv.AtcVjNBWKb42OuyBjtOmmASF5lqciz3xx4v','123',17,'HERLIANA','5428','astra-daido.co.id','BCA','1218942705','0','default.jpg',0,1,1,'2024-05-12 17:21:16'),
+(13,'CLAUDIA','$2y$12$inI0yf5V/pEthJQ5MBS6MO5tmP.QUYyeQ3e2rkre/3h','123',17,'FRISILIA CLAUDIA HUTAMA','5506','astra-daido.co.id','BCA','8730393521','0','default.jpg',0,1,1,'2024-05-12 17:21:16'),
+(14,'PUTRI','$2y$12$sHbYwkOhVI2Ufzxp20lMr.7P9ilb3u5OEkvq4NO5s5p','123',17,'PUTRI ANINDIA','5597','astra-daido.co.id','PERMATA','4124432230','0','default.jpg',0,1,1,'2024-05-12 17:21:18'),
+(15,'ERIK','$2y$12$QbgUKDag20vZCcVgWiPXiO9QnSwfjzqqGXw51LrGcX9','123',17,'ERIK KHARISMA PUTRA','5653','astra-daido.co.id','BANK_TEST','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-12 17:21:17'),
+(16,'HEXAPA','$2y$12$N/h/fuCxGpELA8Y8WwcOf.n9/MnnnOMvdOiJWzzZRL7','123',17,'HEXAPA DARMADI','5658','astra-daido.co.id','PERMATA','9834309898','0','default.jpg',0,1,1,'2024-05-12 17:21:17'),
+(17,'DANIA','$2y$12$o9G42PAdffdqdbnCifirG.AO.S.oxjWA3i.670n8Uel','123',17,'DANIA ISMAWATI','5607','astra-daido.co.id','BANK_TEST','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-12 17:21:19'),
+(18,'JUN','$2y$12$a.GvVwcUG4lXoIX00N4WheAibdM2OScg8RtBf6tN4Mg','123',17,'JUN JOHAMIN PD','5471','astra-daido.co.id','BANK_TEST','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-12 17:21:46'),
+(19,'WULYO','$2y$12$WdhI8y7DUllXO3PLmCTEyu6HwmDzb3dTJUzrL166ujd','123',17,'WULYO EKO PRASETYO','5459','astra-daido.co.id','BCA','6730122479','0','default.jpg',0,1,1,'2024-05-12 17:21:20'),
+(20,'SENDI','$2y$12$q5zNNafpuzwdqreQ/X6e9uAsH860kLql6X0R4BJ6xsa','123',17,'SENDY PRABOWO','5596','astra-daido.co.id','BCA','182888328','0','default.jpg',0,1,1,'2024-05-12 17:21:20'),
+(21,'WELEM','$2y$12$KijH2iRzIlFBDlNcK8uWm.icZ2H0Hpy.yVMz0lq2223','123',17,'YAN WELEM MANGINSELA','5650','astra-daido.co.id','PERMATA','9924519565','0','default.jpg',0,1,1,'2024-05-12 17:21:22'),
+(22,'TOTOK','$2y$12$bZcNA6KorE4jcKRUfKyM3uRVbobOBCAkO5Cw1GdPtGW','123',17,'ANDIK TOTOK SISWOYO','5456','astra-daido.co.id','BANK_TEST','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-12 17:21:21'),
+(23,'DWI','$2y$12$OivzGDWlENcws2UJuxZuC.gMAaRzYjgV/WrLYh/lUzb','123',17,'DWI KUNTORO','5644','astra-daido.co.id','PERMATA','9914450427','0','default.jpg',0,1,1,'2024-05-12 17:21:22'),
+(24,'RISFAN','$2y$12$hWMOiZTNsD.sxs7bwfMs5u4zyOBd/PDhu4HZ/esK3U1','123',17,'RISFAN FAISAL','5387','astra-daido.co.id','BCA','8680036978','0','default.jpg',0,1,1,'2024-05-12 17:21:23'),
+(25,'HARRY','$2y$12$YdqaKjbanQv8riUfKu432useuIwHKwBjWyYnkQ/tLKt','123',17,'HARRY SUPRIYADI','5410','astra-daido.co.id','BANK_TEST','1-1-1-1-1','0','35088.jpg',0,1,1,'2024-05-12 17:21:23'),
+(26,'LINA','$2y$12$OJ8kwvfypGKCrdrC8LEfkO3JZJjiTUu1E6XDUEySb7z','123',17,'LINA','3333','astra-daido.co.id','BANK_TEST','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-13 21:17:35'),
+(27,'CAHYO','$2y$12$M1yQPhrRS7E5e4aSmmlIKeViHL6EuZt/DREi9Xy1Vlw','123',8,'MARTINUS CAHYO RAHASTO','5635','astra-daido.co.id','BCA','7160109194','0','default.jpg',0,1,1,'2024-05-14 08:29:05'),
+(28,'ADHI','$2y$12$aSkI8F4B/ROuHA1oWrHFGOWhR/eM2Pu3bZv1xHhR9Ok','123',11,'ADHI PRASETIYO','5519','astra-daido.co.id','BANK_TEST','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-14 08:26:28'),
+(29,'SARAH','$2y$12$GrPySfDuTb5Say4UhP.oj.3J16D7qTd8QOik/3EBsQw','123',17,'SARAH','1243','astra-daido.co.id','BANK_TEST','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-13 21:18:18'),
+(30,'SONY','$2y$12$qUTwwKPvi2vWiCbuvUr8nOF/OrupY4oupLMMjjppsbE','123',17,'SONY STIAWAN','5391','astra-daido.co.id','BCA','3461126306','0','default.jpg',0,1,1,'2024-05-12 17:21:25'),
+(31,'DIMAS','$2y$12$vGb7M6CNt22Mk/ulV3Wc7.B.UwrUWxqh5BpLrxRCvmN','123',17,'DIMAS ADITYA PRIANDANA','5655','astra-daido.co.id','PERMATA','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-12 17:21:26'),
+(32,'GUNAWAN','$2y$12$mLX4HWsusgUMeHqT30PPHOuOCl4pGTTZ0BvXwsyvTEA','Gunawan',23,'GUNAWAN','5421','astra-daido.co.id','BCA','7130565845','0','default.jpg',0,1,1,'2024-05-12 17:21:26'),
+(33,'SECURITY','$2y$12$zkcdxrn0QovsMZxQ1.1Jve77DMcZ28EF1XiHkG5nXjH','Security',24,'SECURITY DS8','4444','security.sigap@astra-daido.co.id','BANK_TEST','1-1-1-1-1','0','32970.png',0,1,1,'2024-05-13 21:17:38'),
+(34,'RANGGA','$2y$12$rLwaGvod6kJVYLOEesb7w.ajVEdYU/9vWgG9lIJsXwq','Rangga',14,'RANGGA FADILLAH','5605','astra-daido.co.id','PERMATA','4108697798','0','default.jpg',0,1,1,'2024-05-12 17:21:27'),
+(35,'FAAIZ','$2y$12$2sYKViEce6HF0y0YO.IAc.piQTXFsLEzos2vQr2/x6U','Faiz',15,'ABDUR RAHMAN AL FAAIZ','5520','astra-daido.co.id','BANK_TEST','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-12 17:21:27'),
+(36,'RAGIL','$2y$12$BBUQ/uIFH.QNxXdWumsjR.mw2jJQb/MtPJHZzhrEwfg','Rafil',19,'RAGIL ISHA RAHMANTO','5639','astra-daido.co.id','BCA','3520401082','0','default.jpg',0,1,1,'2024-05-12 17:21:27'),
+(37,'MUGI','$2y$12$oWWnt1b6Ws1.hv.7Q1PFJOphISkC4ERS0dA4osi8lP9','Mugi',12,'MUGI PRAMONO','5649','astra-daido.co.id','PERMATA','9920723478','0','default.jpg',0,1,1,'2024-05-12 17:21:28'),
+(38,'KOMANG','$2y$12$8gZr572ff1evLNAx4T8Mh.MKTBvf/qQfmwE9z2yFJS/','Komang',12,'KOMANG HANDIKA','1234','astra-daido.co.id','BANK_TEST','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-13 21:17:47'),
+(39,'VITRI','$2y$12$ykkrJUpqC/FeiBkFUfSgkOmu0jAmMXFIJvVGnFXG1VQ','Vitri',9,'VITRI HANDAYANI','5632','astra-daido.co.id','BCA','1670796627','0','default.jpg',0,1,1,'2024-05-12 17:21:28'),
+(40,'YUNASIS','$2y$12$n6Nns78VzepRfBnTlHciWe5k0Ftbu74./bMhog09W3l','Yunasis',17,'YUNASIS','5375','astra-daido.co.id','BANK_TEST','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-12 17:21:29'),
+(41,'GILANG','$2y$12$q8MYiCIv9g5wKkB..nIqh.Gwe5EgmCvgbRBFlbwTIQg','Gilang',20,'GILANG','4321','-','BANK_TEST','1-1-1-1-1','0','default.jpg',0,1,1,'2024-05-13 21:17:50');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
