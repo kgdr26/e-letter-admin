@@ -13,10 +13,34 @@
                                         <div class="d-flex justify-content-between">
                                             <span>Overview Cash In Advance</span>
 
-                                            <div>
-                                                <button type="button" class="btn btn-info" data-name="export"><i
-                                                        class="bi bi-file-earmark-spreadsheet"></i>Export</button>
-                                            </div>
+                                            <form action="{{route('downloadcia')}}" method="get" class="w-50">
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text" id=""><i class="bi bi-calendar-week-fill"></i></span>
+                                                            <input type="text" class="form-control" name="date" data-name="date" value="{{ date('Y-m-d') }}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-4">
+                                                        <select class="form-select" name="status">
+                                                            <option value="all">All</option>
+                                                            <option value="1">Draft</option>
+                                                            <option value="2">Approve Dephead</option>
+                                                            <option value="3">Approve Finance</option>
+                                                            <option value="5">Paid</option>
+                                                            <option value="6">Settlement</option>
+                                                            <option value="7">Oustandaing</option>
+                                                            <option value="8">Finish</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-auto">
+                                                        <button type="submit" class="btn btn-info" data-name="export"><i class="bi bi-file-earmark-spreadsheet"></i>Export</button>
+                                                    </div>
+
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                     <div class="card-body">
@@ -25,7 +49,7 @@
                                                 <thead>
                                                     <tr class="text-center">
                                                         <th>No</th>
-                                                        <th>Type</th>
+                                                        <th>NO. CIA</th>
                                                         <th>Requested</th>
                                                         <th>Create On</th>
                                                         <th>Necessity</th>
@@ -129,5 +153,14 @@
         });
     </script>
     {{-- End JS Datatable --}}
+
+    <script>
+        $('input[data-name="date"]').datepicker({
+            format: "yyyy-mm-dd",
+            viewMode: "days",
+            minViewMode: "days",
+            autoclose: true
+        });
+    </script>
 
 @stop

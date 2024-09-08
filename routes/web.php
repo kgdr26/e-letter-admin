@@ -154,7 +154,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('addamountactual', [MainController::class, 'addamountactual'])->name('addamountactual');
 
-
+    Route::get('downloadcia', [MainController::class, 'downloadcia'])->name('downloadcia');
     // End Cash In Advance
     // Start Materai
     Route::get('materaicreate', [MateraiController::class, 'createStock'])->name('materaicreate');
@@ -162,6 +162,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('stock/store', [MateraiController::class, 'storeStock'])->name('stock.store');
     Route::get('transaction/create', [MateraiController::class, 'createTransaction'])->name('transaction.create');
     Route::post('transaction/store', [MateraiController::class, 'storeTransaction'])->name('transaction.store');
-    // 
+    //
 
 });

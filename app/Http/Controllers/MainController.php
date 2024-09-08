@@ -1962,6 +1962,85 @@ class MainController extends Controller
         return response('success');
     }
 
+    function downloadcia(Request $request): object{
+        $date       = $request['date'];
+        $status     = $request['status'];
+
+        if($status == 'all'){
+            $arr        = DB::table('trx_cia')->where('date_create', $date)->get();
+        }else{
+            $arr        = DB::table('trx_cia')->where('date_create', $date)->where('status', $status)->get();
+        }
+
+        // Load the template file
+        $templatePath = public_path() . '/template/tmp_cia.xlsx';
+        $spreadsheet = IOFactory::load($templatePath);
+
+        // Get the active sheet
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Assuming your template has headers in the first row
+        $startRow = 2; // Data starts from the second row
+        $no       = 1;
+        foreach ($arr as $index => $val) {
+            $sheet->setCellValue('A' . ($startRow + $index), $no++);
+            $sheet->setCellValue('B' . ($startRow + $index), $val->no_cia);
+            $requested        = DB::table('users')->where('id', $val->id_user)->first();
+            $sheet->setCellValue('C' . ($startRow + $index), $requested->name);
+            $sheet->setCellValue('D' . ($startRow + $index), \Carbon\Carbon::parse($val->date_create)->isoFormat('dddd, DD MMM YYYY'));
+            $sheet->setCellValue('E' . ($startRow + $index), $val->necessity);
+            $sheet->setCellValue('F' . ($startRow + $index), $val->amount);
+            $sheet->setCellValue('G' . ($startRow + $index), $val->unit);
+            if($val->status == 1){
+                $sheet->setCellValue('H' . ($startRow + $index), 'Draft');
+            }elseif($val->status == 2){
+                $sheet->setCellValue('H' . ($startRow + $index), 'Approve Dephead');
+            }elseif($val->status == 3){
+                $sheet->setCellValue('H' . ($startRow + $index), 'Approve Finance');
+            }elseif($val->status == 4){
+                $sheet->setCellValue('H' . ($startRow + $index), 'Draft');
+            }elseif($val->status == 5){
+                $sheet->setCellValue('H' . ($startRow + $index), 'Paid');
+            }elseif($val->status == 6){
+                $sheet->setCellValue('H' . ($startRow + $index), 'Settlement');
+            }elseif($val->status == 7){
+                $sheet->setCellValue('H' . ($startRow + $index), 'Oustandaing');
+            }elseif($val->status == 0){
+                $sheet->setCellValue('H' . ($startRow + $index), 'Finish');
+            }else{
+                $sheet->setCellValue('H' . ($startRow + $index), 'Draft');
+            }
+
+            $sheet->setCellValue('I' . ($startRow + $index), \Carbon\Carbon::parse($val->last_update)->isoFormat('dddd, DD MMM YYYY HH:mm:ss'));
+            $sheet->setCellValue('J' . ($startRow + $index), $val->amount_actual);
+            $sheet->setCellValue('K' . ($startRow + $index), $val->selisih);
+            $reqdep        = DB::table('users')->where('id', $val->id_dephead)->first();
+            $sheet->setCellValue('L' . ($startRow + $index), $reqdep->name);
+            $reqfin        = DB::table('users')->where('id', $val->id_finance)->first();
+            $sheet->setCellValue('M' . ($startRow + $index), $reqfin->name);
+        }
+
+        // Create a file name
+        $fileName = 'Report_CIA.xlsx';
+
+        // Create a StreamedResponse to output the Excel file to the browser
+        $response = new StreamedResponse(function () use ($spreadsheet, $fileName) {
+            $writer = new Xlsx($spreadsheet);
+            $writer->save('php://output');
+        });
+
+        // Set the headers for the response
+        $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $fileName . '"');
+        $response->headers->set('Cache-Control', 'max-age=0');
+        $response->headers->set('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT');
+        $response->headers->set('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT');
+        $response->headers->set('Cache-Control', 'cache, must-revalidate');
+        $response->headers->set('Pragma', 'public');
+
+        return $response;
+
+    }
 
     // End Cash In Avance
 
