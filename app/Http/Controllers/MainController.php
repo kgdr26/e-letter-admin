@@ -2015,9 +2015,19 @@ class MainController extends Controller
             $sheet->setCellValue('J' . ($startRow + $index), $val->amount_actual);
             $sheet->setCellValue('K' . ($startRow + $index), $val->selisih);
             $reqdep        = DB::table('users')->where('id', $val->id_dephead)->first();
-            $sheet->setCellValue('L' . ($startRow + $index), $reqdep->name);
+            if($reqdep){
+                $sheet->setCellValue('L' . ($startRow + $index), $reqdep->name);
+            }else{
+                $sheet->setCellValue('L' . ($startRow + $index),'-');
+            }
+
             $reqfin        = DB::table('users')->where('id', $val->id_finance)->first();
-            $sheet->setCellValue('M' . ($startRow + $index), $reqfin->name);
+            if($reqfin){
+                $sheet->setCellValue('M' . ($startRow + $index), $reqfin->name);
+            }else{
+                $sheet->setCellValue('M' . ($startRow + $index), '-');
+            }
+
         }
 
         // Create a file name
