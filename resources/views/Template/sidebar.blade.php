@@ -211,21 +211,23 @@
             </a>
             <ul id="materai-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="{{ route('stock.create') }}">
+                    {{-- <a href="{{ route('stock.create') }}"> --}}
+                    <a href="{{ route('materai.finance') }}">
                         <i class="bi bi-file-earmark-text-fill fs-6"></i><span>Overview</span>
                     </a>
                 </li>
             </ul>
             <ul id="materai-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="{{ route('transaction.create') }}">
+                    {{-- <a href="{{ route('transaction.create') }}"> --}}
+                    <a href="{{ route('materai.requester') }}">
                         <i class="bi bi-file-earmark-text-fill fs-6"></i><span>Form Materai</span>
                     </a>
                 </li>
             </ul>
-        </li>
 
-        {{-- <hr>
+
+            {{-- <hr>
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('logout') }}">
                 <i class="bi bi-box-arrow-in-right"></i>

@@ -13,33 +13,38 @@
                                         <div class="d-flex justify-content-between">
                                             <span>Overview Cash In Advance</span>
 
-                                            <form action="{{route('downloadcia')}}" method="get" class="w-50">
+                                            <form action="{{ route('downloadcia') }}" method="get" class="w-50">
                                                 <div class="row">
                                                     <div class="col-4">
                                                         <div class="input-group">
-                                                            <span class="input-group-text" id=""><i class="bi bi-calendar-week-fill"></i></span>
-                                                            <input type="text" class="form-control" name="date" data-name="date" value="{{ date('Y-m-d') }}">
+                                                            <span class="input-group-text" id=""><i
+                                                                    class="bi bi-calendar-week-fill"></i></span>
+                                                            {{-- <input type="text" class="form-control" name="date"
+                                                                data-name="date" value="{{ date('Y-m-d') }}"> --}}
+                                                            <input type="text" class="form-control" name="date"
+                                                                data-name="date">
                                                         </div>
-                                                    </div>
 
-                                                    <div class="col-4">
-                                                        <select class="form-select" name="status">
-                                                            <option value="all">All</option>
-                                                            <option value="1">Draft</option>
-                                                            <option value="2">Approve Dephead</option>
-                                                            <option value="3">Approve Finance</option>
-                                                            <option value="5">Paid</option>
-                                                            <option value="6">Settlement</option>
-                                                            <option value="7">Oustandaing</option>
-                                                            <option value="8">Finish</option>
-                                                        </select>
-                                                    </div>
+                                                        <div class="col-4">
+                                                            <select class="form-select" name="status">
+                                                                <option value="all">All</option>
+                                                                <option value="1">Draft</option>
+                                                                <option value="2">Approve Dephead</option>
+                                                                <option value="3">Approve Finance</option>
+                                                                <option value="5">Paid</option>
+                                                                <option value="6">Settlement</option>
+                                                                <option value="7">Oustandaing</option>
+                                                                <option value="8">Finish</option>
+                                                            </select>
+                                                        </div>
 
-                                                    <div class="col-auto">
-                                                        <button type="submit" class="btn btn-info" data-name="export"><i class="bi bi-file-earmark-spreadsheet"></i>Export</button>
-                                                    </div>
+                                                        <div class="col-auto">
+                                                            <button type="submit" class="btn btn-info"
+                                                                data-name="export"><i
+                                                                    class="bi bi-file-earmark-spreadsheet"></i>Export</button>
+                                                        </div>
 
-                                                </div>
+                                                    </div>
                                             </form>
                                         </div>
                                     </div>
@@ -154,12 +159,34 @@
     </script>
     {{-- End JS Datatable --}}
 
-    <script>
+    {{-- <script>
         $('input[data-name="date"]').datepicker({
             format: "yyyy-mm-dd",
             viewMode: "days",
             minViewMode: "days",
             autoclose: true
+        });
+    </script> --}}
+
+    <script>
+        $(function() {
+            $('input[data-name="date"]').daterangepicker({
+                opens: 'left',
+                startDate: moment().startOf('month'), // Tanggal awal bulan
+                endDate: moment().endOf('month'), // Tanggal akhir bulan
+                locale: {
+                    format: 'YYYY-MM-DD' // Format tanggal: Tahun-Bulan-Hari
+                },
+                ranges: {
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1,
+                        'month').endOf('month')]
+                }
+            }, function(start, end, label) {
+                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end
+                    .format('YYYY-MM-DD'));
+            });
         });
     </script>
 
