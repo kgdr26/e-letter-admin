@@ -134,6 +134,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('listinputcia', [MainController::class, 'listinputcia'])->name('listinputcia');
     Route::post('inpinputcia', [MainController::class, 'inpinputcia'])->name('inpinputcia');
     Route::post('showdatainputcia', [MainController::class, 'showdatainputcia'])->name('showdatainputcia');
+    Route::post('cancelcia', [MainController::class, 'cancelcia'])->name('cancelcia');
 
     Route::get('listciadephead', [MainController::class, 'listciadephead'])->name('listciadephead');
     Route::get('looplistciadephead', [MainController::class, 'looplistciadephead'])->name('looplistciadephead');

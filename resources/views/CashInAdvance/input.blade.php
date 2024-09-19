@@ -872,6 +872,58 @@
     </script>
     {{-- End JS Print CIA --}}
 
+    {{-- JS Cancel Data --}}
+    <script>
+        $(document).on("click", "[data-name='cancelcia']", function(e) {
+            var id = $(this).attr("data-item");
+
+            Swal.fire({
+                title: 'Anda yakin?',
+                text: 'Aksi ini tidak dapat diulang!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, cancel data!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('cancelcia') }}",
+                        data: {
+                            id: id
+                        },
+                        cache: false,
+                        success: function(data) {
+                            Swal.fire({
+                                position: 'center',
+                                title: 'Success!',
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((data) => {
+                                location.reload();
+                            })
+                        },
+                        error: function(data) {
+                            Swal.fire({
+                                position: 'center',
+                                title: 'Action Not Valid!',
+                                icon: 'warning',
+                                showConfirmButton: true,
+                                // timer: 1500
+                            }).then((data) => {
+                                // location.reload();
+                            })
+                        }
+                    });
+                }
+            })
+        });
+    </script>
+    {{-- End JS Delete Data --}}
+
     <script>
         $('input[data-name="date_create"]').datepicker({
             format: "yyyy-mm-dd",
