@@ -158,11 +158,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('downloadcia', [MainController::class, 'downloadcia'])->name('downloadcia');
     // End Cash In Advance
     // Start Materai
-    Route::get('materaicreate', [MateraiController::class, 'createStock'])->name('materaicreate');
-    Route::get('stock/create', [MateraiController::class, 'createStock'])->name('stock.create');
-    Route::post('stock/store', [MateraiController::class, 'storeStock'])->name('stock.store');
-    Route::get('transaction/create', [MateraiController::class, 'createTransaction'])->name('transaction.create');
-    Route::post('transaction/store', [MateraiController::class, 'storeTransaction'])->name('transaction.store');
-    //
-
+    Route::prefix('materai')->group(function () {
+        Route::get('/finance', [MateraiController::class, 'indexFinance'])->name('materai.finance');
+        Route::post('/update-stok', [MateraiController::class, 'updateStok'])->name('materai.updateStok');
+        Route::get('/requester', [MateraiController::class, 'indexRequester'])->name('materai.requester');
+        Route::post('/ambil', [MateraiController::class, 'ambilMaterai'])->name('materai.ambil');
+        // Route::post('/kembali', [MateraiController::class, 'kembaliMaterai'])->name('materai.kembali');
+        Route::post('kembalikan-materai/{id}', [MateraiController::class, 'kembalikanMaterai'])->name('kembalikan.materai');
+        Route::get('/histori', [MateraiController::class, 'getHistori'])->name('materai.histori');
+        // Route::get('/report-balance', [MateraiController::class, 'reportBalance'])->name('report.balance');
+    });
 });

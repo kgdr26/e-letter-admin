@@ -931,8 +931,8 @@ class MainController extends Controller
         // $whrin  = $request['kategori'];
         $dataarr    = explode("/", $bln);
         $whrin      = $dataarr[0];
-        $startDate  = $dataarr[1].'-01';
-        $endDate    = $dataarr[2].'-01';
+        $startDate  = $dataarr[1] . '-01';
+        $endDate    = $dataarr[2] . '-01';
 
         $arr    = DB::table('trx_assets_landing')->select('trx_assets_landing.*', 'b.name', 'b.npk', 'c.no_assets', 'c.name AS nameass', 'c.merk')
             ->leftJoin('users AS b', 'b.id', '=', 'trx_assets_landing.id_user')
@@ -1001,10 +1001,10 @@ class MainController extends Controller
         $datawhrdept    = collect(\DB::select("SELECT * FROM mst_departement WHERE role_dh='$idn_user->role_id'"))->first();
 
         $arr        = DB::table('trx_ticket_request')->select('trx_ticket_request.*', 'b.name AS sts_name', 'c.name AS usr_name', 'd.name AS pic_name')
-                    ->leftJoin('mst_status_ticket AS b', 'b.id', '=', 'trx_ticket_request.status')
-                    ->leftJoin('users AS c', 'c.id', '=', 'trx_ticket_request.user_create')
-                    ->leftJoin('users AS d', 'd.id', '=', 'trx_ticket_request.update_by')
-                    ->orderBy('trx_ticket_request.id', 'desc')->get();
+            ->leftJoin('mst_status_ticket AS b', 'b.id', '=', 'trx_ticket_request.status')
+            ->leftJoin('users AS c', 'c.id', '=', 'trx_ticket_request.user_create')
+            ->leftJoin('users AS d', 'd.id', '=', 'trx_ticket_request.update_by')
+            ->orderBy('trx_ticket_request.id', 'desc')->get();
 
 
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
@@ -1143,7 +1143,8 @@ class MainController extends Controller
     // End E-Ticket
 
     // Report E-Letter
-    function exportsuratadmin(Request $request){
+    function exportsuratadmin(Request $request)
+    {
         // Load the template file
         $templatePath = public_path() . '/template/tmp_letter_admin.xlsx';
         $spreadsheet = IOFactory::load($templatePath);
@@ -1157,13 +1158,13 @@ class MainController extends Controller
         $endDate    = $dataarr[1];
 
         $arr    = DB::table('trx_surat')->select('trx_surat.*', 'b.name as usr_name', 'c.name as usr_role', 'd.name as usr_to_dept')
-                    ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
-                    ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
-                    ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
-                    ->where('trx_surat.is_active', 1)
-                    // ->where('trx_surat.date_release', $date_release)
-                    ->whereBetween(DB::raw('DATE(trx_surat.date_release)'), [$startDate, $endDate])
-                    ->orderBy('trx_surat.letter_admin', 'asc')->get();
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_surat.employe')
+            ->leftJoin('mst_role AS c', 'c.id', '=', 'trx_surat.role_id')
+            ->leftJoin('mst_role AS d', 'd.id', '=', 'trx_surat.to_dept')
+            ->where('trx_surat.is_active', 1)
+            // ->where('trx_surat.date_release', $date_release)
+            ->whereBetween(DB::raw('DATE(trx_surat.date_release)'), [$startDate, $endDate])
+            ->orderBy('trx_surat.letter_admin', 'asc')->get();
 
         // Assuming your template has headers in the first row
         $startRow = 2; // Data starts from the second row
@@ -1204,7 +1205,8 @@ class MainController extends Controller
     // End Report E-Letter
 
     // Cash In Advance
-    function inputcia(){
+    function inputcia()
+    {
         $idn_user   = idn_user(auth::user()->id);
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
@@ -1216,12 +1218,13 @@ class MainController extends Controller
         return view('CashInAdvance.input')->with($data);
     }
 
-    function listinputcia(){
+    function listinputcia()
+    {
         $id_user    = auth::user()->id;
         $dat        = DB::table('trx_cia')->where('is_active', 1)->where('id_user', $id_user)->get();
         $arr        = [];
 
-        foreach($dat as $key => $val){
+        foreach ($dat as $key => $val) {
             $arr[$key]['id']  = $val->id;
             $arr[$key]['no_cia']  = $val->no_cia;
             $arr[$key]['create_on']  = $val->date_create;
@@ -1229,70 +1232,70 @@ class MainController extends Controller
             $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
             $arr[$key]['unit']  = $val->unit;
             $text_status    = '';
-            if($val->status == 1){
+            if ($val->status == 1) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 2){
+            } elseif ($val->status == 2) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Dephead</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 25%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 3){
+            } elseif ($val->status == 3) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Finance</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 50%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 4){
+            } elseif ($val->status == 4) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 5){
+            } elseif ($val->status == 5) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Paid</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 75%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 6){
+            } elseif ($val->status == 6) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Settlement</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 7){
+            } elseif ($val->status == 7) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="danger" style="font-size: 0.7rem">Oustandaing</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 8){
+            } elseif ($val->status == 8) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Finish</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 0){
+            } elseif ($val->status == 0) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="danger" style="font-size: 0.7rem">Reject</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }else{
+            } else {
                 // $text_status    = 'Delete';
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Draft</figcaption>';
@@ -1326,7 +1329,6 @@ class MainController extends Controller
             }else{
                 $arr[$key]['action']  = '<button type="button" class="btn btn-outline-danger btn-sm" data-name="cancelcia" data-item="'.$val->id.'"><i class="bi bi-x-circle-fill"></i></button>';
             }
-
         }
 
         return response($arr);
@@ -1346,72 +1348,72 @@ class MainController extends Controller
         // $arr        = [];
         $html       = '';
         $no         = 1;
-        foreach($dat as $key => $val){
-            if($val->status < 8){
-                $html .= '<tr><td>'.$no++.'</td>';
-                $html .= '<td>'.$val->no_cia.'</td>';
-                $html .= '<td>'.$val->date_create.'</td>';
-                $html .= '<td>'.$val->necessity.'</td>';
-                $html .= '<td>Rp '. number_format($val->amount, 0, ',', '.').'</td>';
-                $html .= '<td>'.$val->unit.'</td>';
+        foreach ($dat as $key => $val) {
+            if ($val->status < 8) {
+                $html .= '<tr><td>' . $no++ . '</td>';
+                $html .= '<td>' . $val->no_cia . '</td>';
+                $html .= '<td>' . $val->date_create . '</td>';
+                $html .= '<td>' . $val->necessity . '</td>';
+                $html .= '<td>Rp ' . number_format($val->amount, 0, ',', '.') . '</td>';
+                $html .= '<td>' . $val->unit . '</td>';
                 $text_status    = '';
-                if($val->status == 1){
+                if ($val->status == 1) {
                     $text_status    .= '<figure class="figure-progress-bar">';
                     $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
                     $text_status    .= '<div class="progress">';
                     $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
                     $text_status    .= '</div>';
                     $text_status    .= '</figure>';
-                }elseif($val->status == 2){
+                } elseif ($val->status == 2) {
                     $text_status    .= '<figure class="figure-progress-bar">';
                     $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Dephead</figcaption>';
                     $text_status    .= '<div class="progress">';
                     $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 25%;"></div>';
                     $text_status    .= '</div>';
                     $text_status    .= '</figure>';
-                }elseif($val->status == 3){
+                } elseif ($val->status == 3) {
                     $text_status    .= '<figure class="figure-progress-bar">';
                     $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Finance</figcaption>';
                     $text_status    .= '<div class="progress">';
                     $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 50%;"></div>';
                     $text_status    .= '</div>';
                     $text_status    .= '</figure>';
-                }elseif($val->status == 4){
+                } elseif ($val->status == 4) {
                     $text_status    .= '<figure class="figure-progress-bar">';
                     $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
                     $text_status    .= '<div class="progress">';
                     $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
                     $text_status    .= '</div>';
                     $text_status    .= '</figure>';
-                }elseif($val->status == 5){
+                } elseif ($val->status == 5) {
                     $text_status    .= '<figure class="figure-progress-bar">';
                     $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Paid</figcaption>';
                     $text_status    .= '<div class="progress">';
                     $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 75%;"></div>';
                     $text_status    .= '</div>';
                     $text_status    .= '</figure>';
-                }elseif($val->status == 6){
+                } elseif ($val->status == 6) {
                     $text_status    .= '<figure class="figure-progress-bar">';
                     $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Settlement</figcaption>';
                     $text_status    .= '<div class="progress">';
                     $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 100%;"></div>';
                     $text_status    .= '</div>';
                     $text_status    .= '</figure>';
-                }elseif($val->status == 7){
+                } elseif ($val->status == 7) {
                     $text_status    .= '<figure class="figure-progress-bar">';
                     $text_status    .= '<figcaption class="danger" style="font-size: 0.7rem">Oustandaing</figcaption>';
                     $text_status    .= '<div class="progress">';
                     $text_status    .= '<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 100%;"></div>';
                     $text_status    .= '</div>';
                     $text_status    .= '</figure>';
-                }elseif($val->status == 0){
+                } elseif ($val->status == 0) {
                     $text_status    .= '<figure class="figure-progress-bar">';
                     $text_status    .= '<figcaption class="danger" style="font-size: 0.7rem">Reject</figcaption>';
                     $text_status    .= '<div class="progress">';
                     $text_status    .= '<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 100%;"></div>';
                     $text_status    .= '</div>';
                     $text_status    .= '</figure>';
-                }else{
+                } else {
                     // $text_status    = 'Delete';
                     $text_status    .= '<figure class="figure-progress-bar">';
                     $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Draft</figcaption>';
@@ -1420,7 +1422,7 @@ class MainController extends Controller
                     $text_status    .= '</div>';
                     $text_status    .= '</figure>';
                 }
-                $html .= '<td class="text-center">'.$text_status.'</td></tr>';
+                $html .= '<td class="text-center">' . $text_status . '</td></tr>';
 
                 $cek += 1;
             }
@@ -1431,11 +1433,12 @@ class MainController extends Controller
         return response($arr);
     }
 
-    function inpinputcia(Request $request): object{
+    function inpinputcia(Request $request): object
+    {
         $id_user    = auth::user()->id;
         $dat        = DB::table('trx_cia')->where('is_active', 1)->where('id_user', $id_user)->get();
-        $jml        = count($dat)+1;
-        $no_cia     = 'CIA.'.date('Y-m').'.'.sprintf("%04d", $jml);
+        $jml        = count($dat) + 1;
+        $no_cia     = 'CIA.' . date('Y-m') . '.' . sprintf("%04d", $jml);
 
         $data   = array(
             'id_user'   => $id_user,
@@ -1454,18 +1457,20 @@ class MainController extends Controller
         return response('success');
     }
 
-    function showdatainputcia(Request $request): object{
+    function showdatainputcia(Request $request): object
+    {
         $id         = $request['id'];
         $arr        = DB::table('trx_cia')->select('trx_cia.*', 'a.name as name_user', 'b.name as name_dephead', 'c.name as name_finance')
-                    ->leftJoin('users AS a', 'a.id', '=', 'trx_cia.id_user')
-                    ->leftJoin('users AS b', 'b.id', '=', 'trx_cia.id_dephead')
-                    ->leftJoin('users AS c', 'c.id', '=', 'trx_cia.id_finance')
-                    ->where('trx_cia.id', $id)->first();
+            ->leftJoin('users AS a', 'a.id', '=', 'trx_cia.id_user')
+            ->leftJoin('users AS b', 'b.id', '=', 'trx_cia.id_dephead')
+            ->leftJoin('users AS c', 'c.id', '=', 'trx_cia.id_finance')
+            ->where('trx_cia.id', $id)->first();
 
         return response()->json($arr);
     }
 
-    function listciadephead(){
+    function listciadephead()
+    {
         $idn_user   = idn_user(auth::user()->id);
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
@@ -1477,11 +1482,12 @@ class MainController extends Controller
         return view('CashInAdvance.dephead')->with($data);
     }
 
-    function looplistciadephead(){
+    function looplistciadephead()
+    {
         $dat        = DB::table('trx_cia')->where('status', 1)->get();
         $arr        = [];
 
-        foreach($dat as $key => $val){
+        foreach ($dat as $key => $val) {
             $arr[$key]['id']  = $val->id;
             $arr[$key]['no_cia']  = $val->no_cia;
             $requested        = DB::table('users')->where('id', $val->id_user)->first();
@@ -1490,16 +1496,16 @@ class MainController extends Controller
             $arr[$key]['necessity']  = $val->necessity;
             $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
             $arr[$key]['unit']  = $val->unit;
-            if($val->status == 1){
+            if ($val->status == 1) {
                 $na        = DB::table('users')->where('id', $val->id_user)->first();
-                $text_status    = 'CREATE <br> By <br>'.$na->name;
-            }elseif($val->status == 2){
+                $text_status    = 'CREATE <br> By <br>' . $na->name;
+            } elseif ($val->status == 2) {
                 $na        = DB::table('users')->where('id', $val->id_dephead)->first();
-                $text_status    = 'APPROVE DEPHEAD <br> By <br>'.$na->name;
-            }elseif($val->status == 3){
+                $text_status    = 'APPROVE DEPHEAD <br> By <br>' . $na->name;
+            } elseif ($val->status == 3) {
                 $na        = DB::table('users')->where('id', $val->id_finance)->first();
-                $text_status    = 'APPROVE FINANCE <br> By <br>'.$na->name;
-            }else{
+                $text_status    = 'APPROVE FINANCE <br> By <br>' . $na->name;
+            } else {
                 $text_status    = 'Delete';
             }
             $arr[$key]['status']  = $text_status;
@@ -1507,14 +1513,15 @@ class MainController extends Controller
             $arr[$key]['amount_actual']  = "Rp " . number_format($val->amount_actual, 0, ',', '.');
             $arr[$key]['selisih']  = "Rp " . number_format($val->selisih, 0, ',', '.');
             $arr[$key]['remark']  = $val->remark;
-            $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="approve" data-item="'.$val->id.'"><i class="bi bi-check2-all"></i></button>
-            <button type="button" class="btn btn-outline-danger btn-sm" data-name="reject" data-item="'.$val->id.'" data-note="'.$val->remark.'"><i class="bi bi-x-circle"></i></button>';
+            $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="approve" data-item="' . $val->id . '"><i class="bi bi-check2-all"></i></button>
+            <button type="button" class="btn btn-outline-danger btn-sm" data-name="reject" data-item="' . $val->id . '" data-note="' . $val->remark . '"><i class="bi bi-x-circle"></i></button>';
         }
 
         return response($arr);
     }
 
-    function approvedepheadcia(Request $request): object{
+    function approvedepheadcia(Request $request): object
+    {
         $id_user    = auth::user()->id;
         $id         = $request['id'];
 
@@ -1528,7 +1535,8 @@ class MainController extends Controller
         return response('success');
     }
 
-    function listciafinance(){
+    function listciafinance()
+    {
         $idn_user   = idn_user(auth::user()->id);
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
@@ -1540,11 +1548,12 @@ class MainController extends Controller
         return view('CashInAdvance.finance')->with($data);
     }
 
-    function looplistciafinance(){
-        $dat        = DB::table('trx_cia')->whereIn('status', [2,6,7])->get();
+    function looplistciafinance()
+    {
+        $dat        = DB::table('trx_cia')->whereIn('status', [2, 6, 7])->get();
         $arr        = [];
 
-        foreach($dat as $key => $val){
+        foreach ($dat as $key => $val) {
             $arr[$key]['id']  = $val->id;
             $arr[$key]['no_cia']  = $val->no_cia;
             $requested        = DB::table('users')->where('id', $val->id_user)->first();
@@ -1553,16 +1562,16 @@ class MainController extends Controller
             $arr[$key]['necessity']  = $val->necessity;
             $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
             $arr[$key]['unit']  = $val->unit;
-            if($val->status == 1){
+            if ($val->status == 1) {
                 $na        = DB::table('users')->where('id', $val->id_user)->first();
-                $text_status    = 'CREATE <br> By <br>'.$na->name;
-            }elseif($val->status == 2){
+                $text_status    = 'CREATE <br> By <br>' . $na->name;
+            } elseif ($val->status == 2) {
                 $na        = DB::table('users')->where('id', $val->id_dephead)->first();
-                $text_status    = 'APPROVE DEPHEAD <br> By <br>'.$na->name;
-            }elseif($val->status == 3){
+                $text_status    = 'APPROVE DEPHEAD <br> By <br>' . $na->name;
+            } elseif ($val->status == 3) {
                 $na        = DB::table('users')->where('id', $val->id_finance)->first();
-                $text_status    = 'APPROVE FINANCE <br> By <br>'.$na->name;
-            }else{
+                $text_status    = 'APPROVE FINANCE <br> By <br>' . $na->name;
+            } else {
                 $text_status    = 'Delete';
             }
             $arr[$key]['status']  = $text_status;
@@ -1570,13 +1579,13 @@ class MainController extends Controller
             $arr[$key]['amount_actual']  = "Rp " . number_format($val->amount_actual, 0, ',', '.');
             $arr[$key]['selisih']  = "Rp " . number_format($val->selisih, 0, ',', '.');
             $arr[$key]['remark']  = $val->remark;
-            if($val->status == 2){
-                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="approve" data-item="'.$val->id.'"><i class="bi bi-check2-all"></i></button>
-                <button type="button" class="btn btn-outline-danger btn-sm" data-name="reject" data-item="'.$val->id.'" data-note="'.$val->remark.'"><i class="bi bi-x-circle"></i></button>';
-            }elseif($val->status == 6){
-                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="slisih_action" data-item="'.$val->id.'"><i class="bi bi-pencil-square"></i></button>';
-            }elseif($val->status == 7){
-                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="closecia" data-item="'.$val->id.'"><i class="bi bi-check2-square"></i></button>';
+            if ($val->status == 2) {
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="approve" data-item="' . $val->id . '"><i class="bi bi-check2-all"></i></button>
+                <button type="button" class="btn btn-outline-danger btn-sm" data-name="reject" data-item="' . $val->id . '" data-note="' . $val->remark . '"><i class="bi bi-x-circle"></i></button>';
+            } elseif ($val->status == 6) {
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="slisih_action" data-item="' . $val->id . '"><i class="bi bi-pencil-square"></i></button>';
+            } elseif ($val->status == 7) {
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="closecia" data-item="' . $val->id . '"><i class="bi bi-check2-square"></i></button>';
             }
 
             // if($val->status == 2){
@@ -1668,7 +1677,8 @@ class MainController extends Controller
         return response($arr);
     }
 
-    function approvefinancecia(Request $request): object{
+    function approvefinancecia(Request $request): object
+    {
         $id_user    = auth::user()->id;
         $id         = $request['id'];
 
@@ -1682,7 +1692,8 @@ class MainController extends Controller
         return response('success');
     }
 
-    function listciacashier(){
+    function listciacashier()
+    {
         $idn_user   = idn_user(auth::user()->id);
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
@@ -1694,11 +1705,12 @@ class MainController extends Controller
         return view('CashInAdvance.cashier')->with($data);
     }
 
-    function looplistciacashier(){
-        $dat        = DB::table('trx_cia')->whereIn('status', [3,5])->get();
+    function looplistciacashier()
+    {
+        $dat        = DB::table('trx_cia')->whereIn('status', [3, 5])->get();
         $arr        = [];
 
-        foreach($dat as $key => $val){
+        foreach ($dat as $key => $val) {
             $arr[$key]['id']  = $val->id;
             $arr[$key]['no_cia']  = $val->no_cia;
             $requested        = DB::table('users')->where('id', $val->id_user)->first();
@@ -1708,56 +1720,56 @@ class MainController extends Controller
             $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
             $arr[$key]['unit']  = $val->unit;
             $text_status    = '';
-            if($val->status == 1){
+            if ($val->status == 1) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 2){
+            } elseif ($val->status == 2) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Dephead</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 25%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 3){
+            } elseif ($val->status == 3) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Finance</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 50%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 4){
+            } elseif ($val->status == 4) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 5){
+            } elseif ($val->status == 5) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Paid</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 75%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 6){
+            } elseif ($val->status == 6) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Settlement</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 7){
+            } elseif ($val->status == 7) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="danger" style="font-size: 0.7rem">Oustandaing</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }else{
+            } else {
                 // $text_status    = 'Delete';
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Draft</figcaption>';
@@ -1771,19 +1783,20 @@ class MainController extends Controller
             $arr[$key]['amount_actual']  = "Rp " . number_format($val->amount_actual, 0, ',', '.');
             $arr[$key]['selisih']  = "Rp " . number_format($val->selisih, 0, ',', '.');
             $arr[$key]['remark']  = $val->remark;
-            if($val->status == 4){
-                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="upload_bukti_tf" data-item="'.$val->id.'"><i class="bi bi-cash-coin"></i></button>';
-            }elseif($val->status == 5){
-                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="settlement" data-item="'.$val->id.'"><i class="bi bi-cash-coin"></i></button>';
-            }else{
-                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="approve" data-item="'.$val->id.'"><i class="bi bi-cash-coin"></i></button>';
+            if ($val->status == 4) {
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="upload_bukti_tf" data-item="' . $val->id . '"><i class="bi bi-cash-coin"></i></button>';
+            } elseif ($val->status == 5) {
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="settlement" data-item="' . $val->id . '"><i class="bi bi-cash-coin"></i></button>';
+            } else {
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-success btn-sm" data-name="approve" data-item="' . $val->id . '"><i class="bi bi-cash-coin"></i></button>';
             }
         }
 
         return response($arr);
     }
 
-    function submitciaambilchasir(Request $request): object{
+    function submitciaambilchasir(Request $request): object
+    {
         $id_user    = auth::user()->id;
         $id         = $request['id_cia'];
 
@@ -1807,7 +1820,8 @@ class MainController extends Controller
         return response('success');
     }
 
-    function listcia(){
+    function listcia()
+    {
         $idn_user   = idn_user(auth::user()->id);
         $role       = DB::select("SELECT * FROM mst_role where is_active=1");
         $data = array(
@@ -1819,11 +1833,12 @@ class MainController extends Controller
         return view('CashInAdvance.list')->with($data);
     }
 
-    function looplistcia(){
+    function looplistcia()
+    {
         $dat        = DB::table('trx_cia')->where('is_active', 1)->get();
         $arr        = [];
 
-        foreach($dat as $key => $val){
+        foreach ($dat as $key => $val) {
             $arr[$key]['id']  = $val->id;
             $arr[$key]['no_cia']  = $val->no_cia;
             $requested        = DB::table('users')->where('id', $val->id_user)->first();
@@ -1833,56 +1848,56 @@ class MainController extends Controller
             $arr[$key]['amount']  = "Rp " . number_format($val->amount, 0, ',', '.');
             $arr[$key]['unit']  = $val->unit;
             $text_status    = '';
-            if($val->status == 1){
+            if ($val->status == 1) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 2){
+            } elseif ($val->status == 2) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Dephead</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 25%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 3){
+            } elseif ($val->status == 3) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Approve Finance</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 50%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 4){
+            } elseif ($val->status == 4) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="secondary" style="font-size: 0.7rem">Draft</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-secondary progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 5){
+            } elseif ($val->status == 5) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Paid</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 75%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 6){
+            } elseif ($val->status == 6) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Settlement</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 7){
+            } elseif ($val->status == 7) {
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="danger" style="font-size: 0.7rem">Oustandaing</figcaption>';
                 $text_status    .= '<div class="progress">';
                 $text_status    .= '<div class="progress-bar progress-bar-danger progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }elseif($val->status == 8){
+            } elseif ($val->status == 8) {
                 // $text_status    = 'Delete';
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Finish</figcaption>';
@@ -1890,7 +1905,7 @@ class MainController extends Controller
                 $text_status    .= '<div class="progress-bar progress-bar-success progress-bar-striped" style="width: 100%;"></div>';
                 $text_status    .= '</div>';
                 $text_status    .= '</figure>';
-            }else{
+            } else {
                 // $text_status    = 'Delete';
                 $text_status    .= '<figure class="figure-progress-bar">';
                 $text_status    .= '<figcaption class="success" style="font-size: 0.7rem">Draft</figcaption>';
@@ -1910,7 +1925,8 @@ class MainController extends Controller
         return response($arr);
     }
 
-    function rejectcia(Request $request): object{
+    function rejectcia(Request $request): object
+    {
         $id     = $request['id'];
         $remark = $request['remark'];
 
@@ -1924,16 +1940,17 @@ class MainController extends Controller
         return response('success');
     }
 
-    function addamountactual(Request $request): object{
+    function addamountactual(Request $request): object
+    {
         $id             = $request['id'];
         $amount_actual  = $request['amount_actual'];
 
         $dt             = DB::table('trx_cia')->where('id', $id)->first();
-        $selisih        = intval($dt->amount)-intval($amount_actual);
+        $selisih        = intval($dt->amount) - intval($amount_actual);
 
-        if($selisih == 0){
+        if ($selisih == 0) {
             $status = 8;
-        }else{
+        } else {
             $status = 6;
         }
 
@@ -1948,7 +1965,8 @@ class MainController extends Controller
         return response('success');
     }
 
-    function submitselisih(Request $request): object{
+    function submitselisih(Request $request): object
+    {
         $id                 = $request['id'];
         $methode_selisih    = $request['methode_selisih'];
 
@@ -1962,7 +1980,8 @@ class MainController extends Controller
         return response('success');
     }
 
-    function submitclosecia(Request $request): object{
+    function submitclosecia(Request $request): object
+    {
         $id                 = $request['id'];
 
         $data   = array(
@@ -1974,15 +1993,34 @@ class MainController extends Controller
         return response('success');
     }
 
-    function downloadcia(Request $request): object{
+    function downloadcia(Request $request): object
+    {
         $date       = $request['date'];
         $status     = $request['status'];
 
-        if($status == 'all'){
-            $arr        = DB::table('trx_cia')->where('date_create', $date)->get();
-        }else{
-            $arr        = DB::table('trx_cia')->where('date_create', $date)->where('status', $status)->get();
+        // if ($status == 'all') {
+        //     $arr        = DB::table('trx_cia')->where('date_create', $date)->get();
+        // } else {
+        //     $arr        = DB::table('trx_cia')->where('date_create', $date)->where('status', $status)->get();
+        // }
+
+        // Pisahkan tanggal awal dan akhir jika menggunakan daterangepicker
+        $dates = explode(' - ', $date); // Misal: "2024-09-01 - 2024-09-30"
+        $startDate = $dates[0];
+        $endDate = $dates[1];
+
+        // Query untuk rentang tanggal
+        if ($status == 'all') {
+            $arr = DB::table('trx_cia')
+                ->whereBetween('date_create', [$startDate, $endDate])
+                ->get();
+        } else {
+            $arr = DB::table('trx_cia')
+                ->whereBetween('date_create', [$startDate, $endDate])
+                ->where('status', $status)
+                ->get();
         }
+
 
         // Load the template file
         $templatePath = public_path() . '/template/tmp_cia.xlsx';
@@ -1999,47 +2037,46 @@ class MainController extends Controller
             $sheet->setCellValue('B' . ($startRow + $index), $val->no_cia);
             $requested        = DB::table('users')->where('id', $val->id_user)->first();
             $sheet->setCellValue('C' . ($startRow + $index), $requested->name);
-            $sheet->setCellValue('D' . ($startRow + $index), \Carbon\Carbon::parse($val->date_create)->isoFormat('dddd, DD MMM YYYY'));
+            $sheet->setCellValue('D' . ($startRow + $index), \Carbon\Carbon::parse($val->date_create)->isoFormat('DD MMM YYYY'));
             $sheet->setCellValue('E' . ($startRow + $index), $val->necessity);
             $sheet->setCellValue('F' . ($startRow + $index), $val->amount);
             $sheet->setCellValue('G' . ($startRow + $index), $val->unit);
-            if($val->status == 1){
+            if ($val->status == 1) {
                 $sheet->setCellValue('H' . ($startRow + $index), 'Draft');
-            }elseif($val->status == 2){
+            } elseif ($val->status == 2) {
                 $sheet->setCellValue('H' . ($startRow + $index), 'Approve Dephead');
-            }elseif($val->status == 3){
+            } elseif ($val->status == 3) {
                 $sheet->setCellValue('H' . ($startRow + $index), 'Approve Finance');
-            }elseif($val->status == 4){
+            } elseif ($val->status == 4) {
                 $sheet->setCellValue('H' . ($startRow + $index), 'Draft');
-            }elseif($val->status == 5){
+            } elseif ($val->status == 5) {
                 $sheet->setCellValue('H' . ($startRow + $index), 'Paid');
-            }elseif($val->status == 6){
+            } elseif ($val->status == 6) {
                 $sheet->setCellValue('H' . ($startRow + $index), 'Settlement');
-            }elseif($val->status == 7){
+            } elseif ($val->status == 7) {
                 $sheet->setCellValue('H' . ($startRow + $index), 'Oustandaing');
-            }elseif($val->status == 0){
+            } elseif ($val->status == 0) {
                 $sheet->setCellValue('H' . ($startRow + $index), 'Finish');
-            }else{
+            } else {
                 $sheet->setCellValue('H' . ($startRow + $index), 'Draft');
             }
 
-            $sheet->setCellValue('I' . ($startRow + $index), \Carbon\Carbon::parse($val->last_update)->isoFormat('dddd, DD MMM YYYY HH:mm:ss'));
+            $sheet->setCellValue('I' . ($startRow + $index), \Carbon\Carbon::parse($val->last_update)->isoFormat('DD MMM YYYY HH:mm:ss'));
             $sheet->setCellValue('J' . ($startRow + $index), $val->amount_actual);
             $sheet->setCellValue('K' . ($startRow + $index), $val->selisih);
             $reqdep        = DB::table('users')->where('id', $val->id_dephead)->first();
-            if($reqdep){
+            if ($reqdep) {
                 $sheet->setCellValue('L' . ($startRow + $index), $reqdep->name);
-            }else{
-                $sheet->setCellValue('L' . ($startRow + $index),'-');
+            } else {
+                $sheet->setCellValue('L' . ($startRow + $index), '-');
             }
 
             $reqfin        = DB::table('users')->where('id', $val->id_finance)->first();
-            if($reqfin){
+            if ($reqfin) {
                 $sheet->setCellValue('M' . ($startRow + $index), $reqfin->name);
-            }else{
+            } else {
                 $sheet->setCellValue('M' . ($startRow + $index), '-');
             }
-
         }
 
         // Create a file name
@@ -2061,7 +2098,6 @@ class MainController extends Controller
         $response->headers->set('Pragma', 'public');
 
         return $response;
-
     }
 
     // End Cash In Avance
