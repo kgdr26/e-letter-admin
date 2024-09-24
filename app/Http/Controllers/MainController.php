@@ -106,6 +106,8 @@ class MainController extends Controller
             $dtrole    = "ADFIN";
         } elseif ($dt['to_dept'] == 6) {
             $dtrole    = "ADDMKT";
+        } elseif ($dt['to_dept'] == 26) {
+            $dtrole    = "PROC";
         } else {
             $dtrole    = "NULL";
         }
@@ -157,6 +159,8 @@ class MainController extends Controller
             $dtrole    = "ADFIN";
         } elseif ($dt['to_dept'] == 6) {
             $dtrole    = "ADDMKT";
+        } elseif ($dt['to_dept'] == 26) {
+            $dtrole    = "PROC";
         } else {
             $dtrole    = "NULL";
         }
@@ -1309,39 +1313,41 @@ class MainController extends Controller
             $arr[$key]['amount_actual']  = "Rp " . number_format($val->amount_actual, 0, ',', '.');
             $arr[$key]['selisih']  = "Rp " . number_format($val->selisih, 0, ',', '.');
             $arr[$key]['remark']  = $val->remark;
-            if($val->status == 2){
-                $arr[$key]['action']  = '<button disabled type="button" class="btn btn-outline-info btn-sm" data-name="edit" data-item="'.$val->id.'"><i class="bi bi-pencil-square"></i></button>
-                <button disabled type="button" class="btn btn-outline-danger btn-sm" data-name="delete" data-item="'.$val->id.'"><i class="bi bi-trash-fill"></i></button>
-                <button  type="button" class="btn btn-outline-danger btn-sm" data-name="cancelcia" data-item="'.$val->id.'"><i class="bi bi-x-circle-fill"></i></button>';
-            }elseif($val->status == 3){
-                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-info btn-sm" data-name="print_to_casier" data-item="'.$val->id.'"><i class="bi bi-printer-fill"></i></button>
-                <button type="button" class="btn btn-outline-danger btn-sm" data-name="cancelcia" data-item="'.$val->id.'"><i class="bi bi-x-circle-fill"></i></button>';
-            }elseif($val->status == 4){
-                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-info btn-sm" data-name="show_app_chasier" data-item="'.$val->id.'"><i class="bi bi-printer-fill"></i></button>
-                <button  type="button" class="btn btn-outline-danger btn-sm" data-name="cancelcia" data-item="'.$val->id.'"><i class="bi bi-x-circle-fill"></i></button>';
-            }elseif($val->status == 5){
-                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-info btn-sm" data-name="show_app_chasier" data-item="'.$val->id.'"><i class="bi bi-printer-fill"></i></button>
-                <button type="button" class="btn btn-outline-danger btn-sm" data-name="cancelcia" data-item="'.$val->id.'"><i class="bi bi-x-circle-fill"></i></button>';
-            }elseif($val->status == 1){
-                $arr[$key]['action']  = '<button disabled type="button" class="btn btn-outline-info btn-sm" data-name="edit" data-item="'.$val->id.'"><i class="bi bi-pencil-square"></i></button>
-                <button disabled type="button" class="btn btn-outline-danger btn-sm" data-name="delete" data-item="'.$val->id.'"><i class="bi bi-trash-fill"></i></button>
-                <button type="button" class="btn btn-outline-danger btn-sm" data-name="cancelcia" data-item="'.$val->id.'"><i class="bi bi-x-circle-fill"></i></button>';
-            }else{
-                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-danger btn-sm" data-name="cancelcia" data-item="'.$val->id.'"><i class="bi bi-x-circle-fill"></i></button>';
+            if ($val->status == 2) {
+                $arr[$key]['action']  = '<button disabled type="button" class="btn btn-outline-info btn-sm" data-name="edit" data-item="' . $val->id . '"><i class="bi bi-pencil-square"></i></button>
+                <button disabled type="button" class="btn btn-outline-danger btn-sm" data-name="delete" data-item="' . $val->id . '"><i class="bi bi-trash-fill"></i></button>
+                <button  type="button" class="btn btn-outline-danger btn-sm" data-name="cancelcia" data-item="' . $val->id . '"><i class="bi bi-x-circle-fill"></i></button>';
+            } elseif ($val->status == 3) {
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-info btn-sm" data-name="print_to_casier" data-item="' . $val->id . '"><i class="bi bi-printer-fill"></i></button>
+                <button type="button" class="btn btn-outline-danger btn-sm" data-name="cancelcia" data-item="' . $val->id . '"><i class="bi bi-x-circle-fill"></i></button>';
+            } elseif ($val->status == 4) {
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-info btn-sm" data-name="show_app_chasier" data-item="' . $val->id . '"><i class="bi bi-printer-fill"></i></button>
+                <button  type="button" class="btn btn-outline-danger btn-sm" data-name="cancelcia" data-item="' . $val->id . '"><i class="bi bi-x-circle-fill"></i></button>';
+            } elseif ($val->status == 5) {
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-info btn-sm" data-name="show_app_chasier" data-item="' . $val->id . '"><i class="bi bi-printer-fill"></i></button>
+                <button type="button" class="btn btn-outline-danger btn-sm" data-name="cancelcia" data-item="' . $val->id . '"><i class="bi bi-x-circle-fill"></i></button>';
+            } elseif ($val->status == 1) {
+                $arr[$key]['action']  = '<button disabled type="button" class="btn btn-outline-info btn-sm" data-name="edit" data-item="' . $val->id . '"><i class="bi bi-pencil-square"></i></button>
+                <button disabled type="button" class="btn btn-outline-danger btn-sm" data-name="delete" data-item="' . $val->id . '"><i class="bi bi-trash-fill"></i></button>
+                <button type="button" class="btn btn-outline-danger btn-sm" data-name="cancelcia" data-item="' . $val->id . '"><i class="bi bi-x-circle-fill"></i></button>';
+            } else {
+                $arr[$key]['action']  = '<button type="button" class="btn btn-outline-danger btn-sm" data-name="cancelcia" data-item="' . $val->id . '"><i class="bi bi-x-circle-fill"></i></button>';
             }
         }
 
         return response($arr);
     }
 
-    function cancelcia(Request $request): object{
+    function cancelcia(Request $request): object
+    {
         $id         = $request['id'];
         DB::table('trx_cia')->where('id', $id)->delete();
         return response('success');
     }
 
 
-    function cekdatacia(Request $request): object{
+    function cekdatacia(Request $request): object
+    {
         $id_user    = auth::user()->id;
         $dat        = DB::table('trx_cia')->where('status', '>', 0)->where('is_active', 1)->where('id_user', $id_user)->get();
         $cek        = 0;

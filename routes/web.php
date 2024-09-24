@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\MateraiController;
-
+use App\Http\Controllers\StockController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -157,15 +156,19 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('downloadcia', [MainController::class, 'downloadcia'])->name('downloadcia');
     // End Cash In Advance
-    // Start Materai
-    Route::prefix('materai')->group(function () {
-        Route::get('/finance', [MateraiController::class, 'indexFinance'])->name('materai.finance');
-        Route::post('/update-stok', [MateraiController::class, 'updateStok'])->name('materai.updateStok');
-        Route::get('/requester', [MateraiController::class, 'indexRequester'])->name('materai.requester');
-        Route::post('/ambil', [MateraiController::class, 'ambilMaterai'])->name('materai.ambil');
-        // Route::post('/kembali', [MateraiController::class, 'kembaliMaterai'])->name('materai.kembali');
-        Route::post('kembalikan-materai/{id}', [MateraiController::class, 'kembalikanMaterai'])->name('kembalikan.materai');
-        Route::get('/histori', [MateraiController::class, 'getHistori'])->name('materai.histori');
-        // Route::get('/report-balance', [MateraiController::class, 'reportBalance'])->name('report.balance');
+
+
+    Route::middleware(['auth'])->group(function () {
+        // Route untuk menampilkan stok dan histori stok
+        Route::get('/stok', [StockController::class, 'index'])->name('stok.index');
+
+        // Route untuk entry stok oleh finance
+        Route::post('/stok/add', [StockController::class, 'addStock'])->name('stok.add');
+
+        // Route untuk entry pengambilan dan pengembalian stok oleh requester
+        Route::post('/stok/minus-return', [StockController::class, 'minusReturnStock'])->name('stok.minusReturn');
+
+        // Route untuk fungsi export file phpOffice
+        Route::get('/export-stock-history', [StockController::class, 'exportStockHistoryToExcel'])->name('export-stock-history');
     });
 });
