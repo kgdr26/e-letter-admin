@@ -256,6 +256,41 @@ class MateraiController extends Controller
         return redirect()->route('materai.requester')->with('error', 'Terjadi kesalahan. Data materai tidak ditemukan.');
     }
 
+    // public function showChart()
+    // {
+    //     // Mengambil data stok per bulan
+    //     $stockData = DB::table('trx_stok')
+    //         ->select(
+    //             DB::raw('MONTH(created_at) as month'),
+    //             DB::raw('SUM(jumlah_stok) as total_add'),
+    //             DB::raw('SUM(jumlah_ambil) as total_minus'),
+    //             DB::raw('SUM(jumlah_kembali) as total_return')
+    //         )
+    //         ->groupBy(DB::raw('MONTH(created_at)'))
+    //         ->get();
+
+    //     // Konversi ke format yang bisa diterima oleh Highcharts
+    //     $addData = [];
+    //     $minusData = [];
+    //     $returnData = [];
+
+    //     // Inisialisasi dengan nilai 0 untuk tiap bulan
+    //     for ($i = 1; $i <= 12; $i++) {
+    //         $addData[$i] = 0;
+    //         $minusData[$i] = 0;
+    //         $returnData[$i] = 0;
+    //     }
+
+    //     // Masukkan data dari query
+    //     foreach ($stockData as $data) {
+    //         $addData[$data->month] = $data->total_add;
+    //         $minusData[$data->month] = $data->total_minus;
+    //         $returnData[$data->month] = $data->total_return;
+    //     }
+
+    //     return view('stok.chart', compact('addData', 'minusData', 'returnData'));
+    // }
+
 
     public function getHistori()
     {

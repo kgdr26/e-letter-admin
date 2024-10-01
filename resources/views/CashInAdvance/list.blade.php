@@ -10,41 +10,31 @@
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <div class="d-flex justify-content-between">
+                                        <div class="d-flex justify-content-between align-items-center">
                                             <span>Overview Cash In Advance</span>
-
-                                            <form action="{{ route('downloadcia') }}" method="get" class="w-50">
-                                                <div class="row">
-                                                    <div class="col-4">
-                                                        <div class="input-group">
-                                                            <span class="input-group-text" id=""><i
-                                                                    class="bi bi-calendar-week-fill"></i></span>
-                                                            {{-- <input type="text" class="form-control" name="date"
-                                                                data-name="date" value="{{ date('Y-m-d') }}"> --}}
-                                                            <input type="text" class="form-control" name="date"
-                                                                data-name="date">
-                                                        </div>
-
-                                                        <div class="col-4">
-                                                            <select class="form-select" name="status">
-                                                                <option value="all">All</option>
-                                                                <option value="1">Draft</option>
-                                                                <option value="2">Approve Dephead</option>
-                                                                <option value="3">Approve Finance</option>
-                                                                <option value="5">Paid</option>
-                                                                <option value="6">Settlement</option>
-                                                                <option value="7">Oustandaing</option>
-                                                                <option value="8">Finish</option>
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="col-auto">
-                                                            <button type="submit" class="btn btn-info"
-                                                                data-name="export"><i
-                                                                    class="bi bi-file-earmark-spreadsheet"></i>Export</button>
-                                                        </div>
-
-                                                    </div>
+                                            <form action="{{ route('downloadcia') }}" method="get"
+                                                class="d-flex align-items-center">
+                                                <div class="input-group me-3">
+                                                    <span class="input-group-text" id=""><i
+                                                            class="bi bi-calendar-week-fill"></i></span>
+                                                    <input type="text" class="form-control" name="date"
+                                                        data-name="date">
+                                                </div>
+                                                <div class="me-3">
+                                                    <select class="form-select" name="status">
+                                                        <option value="all">All</option>
+                                                        <option value="1">Draft</option>
+                                                        <option value="2">Approve Dephead</option>
+                                                        <option value="3">Approve Finance</option>
+                                                        <option value="5">Paid</option>
+                                                        <option value="6">Settlement</option>
+                                                        <option value="7">Oustandaing</option>
+                                                        <option value="8">Finish</option>
+                                                    </select>
+                                                </div>
+                                                <button type="submit" class="btn btn-info btn-sm" data-name="export">
+                                                    <i class="bi bi-file-earmark-spreadsheet"></i> Export
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
@@ -187,6 +177,32 @@
                 console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end
                     .format('YYYY-MM-DD'));
             });
+
+
+            // Modifikasi CSS dan ukuran tombol Apply dan Cancel
+            setTimeout(function() {
+                $('.applyBtn').addClass('btn btn-sm btn-success'); // Tambahkan class Bootstrap
+                $('.cancelBtn').addClass('btn btn-sm btn-danger'); // Tambahkan class Bootstrap
+
+                // Modifikasi lebih lanjut dengan CSS untuk memperkecil ukuran
+                $('.applyBtn, .cancelBtn').css({
+                    'padding': '2px 8px', // Memperkecil padding tombol
+                    'font-size': '10px', // Memperkecil ukuran font
+                    'min-width': '50px', // Lebar minimal tombol
+                    'margin': '2px' // Mengatur margin tombol agar lebih rapat
+                });
+
+                // Menambahkan ikon menggunakan FontAwesome pada tombol Apply
+                $('.applyBtn').html('<i class="fas fa-check"></i> Apply');
+                // Menambahkan ikon menggunakan FontAwesome pada tombol Cancel
+                $('.cancelBtn').html('<i class="fas fa-times"></i> Cancel');
+
+                // Atur posisi tombol ke tengah menggunakan jQuery
+                $('.daterangepicker .ranges').css({
+                    'display': 'flex',
+                    'justify-content': 'center'
+                });
+            }, 10); // Delay untuk memastikan elemen sudah ter-render sebelum modifikasi dilakukan
         });
     </script>
 
