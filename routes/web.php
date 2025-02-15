@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StockController;
+use App\Http\Controllers\ControllerCIA;
+use App\Http\Controllers\DocumentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -71,8 +73,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('assetscheck', [MainController::class, 'assetscheck'])->name('assetscheck');
     });
 
-    Route::get('document', [MainController::class, 'document'])->name('document');
-    Route::get('detaildocument', [MainController::class, 'detaildocument'])->name('detaildocument');
+    // Route::get('document', [MainController::class, 'document'])->name('document');
+    // Route::get('detaildocument', [MainController::class, 'detaildocument'])->name('detaildocument');
     Route::get('scurity', [MainController::class, 'scurity'])->name('scurity');
 
     Route::middleware(['auth'], 'role_id:1|8|16')->group(function () {
@@ -125,37 +127,37 @@ Route::middleware(['auth'])->group(function () {
 
     // Assets
 
-    // Cash In Advance
-    Route::get('listcia', [MainController::class, 'listcia'])->name('listcia');
-    Route::get('looplistcia', [MainController::class, 'looplistcia'])->name('looplistcia');
+    // // Cash In Advance
+    // Route::get('listcia', [MainController::class, 'listcia'])->name('listcia');
+    // Route::get('looplistcia', [MainController::class, 'looplistcia'])->name('looplistcia');
 
-    Route::get('inputcia', [MainController::class, 'inputcia'])->name('inputcia');
-    Route::get('listinputcia', [MainController::class, 'listinputcia'])->name('listinputcia');
-    Route::post('inpinputcia', [MainController::class, 'inpinputcia'])->name('inpinputcia');
-    Route::post('showdatainputcia', [MainController::class, 'showdatainputcia'])->name('showdatainputcia');
-    Route::post('cancelcia', [MainController::class, 'cancelcia'])->name('cancelcia');
+    // Route::get('inputcia', [MainController::class, 'inputcia'])->name('inputcia');
+    // Route::get('listinputcia', [MainController::class, 'listinputcia'])->name('listinputcia');
+    // Route::post('inpinputcia', [MainController::class, 'inpinputcia'])->name('inpinputcia');
+    // Route::post('showdatainputcia', [MainController::class, 'showdatainputcia'])->name('showdatainputcia');
+    // Route::post('cancelcia', [MainController::class, 'cancelcia'])->name('cancelcia');
 
-    Route::get('listciadephead', [MainController::class, 'listciadephead'])->name('listciadephead');
-    Route::get('looplistciadephead', [MainController::class, 'looplistciadephead'])->name('looplistciadephead');
-    Route::post('approvedepheadcia', [MainController::class, 'approvedepheadcia'])->name('approvedepheadcia');
+    // Route::get('listciadephead', [MainController::class, 'listciadephead'])->name('listciadephead');
+    // Route::get('looplistciadephead', [MainController::class, 'looplistciadephead'])->name('looplistciadephead');
+    // Route::post('approvedepheadcia', [MainController::class, 'approvedepheadcia'])->name('approvedepheadcia');
 
-    Route::get('listciafinance', [MainController::class, 'listciafinance'])->name('listciafinance');
-    Route::get('looplistciafinance', [MainController::class, 'looplistciafinance'])->name('looplistciafinance');
-    Route::post('approvefinancecia', [MainController::class, 'approvefinancecia'])->name('approvefinancecia');
-    Route::post('submitselisih', [MainController::class, 'submitselisih'])->name('submitselisih');
-    Route::post('submitclosecia', [MainController::class, 'submitclosecia'])->name('submitclosecia');
+    // Route::get('listciafinance', [MainController::class, 'listciafinance'])->name('listciafinance');
+    // Route::get('looplistciafinance', [MainController::class, 'looplistciafinance'])->name('looplistciafinance');
+    // Route::post('approvefinancecia', [MainController::class, 'approvefinancecia'])->name('approvefinancecia');
+    // Route::post('submitselisih', [MainController::class, 'submitselisih'])->name('submitselisih');
+    // Route::post('submitclosecia', [MainController::class, 'submitclosecia'])->name('submitclosecia');
 
-    Route::get('listciacashier', [MainController::class, 'listciacashier'])->name('listciacashier');
-    Route::get('looplistciacashier', [MainController::class, 'looplistciacashier'])->name('looplistciacashier');
-    Route::post('submitciaambilchasir', [MainController::class, 'submitciaambilchasir'])->name('submitciaambilchasir');
-    Route::post('cekdatacia', [MainController::class, 'cekdatacia'])->name('cekdatacia');
+    // Route::get('listciacashier', [MainController::class, 'listciacashier'])->name('listciacashier');
+    // Route::get('looplistciacashier', [MainController::class, 'looplistciacashier'])->name('looplistciacashier');
+    // Route::post('submitciaambilchasir', [MainController::class, 'submitciaambilchasir'])->name('submitciaambilchasir');
+    // Route::post('cekdatacia', [MainController::class, 'cekdatacia'])->name('cekdatacia');
 
-    Route::post('rejectcia', [MainController::class, 'rejectcia'])->name('rejectcia');
+    // Route::post('rejectcia', [MainController::class, 'rejectcia'])->name('rejectcia');
 
-    Route::post('addamountactual', [MainController::class, 'addamountactual'])->name('addamountactual');
+    // Route::post('addamountactual', [MainController::class, 'addamountactual'])->name('addamountactual');
 
-    Route::get('downloadcia', [MainController::class, 'downloadcia'])->name('downloadcia');
-    // End Cash In Advance
+    // Route::get('downloadcia', [MainController::class, 'downloadcia'])->name('downloadcia');
+    // // End Cash In Advance
 
 
     Route::middleware(['auth'])->group(function () {
@@ -170,5 +172,35 @@ Route::middleware(['auth'])->group(function () {
 
         // Route untuk fungsi export file phpOffice
         Route::get('/export-stock-history', [StockController::class, 'exportStockHistoryToExcel'])->name('export-stock-history');
+    });
+
+
+    // Start CIA Route
+    // Route::post('/cia/store', [ControllerCIA::class, 'store'])->name('cia.store');
+    // Route::get('/cia/form', [ControllerCIA::class, 'indexForm'])->name('cia.form');
+    // Route::get('/cia/dephead-approval', [ControllerCIA::class, 'depheadApproval'])->name('cia.depheadApproval');
+    // Route::get('/cia/finance-approval', [ControllerCIA::class, 'financeApproval'])->name('cia.financeApproval');
+    // Route::get('/cia/payment-request', [ControllerCIA::class, 'paymentRequest'])->name('cia.paymentRequest');
+    // Route::post('/cia/submit-settlement', [ControllerCIA::class, 'submitSettlement'])->name('cia.submitSettlement');
+    // Route::get('/cia/overview', [ControllerCIA::class, 'overview'])->name('cia.overview');
+    // Route::post('/cia/edit', [ControllerCIA::class, 'edit'])->name('actionshowdata'); // Route untuk ambil data
+    // Route::post(
+    //     '/cia/update',
+    //     [ControllerCIA::class, 'update']
+    // )->name('actioneditform');
+    // Route::get('/cia/print/{id}', [ControllerCIA::class, 'printPdf'])->name('cia.print');
+    // Route::get('/cia/delete/{id}', [ControllerCIA::class, 'delete'])->name('cia.delete');
+    // Route::get('/cia/dephead-approval', [ControllerCIA::class, 'depheadApproval'])->name('cia.depheadApproval');
+    // Route::post('/cia/dephead-approval/action', [ControllerCIA::class, 'depheadApproveOrReject'])->name('cia.depheadApproveOrReject');
+    // End CIA Route
+
+    //Document Control
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/document/create', [DocumentController::class, 'create'])->name('document.create');
+        Route::post('/document/upload', [DocumentController::class, 'upload'])->name('document.upload');
+        Route::post('/document/approve/{id}', [DocumentController::class, 'approve'])->name('document.approve');
+        Route::post('/document/approve/sechead/{id}', [DocumentController::class, 'approveSechead'])->name('document.approve.sechead');
+        Route::post('/document/approve/dephead/{id}', [DocumentController::class, 'approveDephead'])->name('document.approve.dephead');
+        Route::post('/document/pic/docu/{id}', [DocumentController::class, 'picDocu'])->name('document.pic.docu');
     });
 });

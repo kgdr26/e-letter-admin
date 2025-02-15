@@ -34,7 +34,7 @@
             </li>
         @endif
 
-        @php
+        {{-- @php
             $role_data_side = [
                 '1',
                 '7',
@@ -59,12 +59,18 @@
         @endphp
         @if (in_array($idn_user->role_id, $role_data_side))
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{ route('document') }}">
+                <a class="nav-link collapsed" href="{{ route('document.create') }}">
                     <i class="bi bi-person-circle"></i>
                     <span>Document</span>
                 </a>
             </li>
-        @endif
+        @endif --}}
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('document.create') }}">
+                <i class="bi bi-person-circle"></i>
+                <span>Document</span>
+            </a>
+        </li>
 
         @php
             $role_data_side = ['1'];
@@ -166,13 +172,14 @@
             </a>
         </li>
 
-        <li class="nav-heading">Finance</li>
+        {{-- <li class="nav-heading">Finance</li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ route('inputcia') }}">
+            <a class="nav-link collapsed" href="{{ route('cia.form') }}">
                 <i class="bi bi-cash-coin"></i>
                 <span>Cash In Advance</span>
             </a>
-        </li>
+        </li> --}}
+
         {{-- <li class="nav-item">
             <a class="nav-link collapsed" data-bs-target="#delivery-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-cash-coin"></i><span>Cash In Advance</span><i class="bi bi-chevron-down ms-auto"></i>
