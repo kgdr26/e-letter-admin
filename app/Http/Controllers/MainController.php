@@ -14,6 +14,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Support\Carbon;
+use DateTime;
 use App\Models\user;
 use Auth;
 use Hash;
@@ -891,6 +892,15 @@ class MainController extends Controller
         // Assuming your template has headers in the first row
         $startRow = 2; // Data starts from the second row
         $no       = 1;
+        $databulan      = new DateTime();
+        $datatanggal    = $databulan->format('Y-m-d');
+        $pengecualian   = $databulan->format('Y-m-27');
+        if($datatanggal >= $pengecualian){
+            $bln    = $databulan->format('Y-m');
+        }else{
+            $databulan->modify('-1 month');
+            $bln    = $databulan->format('Y-m');
+        }
         foreach ($arr as $index => $val) {
             $sheet->setCellValue('A' . ($startRow + $index), $no++);
             $sheet->setCellValue('B' . ($startRow + $index), $val->name);
@@ -899,6 +909,17 @@ class MainController extends Controller
             $sheet->setCellValue('E' . ($startRow + $index), 'Rp ' . number_format($val->nominal_loan, 0, ',', '.'));
             $sheet->setCellValue('F' . ($startRow + $index), $val->bulan_loan . ' Bulan');
             $sheet->setCellValue('G' . ($startRow + $index), 'Rp ' . number_format($val->loan_perbulan, 0, ',', '.'));
+            $listdata    = json_decode($val->list_pembayaran);
+            $nominalterbayarkan = 0;
+            $nominalsisa = 0;
+            foreach($listdata as $ky => $vl){
+                if($vl->bulan <= $bln){
+                    $nominalterbayarkan    = $vl->terbayarkan;
+                    $nominalsisa = $vl->sisa;
+                }
+            }
+            $sheet->setCellValue('H' . ($startRow + $index), 'Rp ' . number_format($nominalterbayarkan, 0, ',', '.'));
+            $sheet->setCellValue('I' . ($startRow + $index), 'Rp ' . number_format($nominalsisa, 0, ',', '.'));
         }
 
         // Create a file name
