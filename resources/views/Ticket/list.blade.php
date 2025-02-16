@@ -1,18 +1,136 @@
 @extends('main')
 @section('content')
 
+    <style>
+        .table thead th {
+            background-color: #0056b3;
+            color: white;
+            border: #007bff
+                /* border-top: none; */
+                /* border-radius: 5px; */
+        }
+
+        .dataTables_wrapper .dataTable td {
+            font-size: 15px;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+        }
+
+        /* Styling untuk dropdown pageLength */
+        .dataTables_length select {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            color: #333;
+            margin: 0 5px;
+        }
+
+        /* Styling untuk search box */
+        .dataTables_filter input {
+            padding: 6px 12px;
+            border: 2px solid #fa00e5;
+            border-radius: 4px;
+            width: 200px;
+            margin-left: 10px;
+        }
+
+        .dataTables_filter input:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background-color: #0056b3;
+        }
+
+
+        /* Styling untuk tombol pagination */
+        .dataTables_paginate .paginate_button {
+            padding: 3px 3px;
+            margin: 0 1px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            color: #333;
+            cursor: pointer;
+            font-size: 1px;
+        }
+
+        .dataTables_paginate .paginate_button.current {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        /* Hover effect untuk tombol */
+        .dataTables_paginate .paginate_button:hover:not(.current) {
+            background-color: #f3f3f3;
+            color: #2e2a2a;
+        }
+
+        .btn-light-green {
+            --bs-btn-color: #fff;
+            --bs-btn-bg: #c50052;
+            --bs-btn-border-color: #7e0034;
+            --bs-btn-hover-color: #fff;
+            --bs-btn-hover-bg: #4e0021;
+            --bs-btn-hover-border-color: #c50052;
+            --bs-btn-focus-shadow-rgb: 139, 195, 74;
+            --bs-btn-active-color: #fff;
+            --bs-btn-active-bg: #c50052;
+            --bs-btn-active-border-color: #c50052;
+            --bs-btn-disabled-color: #fff;
+            --bs-btn-disabled-bg: #c50052;
+            --bs-btn-disabled-border-color: #c50052;
+        }
+
+        .btn-light-cus {
+            --bs-btn-color: #fff;
+            --bs-btn-bg: #004b7e;
+            --bs-btn-border-color: #004b7e;
+            --bs-btn-hover-color: #fff;
+            --bs-btn-hover-bg: #00043b;
+            --bs-btn-hover-border-color: #c50052;
+            --bs-btn-focus-shadow-rgb: 139, 195, 74;
+            --bs-btn-active-color: #fff;
+            --bs-btn-active-bg: #c50052;
+            --bs-btn-active-border-color: #c50052;
+            --bs-btn-disabled-color: #fff;
+            --bs-btn-disabled-bg: #c50052;
+            --bs-btn-disabled-border-color: #c50052;
+        }
+    </style>
+
     <section class="section dashboard">
         <div class="row align-items-top">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
-                            <button type="button" class="btn btn-success" data-name="add">
-                                Create
-                            </button>
+                            <img src="{{ asset('assets/img/LogoStar_1.png') }}" style="width: 5%" alt="">
+                            <marquee behavior="alternate" direction="right" scrollamount="10"><b>Selamat datang di portal IT
+                                    Helpdesk Request
+                                    Adasi!</b>
+                                <br>
+                                Kami siap membantu Anda, Jika Anda mengalami kendala atau membutuhkan bantuan, silakan
+                                isi...
+                                formulir permintaan layanan di bawah ini
+                            </marquee>
                             {{-- <button type="button" class="btn btn-success" data-name="add">Request Ticket</button> --}}
-                            <div>
-                                <button type="button" class="btn btn-primary" data-name="export">
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-light-green me-3 fw-bold" data-name="add">
+                                    Create
+                                </button>
+                                <button type="button" class="btn btn-light-cus fw-bold" data-name="export">
                                     Export
                                 </button>
                                 {{-- <button type="button" class="btn btn-info" data-name="export">Export To Excel</button> --}}
@@ -46,7 +164,7 @@
                                     @foreach ($arr as $key => $val)
                                         <tr>
                                             <td>{{ $no++ }}</td>
-                                            <td class="small">{{ $val->id_ticket }}</td>
+                                            <td class="small fw-bold">{{ $val->id_ticket }}</td>
                                             <td class="small">{{ $val->usr_name }}</td>
                                             <td class="small">
                                                 {{ \Carbon\Carbon::parse($val->date_create)->isoFormat('DD MMM YYYY HH:mm:ss') }}
@@ -135,7 +253,7 @@
                                                         data-item="{{ $val->id }}"><i
                                                             class="bi bi-pencil-square"></i></button>
                                                 @endif
-                                                <button type="button" class="btn btn-primary btn-sm" data-name="show"
+                                                <button type="button" class="btn btn-warning btn-sm" data-name="show"
                                                     data-item="{{ $val->id }}"><i class="bi bi-eye-fill"></i></button>
                                                 @php
                                                     $whrin = explode(',', $wherein->whr_show_ticket);
@@ -209,7 +327,7 @@
                                     <select class="form-control select-2-add" id="departement" data-name="departement">
                                         <option value="">Pilih Departemen</option>
                                         @foreach ($dep as $key => $val)
-                                            <option value="{{$val->id}}">{{$val->name}}</option>
+                                            <option value="{{ $val->id }}">{{ $val->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -289,7 +407,7 @@
                                         data-name="edit_departement">
                                         <option value="">Pilih Departemen</option>
                                         @foreach ($dep as $key => $val)
-                                            <option value="{{$val->id}}">{{$val->name}}</option>
+                                            <option value="{{ $val->id }}">{{ $val->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -366,10 +484,11 @@
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Departement</label>
-                                    <select class="form-control select-2-edit" id="" data-name="upd_departement" disabled>
+                                    <select class="form-control select-2-edit" id="" data-name="upd_departement"
+                                        disabled>
                                         <option value="">Pilih Departemen</option>
                                         @foreach ($dep as $key => $val)
-                                            <option value="{{$val->id}}">{{$val->name}}</option>
+                                            <option value="{{ $val->id }}">{{ $val->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -389,12 +508,14 @@
 
                                 <div class="mb-3" id="duedate" style="display: none">
                                     <label for="" class="form-label">Due Date</label>
-                                    <input type="text" class="form-control" id="" placeholder="Due Date" data-name="due_date">
+                                    <input type="text" class="form-control" id="" placeholder="Due Date"
+                                        data-name="due_date">
                                 </div>
 
                                 <div class="mb-3" id="shownote" style="display: none">
                                     <label for="" class="form-label">Noted</label>
-                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="note" disabled></textarea>
+                                    <textarea name="" class="form-control" id="" cols="30" rows="5" data-name="note"
+                                        disabled></textarea>
                                 </div>
                             </div>
                         </div>
@@ -404,13 +525,19 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-danger" data-name="reject_update">Reject</button>
                     <div id="thp1">
-                        <button type="button" class="btn btn-primary" data-name="save_update" data-item="4">Taket A Ticket</button>
-                        <button type="button" class="btn btn-warning" data-name="save_update" data-item="2">Request Approve</button>
+                        <button type="button" class="btn btn-primary" data-name="save_update" data-item="4">Taket A
+                            Ticket</button>
+                        <button type="button" class="btn btn-warning" data-name="save_update" data-item="2">Request
+                            Approve</button>
                     </div>
-                    <button type="button" class="btn btn-primary" data-name="save_update" id="thp2" data-item="3">Approve</button>
-                    <button type="button" class="btn btn-primary" data-name="save_update" id="thp3" data-item="4">Approve</button>
-                    <button type="button" class="btn btn-primary" data-name="save_update" id="thp4" data-item="5">Approve</button>
-                    <button type="button" class="btn btn-primary" data-name="save_update" id="thp5" data-item="6">Approve</button>
+                    <button type="button" class="btn btn-primary" data-name="save_update" id="thp2"
+                        data-item="3">Approve</button>
+                    <button type="button" class="btn btn-primary" data-name="save_update" id="thp3"
+                        data-item="4">Approve</button>
+                    <button type="button" class="btn btn-primary" data-name="save_update" id="thp4"
+                        data-item="5">Approve</button>
+                    <button type="button" class="btn btn-primary" data-name="save_update" id="thp5"
+                        data-item="6">Approve</button>
                 </div>
             </div>
         </div>
@@ -455,10 +582,11 @@
 
                                 <div class="mb-3">
                                     <label for="" class="form-label">Departement</label>
-                                    <select class="form-control select-2-edit" id="" data-name="show_departement" disabled>
+                                    <select class="form-control select-2-edit" id=""
+                                        data-name="show_departement" disabled>
                                         <option value="">Pilih Departemen</option>
                                         @foreach ($dep as $key => $val)
-                                            <option value="{{$val->id}}">{{$val->name}}</option>
+                                            <option value="{{ $val->id }}">{{ $val->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -1136,11 +1264,46 @@
     {{-- End JS Show File  --}}
 
     {{-- JS Datatable --}}
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#dataTable').DataTable();
         });
+    </script> --}}
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                "pageLength": 10,
+                "lengthMenu": [
+                    [10, 25, 50, 100],
+                    [10, 25, 50, 100]
+                ],
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "paging": true,
+                "responsive": true, // Tambahkan untuk membuat tabel lebih responsif
+                "language": {
+                    "lengthMenu": "Show _MENU_ Entry",
+                    "zeroRecords": "---- Data Not Found ----",
+                    "info": "Menampilkan halaman _PAGE_ dari _PAGES_",
+                    "infoEmpty": "No Entries",
+                    "infoFiltered": "(disaring dari _MAX_ total entri)",
+                    "search": "<i class='fa fa-search'></i>", // Ganti dengan ikon search
+                    "paginate": {
+                        "Previous": "<i class='fa fa-chevron-left'></i>", // Ganti teks dengan ikon
+                        "Next": "<i class='fa fa-chevron-right'></i>" // Ganti teks dengan ikon
+                    }
+                },
+                "dom": '<"top"lf>t<"bottom"ip><"clear">', // Atur posisi filter dan pagination
+                "initComplete": function() {
+                    // Style untuk custom placeholder
+                    $('.dataTables_filter input').addClass('form-control').attr('placeholder',
+                        'Search');
+                }
+            });
+        });
     </script>
+
     {{-- End JS Datatable --}}
 
     {{-- Select2 --}}

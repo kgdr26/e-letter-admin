@@ -1,0 +1,6 @@
+Executed SQL Statement : update `db_e_letter_admin`.`mst_role` set `last_update` = '2024-01-26 08:48:57'
+	where
+	`id` = '4' and `name` = 'FINANCE' and `is_active` = '1' and `update_by` = '1' and `last_update` = 'current_timestamp()';
+ 
+Error Number : 1292 
+Error Message: Truncated incorrect datetime value: 'current_timestamp()' 

@@ -134,6 +134,16 @@ class StockController extends Controller
             return redirect()->route('stok.index')->with('error', 'Sorry Gaes...Stok tidak mencukupi.');
         }
 
+        // Validasi jika jumlah kembali tidak melebihi jumlah yang diambil sebelumnya
+        // Ambil total yang diambil oleh user ini berdasarkan user_requester
+        $total_taken_by_user = DB::table('trx_stok')
+            ->where('user_requester', auth()->user()->id)
+            ->sum('jumlah_ambil');
+
+        if ($request->jumlah_kembali > $total_taken_by_user) {
+            return redirect()->route('stok.index')->with('error', 'Sorry Gaes...Jumlah kembali tidak boleh melebihi jumlah yang diambil sebelumnya.');
+        }
+
         // Proses pengambilan atau pengembalian
         DB::table('trx_stok')->insert([
             'user_requester' => auth()->user()->id,
